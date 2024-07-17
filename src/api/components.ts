@@ -14,7 +14,7 @@ export interface CreateComponentDTO {
 }
 
 export const getComponents = async () : Promise<ComponentDTO[] | null> => {
-  const response = await fetch(`${BASE_URL}/${ENTITY_PATH}}/all`)
+  const response = await fetch(`${BASE_URL}/${ENTITY_PATH}/all`)
   if(!response.ok)
     throw new Error('Не удалось получить данные о компонентах')
 
@@ -23,7 +23,7 @@ export const getComponents = async () : Promise<ComponentDTO[] | null> => {
 }
 
 export const postComponent = async (createData: CreateComponentDTO): Promise<ComponentDTO | null> => {
-  const response = await fetch(`${BASE_URL}/${ENTITY_PATH}}/all`, {
+  const response = await fetch(`${BASE_URL}/${ENTITY_PATH}/create`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -38,7 +38,7 @@ export const postComponent = async (createData: CreateComponentDTO): Promise<Com
 }
 
 export const putComponent = async (componentData: ComponentDTO): Promise<ComponentDTO | null> => {
-  const response = await fetch(`${BASE_URL}/${ENTITY_PATH}}/${componentData.id}`, {
+  const response = await fetch(`${BASE_URL}/${ENTITY_PATH}/${componentData.id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json'

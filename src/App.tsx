@@ -1,18 +1,21 @@
 import { RouterProvider } from 'react-router-dom'
 import { Provider } from 'react-redux';
-import './App.css'
 import router from './router'
 import store from "./redux/store";
+import 'bootstrap';
+import 'react-bootstrap';
+import { Container } from 'react-bootstrap';
+import Navbar from './components/Navbar';
 
 function App() {
 
   return (
-    <>
-      App
+    <><Navbar />
+    <Container>
       <Provider store={store}>
-        <RouterProvider router={router}/>
+        <RouterProvider router={router} />
       </Provider>
-    </>
+    </Container></>
   )
 }
 

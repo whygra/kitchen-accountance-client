@@ -5,16 +5,16 @@ interface NameInputProps {
   handleNameChange : (name : string)=>void
 }
 
-function NameInput(props : NameInputProps) {
+function NameInput({handleNameChange, name} : NameInputProps) {
   return (
     <>
       <Form.Group className="mb-3">
-        <Form.Label>Название компонента</Form.Label>
+        <Form.Label><b>Название компонента</b></Form.Label>
         <Form.Control
           type="text"
           placeholder="Название компонента" 
-          value={props.name}
-          onChange={e=>props.handleNameChange(e.target.value)}
+          value={name}
+          onChange={e=>handleNameChange(e.target.value)}
         />
       </Form.Group>
     </>

@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import ProductSelect from './product/ProductSelect'
-import SelectCreateGroup from './product/SelectCreateGroup'
+import ProductSelect from './product/inputs/ProductSelect'
+import SelectCreateGroup from './product/inputs/SelectCreateGroup'
 
 function NotFound() {
   return (

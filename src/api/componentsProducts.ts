@@ -2,22 +2,22 @@ import { BASE_URL } from "./constants";
 
 const ENTITY_PATH = 'component-products'
 
-export interface ComponentProductDTO {
+export interface ComponentsProductDTO {
   id: number
   product_id : number
   component_id : number
-  content_percentage : number
+  raw_content_percentage : number
   waste_percentage : number
 }
 
-export interface CreateComponentProductDTO {
+export interface CreateComponentsProductDTO {
   product_id : number
   component_id : number
-  content_percentage : number
+  raw_content_percentage : number
   waste_percentage : number
 }
 
-export const getComponentProducts = async () : Promise<ComponentProductDTO[] | null> => {
+export const getComponentsProducts = async () : Promise<ComponentsProductDTO[] | null> => {
   const response = await fetch(`${BASE_URL}/${ENTITY_PATH}/all`)
   if(!response.ok)
     throw new Error('Не удалось получить данные о компонент-продуктах')
@@ -26,7 +26,8 @@ export const getComponentProducts = async () : Promise<ComponentProductDTO[] | n
   return data
 }
 
-export const postComponentProduct = async (createData: CreateComponentProductDTO): Promise<ComponentProductDTO | null> => {
+export const postComponentsProduct = async (createData: CreateComponentsProductDTO): Promise<ComponentsProductDTO | null> => {
+  console.log(createData)
   const response = await fetch(`${BASE_URL}/${ENTITY_PATH}/create`, {
     method: 'POST',
     headers: {
@@ -41,7 +42,7 @@ export const postComponentProduct = async (createData: CreateComponentProductDTO
   return data
 }
 
-export const deleteComponentProduct = async (id: number): Promise<ComponentProductDTO | null> => {
+export const deleteComponentsProduct = async (id: number): Promise<ComponentsProductDTO | null> => {
   const response = await fetch(`${BASE_URL}/${ENTITY_PATH}/delete/${id}`, {
     method: 'DELETE',
   })

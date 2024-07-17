@@ -1,28 +1,9 @@
-import { act } from "react"
+import { ComponentFormState, SubmitActionType, COMPONENT_FORM_INIT_STATE as COMPONENT_FORM_INIT_STATE } from "../../models";
 import { ComponentFormAction } from "../actions/comoponentFormActions"
 import { ComponentFormActionType } from "../constants/action-types"
 
-export type ComponentFormState = {
-    id: number
-    isNew: boolean
-    name: string
-    componentTypeId: number
-    componentProductForms: ComponentProductFormState[]
-}
 
-export type ComponentProductFormState = {
-    key: string
-    id: number
-    productId: number
-    newProductName: string
-    isCreateProduct: boolean
-    isMarkedForDelete: boolean
-    contentPercentage: number
-    wastePercentage: number
-}
-
-const initState: ComponentFormState = {id:0, isNew:true, name:"", componentTypeId:0, componentProductForms:[]}
-export default function componentFormReducer(state:ComponentFormState=initState, action: ComponentFormAction) {
+export default function componentFormReducer(state:ComponentFormState=COMPONENT_FORM_INIT_STATE, action: ComponentFormAction) {
     
     switch (action.type) {
 
@@ -32,39 +13,42 @@ export default function componentFormReducer(state:ComponentFormState=initState,
         case ComponentFormActionType.SET_COMPONENT_TYPE_ID:
             return {...state, componentTypeId:action.payload }
             
+        case ComponentFormActionType.SET_COMPONENT_ID:
+            return {...state, id:action.payload }
+            
         case ComponentFormActionType.SET_COMPONENT_NAME:
             return {...state, name:action.payload }
+            
+        case ComponentFormActionType.SET_SUBMIT_ACTION_TYPE:
+            return {...state, action:action.payload }
     
         case ComponentFormActionType.SET_COMPONENT_PRODUCT_FORM_STATE:
         {
-            const newState = state
-            const index = newState.componentProductForms.findIndex(e=>e.key===action.payload.key)
-            newState.componentProductForms = newState.componentProductForms.splice(index, 1, action.payload)
-            return newState
+            let componentProductForms = state.componentProductForms.map(x => Object.assign({}, x))
+            const index = componentProductForms.findIndex(e=>e.key===action.payload.key)
+            componentProductForms.splice(index, 1, action.payload)
+            return {...state, componentProductForms: componentProductForms}
         }
 
         case ComponentFormActionType.ADD_COMPONENT_PRODUCT_FORM:
         {
-            const newState = {...state, componentProductForms:[...state.componentProductForms, action.payload]}
-            newState.componentProductForms = [...newState.componentProductForms, action.payload]
             return {...state, componentProductForms:[...state.componentProductForms, action.payload]}
         }
 
-        case ComponentFormActionType.MARK_ON_DELETE_COMPONENT_PRODUCT_FORM: 
+        case ComponentFormActionType.SET_COMPONENT_PRODUCT_ACTION_TYPE: 
         {
             let componentProductForms = state.componentProductForms.map(x => Object.assign({}, x))
-            console.log(componentProductForms)
             const index = componentProductForms.findIndex(e=>e.key===action.payload.key)
-            // если id == 0 (компонент-продукт отсутствует в БД - добавлен во время редактирования формы)
-            if(componentProductForms[index].id == undefined || componentProductForms[index].id == 0)
-                // удалить элемент из массива
-                componentProductForms = componentProductForms.filter(e=>e.key!=action.payload.key)
-            // иначе (компонент-продукт получен из БД)
-            else {
-                // пометить на удаление
-                componentProductForms[index].isMarkedForDelete = action.payload.isMarkedForDelete
+
+            componentProductForms[index].dataAction = action.payload.action
+
+            // удалить элемент с невалидным id из массива
+            if(action.payload.action == SubmitActionType.Delete
+                && componentProductForms[index].id == 0)
+            {
+                componentProductForms.splice(index, 1)
             }
-            console.log(componentProductForms)
+
             return {...state, componentProductForms:componentProductForms}
         }
     
@@ -82,7 +66,7 @@ export default function componentFormReducer(state:ComponentFormState=initState,
             const componentProductForms = state.componentProductForms.map(x => Object.assign({}, x))
             const index = componentProductForms.findIndex(e=>e.key==action.payload.key)
 
-            componentProductForms[index].contentPercentage = action.payload.contentPercentage
+            componentProductForms[index].rawContentPercentage = action.payload.contentPercentage
             return {...state, componentProductForms:componentProductForms}
         }
     
@@ -100,18 +84,28 @@ export default function componentFormReducer(state:ComponentFormState=initState,
             const componentProductForms = state.componentProductForms.map(x => Object.assign({}, x))
             const index = componentProductForms.findIndex(e=>e.key==action.payload.key)
 
-            componentProductForms[index].newProductName = action.payload.newProductName
+            componentProductForms[index].productName = action.payload.newProductName
             return {...state, componentProductForms:componentProductForms}
         }
         
-        case ComponentFormActionType.SET_IS_CREATE_PRODUCT:
+        case ComponentFormActionType.SET_SUBMIT_PRODUCT_ACTION_TYPE:
         {
             const componentProductForms = state.componentProductForms.map(x => Object.assign({}, x))
             const index = componentProductForms.findIndex(e=>e.key==action.payload.key)
 
-            componentProductForms[index].isCreateProduct = action.payload.isCreateProduct
+            componentProductForms[index].productDataAction = action.payload.action
+            // если действие - создать, установить id = 0
+            if (action.payload.action === SubmitActionType.Create) 
+                componentProductForms[index].productId = 0
             return {...state, componentProductForms:componentProductForms}
         }
+        
+        case ComponentFormActionType.CAST_CONTENTS_TO_VALID_PERCENTAGES:
+
+            let coefficient = 100 / state.componentProductForms.reduce((total, current)=>total+current.rawContentPercentage, 0)
+            const componentProductForms = state.componentProductForms.map(x => Object.assign({}, x))
+            componentProductForms.forEach(c=>c.rawContentPercentage=Math.round(c.rawContentPercentage*coefficient*10)/10)
+            return {...state, componentProductForms:componentProductForms}
         
         default:
             return state;

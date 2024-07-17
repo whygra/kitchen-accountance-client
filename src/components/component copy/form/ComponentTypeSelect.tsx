@@ -1,13 +1,13 @@
 import { ReactNode, useEffect, useState } from 'react'
 import { Form } from 'react-bootstrap'
-import { getComponentTypes, ComponentTypeDTO } from '../../api/componentTypes';
+import { getComponentTypes, ComponentTypeDTO } from '../../../api/componentTypes';
 
 interface ComponentTypeSelectProps {
   componentTypeId : number
   handleComponentTypeChange : (id : number) => void
 }
 
-function ComponentTypeSelect(props : ComponentTypeSelectProps) {
+function ComponentTypeSelect({componentTypeId, handleComponentTypeChange} : ComponentTypeSelectProps) {
 
   const [componentTypes, setComponentTypes] = useState(new Array<ComponentTypeDTO>)
   const [isLoading, setIsLoading] = useState(false) 
@@ -20,22 +20,22 @@ function ComponentTypeSelect(props : ComponentTypeSelectProps) {
     setIsLoading(false);
   }
 
-  function getOptions() : ReactNode {
-    return componentTypes.map(componentType => <option value={componentType.id}>{componentType.name}</option>)
-  }
-
   useEffect(() => 
     {loadComponentTypes()}
   , []);
+
+  function getOptions() : ReactNode {
+    return componentTypes.map(componentType => <option value={componentType.id}>{componentType.name}</option>)
+  }
   
 
   return isLoading ? (<>Loading...</>) : (
     <>
       <Form.Group className="mb-3">
-        <Form.Label>Тип компонента</Form.Label>
+        <Form.Label><b>Тип компонента</b></Form.Label>
         <Form.Select
-          value={props.componentTypeId}
-          onChange={e=>props.handleComponentTypeChange(parseInt(e.target.value))}
+          value={componentTypeId}
+          onChange={e=>handleComponentTypeChange(parseInt(e.target.value))}
         >
             {getOptions()}
         </Form.Select>
