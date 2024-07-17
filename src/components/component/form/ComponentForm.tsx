@@ -2,11 +2,14 @@ import ComponentProductFormList from './ComponentProductFormList';
 import NameInput from './ComponentNameInput';
 import ComponentTypeSelect from './ComponentTypeSelect';
 import { Button } from 'react-bootstrap';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { ComponentDTO } from '../../../api/components';
 import { useNavigate } from 'react-router-dom';
 import { ComponentFormState, ComponentProductFormState } from '../../../models/component';
 import { addComponentProductForm } from '../../../redux/actions/comoponentFormActions';
+import { context } from '../../../controllers/ComponentFormController';
+import { GetComponentWithProductsDTO } from '../../../api/componentWithProducts';
+
 
 enum FormState{
   FormInput,
@@ -14,23 +17,14 @@ enum FormState{
   ResponseReceived,
 }
 
-interface ComponentFormProps{
-  castToValidPercentages: ()=>void
-  addComponentProductForm: ()=>void
-  setComponentProductFormState: (state:ComponentProductFormState)=>void
-  removeComponentProductForm: (key:string)=>void
-  formState: ComponentFormState
-  setTypeId: (id:number)=>void
-  setName: (name:string)=>void
-  request: ()=>Promise<ComponentDTO | null>
-}
-
-function ComponentForm({castToValidPercentages, addComponentProductForm, setComponentProductFormState, removeComponentProductForm, formState, setTypeId, setName, request}: ComponentFormProps) 
+function ComponentForm() 
 {  
   const navigate = useNavigate()
 
   const [state, setState] = useState(FormState.FormInput)
-  const [response, setResponse] = useState<ComponentDTO|null>(null)
+  const [response, setResponse] = useState<GetComponentWithProductsDTO|null>(null)
+
+  const {formState, requestFn} = useContext(context);
 
   function contentPercentagesAreValid() : boolean {
     const contentPercentageSum = 
@@ -53,7 +47,7 @@ function ComponentForm({castToValidPercentages, addComponentProductForm, setComp
 
     setState(FormState.WaitingForResponse)
     
-    let response: ComponentDTO | null = await request()
+    let response: GetComponentWithProductsDTO | null = await requestFn()
     setResponse(response)
     setState(FormState.ResponseReceived)
   }
@@ -65,20 +59,9 @@ function ComponentForm({castToValidPercentages, addComponentProductForm, setComp
   return (()=>{switch (state){
     case FormState.FormInput:
       return(<>
-        <NameInput
-          name={formState.name}
-          handleNameChange={setName}
-        />
-        <ComponentTypeSelect
-          componentTypeId={formState.componentTypeId}
-          handleComponentTypeChange={setTypeId}
-        />
-        <ComponentProductFormList 
-        setComponentProductFormState={setComponentProductFormState}
-        castToValidPercentages={castToValidPercentages}
-        addComponentProductForm={addComponentProductForm}
-        removeComponentProductForm={removeComponentProductForm}
-        forms={formState.componentProductForms} />
+        <NameInput/>
+        <ComponentTypeSelect/>
+        <ComponentProductFormList/>
         <div className='d-flex'>
           <Button className='me-2' onClick={commit}>Подтвердить</Button>
           <Button className='me-2' variant='secondary' onClick={cancel}>Отмена</Button>

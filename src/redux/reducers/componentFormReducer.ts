@@ -1,4 +1,5 @@
-import { ComponentFormState, SubmitActionType, COMPONENT_FORM_INIT_STATE as COMPONENT_FORM_INIT_STATE } from "../../models";
+import {SubmitActionType} from "../../models";
+import { ComponentFormState, COMPONENT_FORM_INIT_STATE as COMPONENT_FORM_INIT_STATE } from "../../models/component";
 import { ComponentFormAction } from "../actions/comoponentFormActions"
 import { ComponentFormActionType } from "../constants/action-types"
 

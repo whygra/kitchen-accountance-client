@@ -1,13 +1,13 @@
-import { ReactNode, useEffect, useState } from 'react'
+import { ReactNode, useContext, useEffect, useState } from 'react'
 import { Form } from 'react-bootstrap'
 import { getComponentTypes, ComponentTypeDTO } from '../../../api/componentTypes';
+import { context } from '../../../controllers/ComponentFormController';
 
-interface ComponentTypeSelectProps {
-  componentTypeId : number
-  handleComponentTypeChange : (id : number) => void
-}
+function ComponentTypeSelect() {
 
-function ComponentTypeSelect({componentTypeId, handleComponentTypeChange} : ComponentTypeSelectProps) {
+  const {setTypeId, formState} = useContext(context)
+
+  const typeId = formState.componentTypeId
 
   const [componentTypes, setComponentTypes] = useState(new Array<ComponentTypeDTO>)
   const [isLoading, setIsLoading] = useState(false) 
@@ -34,8 +34,8 @@ function ComponentTypeSelect({componentTypeId, handleComponentTypeChange} : Comp
       <Form.Group className="mb-3">
         <Form.Label><b>Тип компонента</b></Form.Label>
         <Form.Select
-          value={componentTypeId}
-          onChange={e=>handleComponentTypeChange(parseInt(e.target.value))}
+          defaultValue={typeId}
+          onChange={e=>setTypeId(parseInt(e.target.value))}
         >
             {getOptions()}
         </Form.Select>

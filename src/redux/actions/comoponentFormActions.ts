@@ -1,5 +1,6 @@
 import { ComponentFormActionType } from "../constants/action-types"
-import { ComponentFormState, ComponentProductFormState, SubmitActionType } from "../../models"
+import { SubmitActionType } from "../../models"
+import { ComponentFormState, ComponentProductFormState } from "../../models/component"
 
 export type ComponentFormAction = {
     type: ComponentFormActionType

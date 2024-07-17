@@ -58,7 +58,7 @@ export interface GetComponentWithProductsDTO {
   components_products: GetComponentProductDTO[]
 }
 
-export const putComponentWithProducts = async (updateData: PutComponentWithProductsDTO): Promise<ComponentDTO | null> => {
+export const putComponentWithProducts = async (updateData: PutComponentWithProductsDTO): Promise<GetComponentWithProductsDTO | null> => {
   console.log(updateData)
   const response = await fetch(`${BASE_URL}/${ENTITY_PATH}/update/${updateData.id}`, {
     method: 'PUT',
@@ -74,7 +74,7 @@ export const putComponentWithProducts = async (updateData: PutComponentWithProdu
   return data
 }
 
-export const postComponentWithProducts = async (createData: PostComponentWithProductsDTO): Promise<ComponentDTO | null> => {
+export const postComponentWithProducts = async (createData: PostComponentWithProductsDTO): Promise<GetComponentWithProductsDTO | null> => {
   console.log(createData);
   const response = await fetch(`${BASE_URL}/${ENTITY_PATH}/create`, {
     method: 'POST',

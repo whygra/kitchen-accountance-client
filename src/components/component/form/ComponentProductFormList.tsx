@@ -9,21 +9,18 @@ import {
 import ComponentProductForm from './ComponentProductForm'
 import { v4 as uuid } from "uuid";
 import { ComponentProductFormState } from '../../../models/component'
+import { useContext } from 'react'
+import { context } from '../../../controllers/ComponentFormController'
 
-interface ComponentProductFormListProps {
-  addComponentProductForm: () => void
-  setComponentProductFormState: (state:ComponentProductFormState)=>void
-  removeComponentProductForm: (key:string) => void
-  castToValidPercentages: () => void
-  forms: ComponentProductFormState[]
-}
+function ComponentProductFormList() {
 
-function ComponentProductFormList({
-  addComponentProductForm, 
-  setComponentProductFormState, 
-  removeComponentProductForm, 
-  castToValidPercentages, 
-  forms}: ComponentProductFormListProps) {
+  const { 
+    addComponentProductForm, 
+    castToValidPercentages,
+    formState
+  } = useContext(context);
+
+  const forms = formState.componentProductForms
 
   return (
     <Container>
@@ -32,7 +29,7 @@ function ComponentProductFormList({
       {
         forms.map(formState => 
           <div key={`${formState.key}`}>
-            <ComponentProductForm formState={formState} setComponentProductFormState={setComponentProductFormState} removeComponentProductForm={removeComponentProductForm}/>
+            <ComponentProductForm formState={formState}/>
           </div>)
       }
 

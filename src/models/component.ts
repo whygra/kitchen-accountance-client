@@ -1,3 +1,5 @@
+import { SubmitActionType } from "."
+
 export type ComponentFormState = {
     submitAction: SubmitActionType
     id: number

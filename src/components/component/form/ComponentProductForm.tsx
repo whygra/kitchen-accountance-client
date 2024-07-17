@@ -3,14 +3,16 @@ import SelectCreateGroup from '../../product/inputs/SelectCreateGroup'
 import { SubmitActionType } from '../../../models'
 import { ComponentProductFormState } from '../../../models/component'
 import 'bootstrap'
+import { useContext } from 'react'
+import { context } from '../../../controllers/ComponentFormController'
 
 interface ComponentsProductFormProps {
   formState: ComponentProductFormState,
-  setComponentProductFormState: (state:ComponentProductFormState)=>void,
-  removeComponentProductForm: (key: string)=>void,
 }
 
-function ComponentProductForm({formState, removeComponentProductForm, setComponentProductFormState}: ComponentsProductFormProps) {
+function ComponentProductForm({formState}: ComponentsProductFormProps) {
+
+  const {setComponentProductFormState, removeComponentProductForm} = useContext(context)
 
   function setProductId(productId:number) {
     setComponentProductFormState({...formState, productId: productId})

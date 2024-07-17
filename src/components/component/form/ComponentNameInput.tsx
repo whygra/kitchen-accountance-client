@@ -1,11 +1,12 @@
+import { useContext } from 'react';
 import {Form} from 'react-bootstrap'
+import { context } from '../../../controllers/ComponentFormController';
 
-interface NameInputProps {
-  name : string
-  handleNameChange : (name : string)=>void
-}
+function NameInput() {
+  const {setName, formState} = useContext(context);
+  
+  const name = formState.name
 
-function NameInput({handleNameChange, name} : NameInputProps) {
   return (
     <>
       <Form.Group className="mb-3">
@@ -13,8 +14,8 @@ function NameInput({handleNameChange, name} : NameInputProps) {
         <Form.Control
           type="text"
           placeholder="Название компонента" 
-          value={name}
-          onChange={e=>handleNameChange(e.target.value)}
+          defaultValue={name}
+          onChange={e=>setName(e.target.value)}
         />
       </Form.Group>
     </>

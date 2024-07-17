@@ -2,12 +2,12 @@ import { useDispatch } from 'react-redux';
 import { Dispatch } from 'redux';
 import ComponentForm from '../components/component/form/ComponentForm';
 import { setComponentId, setComponentName } from '../redux/actions/comoponentFormActions';
-import { getComponentWithProducts, postComponentWithProducts, putComponentWithProducts } from '../api/componentWithProducts';
+import { GetComponentWithProductsDTO, getComponentWithProducts, postComponentWithProducts, putComponentWithProducts } from '../api/componentWithProducts';
 import { ComponentFormState, COMPONENT_FORM_INIT_STATE, ComponentProductFormState } from '../models/component';
 import { SubmitActionType } from '../models';
 import { useParams } from 'react-router-dom';
 import { v4 as uuid } from "uuid";
-import { useEffect, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 
 interface ComponentFormControllerProps{
     action: SubmitActionType
@@ -24,6 +24,29 @@ function getComponentProductFormInitState() : ComponentProductFormState
     productName: "", 
     productId: 1, 
 }}
+
+interface ComponentFormContext {
+  castToValidPercentages: ()=>void
+  addComponentProductForm: ()=>void
+  setComponentProductFormState: (state:ComponentProductFormState)=>void
+  removeComponentProductForm: (key:string)=>void
+  requestFn: ()=>Promise<GetComponentWithProductsDTO|null>
+  setTypeId: (id:number)=>void
+  setName: (name:string)=>void
+  formState: ComponentFormState
+}
+
+// создание контекста для передачи данных в дочерние элементы
+const context = createContext<ComponentFormContext>({
+  castToValidPercentages:()=>{},
+  addComponentProductForm:()=>{},
+  setComponentProductFormState:(state:ComponentProductFormState)=>{},
+  removeComponentProductForm:(key:string)=>{},
+  requestFn:async()=>null,
+  setTypeId:(id:number)=>{},
+  setName:(name:string)=>{},
+  formState:COMPONENT_FORM_INIT_STATE,
+});
 
 function ComponentFormController({action}:ComponentFormControllerProps) 
 {  
@@ -67,11 +90,11 @@ function ComponentFormController({action}:ComponentFormControllerProps)
   }
 
   function setTypeId(id: number) {
-    dispatch(setComponentId(id))
+    setFormState({...formState, componentTypeId:id})
   }
 
   function setName(name: string) {
-    dispatch(setComponentName(name))
+    setFormState({...formState, name:name})
   }
 
   function addComponentProductForm() {
@@ -162,16 +185,22 @@ function setComponentProductFormState(state:ComponentProductFormState) {
   }
   
   return isLoading ? (<>Loading...</>) : (
-    <ComponentForm
-    castToValidPercentages={castToValidPercentages}
-    addComponentProductForm={addComponentProductForm}
-    setComponentProductFormState={setComponentProductFormState}
-    removeComponentProductForm={removeComponentProductForm}
-    formState={formState}
-    setTypeId={setTypeId}
-    setName={setName}
-    request={action==SubmitActionType.Update ? update : create}
-  />)
+    <context.Provider value={{
+      castToValidPercentages: castToValidPercentages,
+      addComponentProductForm: addComponentProductForm,
+      setComponentProductFormState: setComponentProductFormState,
+      removeComponentProductForm: removeComponentProductForm,
+      formState: formState,
+      setTypeId: setTypeId,
+      setName: setName,
+      requestFn: action==SubmitActionType.Update ? update : create
+    }}>
+
+    <ComponentForm/>
+    </context.Provider>
+  )
 }
 
 export default ComponentFormController
+
+export {context}
