@@ -1,23 +1,24 @@
 import { useDispatch } from 'react-redux';
 import { Dispatch } from 'redux';
 import ComponentForm from '../components/component/form/ComponentForm';
-import { setComponentId, setComponentName } from '../redux/actions/comoponentFormActions';
-import { GetComponentWithProductsDTO, getComponentWithProducts, postComponentWithProducts, putComponentWithProducts } from '../api/componentWithProducts';
-import { ComponentFormState, COMPONENT_FORM_INIT_STATE, ComponentProductFormState } from '../models/component';
-import { SubmitActionType } from '../models';
+import { GetComponentWithProductsDTO, GetProductDTO, getComponentWithProducts, postComponentWithProducts, putComponentWithProducts } from '../api/componentWithProducts';
+import { ComponentFormState, COMPONENT_FORM_INIT_STATE, ComponentProductFormState } from '../models/ComponentFormState';
+import { DataAction } from '../models';
 import { useParams } from 'react-router-dom';
 import { v4 as uuid } from "uuid";
 import { createContext, useEffect, useState } from 'react';
+import { ComponentTypeDTO, getComponentTypes } from '../api/componentTypes';
+import { ProductDTO, getProducts } from '../api/products';
 
 interface ComponentFormControllerProps{
-    action: SubmitActionType
+    action: DataAction
 }
 
 function getComponentProductFormInitState() : ComponentProductFormState
 {return {
     id: 0,
-    dataAction: SubmitActionType.Create,
-    productDataAction: SubmitActionType.None,
+    dataAction: DataAction.Create,
+    productDataAction: DataAction.None,
     rawContentPercentage: 1,
     wastePercentage: 0,
     key: uuid(),
@@ -34,6 +35,8 @@ interface ComponentFormContext {
   setTypeId: (id:number)=>void
   setName: (name:string)=>void
   formState: ComponentFormState
+  componentTypes: ComponentTypeDTO[]
+  products: ProductDTO[]
 }
 
 // создание контекста для передачи данных в дочерние элементы
@@ -46,18 +49,20 @@ const context = createContext<ComponentFormContext>({
   setTypeId:(id:number)=>{},
   setName:(name:string)=>{},
   formState:COMPONENT_FORM_INIT_STATE,
+  componentTypes:[],
+  products: []
 });
 
 function ComponentFormController({action}:ComponentFormControllerProps) 
 {  
   const [formState, setFormState] = useState<ComponentFormState>(COMPONENT_FORM_INIT_STATE)
   const [isLoading, setIsLoading] = useState(false) 
-
-  const dispatch: Dispatch<any> = useDispatch()
+  const [componentTypes, setComponentTypes] = useState<ComponentTypeDTO[]>([]) 
+  const [products, setProducts] = useState<ProductDTO[]>([]) 
 
   const {id} = useParams()
 
-  useEffect(()=>{if(action==SubmitActionType.Update) loadComponent()}, [])
+  useEffect(()=>{if(action==DataAction.Update) loadComponent()}, [])
   
   async function loadComponent() {
     setIsLoading(true)
@@ -70,22 +75,26 @@ function ComponentFormController({action}:ComponentFormControllerProps)
         throw Error("Не удалось получить данные о компоненте")
 
     setFormState({
-        submitAction: SubmitActionType.Update,
+        submitAction: DataAction.Update,
         id: component.id,
         name: component.name,
         componentTypeId: component.type.id,
         componentProductForms: component.components_products
             .map(c=>{ return {
-                dataAction: SubmitActionType.Update,
+                dataAction: DataAction.None,
                 key: uuid(),
                 id: c.id,
                 productId: c.product.id,
                 productName: c.product.name,
-                productDataAction: SubmitActionType.None,
+                productDataAction: DataAction.None,
                 rawContentPercentage: c.raw_content_percentage,
                 wastePercentage: c.waste_percentage
             }}),
     })
+
+    setComponentTypes(await getComponentTypes()??[]);
+    setProducts(await getProducts()??[]);
+
     setIsLoading(false)
   }
 
@@ -108,6 +117,8 @@ function ComponentFormController({action}:ComponentFormControllerProps)
   }
 
 function setComponentProductFormState(state:ComponentProductFormState) {
+  // пометить на обновление
+  state.dataAction = DataAction.Update
   setFormState({
     ...formState,
     componentProductForms: formState.componentProductForms
@@ -135,7 +146,7 @@ function setComponentProductFormState(state:ComponentProductFormState) {
           formState.componentProductForms
           .map((s, i)=>{
             return i==index 
-              ? {...s, dataAction: SubmitActionType.Delete} 
+              ? {...s, dataAction: DataAction.Delete} 
               : s
             })
       })
@@ -191,9 +202,11 @@ function setComponentProductFormState(state:ComponentProductFormState) {
       setComponentProductFormState: setComponentProductFormState,
       removeComponentProductForm: removeComponentProductForm,
       formState: formState,
+      componentTypes: componentTypes,
+      products: products,
       setTypeId: setTypeId,
       setName: setName,
-      requestFn: action==SubmitActionType.Update ? update : create
+      requestFn: action==DataAction.Update ? update : create
     }}>
 
     <ComponentForm/>

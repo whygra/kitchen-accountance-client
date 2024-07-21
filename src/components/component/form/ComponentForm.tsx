@@ -1,11 +1,11 @@
 import ComponentProductFormList from './ComponentProductFormList';
 import NameInput from './ComponentNameInput';
 import ComponentTypeSelect from './ComponentTypeSelect';
-import { Button } from 'react-bootstrap';
+import { Button, Container, Form } from 'react-bootstrap';
 import { useContext, useState } from 'react';
 import { ComponentDTO } from '../../../api/components';
 import { useNavigate } from 'react-router-dom';
-import { ComponentFormState, ComponentProductFormState } from '../../../models/component';
+import { ComponentFormState, ComponentProductFormState } from '../../../models/ComponentFormState';
 import { addComponentProductForm } from '../../../redux/actions/comoponentFormActions';
 import { context } from '../../../controllers/ComponentFormController';
 import { GetComponentWithProductsDTO } from '../../../api/componentWithProducts';
@@ -24,7 +24,7 @@ function ComponentForm()
   const [state, setState] = useState(FormState.FormInput)
   const [response, setResponse] = useState<GetComponentWithProductsDTO|null>(null)
 
-  const {formState, requestFn} = useContext(context);
+  const {formState, requestFn, setName, setTypeId, componentTypes} = useContext(context);
 
   function contentPercentagesAreValid() : boolean {
     const contentPercentageSum = 
@@ -58,15 +58,21 @@ function ComponentForm()
 
   return (()=>{switch (state){
     case FormState.FormInput:
-      return(<>
-        <NameInput/>
-        <ComponentTypeSelect/>
+      return(<div className='pt-5'>
+        <Form.Group className='mb-4'>
+          <Form.Label><b>Название ингредиента</b></Form.Label>
+          <NameInput name={formState.name} setName={setName}/>
+        </Form.Group>
+        <Form.Group className='mb-4'>
+          <Form.Label><b>Тип ингредиента</b></Form.Label>
+          <ComponentTypeSelect componentTypes={componentTypes} typeId={formState.componentTypeId} setTypeId={setTypeId}/>
+        </Form.Group>
         <ComponentProductFormList/>
         <div className='d-flex'>
           <Button className='me-2' onClick={commit}>Подтвердить</Button>
           <Button className='me-2' variant='secondary' onClick={cancel}>Отмена</Button>
         </div>
-      </>)
+      </div>)
     case FormState.WaitingForResponse:
       return(<>Ожидание ответа от сервера...</>)
     case FormState.ResponseReceived:

@@ -9,7 +9,10 @@ function Navbar() {
     <Container>
       <BSNavbar.Brand href="/home">KA</BSNavbar.Brand>
       <Nav className="me-auto">
-        <Nav.Link href="/components/all">Компоненты</Nav.Link>
+        <Nav.Link href="/components/all">Ингредиенты</Nav.Link>
+      </Nav>
+      <Nav className="me-auto">
+        <Nav.Link href="/dishes/all">Блюда</Nav.Link>
       </Nav>
     </Container>
   </BSNavbar>

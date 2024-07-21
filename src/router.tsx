@@ -4,8 +4,11 @@ import ComponentForm from "./components/component/form/ComponentForm";
 import ComponentList from "./components/component/list/ComponentList";
 import NotFound from "./components/NotFound";
 import ComponentFormController from "./controllers/ComponentFormController";
-import { SubmitActionType } from "./models";
+import { DataAction } from "./models";
 import ComponentDetails from "./components/component/details/ComponentDetails";
+import DishFormController from "./controllers/DishFormController";
+import DishDetails from "./components/dish/details/DishDetails";
+import DishList from "./components/dish/list/DishList";
 
 const router = createBrowserRouter([
     {
@@ -14,11 +17,11 @@ const router = createBrowserRouter([
     },
     {
         path: '/components/create',
-        element: <ComponentFormController action={SubmitActionType.Create}/>
+        element: <ComponentFormController action={DataAction.Create}/>
     },
     {
         path: '/components/edit/:id',
-        element: <ComponentFormController action={SubmitActionType.Update}/>
+        element: <ComponentFormController action={DataAction.Update}/>
     },
     {
         path: '/components/details/:id',
@@ -27,6 +30,22 @@ const router = createBrowserRouter([
     {
         path: '/components/all',
         element: <ComponentList/>
+    },
+    {
+        path: '/dishes/create',
+        element: <DishFormController action={DataAction.Create}/>
+    },
+    {
+        path: '/dishes/edit/:id',
+        element: <DishFormController action={DataAction.Update}/>
+    },
+    {
+        path: '/dishes/details/:id',
+        element: <DishDetails/>
+    },
+    {
+        path: '/dishes/all',
+        element: <DishList/>
     },
     {
         path: '/',

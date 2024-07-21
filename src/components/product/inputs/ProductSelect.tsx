@@ -4,30 +4,19 @@ import { getProducts, ProductDTO } from '../../../api/products';
 
 interface ProductSelectProps {
   productId : number
+  products: ProductDTO[]
   onProductChange : (id : number) => void
 }
 
-function ProductSelect(props : ProductSelectProps) {
+function ProductSelect({productId, products, onProductChange} : ProductSelectProps) {
 
-  const [products, setProducts] = useState(new Array<ProductDTO>)
-  const [isLoading, setIsLoading] = useState(false) 
 
-  async function loadProducts() {
-    setIsLoading(true);
-    const loaded = await getProducts()
-    // TODO: if loaded === null
-    setProducts(loaded ?? [])
-    setIsLoading(false);
-  }
-
-  useEffect(()=>{loadProducts()},[])
-
-  return isLoading ? (<>Loading...</>) : (
+  return (
     <Form.Select
-      value={props.productId}
-      onChange={e=>props.onProductChange(parseInt(e.target.value))}
+      value={productId}
+      onChange={e=>onProductChange(parseInt(e.target.value))}
     >
-      {products.map(product => <option value={product.id}>{`${product.id}. ${product.name}`}</option>)} 
+      {products?.map(product => <option value={product.id}>{`${product.id}. ${product.name}`}</option>)} 
     </Form.Select>
   )
 }

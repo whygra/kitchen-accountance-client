@@ -8,7 +8,7 @@ import {
 } from '../../../redux/actions/comoponentFormActions'
 import ComponentProductForm from './ComponentProductForm'
 import { v4 as uuid } from "uuid";
-import { ComponentProductFormState } from '../../../models/component'
+import { ComponentProductFormState } from '../../../models/ComponentFormState'
 import { useContext } from 'react'
 import { context } from '../../../controllers/ComponentFormController'
 

@@ -17,20 +17,20 @@ function ComponentDetails()
 
     async function loadComponent() {
         if (id === undefined)
-            throw Error("Ошибка загрузки данных: отсутствует id компонента")
+            throw Error("Ошибка загрузки данных: отсутствует id ингредиента")
         
         setIsLoading(true)
         const component = await getComponentWithProducts(parseInt(id??'0'))
         
         if (component === null)
-            throw Error("Не удалось получить данные о компоненте")
+            throw Error("Не удалось получить данные о ингредиенте")
         
         setComponent(component)
         setIsLoading(false)
     }
 
     return isLoading ? (<>Loading...</>) : 
-           component===null ? (<>Не удалось получить компонент</>) : (
+           component===null ? (<>Не удалось получить ингредиент</>) : (
         <>
             <Row className='mt-5'>
             <h3 className='text-center'>{`${component.id}. ${component.name} ${component.type.name}`}</h3>

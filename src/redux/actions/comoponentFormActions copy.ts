@@ -1,6 +1,6 @@
 import { ComponentFormActionType } from "../constants/action-types"
-import { SubmitActionType } from "../../models"
-import { ComponentFormState, ComponentProductFormState } from "../../models/component"
+import { DataAction } from "../../models"
+import { ComponentFormState, ComponentProductFormState } from "../../models/ComponentFormState"
 
 export type ComponentFormAction = {
     type: ComponentFormActionType
@@ -48,7 +48,7 @@ export const addComponentProductForm = (formState: ComponentProductFormState) : 
 }
 
 // установить тип действия после подтверждения формы (создание/обновление/удаление) с компонент-продуктом по ключу
-export const setComponentProductFormSubmitActionType = (key: string, action: SubmitActionType) : ComponentFormAction => {
+export const setComponentProductFormSubmitActionType = (key: string, action: DataAction) : ComponentFormAction => {
     return {
         type: ComponentFormActionType.SET_COMPONENT_PRODUCT_ACTION_TYPE,
         payload: {key:key, action:action},
@@ -96,7 +96,7 @@ export const setProductNameByFormKey = (key: string, newProductName: string) : C
 }
 
 // передать признак "создать продукт" в данные формы "Компонент-продукт" по ключу
-export const setProductSubmitActionType = (key: string, action: SubmitActionType) : ComponentFormAction => {
+export const setProductSubmitActionType = (key: string, action: DataAction) : ComponentFormAction => {
     return {
         type: ComponentFormActionType.SET_SUBMIT_PRODUCT_ACTION_TYPE,
         payload: {key:key, action:action},

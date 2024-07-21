@@ -1,5 +1,5 @@
-import {SubmitActionType} from "../../models";
-import { ComponentFormState, COMPONENT_FORM_INIT_STATE as COMPONENT_FORM_INIT_STATE } from "../../models/component";
+import {DataAction} from "../../models";
+import { ComponentFormState, COMPONENT_FORM_INIT_STATE as COMPONENT_FORM_INIT_STATE } from "../../models/ComponentFormState";
 import { ComponentFormAction } from "../actions/comoponentFormActions"
 import { ComponentFormActionType } from "../constants/action-types"
 
@@ -44,7 +44,7 @@ export default function componentFormReducer(state:ComponentFormState=COMPONENT_
             componentProductForms[index].dataAction = action.payload.action
 
             // удалить элемент с невалидным id из массива
-            if(action.payload.action == SubmitActionType.Delete
+            if(action.payload.action == DataAction.Delete
                 && componentProductForms[index].id == 0)
             {
                 componentProductForms.splice(index, 1)
@@ -96,7 +96,7 @@ export default function componentFormReducer(state:ComponentFormState=COMPONENT_
 
             componentProductForms[index].productDataAction = action.payload.action
             // если действие - создать, установить id = 0
-            if (action.payload.action === SubmitActionType.Create) 
+            if (action.payload.action === DataAction.Create) 
                 componentProductForms[index].productId = 0
             return {...state, componentProductForms:componentProductForms}
         }

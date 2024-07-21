@@ -1,7 +1,7 @@
-import { SubmitActionType } from "."
+import { DataAction } from "."
 
 export type ComponentFormState = {
-    submitAction: SubmitActionType
+    submitAction: DataAction
     id: number
     name: string
     componentTypeId: number
@@ -9,20 +9,20 @@ export type ComponentFormState = {
 }
 
 export type ComponentProductFormState = {
-    dataAction: SubmitActionType
+    dataAction: DataAction
     key: string
     id: number
     productId: number
     productName: string
-    productDataAction: SubmitActionType
+    productDataAction: DataAction
     rawContentPercentage: number
     wastePercentage: number
 }
 
 export const COMPONENT_FORM_INIT_STATE: ComponentFormState = {
-    submitAction:SubmitActionType.Create, 
+    submitAction:DataAction.Create, 
     id:0, 
-    name:"", 
-    componentTypeId:1, 
+    name:"",
+    componentTypeId:1,
     componentProductForms:[]
 }

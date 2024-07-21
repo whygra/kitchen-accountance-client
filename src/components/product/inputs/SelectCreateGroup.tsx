@@ -1,13 +1,15 @@
 import {Form} from 'react-bootstrap'
 import ProductSelect from './ProductSelect';
 import NameInput from './NameInput';
-import { SubmitActionType } from '../../../models/index';
+import { DataAction } from '../../../models/index';
+import { ProductDTO } from '../../../api/products';
 
 interface SelectCreateGroupProps {
   productId: number
   newProductName: string
-  submitAction: SubmitActionType
-  onSubmitActionChange: (action:SubmitActionType)=>void
+  submitAction: DataAction
+  products: ProductDTO[]
+  setDataAction: (action:DataAction)=>void
   onNameChange: (name:string)=>void
   onProductChange: (id:number)=>void
 }
@@ -16,12 +18,13 @@ function SelectCreateGroup({
   productId,
   newProductName,
   submitAction,
-  onSubmitActionChange,
+  products,
+  setDataAction,
   onNameChange,
   onProductChange
 }: SelectCreateGroupProps) 
 {
-  const isCreateProduct = submitAction === SubmitActionType.Create
+  const isCreateProduct = submitAction === DataAction.Create
 
   return (
     <div className='d-flex justify-content-around'>
@@ -31,10 +34,10 @@ function SelectCreateGroup({
           type="switch"
           className='text-center'
           defaultChecked={isCreateProduct}
-          onChange={(e)=>onSubmitActionChange(
+          onChange={(e)=>setDataAction(
             e.target.checked 
-            ? SubmitActionType.Create
-            : SubmitActionType.None
+            ? DataAction.Create
+            : DataAction.None
           )}
         />
       </div>
@@ -48,6 +51,7 @@ function SelectCreateGroup({
         />
         :
         <ProductSelect
+        products={products}
         productId={productId}
         onProductChange={onProductChange}
         />

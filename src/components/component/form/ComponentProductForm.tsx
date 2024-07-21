@@ -1,7 +1,7 @@
 import {Button, Card, Col, Container, Form, Row, Table} from 'react-bootstrap'
 import SelectCreateGroup from '../../product/inputs/SelectCreateGroup'
-import { SubmitActionType } from '../../../models'
-import { ComponentProductFormState } from '../../../models/component'
+import { DataAction } from '../../../models'
+import { ComponentProductFormState } from '../../../models/ComponentFormState'
 import 'bootstrap'
 import { useContext } from 'react'
 import { context } from '../../../controllers/ComponentFormController'
@@ -12,7 +12,7 @@ interface ComponentsProductFormProps {
 
 function ComponentProductForm({formState}: ComponentsProductFormProps) {
 
-  const {setComponentProductFormState, removeComponentProductForm} = useContext(context)
+  const {setComponentProductFormState, removeComponentProductForm, products} = useContext(context)
 
   function setProductId(productId:number) {
     setComponentProductFormState({...formState, productId: productId})
@@ -22,8 +22,8 @@ function ComponentProductForm({formState}: ComponentsProductFormProps) {
     setComponentProductFormState({...formState, productName: name})
   }
 
-  function setProductAction(action:SubmitActionType) {
-    setComponentProductFormState({...formState, dataAction: action})
+  function setProductAction(action:DataAction) {
+    setComponentProductFormState({...formState, productDataAction: action})
   }
 
   function setContentPercentage(contentPercentage:number) {
@@ -38,7 +38,7 @@ function ComponentProductForm({formState}: ComponentsProductFormProps) {
     <Card className='w-100 p-3'>
       <Row>
         <Col md={11}
-        style={formState.dataAction==SubmitActionType.Delete ? {pointerEvents: "none", opacity: "0.4"} : {}}
+        style={formState.dataAction==DataAction.Delete ? {pointerEvents: "none", opacity: "0.4"} : {}}
         >
           <Row>
 
@@ -50,7 +50,8 @@ function ComponentProductForm({formState}: ComponentsProductFormProps) {
               productId = {formState.productId}
               newProductName = {formState.productName}
               submitAction = {formState.productDataAction}
-              onSubmitActionChange = {setProductAction}
+              products = {products}
+              setDataAction = {setProductAction}
               onNameChange = {setNewProductName}
               onProductChange = {setProductId}
               /></Col>
@@ -79,8 +80,8 @@ function ComponentProductForm({formState}: ComponentsProductFormProps) {
           </Row>
         </Col>
         <Col md={1} className='d-flex justify-content-end'>
-          {formState.dataAction==SubmitActionType.Delete 
-            ? <Button variant="warning" onClick={()=>setProductAction(SubmitActionType.None)}>C</Button>
+          {formState.dataAction==DataAction.Delete 
+            ? <Button variant="warning" onClick={()=>setProductAction(DataAction.None)}>C</Button>
             : <Button variant="danger" onClick={()=>removeComponentProductForm(formState.key)}>D</Button>
           }
           
