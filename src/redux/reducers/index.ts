@@ -1,8 +1,8 @@
 import { combineReducers } from "redux";
-import componentFormReducer from "./componentFormReducer"
+import ingredientFormReducer from "./ingredientFormReducer"
 
 const reducers = combineReducers({
-    componentFormState: componentFormReducer
+    ingredientFormState: ingredientFormReducer
 })
 
 export default reducers;

@@ -1,14 +1,14 @@
 import { createBrowserRouter } from "react-router-dom";
-import Home from "./components/Home";
-import ComponentForm from "./components/component/form/ComponentForm";
-import ComponentList from "./components/component/list/ComponentList";
-import NotFound from "./components/NotFound";
-import ComponentFormController from "./controllers/ComponentFormController";
+import Home from "./views/Home";
+import IngredientForm from "./views/ingredient/form/IngredientForm";
+import IngredientList from "./views/ingredient/list/IngredientList";
+import NotFound from "./views/NotFound";
+import IngredientFormController from "./controllers/IngredientFormController";
 import { DataAction } from "./models";
-import ComponentDetails from "./components/component/details/ComponentDetails";
+import IngredientDetails from "./views/ingredient/details/IngredientDetails";
 import DishFormController from "./controllers/DishFormController";
-import DishDetails from "./components/dish/details/DishDetails";
-import DishList from "./components/dish/list/DishList";
+import DishDetails from "./views/dish/details/DishDetails";
+import DishList from "./views/dish/list/DishList";
 
 const router = createBrowserRouter([
     {
@@ -16,20 +16,20 @@ const router = createBrowserRouter([
         element: <Home/>
     },
     {
-        path: '/components/create',
-        element: <ComponentFormController action={DataAction.Create}/>
+        path: '/ingredients/create',
+        element: <IngredientFormController action={DataAction.Create}/>
     },
     {
-        path: '/components/edit/:id',
-        element: <ComponentFormController action={DataAction.Update}/>
+        path: '/ingredients/edit/:id',
+        element: <IngredientFormController action={DataAction.Update}/>
     },
     {
-        path: '/components/details/:id',
-        element: <ComponentDetails/>
+        path: '/ingredients/details/:id',
+        element: <IngredientDetails/>
     },
     {
-        path: '/components/all',
-        element: <ComponentList/>
+        path: '/ingredients/all',
+        element: <IngredientList/>
     },
     {
         path: '/dishes/create',

@@ -1,10 +1,10 @@
 import { EnhancedStore, configureStore } from '@reduxjs/toolkit'
-import { ComponentFormState } from './reducers/componentFormReducer'
+import { IngredientFormState } from '../models/IngredientFormState'
 import { Store, Action } from 'redux'
 import reducers from './reducers/index'
 
 export type AppState = {
-  componentFormState: ComponentFormState
+  ingredientFormState: IngredientFormState
 }
 
 const store: Store<AppState, Action> = 

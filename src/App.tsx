@@ -5,7 +5,7 @@ import store from "./redux/store";
 import 'bootstrap';
 import 'react-bootstrap';
 import { Container } from 'react-bootstrap';
-import Navbar from './components/Navbar';
+import Navbar from './views/Navbar';
 
 function App() {
 

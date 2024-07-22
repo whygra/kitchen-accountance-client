@@ -1,64 +1,64 @@
 import { useDispatch } from 'react-redux';
 import { Dispatch } from 'redux';
-import ComponentForm from '../components/component/form/ComponentForm';
-import { setComponentId, setComponentName } from '../redux/actions/comoponentFormActions';
-import { GetComponentWithProductsDTO, getComponentWithProducts, getComponentsWithProducts, postComponentWithProducts, putComponentWithProducts } from '../api/componentWithProducts';
+import IngredientForm from '../views/ingredient/form/IngredientForm';
+import { setIngredientId, setIngredientName } from '../redux/actions/ingredientFormActions';
+import { GetIngredientWithProductsDTO, getIngredientWithProducts, getIngredientsWithProducts, postIngredientWithProducts, putIngredientWithProducts } from '../api/ingredientWithProducts';
 import { DataAction } from '../models';
 import { useParams } from 'react-router-dom';
 import { v4 as uuid } from "uuid";
 import { createContext, useEffect, useState } from 'react';
-import { DISH_FORM_INIT_STATE, DishComponentFormState, DishFormState } from '../models/DishFormState';
-import { GetDishWithComponentsDTO, getDishWithComponents, postDishWithComponents, putDishWithComponents } from '../api/dishWithComponents';
-import { ComponentTypeDTO, getComponentTypes } from '../api/componentTypes';
-import { ComponentDTO, getComponents } from '../api/components';
-import DishForm from '../components/dish/form/DishForm';
+import { DISH_FORM_INIT_STATE, DishIngredientFormState, DishFormState } from '../models/DishFormState';
+import { GetDishWithIngredientsDTO, getDishWithIngredients, postDishWithIngredients, putDishWithIngredients } from '../api/dishWithIngredients';
+import { IngredientTypeDTO, getIngredientTypes } from '../api/ingredientTypes';
+import { IngredientDTO, getIngredients } from '../api/ingredients';
+import DishForm from '../views/dish/form/DishForm';
 
 interface DishFormControllerProps{
   action: DataAction
 }
 
-function getDishComponentFormInitState() : DishComponentFormState
+function getDishIngredientFormInitState() : DishIngredientFormState
 {return {
     id: 0,
     dataAction: DataAction.Create,
-    componentDataAction: DataAction.None,
-    componentRawWeight: 1,
+    ingredientDataAction: DataAction.None,
+    ingredientRawWeight: 1,
     wastePercentage: 0,
     key: uuid(),
-    componentName: "", 
-    componentTypeId: 1, 
-    componentId: 1, 
+    ingredientName: "", 
+    ingredientTypeId: 1, 
+    ingredientId: 1, 
 }}
 
 interface DishFormContext {
-  addDishComponentForm: ()=>void
-  setDishComponentFormState: (state:DishComponentFormState)=>void
-  removeDishComponentForm: (key:string)=>void
-  requestFn: ()=>Promise<GetDishWithComponentsDTO|null>
+  addDishIngredientForm: ()=>void
+  setDishIngredientFormState: (state:DishIngredientFormState)=>void
+  removeDishIngredientForm: (key:string)=>void
+  requestFn: ()=>Promise<GetDishWithIngredientsDTO|null>
   setName: (name:string)=>void
   formState: DishFormState
-  componentTypes:ComponentTypeDTO[]
-  components:GetComponentWithProductsDTO[]
+  ingredientTypes:IngredientTypeDTO[]
+  ingredients:GetIngredientWithProductsDTO[]
 }
 
 // создание контекста для передачи данных в дочерние элементы
 const context = createContext<DishFormContext>({
-  addDishComponentForm:()=>{},
-  setDishComponentFormState:(state:DishComponentFormState)=>{},
-  removeDishComponentForm:(key:string)=>{},
+  addDishIngredientForm:()=>{},
+  setDishIngredientFormState:(state:DishIngredientFormState)=>{},
+  removeDishIngredientForm:(key:string)=>{},
   requestFn:async()=>null,
   setName:(name:string)=>{},
   formState:DISH_FORM_INIT_STATE,
-  componentTypes:[],
-  components:[]
+  ingredientTypes:[],
+  ingredients:[]
 });
 
 function DishFormController({action}:DishFormControllerProps) 
 {  
   const [formState, setFormState] = useState<DishFormState>(DISH_FORM_INIT_STATE)
   const [isLoading, setIsLoading] = useState(false) 
-  const [componentTypes, setComponentTypes] = useState<ComponentTypeDTO[]>([])
-  const [components, setComponents]= useState<GetComponentWithProductsDTO[]>([])
+  const [ingredientTypes, setIngredientTypes] = useState<IngredientTypeDTO[]>([])
+  const [ingredients, setIngredients]= useState<GetIngredientWithProductsDTO[]>([])
 
   const {id} = useParams()
 
@@ -67,18 +67,18 @@ function DishFormController({action}:DishFormControllerProps)
 
   async function initialize() {
     setIsLoading(true)
-    if(action==DataAction.Update) loadComponent()
+    if(action==DataAction.Update) loadIngredient()
     
-    setComponentTypes(await getComponentTypes()??[])
-    setComponents(await getComponentsWithProducts()??[])
+    setIngredientTypes(await getIngredientTypes()??[])
+    setIngredients(await getIngredientsWithProducts()??[])
     setIsLoading(false)
   }
 
-  async function loadComponent() {
+  async function loadIngredient() {
     if (id === undefined)
         throw Error("Ошибка загрузки данных: отсутствует id блюда")
 
-    const dish = await getDishWithComponents(parseInt(id??'0'))
+    const dish = await getDishWithIngredients(parseInt(id??'0'))
 
     if (dish === null)
         throw Error("Не удалось получить данные о блюде")
@@ -87,16 +87,16 @@ function DishFormController({action}:DishFormControllerProps)
         dataAction: DataAction.Update,
         id: dish.id,
         name: dish.name,
-        dishComponentForms: dish.dishes_components
+        dishIngredientForms: dish.dishes_ingredients
           .map(d=>{ return {
               dataAction: DataAction.None,
               key: uuid(),
               id: d.id,
-              componentId: d.component.id,
-              componentName: d.component.name,
-              componentDataAction: DataAction.None,
-              componentTypeId: d.component.type.id,
-              componentRawWeight: d.component_raw_weight,
+              ingredientId: d.ingredient.id,
+              ingredientName: d.ingredient.name,
+              ingredientDataAction: DataAction.None,
+              ingredientTypeId: d.ingredient.type.id,
+              ingredientRawWeight: d.ingredient_raw_weight,
               wastePercentage: d.waste_percentage
           }}),
 
@@ -109,33 +109,33 @@ function DishFormController({action}:DishFormControllerProps)
     setFormState({...formState, name:name})
   }
 
-  function addDishComponentForm() {
+  function addDishIngredientForm() {
     setFormState({
       ...formState, 
-      dishComponentForms:
+      dishIngredientForms:
         [
-          ...formState.dishComponentForms,
-          getDishComponentFormInitState()
+          ...formState.dishIngredientForms,
+          getDishIngredientFormInitState()
         ]})
   }
 
-function setDishComponentFormState(state:DishComponentFormState) {
+function setDishIngredientFormState(state:DishIngredientFormState) {
   setFormState({
     ...formState,
-    dishComponentForms: formState.dishComponentForms
+    dishIngredientForms: formState.dishIngredientForms
     .map(s=>s.key == state.key ? state : s)
   })
 }
 
-  function removeDishComponentForm(key:string){
-    const index = formState.dishComponentForms.findIndex(s=>s.key==key)
+  function removeDishIngredientForm(key:string){
+    const index = formState.dishIngredientForms.findIndex(s=>s.key==key)
 
     // если id <= 0 записи нет в бд - просто убираем из коллекции
-    if (formState.dishComponentForms[index].id <= 0)
+    if (formState.dishIngredientForms[index].id <= 0)
       setFormState({
         ...formState,
-        dishComponentForms: 
-          formState.dishComponentForms
+        dishIngredientForms: 
+          formState.dishIngredientForms
           .filter((s, i)=>i!=index)
       })
       
@@ -143,8 +143,8 @@ function setDishComponentFormState(state:DishComponentFormState) {
     else 
       setFormState({
         ...formState,
-        dishComponentForms: 
-          formState.dishComponentForms
+        dishIngredientForms: 
+          formState.dishIngredientForms
           .map((s, i)=>{
             return i==index 
               ? {...s, dataAction: DataAction.Delete} 
@@ -154,36 +154,36 @@ function setDishComponentFormState(state:DishComponentFormState) {
   }
 
   function update() {
-    return putDishWithComponents({
+    return putDishWithIngredients({
       id: formState.id,
       name: formState.name,
-      dishes_components: formState.dishComponentForms
+      dishes_ingredients: formState.dishIngredientForms
         .map(d=>{return {
           data_action: d.dataAction.valueOf(),
-          component_data_action: d.componentDataAction.valueOf(),
+          ingredient_data_action: d.ingredientDataAction.valueOf(),
           id: d.id,
           dish_id: formState.id,
-          component_id: d.componentId, 
-          component_name: d.componentName,
-          component_type_id: d.componentTypeId,
-          component_raw_weight: d.componentRawWeight,
+          ingredient_id: d.ingredientId, 
+          ingredient_name: d.ingredientName,
+          ingredient_type_id: d.ingredientTypeId,
+          ingredient_raw_weight: d.ingredientRawWeight,
           waste_percentage: d.wastePercentage,
         }})
     })
   }
 
   function create() {
-    return postDishWithComponents({
+    return postDishWithIngredients({
         name: formState.name,
-        dishes_components: formState.dishComponentForms
+        dishes_ingredients: formState.dishIngredientForms
           .map(s=>{return {
-            component_data_action: s.componentDataAction.valueOf(),
+            ingredient_data_action: s.ingredientDataAction.valueOf(),
             id: s.id,
             dish_id: formState.id,
-            component_id: s.componentId, 
-            component_name: s.componentName,
-            component_type_id: s.componentTypeId,
-            component_raw_weight: s.componentRawWeight, 
+            ingredient_id: s.ingredientId, 
+            ingredient_name: s.ingredientName,
+            ingredient_type_id: s.ingredientTypeId,
+            ingredient_raw_weight: s.ingredientRawWeight, 
             waste_percentage: s.wastePercentage,
           }})
       })
@@ -191,11 +191,11 @@ function setDishComponentFormState(state:DishComponentFormState) {
   
   return isLoading ? (<>Loading...</>) : (
     <context.Provider value={{
-      components: components,
-      componentTypes: componentTypes,
-      addDishComponentForm: addDishComponentForm,
-      setDishComponentFormState: setDishComponentFormState,
-      removeDishComponentForm: removeDishComponentForm,
+      ingredients: ingredients,
+      ingredientTypes: ingredientTypes,
+      addDishIngredientForm: addDishIngredientForm,
+      setDishIngredientFormState: setDishIngredientFormState,
+      removeDishIngredientForm: removeDishIngredientForm,
       formState: formState,
       setName: setName,
       requestFn: action==DataAction.Update ? update : create
