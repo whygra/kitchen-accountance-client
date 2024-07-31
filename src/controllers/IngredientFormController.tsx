@@ -1,14 +1,13 @@
-import { useDispatch } from 'react-redux';
-import { Dispatch } from 'redux';
 import IngredientForm from '../views/ingredient/form/IngredientForm';
-import { GetIngredientWithProductsDTO, GetProductDTO, getIngredientWithProducts, postIngredientWithProducts, putIngredientWithProducts } from '../api/ingredientWithProducts';
+import { getIngredientWithProducts, postIngredientWithProducts, putIngredientWithProducts } from '../api/ingredientWithProducts';
 import { IngredientFormState, INGREDIENT_FORM_INIT_STATE, IngredientProductFormState } from '../models/IngredientFormState';
 import { DataAction } from '../models';
 import { useParams } from 'react-router-dom';
 import { v4 as uuid } from "uuid";
-import { createContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { IngredientTypeDTO, getIngredientTypes } from '../api/ingredientTypes';
 import { ProductDTO, getProducts } from '../api/products';
+import { ingredientContext } from '../context';
 
 interface IngredientFormControllerProps{
     action: DataAction
@@ -26,33 +25,6 @@ function getIngredientProductFormInitState() : IngredientProductFormState
     productId: 1, 
 }}
 
-interface IngredientFormContext {
-  castToValidPercentages: ()=>void
-  addIngredientProductForm: ()=>void
-  setIngredientProductFormState: (state:IngredientProductFormState)=>void
-  removeIngredientProductForm: (key:string)=>void
-  requestFn: ()=>Promise<GetIngredientWithProductsDTO|null>
-  setTypeId: (id:number)=>void
-  setName: (name:string)=>void
-  formState: IngredientFormState
-  ingredientTypes: IngredientTypeDTO[]
-  products: ProductDTO[]
-}
-
-// создание контекста для передачи данных в дочерние элементы
-const context = createContext<IngredientFormContext>({
-  castToValidPercentages:()=>{},
-  addIngredientProductForm:()=>{},
-  setIngredientProductFormState:(state:IngredientProductFormState)=>{},
-  removeIngredientProductForm:(key:string)=>{},
-  requestFn:async()=>null,
-  setTypeId:(id:number)=>{},
-  setName:(name:string)=>{},
-  formState:INGREDIENT_FORM_INIT_STATE,
-  ingredientTypes:[],
-  products: []
-});
-
 function IngredientFormController({action}:IngredientFormControllerProps) 
 {  
   const [formState, setFormState] = useState<IngredientFormState>(INGREDIENT_FORM_INIT_STATE)
@@ -66,7 +38,8 @@ function IngredientFormController({action}:IngredientFormControllerProps)
   
   async function initialize() {
     setIsLoading(true)
-    if(action==DataAction.Update) loadIngredient()
+    if(id!==undefined || action==DataAction.Update) 
+      loadIngredient()
 
     setIngredientTypes(await getIngredientTypes()??[]);
     setProducts(await getProducts()??[]);
@@ -76,12 +49,12 @@ function IngredientFormController({action}:IngredientFormControllerProps)
 
   async function loadIngredient() {
     if (id === undefined)
-        throw Error("Ошибка загрузки данных: отсутствует id компонента")
+        throw Error("Ошибка загрузки данных: отсутствует id ингредиента")
 
-    const ingredient = await getIngredientWithProducts(parseInt(id??'0'))
+    const ingredient = await getIngredientWithProducts(parseInt(id))
 
     if (ingredient === null)
-        throw Error("Не удалось получить данные о компоненте")
+        throw Error("Не удалось получить данные об ингредиенте")
 
     setFormState({
         submitAction: DataAction.Update,
@@ -200,7 +173,7 @@ function setIngredientProductFormState(state:IngredientProductFormState) {
   }
   
   return isLoading ? (<>Loading...</>) : (
-    <context.Provider value={{
+    <ingredientContext.Provider value={{
       castToValidPercentages: castToValidPercentages,
       addIngredientProductForm: addIngredientProductForm,
       setIngredientProductFormState: setIngredientProductFormState,
@@ -214,10 +187,10 @@ function setIngredientProductFormState(state:IngredientProductFormState) {
     }}>
 
     <IngredientForm/>
-    </context.Provider>
+    </ingredientContext.Provider>
   )
 }
 
 export default IngredientFormController
 
-export {context}
+export {ingredientContext}

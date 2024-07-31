@@ -7,7 +7,7 @@ import { IngredientDTO } from '../../../api/ingredients';
 import { useNavigate } from 'react-router-dom';
 import { IngredientFormState, IngredientProductFormState } from '../../../models/IngredientFormState';
 import { addIngredientProductForm } from '../../../redux/actions/ingredientFormActions';
-import { context } from '../../../controllers/IngredientFormController';
+import { ingredientContext } from '../../../context';
 import { GetIngredientWithProductsDTO } from '../../../api/ingredientWithProducts';
 
 
@@ -24,7 +24,7 @@ function IngredientForm()
   const [state, setState] = useState(FormState.FormInput)
   const [response, setResponse] = useState<GetIngredientWithProductsDTO|null>(null)
 
-  const {formState, requestFn, setName, setTypeId, ingredientTypes} = useContext(context);
+  const {formState, requestFn, setName, setTypeId, ingredientTypes} = useContext(ingredientContext);
 
   function contentPercentagesAreValid() : boolean {
     const contentPercentageSum = 

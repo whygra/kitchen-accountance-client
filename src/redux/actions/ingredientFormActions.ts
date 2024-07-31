@@ -15,7 +15,7 @@ export const setFormState = (formData: IngredientFormState) : IngredientFormActi
     }
 }
 
-// передать наименование компонента
+// передать наименование ингредиента
 export const setIngredientName = (name: string) : IngredientFormAction => {
     return {
         type: IngredientFormActionType.SET_INGREDIENT_NAME,
@@ -23,7 +23,7 @@ export const setIngredientName = (name: string) : IngredientFormAction => {
     }
 }
 
-// передать id компонента
+// передать id ингредиента
 export const setIngredientId = (ingredientId: number) : IngredientFormAction => {
     return {
         type: IngredientFormActionType.SET_INGREDIENT_ID,
@@ -31,7 +31,7 @@ export const setIngredientId = (ingredientId: number) : IngredientFormAction => 
     }
 }
 
-// передать id типа компонента
+// передать id типа ингредиента
 export const setIngredientTypeId = (ingredientTypeId: number) : IngredientFormAction => {
     return {
         type: IngredientFormActionType.SET_INGREDIENT_TYPE_ID,
@@ -39,7 +39,7 @@ export const setIngredientTypeId = (ingredientTypeId: number) : IngredientFormAc
     }
 }
 
-// добавить в коллекцию новые данные формы "Компонент-продукт"
+// добавить в коллекцию новые данные формы "Ингредиент-продукт"
 export const addIngredientProductForm = (formState: IngredientProductFormState) : IngredientFormAction => {
     return {
         type: IngredientFormActionType.ADD_INGREDIENT_PRODUCT_FORM,
@@ -47,7 +47,7 @@ export const addIngredientProductForm = (formState: IngredientProductFormState) 
     }
 }
 
-// установить тип действия после подтверждения формы (создание/обновление/удаление) с компонент-продуктом по ключу
+// установить тип действия после подтверждения формы (создание/обновление/удаление) с ингредиент-продуктом по ключу
 export const setIngredientProductFormSubmitActionType = (key: string, action: DataAction) : IngredientFormAction => {
     return {
         type: IngredientFormActionType.SET_INGREDIENT_PRODUCT_ACTION_TYPE,
@@ -55,7 +55,7 @@ export const setIngredientProductFormSubmitActionType = (key: string, action: Da
     }
 }
 
-// обновить в коллекции данных форму "Компонент-продукт"
+// обновить в коллекции данных форму "Ингредиент-продукт"
 export const setIngredientProductFormState = (formState: IngredientProductFormState) : IngredientFormAction => {
     return {
         type: IngredientFormActionType.SET_INGREDIENT_PRODUCT_FORM_STATE,
@@ -63,7 +63,7 @@ export const setIngredientProductFormState = (formState: IngredientProductFormSt
     }
 }
 
-// передать процент отхода в данные формы "Компонент-продукт" по ключу
+// передать процент отхода в данные формы "Ингредиент-продукт" по ключу
 export const setWastePercentageByFormKey = (key: string, wastePercentage: number) : IngredientFormAction => {
     return {
         type: IngredientFormActionType.SET_WASTE_PERCENTAGE,
@@ -71,7 +71,7 @@ export const setWastePercentageByFormKey = (key: string, wastePercentage: number
     }
 }
 
-// передать процент содержания в данные формы "Компонент-продукт" по ключу
+// передать процент содержания в данные формы "Ингредиент-продукт" по ключу
 export const setContentPercentageByFormKey = (key: string, contentPercentage: number) : IngredientFormAction => {
     return {
         type: IngredientFormActionType.SET_CONTENT_PERCENTAGE,
@@ -79,7 +79,7 @@ export const setContentPercentageByFormKey = (key: string, contentPercentage: nu
     }
 }
 
-// передать id продукта в данные формы "Компонент-продукт" по ключу
+// передать id продукта в данные формы "Ингредиент-продукт" по ключу
 export const setProductIdByFormKey = (key: string, productId: number) : IngredientFormAction => {
     return {
         type: IngredientFormActionType.SET_PRODUCT_ID,
@@ -87,7 +87,7 @@ export const setProductIdByFormKey = (key: string, productId: number) : Ingredie
     }
 }
 
-// передать наименование нового продукта в данные формы "Компонент-продукт" по ключу
+// передать наименование нового продукта в данные формы "Ингредиент-продукт" по ключу
 export const setProductNameByFormKey = (key: string, newProductName: string) : IngredientFormAction => {
     return {
         type: IngredientFormActionType.SET_NEW_PRODUCT_NAME,
@@ -95,7 +95,7 @@ export const setProductNameByFormKey = (key: string, newProductName: string) : I
     }
 }
 
-// передать признак "создать продукт" в данные формы "Компонент-продукт" по ключу
+// передать признак "создать продукт" в данные формы "Ингредиент-продукт" по ключу
 export const setProductSubmitActionType = (key: string, action: DataAction) : IngredientFormAction => {
     return {
         type: IngredientFormActionType.SET_SUBMIT_PRODUCT_ACTION_TYPE,

@@ -56,6 +56,7 @@ export interface GetIngredientWithProductsDTO {
   name: string
   type: GetIngredientTypeDTO
   ingredients_products: GetIngredientProductDTO[]
+  deletion_allowed: boolean
 }
 
 export const putIngredientWithProducts = async (updateData: PutIngredientWithProductsDTO): Promise<GetIngredientWithProductsDTO | null> => {
@@ -68,7 +69,7 @@ export const putIngredientWithProducts = async (updateData: PutIngredientWithPro
     body: JSON.stringify(updateData)
   })
   if (!response.ok)
-    throw new Error('Не удалось обновить компонент')
+    throw new Error('Не удалось обновить ингредиент')
   
   const data = await response.json()
   return data
@@ -84,7 +85,7 @@ export const postIngredientWithProducts = async (createData: PostIngredientWithP
     body: JSON.stringify(createData)
   })
   if (!response.ok)
-    throw new Error('Не удалось создать компонент')
+    throw new Error('Не удалось создать ингредиент')
   
   const data = await response.json()
   return data
@@ -93,7 +94,7 @@ export const postIngredientWithProducts = async (createData: PostIngredientWithP
 export const getIngredientsWithProducts = async () : Promise<GetIngredientWithProductsDTO[] | null> => {
   const response = await fetch(`${BASE_URL}/${ENTITY_PATH}/all`)
   if(!response.ok)
-    throw new Error('Не удалось получить данные о компонентах')
+    throw new Error('Не удалось получить данные о ингредиентах')
 
   const data = await response.json()
   return data
@@ -102,8 +103,19 @@ export const getIngredientsWithProducts = async () : Promise<GetIngredientWithPr
 export const getIngredientWithProducts = async (id: number) : Promise<GetIngredientWithProductsDTO | null> => {
   const response = await fetch(`${BASE_URL}/${ENTITY_PATH}/${id}`)
   if(!response.ok)
-    throw new Error('Не удалось получить данные о компоненте')
+    throw new Error('Не удалось получить данные об ингредиенте')
 
+  const data = await response.json()
+  return data
+}
+
+export const deleteIngredient = async (id: number): Promise<GetIngredientWithProductsDTO | null> => {
+  const response = await fetch(`${BASE_URL}/${ENTITY_PATH}/delete/${id}`, {
+    method: 'DELETE',
+  })
+  if (!response.ok) {
+    throw new Error('Не удалось удалить ингредиент')
+  }
   const data = await response.json()
   return data
 }

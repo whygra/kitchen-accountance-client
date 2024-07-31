@@ -16,7 +16,7 @@ export interface CreateIngredientDTO {
 export const getIngredients = async () : Promise<IngredientDTO[] | null> => {
   const response = await fetch(`${BASE_URL}/${ENTITY_PATH}/all`)
   if(!response.ok)
-    throw new Error('Не удалось получить данные о компонентах')
+    throw new Error('Не удалось получить данные о ингредиентах')
 
   const data = await response.json()
   return data
@@ -31,7 +31,7 @@ export const postIngredient = async (createData: CreateIngredientDTO): Promise<I
     body: JSON.stringify(createData)
   })
   if (!response.ok) {
-    throw new Error('Не удалось создать компонент')
+    throw new Error('Не удалось создать ингредиент')
   }
   const data = await response.json()
   return data
@@ -46,7 +46,7 @@ export const putIngredient = async (ingredientData: IngredientDTO): Promise<Ingr
     body: JSON.stringify(ingredientData)
   })
   if (!response.ok) {
-    throw new Error('Не удалось обновить компонент')
+    throw new Error('Не удалось обновить ингредиент')
   }
   const data = await response.json()
   return data

@@ -1,20 +1,16 @@
-import { useDispatch } from 'react-redux';
-import { Dispatch } from 'redux';
-import IngredientForm from '../views/ingredient/form/IngredientForm';
-import { setIngredientId, setIngredientName } from '../redux/actions/ingredientFormActions';
-import { GetIngredientWithProductsDTO, getIngredientWithProducts, getIngredientsWithProducts, postIngredientWithProducts, putIngredientWithProducts } from '../api/ingredientWithProducts';
+import { GetIngredientWithProductsDTO, getIngredientsWithProducts } from '../api/ingredientWithProducts';
 import { DataAction } from '../models';
 import { useParams } from 'react-router-dom';
 import { v4 as uuid } from "uuid";
-import { createContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { DISH_FORM_INIT_STATE, DishIngredientFormState, DishFormState } from '../models/DishFormState';
-import { GetDishWithIngredientsDTO, getDishWithIngredients, postDishWithIngredients, putDishWithIngredients } from '../api/dishWithIngredients';
+import { getDishWithIngredients, postDishWithIngredients, putDishWithIngredients } from '../api/dishWithIngredients';
 import { IngredientTypeDTO, getIngredientTypes } from '../api/ingredientTypes';
-import { IngredientDTO, getIngredients } from '../api/ingredients';
+import { dishFormContext } from '../context';
 import DishForm from '../views/dish/form/DishForm';
 
 interface DishFormControllerProps{
-  action: DataAction
+  action: DataAction,
 }
 
 function getDishIngredientFormInitState() : DishIngredientFormState
@@ -30,28 +26,6 @@ function getDishIngredientFormInitState() : DishIngredientFormState
     ingredientId: 1, 
 }}
 
-interface DishFormContext {
-  addDishIngredientForm: ()=>void
-  setDishIngredientFormState: (state:DishIngredientFormState)=>void
-  removeDishIngredientForm: (key:string)=>void
-  requestFn: ()=>Promise<GetDishWithIngredientsDTO|null>
-  setName: (name:string)=>void
-  formState: DishFormState
-  ingredientTypes:IngredientTypeDTO[]
-  ingredients:GetIngredientWithProductsDTO[]
-}
-
-// создание контекста для передачи данных в дочерние элементы
-const context = createContext<DishFormContext>({
-  addDishIngredientForm:()=>{},
-  setDishIngredientFormState:(state:DishIngredientFormState)=>{},
-  removeDishIngredientForm:(key:string)=>{},
-  requestFn:async()=>null,
-  setName:(name:string)=>{},
-  formState:DISH_FORM_INIT_STATE,
-  ingredientTypes:[],
-  ingredients:[]
-});
 
 function DishFormController({action}:DishFormControllerProps) 
 {  
@@ -64,21 +38,21 @@ function DishFormController({action}:DishFormControllerProps)
 
   useEffect(()=>{initialize()}, [])
   
-
   async function initialize() {
     setIsLoading(true)
-    if(action==DataAction.Update) loadIngredient()
+    if(id!==undefined || action==DataAction.Update) 
+      loadDish()
     
     setIngredientTypes(await getIngredientTypes()??[])
     setIngredients(await getIngredientsWithProducts()??[])
     setIsLoading(false)
   }
 
-  async function loadIngredient() {
+  async function loadDish() {
     if (id === undefined)
-        throw Error("Ошибка загрузки данных: отсутствует id блюда")
+      throw Error("Ошибка загрузки данных: отсутствует id блюда")
 
-    const dish = await getDishWithIngredients(parseInt(id??'0'))
+    const dish = await getDishWithIngredients(parseInt(id))
 
     if (dish === null)
         throw Error("Не удалось получить данные о блюде")
@@ -119,13 +93,13 @@ function DishFormController({action}:DishFormControllerProps)
         ]})
   }
 
-function setDishIngredientFormState(state:DishIngredientFormState) {
-  setFormState({
-    ...formState,
-    dishIngredientForms: formState.dishIngredientForms
-    .map(s=>s.key == state.key ? state : s)
-  })
-}
+  function setDishIngredientFormState(state:DishIngredientFormState) {
+    setFormState({
+      ...formState,
+      dishIngredientForms: formState.dishIngredientForms
+      .map(s=>s.key == state.key ? state : s)
+    })
+  }
 
   function removeDishIngredientForm(key:string){
     const index = formState.dishIngredientForms.findIndex(s=>s.key==key)
@@ -190,7 +164,7 @@ function setDishIngredientFormState(state:DishIngredientFormState) {
   }
   
   return isLoading ? (<>Loading...</>) : (
-    <context.Provider value={{
+    <dishFormContext.Provider value={{
       ingredients: ingredients,
       ingredientTypes: ingredientTypes,
       addDishIngredientForm: addDishIngredientForm,
@@ -202,10 +176,8 @@ function setDishIngredientFormState(state:DishIngredientFormState) {
     }}>
 
     <DishForm/>
-    </context.Provider>
+    </dishFormContext.Provider>
   )
 }
 
 export default DishFormController
-
-export {context}

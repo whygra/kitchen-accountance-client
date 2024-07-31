@@ -1,6 +1,5 @@
 import { useContext } from 'react';
 import {Form} from 'react-bootstrap'
-import { context } from '../../../controllers/IngredientFormController';
 
 interface IngredientNameInputProps {
   setName: (name:string)=>void,

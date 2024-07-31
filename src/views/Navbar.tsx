@@ -7,7 +7,7 @@ function Navbar() {
   return (
     <BSNavbar bg="light" data-bs-theme="light">
     <Container>
-      <BSNavbar.Brand href="/home">KA</BSNavbar.Brand>
+      <BSNavbar.Brand href="/home">KiAc</BSNavbar.Brand>
       <Nav className="me-auto">
         <Nav.Link href="/ingredients/all">Ингредиенты</Nav.Link>
       </Nav>

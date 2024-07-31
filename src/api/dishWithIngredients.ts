@@ -51,6 +51,7 @@ export interface PostDishWithIngredientsDTO {
 export interface GetDishWithIngredientsDTO {
   id: number
   name: string
+  deletion_allowed: boolean
   dishes_ingredients: GetDishIngredientDTO[]
 }
 
@@ -100,6 +101,17 @@ export const getDishWithIngredients = async (id: number) : Promise<GetDishWithIn
   if(!response.ok)
     throw new Error('Не удалось получить данные о блюде')
 
+  const data = await response.json()
+  return data
+}
+
+export const deleteDish = async (id: number): Promise<GetDishIngredientDTO | null> => {
+  const response = await fetch(`${BASE_URL}/${ENTITY_PATH}/delete/${id}`, {
+    method: 'DELETE',
+  })
+  if (!response.ok) {
+    throw new Error('Не удалось удалить блюдо')
+  }
   const data = await response.json()
   return data
 }

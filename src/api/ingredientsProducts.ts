@@ -20,7 +20,7 @@ export interface CreateIngredientsProductDTO {
 export const getIngredientsProducts = async () : Promise<IngredientsProductDTO[] | null> => {
   const response = await fetch(`${BASE_URL}/${ENTITY_PATH}/all`)
   if(!response.ok)
-    throw new Error('Не удалось получить данные о компонент-продуктах')
+    throw new Error('Не удалось получить данные о ингредиент-продуктах')
 
   const data = await response.json()
   return data
@@ -36,7 +36,7 @@ export const postIngredientsProduct = async (createData: CreateIngredientsProduc
     body: JSON.stringify(createData)
   })
   if (!response.ok) {
-    throw new Error('Не удалось создать компонент-продукт')
+    throw new Error('Не удалось создать ингредиент-продукт')
   }
   const data = await response.json()
   return data
@@ -47,7 +47,7 @@ export const deleteIngredientsProduct = async (id: number): Promise<IngredientsP
     method: 'DELETE',
   })
   if (!response.ok) {
-    throw new Error('Не удалось удалить компонент-продукт')
+    throw new Error('Не удалось удалить ингредиент-продукт')
   }
   const data = await response.json()
   return data

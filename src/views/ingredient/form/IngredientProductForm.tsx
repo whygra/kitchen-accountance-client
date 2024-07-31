@@ -4,7 +4,7 @@ import { DataAction } from '../../../models'
 import { IngredientProductFormState } from '../../../models/IngredientFormState'
 import 'bootstrap'
 import { useContext } from 'react'
-import { context } from '../../../controllers/IngredientFormController'
+import { ingredientContext } from '../../../context'
 
 interface IngredientsProductFormProps {
   formState: IngredientProductFormState,
@@ -12,7 +12,7 @@ interface IngredientsProductFormProps {
 
 function IngredientProductForm({formState}: IngredientsProductFormProps) {
 
-  const {setIngredientProductFormState, removeIngredientProductForm, products} = useContext(context)
+  const {setIngredientProductFormState, removeIngredientProductForm, products} = useContext(ingredientContext)
 
   function setProductId(productId:number) {
     setIngredientProductFormState({...formState, productId: productId})

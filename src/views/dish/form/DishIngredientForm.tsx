@@ -3,7 +3,7 @@ import { DataAction } from '../../../models'
 import { DishIngredientFormState } from '../../../models/DishFormState'
 import 'bootstrap'
 import { useContext } from 'react'
-import { context } from '../../../controllers/DishFormController'
+import { dishFormContext } from '../../../context'
 import SelectCreateGroup from '../../ingredient/inputs/SelectCreateGroup'
 import { setIngredientTypeId } from '../../../redux/actions/ingredientFormActions'
 
@@ -13,7 +13,7 @@ interface DishesIngredientFormProps {
 
 function DishIngredientForm({formState}: DishesIngredientFormProps) {
 
-  const {setDishIngredientFormState, removeDishIngredientForm, ingredientTypes, ingredients} = useContext(context)
+  const {setDishIngredientFormState, removeDishIngredientForm, ingredientTypes, ingredients} = useContext(dishFormContext)
 
   function setIngredientId(ingredientId:number) {
     setDishIngredientFormState({...formState, ingredientId: ingredientId})

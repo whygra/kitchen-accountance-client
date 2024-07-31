@@ -1,8 +1,11 @@
-import { Accordion, Col, Row, Table } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
-import { GetDishWithIngredientsDTO } from '../../../api/dishWithIngredients';
+import { Accordion, Button, Col, Row, Table } from 'react-bootstrap';
+import { Link, useNavigate } from 'react-router-dom';
+import { GetDishWithIngredientsDTO, deleteDish as requestDeleteDish } from '../../../api/dishWithIngredients';
 import DishIngredientsTable from '../details/DishIngredientsTable';
 import DishWeight from '../details/DishWeight';
+import { useContext } from 'react';
+import { appContext } from '../../../context';
+import ConfirmationDialog from '../../ConfirmationDialog';
 
 
 interface DishListItemProps {
@@ -11,6 +14,17 @@ interface DishListItemProps {
 
 function DishListItem({dish}: DishListItemProps) 
 {   
+    const {showModal, hideModal} = useContext(appContext)
+
+    const deleteDish = (id: number) => {
+        requestDeleteDish(id)
+        // оповестить об ответе
+            .catch()
+            .then(()=>{
+                hideModal()
+            })
+    }
+
     return (
         <>
         <Accordion.Item eventKey={`${dish.id}`}>
@@ -25,8 +39,23 @@ function DishListItem({dish}: DishListItemProps)
             <small><DishIngredientsTable dish={dish}/></small>
 
                 <div className='d-flex justify-content-between'>
-                    <Link to={`/dishes/edit/${dish.id}`}>Редактировать...</Link>
-                    <Link to={`/dishes/details/${dish.id}`}>Подробнее...</Link>
+                    <Button variant='info'><Link to={`/dishes/details/${dish.id}`}>Подробнее</Link></Button>
+                    <Button variant='secondary'><Link to={`/dishes/create/copy/${dish.id}`}>Копировать</Link></Button>
+                    <Button variant='warning'><Link to={`/dishes/edit/${dish.id}`}>Редактировать</Link></Button>
+                    {dish.deletion_allowed 
+                    ? 
+                    <Button variant='danger' onClick={ () =>
+                        showModal(
+                            <ConfirmationDialog 
+                                onConfirm={()=>deleteDish(dish.id)}
+                                onCancel={()=>hideModal()}
+                                prompt={`Вы уверены, что хотите удалить блюдо "${dish.id}. ${dish.name}" и все связи?`}
+                            />
+                        )
+                    }>Удалить</Button>
+                    :
+                    <></>
+                    }
                 </div>
         </Accordion.Body>
         </Accordion.Item>

@@ -14,7 +14,7 @@ export interface CreateIngredientTypeDTO {
 export const getIngredientTypes = async () : Promise<IngredientTypeDTO[] | null> => {
   const response = await fetch(`${BASE_URL}/${ENTITY_PATH}/all`)
   if(!response.ok)
-    throw new Error('Не удалось получить данные о типах компонентов')
+    throw new Error('Не удалось получить данные о типах ингредиентов')
 
   const data = await response.json()
   return data
@@ -29,7 +29,7 @@ export const postIngredientType = async (createData: CreateIngredientTypeDTO): P
     body: JSON.stringify(createData)
   })
   if (!response.ok) {
-    throw new Error('Не удалось создать тип компонента')
+    throw new Error('Не удалось создать тип ингредиента')
   }
   const data = await response.json()
   return data

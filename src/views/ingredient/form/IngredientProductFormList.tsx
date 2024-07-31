@@ -10,7 +10,7 @@ import IngredientProductForm from './IngredientProductForm'
 import { v4 as uuid } from "uuid";
 import { IngredientProductFormState } from '../../../models/IngredientFormState'
 import { useContext } from 'react'
-import { context } from '../../../controllers/IngredientFormController'
+import { ingredientContext } from '../../../context'
 
 function IngredientProductFormList() {
 
@@ -18,7 +18,7 @@ function IngredientProductFormList() {
     addIngredientProductForm, 
     castToValidPercentages,
     formState
-  } = useContext(context);
+  } = useContext(ingredientContext);
 
   const forms = formState.ingredientProductForms
 

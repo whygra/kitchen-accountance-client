@@ -3,8 +3,8 @@ import NameInput from './DishNameInput';
 import { Button, Form } from 'react-bootstrap';
 import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { context } from '../../../controllers/DishFormController';
 import { GetDishWithIngredientsDTO } from '../../../api/dishWithIngredients';
+import { dishFormContext } from '../../../context';
 
 
 enum FormState{
@@ -20,7 +20,7 @@ function DishForm()
   const [state, setState] = useState(FormState.FormInput)
   const [response, setResponse] = useState<GetDishWithIngredientsDTO|null>(null)
 
-  const {formState, requestFn, setName} = useContext(context);
+  const {formState, requestFn, setName} = useContext(dishFormContext);
 
   function hasIngredients() : boolean {
     // есть хотя бы один продукт

@@ -5,14 +5,14 @@ import DishIngredientForm from './DishIngredientForm'
 import { v4 as uuid } from "uuid";
 import { DishIngredientFormState } from '../../../models/DishFormState'
 import { useContext } from 'react'
-import { context } from '../../../controllers/DishFormController'
+import { dishFormContext } from '../../../context'
 
 function DishIngredientFormList() {
 
   const { 
     addDishIngredientForm, 
     formState
-  } = useContext(context);
+  } = useContext(dishFormContext);
 
   const forms = formState.dishIngredientForms
 

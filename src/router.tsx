@@ -20,6 +20,10 @@ const router = createBrowserRouter([
         element: <IngredientFormController action={DataAction.Create}/>
     },
     {
+        path: '/ingredients/create/copy/:id',
+        element: <IngredientFormController action={DataAction.Create}/>
+    },
+    {
         path: '/ingredients/edit/:id',
         element: <IngredientFormController action={DataAction.Update}/>
     },
@@ -32,7 +36,7 @@ const router = createBrowserRouter([
         element: <IngredientList/>
     },
     {
-        path: '/dishes/create',
+        path: '/dishes/create/copy/:id',
         element: <DishFormController action={DataAction.Create}/>
     },
     {
