@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Accordion, Col, Row, Table } from 'react-bootstrap';
-import { GetIngredientWithProductsDTO, getIngredientsWithProducts } from '../../../api/ingredientWithProducts';
+import { GetIngredientWithProductsDTO, getIngredientsWithProducts } from '../../../api/ingredients';
 import IngredientListItem from './IngredientListItem';
 import { Link } from 'react-router-dom';
 
@@ -30,7 +30,7 @@ function IngredientList()
         </Row>
         <Accordion>
             {ingredients.map(c=>
-                <IngredientListItem ingredient={c}/>
+                <IngredientListItem ingredient={c} onDelete={async()=>{await loadIngredients()}}/>
             )}
         </Accordion>
         </>

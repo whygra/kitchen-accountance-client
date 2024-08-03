@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Accordion, Col, Row } from 'react-bootstrap';
 import DishListItem from './DishListItem';
-import { GetDishWithIngredientsDTO, getDishesWithIngredients } from '../../../api/dishWithIngredients';
+import { GetDishWithIngredientsDTO, getDishesWithIngredients } from '../../../api/dishes';
 import { Link } from 'react-router-dom';
 
 function DishList() 
@@ -30,7 +30,7 @@ function DishList()
         </Row>
         <Accordion>
             {dishes.map(d=>
-                <DishListItem dish={d}/>
+                <DishListItem dish={d} onDelete={async()=>{await loadDishes()}}/>
             )}
         </Accordion>
         </>

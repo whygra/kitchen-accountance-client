@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { IngredientFormState, IngredientProductFormState } from '../../../models/IngredientFormState';
 import { addIngredientProductForm } from '../../../redux/actions/ingredientFormActions';
 import { ingredientContext } from '../../../context';
-import { GetIngredientWithProductsDTO } from '../../../api/ingredientWithProducts';
+import { GetIngredientWithProductsDTO } from '../../../api/ingredients';
 
 
 enum FormState{

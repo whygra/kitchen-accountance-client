@@ -1,6 +1,6 @@
 import { Form, Table } from "react-bootstrap";
 import { useEffect, useState } from "react";
-import { GetDishIngredientDTO, GetDishWithIngredientsDTO } from "../../../api/dishWithIngredients";
+import { GetDishIngredientDTO, GetDishWithIngredientsDTO } from "../../../api/dishes";
 import { current } from "@reduxjs/toolkit";
 
 

@@ -4,7 +4,7 @@ import { Dispatch } from 'redux'
 import { 
   addIngredientProductForm,
   castContentsToValidPercentages,
-  setIngredientProductFormSubmitActionType,
+  setIngredientProductFormDataActionType,
 } from '../../../redux/actions/ingredientFormActions'
 import IngredientProductForm from './IngredientProductForm'
 import { v4 as uuid } from "uuid";

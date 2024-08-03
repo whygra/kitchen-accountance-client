@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import SelectCreateGroup from './product/inputs/SelectCreateGroup'
+import SelectCreateGroup from './product/form/SelectCreateGroup'
 
 function Home() {
   return (

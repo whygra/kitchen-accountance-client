@@ -1,13 +1,31 @@
 import { BASE_URL } from "./constants";
+import { DistributorDTO } from "./distributors";
+import { UnitDTO } from "./units";
 
 const ENTITY_PATH = "products"
+
+
+interface PurchaseOptionDTO {
+  id : number
+  distributor : DistributorDTO
+  unit: UnitDTO
+  name : string
+  net_weight : number
+  price : number
+}
 
 export interface ProductDTO {
   id: number
   name: string
 }
 
-export interface CreateProductDTO {
+export interface ProductWithPurchaseOptionsDTO {
+  id: number
+  name: string
+  purchase_options: PurchaseOptionDTO[]
+}
+
+export interface PostProductDTO {
   name: string
 }
 
@@ -20,7 +38,16 @@ export const getProducts = async () : Promise<ProductDTO[] | null> => {
   return data
 }
 
-export const postProduct = async (createData: CreateProductDTO): Promise<ProductDTO | null> => {
+export const getProductWithPurchaseOptions = async (id:number) : Promise<ProductDTO[] | null> => {
+  const response = await fetch(`${BASE_URL}/${ENTITY_PATH}/with-purchase-options/${id}`)
+  if(!response.ok)
+    throw new Error('Не удалось получить данные о продукте')
+
+  const data = await response.json()
+  return data
+}
+
+export const postProduct = async (createData: PostProductDTO): Promise<ProductDTO | null> => {
   const response = await fetch(`${BASE_URL}/${ENTITY_PATH}/create`, {
     method: 'POST',
     headers: {

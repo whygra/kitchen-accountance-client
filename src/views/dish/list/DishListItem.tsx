@@ -1,18 +1,19 @@
 import { Accordion, Button, Col, Row, Table } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
-import { GetDishWithIngredientsDTO, deleteDish as requestDeleteDish } from '../../../api/dishWithIngredients';
+import { GetDishWithIngredientsDTO, deleteDish as requestDeleteDish } from '../../../api/dishes';
 import DishIngredientsTable from '../details/DishIngredientsTable';
 import DishWeight from '../details/DishWeight';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { appContext } from '../../../context';
 import ConfirmationDialog from '../../ConfirmationDialog';
 
 
 interface DishListItemProps {
     dish: GetDishWithIngredientsDTO
+    onDelete: ()=>void
   }
 
-function DishListItem({dish}: DishListItemProps) 
+function DishListItem({dish, onDelete}: DishListItemProps) 
 {   
     const {showModal, hideModal} = useContext(appContext)
 
@@ -21,6 +22,7 @@ function DishListItem({dish}: DishListItemProps)
         // оповестить об ответе
             .catch()
             .then(()=>{
+                onDelete()
                 hideModal()
             })
     }

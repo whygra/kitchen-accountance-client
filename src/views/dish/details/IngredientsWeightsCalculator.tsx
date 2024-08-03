@@ -1,6 +1,6 @@
 import { Form, Table } from "react-bootstrap";
 import { useEffect, useState } from "react";
-import { GetDishIngredientDTO, GetDishWithIngredientsDTO } from "../../../api/dishWithIngredients";
+import { GetDishIngredientDTO, GetDishWithIngredientsDTO } from "../../../api/dishes";
 
 
 interface DishIngredientWithRequiredWeight{
@@ -35,7 +35,7 @@ function IngredientsWeightsCalculator({dish}:IngredientsWeightsCalculatorProps) 
     return(
         <>
         <h4 className='text-center'>Калькулятор веса</h4>
-            <Form.Label>Итоговый вес</Form.Label>
+            <Form.Label>Количество порций</Form.Label>
             <Form.Control
                 type='number'
                 min={1}

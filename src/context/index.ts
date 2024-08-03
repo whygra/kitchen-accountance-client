@@ -1,11 +1,16 @@
 import { createContext } from "react"
-import { GetDishIngredientDTO, GetDishWithIngredientsDTO } from "../api/dishWithIngredients"
+import { GetDishIngredientDTO, GetDishWithIngredientsDTO } from "../api/dishes"
 import { IngredientTypeDTO } from "../api/ingredientTypes"
-import { GetIngredientWithProductsDTO } from "../api/ingredientWithProducts"
+import { GetIngredientWithProductsDTO } from "../api/ingredients"
 import { DISH_FORM_INIT_STATE, DishFormState, DishIngredientFormState } from "../models/DishFormState"
 import { INGREDIENT_FORM_INIT_STATE, IngredientFormState, IngredientProductFormState } from "../models/IngredientFormState"
 import { ProductDTO } from "../api/products"
+import { DISTRIBUTOR_FORM_INIT_STATE, DistributorFormState } from "../models/DistributorFormState"
+import { PurchaseOptionFormState } from "../models/DistributorFormState"
+import { GetDistributorWithPurchaseOptionsDTO } from "../api/distributors"
+import { UnitDTO } from "../api/units"
 
+// контекст формы блюда
 interface DishFormContext {
     addDishIngredientForm: ()=>void
     setDishIngredientFormState: (state:DishIngredientFormState)=>void
@@ -17,7 +22,6 @@ interface DishFormContext {
     ingredients:GetIngredientWithProductsDTO[]
   }
   
-  // контекст формы блюда
 export const dishFormContext = createContext<DishFormContext>({
     addDishIngredientForm:()=>{},
     setDishIngredientFormState:(state:DishIngredientFormState)=>{},
@@ -31,6 +35,7 @@ export const dishFormContext = createContext<DishFormContext>({
 
 
 
+  // контекст формы ингредиента
   interface IngredientFormContext {
     castToValidPercentages: ()=>void
     addIngredientProductForm: ()=>void
@@ -44,7 +49,6 @@ export const dishFormContext = createContext<DishFormContext>({
     products: ProductDTO[]
   }
   
-  // контекст формы ингредиента
   export const ingredientContext = createContext<IngredientFormContext>({
     castToValidPercentages:()=>{},
     addIngredientProductForm:()=>{},
@@ -58,6 +62,31 @@ export const dishFormContext = createContext<DishFormContext>({
     products: []
   });
 
+
+  interface DistributorFormContext {
+    formState: DistributorFormState
+    products: ProductDTO[]
+    units: UnitDTO[]
+    addPurchaseOptionForm: ()=>void
+    setPurchaseOptionFormState: (state:PurchaseOptionFormState)=>void
+    removePurchaseOptionForm: (key:string)=>void    
+    requestFn:()=>Promise<GetDistributorWithPurchaseOptionsDTO|null>
+    setName:(name:string)=>void
+  }  
+
+  export const distributorFormContext = createContext<DistributorFormContext>({
+    formState: DISTRIBUTOR_FORM_INIT_STATE,
+    products: [],
+    units: [],
+    addPurchaseOptionForm: ()=>{},
+    setPurchaseOptionFormState: (state:PurchaseOptionFormState)=>{},
+    removePurchaseOptionForm: (key:string)=>{},
+    requestFn:async()=>null,
+    setName:(name:string)=>{},
+  })
+
+  
+  // контекст приложения
   interface AppContext {
     // отображение модального элемента с требуемым содержанием
     showModal: (component: JSX.Element)=>void
@@ -67,7 +96,6 @@ export const dishFormContext = createContext<DishFormContext>({
     // 
   }
   
-  // контекст приложения
   export const appContext = createContext<AppContext>({
     showModal: (component: JSX.Element)=>{},
     hideModal: ()=>{},

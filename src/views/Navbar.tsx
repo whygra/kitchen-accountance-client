@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import SelectCreateGroup from './product/inputs/SelectCreateGroup'
+import SelectCreateGroup from './product/form/SelectCreateGroup'
 import { Container, Navbar as BSNavbar, Nav } from 'react-bootstrap'
 
 
@@ -13,6 +13,9 @@ function Navbar() {
       </Nav>
       <Nav className="me-auto">
         <Nav.Link href="/dishes/all">Блюда</Nav.Link>
+      </Nav>
+      <Nav className="me-auto">
+        <Nav.Link href="/distributors/all">Поставщики</Nav.Link>
       </Nav>
     </Container>
   </BSNavbar>

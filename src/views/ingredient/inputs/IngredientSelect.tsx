@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import {Form} from 'react-bootstrap'
-import { GetIngredientWithProductsDTO, getIngredientsWithProducts } from '../../../api/ingredientWithProducts';
+import { GetIngredientWithProductsDTO, getIngredientsWithProducts } from '../../../api/ingredients';
 
 interface IngredientSelectProps {
   ingredientId : number

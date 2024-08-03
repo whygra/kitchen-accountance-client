@@ -1,5 +1,5 @@
 import { Form, Table } from "react-bootstrap";
-import { GetIngredientProductDTO, GetIngredientWithProductsDTO } from "../../../api/ingredientWithProducts";
+import { GetIngredientProductDTO, GetIngredientWithProductsDTO } from "../../../api/ingredients";
 import { useEffect, useState } from "react";
 
 
@@ -26,7 +26,7 @@ function ProductsWeightsCalculator({ingredient}:ProductsWeightsCalculatorProps) 
             (p) => {
                 return {
                     ...p,
-                    weight: Math.round(requiredWeight * ( 
+                    weight: Math.round(requiredWeight * (
                         // доля содержания
                         p.ingredient_product.raw_content_percentage / 100
                         // умножить на 1 + доля отхода

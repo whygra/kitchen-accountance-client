@@ -1,10 +1,10 @@
-import { GetIngredientWithProductsDTO, getIngredientsWithProducts } from '../api/ingredientWithProducts';
+import { GetIngredientWithProductsDTO, getIngredientsWithProducts } from '../api/ingredients';
 import { DataAction } from '../models';
 import { useParams } from 'react-router-dom';
 import { v4 as uuid } from "uuid";
 import { useEffect, useState } from 'react';
 import { DISH_FORM_INIT_STATE, DishIngredientFormState, DishFormState } from '../models/DishFormState';
-import { getDishWithIngredients, postDishWithIngredients, putDishWithIngredients } from '../api/dishWithIngredients';
+import { getDishWithIngredients, postDishWithIngredients, putDishWithIngredients } from '../api/dishes';
 import { IngredientTypeDTO, getIngredientTypes } from '../api/ingredientTypes';
 import { dishFormContext } from '../context';
 import DishForm from '../views/dish/form/DishForm';
@@ -137,9 +137,11 @@ function DishFormController({action}:DishFormControllerProps)
           ingredient_data_action: d.ingredientDataAction.valueOf(),
           id: d.id,
           dish_id: formState.id,
-          ingredient_id: d.ingredientId, 
-          ingredient_name: d.ingredientName,
-          ingredient_type_id: d.ingredientTypeId,
+          ingredient:{
+            id: d.ingredientId,
+            name: d.ingredientName,
+            type_id: d.ingredientTypeId
+          },
           ingredient_raw_weight: d.ingredientRawWeight,
           waste_percentage: d.wastePercentage,
         }})
@@ -150,15 +152,17 @@ function DishFormController({action}:DishFormControllerProps)
     return postDishWithIngredients({
         name: formState.name,
         dishes_ingredients: formState.dishIngredientForms
-          .map(s=>{return {
-            ingredient_data_action: s.ingredientDataAction.valueOf(),
-            id: s.id,
+          .map(d=>{return {
+            ingredient_data_action: d.ingredientDataAction.valueOf(),
+            id: d.id,
             dish_id: formState.id,
-            ingredient_id: s.ingredientId, 
-            ingredient_name: s.ingredientName,
-            ingredient_type_id: s.ingredientTypeId,
-            ingredient_raw_weight: s.ingredientRawWeight, 
-            waste_percentage: s.wastePercentage,
+            ingredient:{
+              id: d.ingredientId,
+              name: d.ingredientName,
+              type_id: d.ingredientTypeId
+            },
+            ingredient_raw_weight: d.ingredientRawWeight, 
+            waste_percentage: d.wastePercentage,
           }})
       })
   }

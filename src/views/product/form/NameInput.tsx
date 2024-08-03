@@ -2,7 +2,7 @@ import {Form} from 'react-bootstrap'
 
 interface NameInputProps {
   name : string
-  onNameChange : (name : string)=>void
+  setName : (name : string)=>void
 }
 
 function NameInput(props : NameInputProps) {
@@ -11,7 +11,7 @@ function NameInput(props : NameInputProps) {
       type="text"
       placeholder="Название продукта" 
       value={props.name}
-      onChange={e=>props.onNameChange(e.target.value)}
+      onChange={e=>props.setName(e.target.value)}
     />
   )
 }

@@ -1,5 +1,5 @@
 import IngredientForm from '../views/ingredient/form/IngredientForm';
-import { getIngredientWithProducts, postIngredientWithProducts, putIngredientWithProducts } from '../api/ingredientWithProducts';
+import { getIngredientWithProducts, postIngredientWithProducts, putIngredientWithProducts } from '../api/ingredients';
 import { IngredientFormState, INGREDIENT_FORM_INIT_STATE, IngredientProductFormState } from '../models/IngredientFormState';
 import { DataAction } from '../models';
 import { useParams } from 'react-router-dom';
@@ -57,7 +57,7 @@ function IngredientFormController({action}:IngredientFormControllerProps)
         throw Error("Не удалось получить данные об ингредиенте")
 
     setFormState({
-        submitAction: DataAction.Update,
+        dataAction: DataAction.Update,
         id: ingredient.id,
         name: ingredient.name,
         ingredientTypeId: ingredient.type.id,
@@ -94,8 +94,6 @@ function IngredientFormController({action}:IngredientFormControllerProps)
   }
 
 function setIngredientProductFormState(state:IngredientProductFormState) {
-  // пометить на обновление
-  state.dataAction = DataAction.Update
   setFormState({
     ...formState,
     ingredientProductForms: formState.ingredientProductForms
@@ -147,8 +145,7 @@ function setIngredientProductFormState(state:IngredientProductFormState) {
             product_data_action: s.productDataAction.valueOf(),
             id: s.id,
             ingredient_id: formState.id,
-            product_id: s.productId, 
-            product_name: s.productName,
+            product: {id: s.productId, name: s.productName},
             raw_content_percentage: s.rawContentPercentage, 
             waste_percentage: s.wastePercentage,
           }})
@@ -164,8 +161,7 @@ function setIngredientProductFormState(state:IngredientProductFormState) {
             product_data_action: s.productDataAction.valueOf(),
             id: s.id,
             ingredient_id: formState.id,
-            product_id: s.productId, 
-            product_name: s.productName,
+            product: {id: s.productId, name: s.productName},
             raw_content_percentage: s.rawContentPercentage, 
             waste_percentage: s.wastePercentage,
           }})

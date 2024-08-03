@@ -1,5 +1,5 @@
 import { Table } from "react-bootstrap";
-import { GetIngredientWithProductsDTO } from "../../../api/ingredientWithProducts";
+import { GetIngredientWithProductsDTO } from "../../../api/ingredients";
 
 interface IngredientProductsTableProps {
     ingredient: GetIngredientWithProductsDTO

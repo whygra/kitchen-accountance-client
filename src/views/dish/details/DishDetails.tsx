@@ -1,10 +1,11 @@
 import { Accordion, Card, Col, Form, Row, Table } from 'react-bootstrap';
 import { Link, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { GetDishWithIngredientsDTO, getDishWithIngredients } from '../../../api/dishWithIngredients';
+import { GetDishWithIngredientsDTO, getDishWithIngredients } from '../../../api/dishes';
 import DishIngredientsTable from './DishIngredientsTable';
 import IngredientsWeightsCalculator from './IngredientsWeightsCalculator';
 import DishWeight from './DishWeight';
+import DishCostCalculator from './DishCostCalculator';
 
 
 function DishDetails() 
@@ -47,10 +48,16 @@ function DishDetails()
                 <DishIngredientsTable dish={dish}/>
                 </Card>
             </Col>
-            <Col>
+            <Col lg={6} md={12} sm={12}>
                 <Card className="p-3">
 
                 <IngredientsWeightsCalculator dish={dish}/>
+                </Card>
+            </Col>
+            <Col lg={6} md={12} sm={12}>
+                <Card className="p-3">
+
+                <DishCostCalculator dishId={dish.id}/>
                 </Card>
             </Col>
             </Row>

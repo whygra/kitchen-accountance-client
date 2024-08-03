@@ -7,24 +7,24 @@ import { ProductDTO } from '../../../api/products';
 interface SelectCreateGroupProps {
   productId: number
   newProductName: string
-  submitAction: DataAction
+  dataAction: DataAction
   products: ProductDTO[]
   setDataAction: (action:DataAction)=>void
-  onNameChange: (name:string)=>void
-  onProductChange: (id:number)=>void
+  setName: (name:string)=>void
+  setProductId: (id:number)=>void
 }
 
 function SelectCreateGroup({
   productId,
   newProductName,
-  submitAction,
+  dataAction,
   products,
   setDataAction,
-  onNameChange,
-  onProductChange
+  setName,
+  setProductId
 }: SelectCreateGroupProps) 
 {
-  const isCreateProduct = submitAction === DataAction.Create
+  const isCreateProduct = dataAction === DataAction.Create
 
   return (
     <div className='d-flex justify-content-around'>
@@ -47,13 +47,13 @@ function SelectCreateGroup({
         ? 
         <NameInput
         name={newProductName}
-        onNameChange={onNameChange}
+        setName={setName}
         />
         :
         <ProductSelect
         products={products}
         productId={productId}
-        onProductChange={onProductChange}
+        setProductId={setProductId}
         />
       }
       </div>
@@ -61,4 +61,4 @@ function SelectCreateGroup({
   )
 }
 
-export default SelectCreateGroup;
+export {SelectCreateGroup, SelectCreateGroup as default};

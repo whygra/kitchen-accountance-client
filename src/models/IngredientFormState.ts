@@ -1,7 +1,7 @@
 import { DataAction } from "."
 
 export type IngredientFormState = {
-    submitAction: DataAction
+    dataAction: DataAction
     id: number
     name: string
     ingredientTypeId: number
@@ -20,7 +20,7 @@ export type IngredientProductFormState = {
 }
 
 export const INGREDIENT_FORM_INIT_STATE: IngredientFormState = {
-    submitAction:DataAction.Create, 
+    dataAction:DataAction.Create, 
     id:0, 
     name:"",
     ingredientTypeId:1,

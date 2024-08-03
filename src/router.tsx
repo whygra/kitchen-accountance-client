@@ -9,6 +9,9 @@ import IngredientDetails from "./views/ingredient/details/IngredientDetails";
 import DishFormController from "./controllers/DishFormController";
 import DishDetails from "./views/dish/details/DishDetails";
 import DishList from "./views/dish/list/DishList";
+import DistributorFormController from "./controllers/DistributorFormController";
+import DistributorDetails from "./views/distributor/details/DistributorDetails";
+import DistributorList from "./views/distributor/list/DistributorList";
 
 const router = createBrowserRouter([
     {
@@ -50,6 +53,26 @@ const router = createBrowserRouter([
     {
         path: '/dishes/all',
         element: <DishList/>
+    },
+    {
+        path: '/distributors/create',
+        element: <DistributorFormController action={DataAction.Create}/>
+    },
+    {
+        path: '/distributors/create/copy/:id',
+        element: <DistributorFormController action={DataAction.Create}/>
+    },
+    {
+        path: '/distributors/edit/:id',
+        element: <DistributorFormController action={DataAction.Update}/>
+    },
+    {
+        path: '/distributors/details/:id',
+        element: <DistributorDetails/>
+    },
+    {
+        path: '/distributors/all',
+        element: <DistributorList/>
     },
     {
         path: '/',

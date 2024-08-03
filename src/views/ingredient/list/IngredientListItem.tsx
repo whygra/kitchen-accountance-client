@@ -1,18 +1,19 @@
 import { Accordion, Button, Col, Row, Table } from 'react-bootstrap';
-import { GetIngredientWithProductsDTO } from '../../../api/ingredientWithProducts';
+import { GetIngredientWithProductsDTO } from '../../../api/ingredients';
 import { Link } from 'react-router-dom';
 import IngredientProductsTable from '../details/IngredientProductsTable';
 import { useContext } from 'react';
 import { appContext } from '../../../context';
-import { deleteIngredient as requestDeleteIngredient } from '../../../api/ingredientWithProducts';
+import { deleteIngredient as requestDeleteIngredient } from '../../../api/ingredients';
 import ConfirmationDialog from '../../ConfirmationDialog';
 
 
 interface IngredientListItemProps {
+    onDelete: ()=>void
     ingredient: GetIngredientWithProductsDTO
   }
 
-function IngredientListItem({ingredient}: IngredientListItemProps) 
+function IngredientListItem({onDelete, ingredient}: IngredientListItemProps) 
 {      
     const {showModal, hideModal} = useContext(appContext)
 
@@ -21,6 +22,7 @@ function IngredientListItem({ingredient}: IngredientListItemProps)
         // оповестить об ответе
             .catch()
             .then(()=>{
+                onDelete()
                 hideModal()
             })
     }

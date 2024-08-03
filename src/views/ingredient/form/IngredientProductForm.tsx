@@ -1,5 +1,5 @@
 import {Button, Card, Col, Container, Form, Row, Table} from 'react-bootstrap'
-import SelectCreateGroup from '../../product/inputs/SelectCreateGroup'
+import SelectCreateGroup from '../../product/form/SelectCreateGroup'
 import { DataAction } from '../../../models'
 import { IngredientProductFormState } from '../../../models/IngredientFormState'
 import 'bootstrap'
@@ -49,11 +49,11 @@ function IngredientProductForm({formState}: IngredientsProductFormProps) {
             <SelectCreateGroup 
               productId = {formState.productId}
               newProductName = {formState.productName}
-              submitAction = {formState.productDataAction}
+              dataAction = {formState.productDataAction}
               products = {products}
               setDataAction = {setProductAction}
-              onNameChange = {setNewProductName}
-              onProductChange = {setProductId}
+              setName = {setNewProductName}
+              setProductId = {setProductId}
               /></Col>
             <Col md={4}>
             <Form.Label>Доля в общем весе</Form.Label>

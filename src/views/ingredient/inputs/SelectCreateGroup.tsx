@@ -4,7 +4,7 @@ import { DataAction } from '../../../models/index';
 import IngredientSelect from './IngredientSelect';
 import IngredientTypeSelect from '../form/IngredientTypeSelect';
 import { IngredientTypeDTO } from '../../../api/ingredientTypes';
-import { GetIngredientWithProductsDTO } from '../../../api/ingredientWithProducts';
+import { GetIngredientWithProductsDTO } from '../../../api/ingredients';
 
 interface SelectCreateGroupProps {
   ingredientId: number

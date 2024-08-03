@@ -48,7 +48,7 @@ export const addIngredientProductForm = (formState: IngredientProductFormState) 
 }
 
 // установить тип действия после подтверждения формы (создание/обновление/удаление) с ингредиент-продуктом по ключу
-export const setIngredientProductFormSubmitActionType = (key: string, action: DataAction) : IngredientFormAction => {
+export const setIngredientProductFormDataActionType = (key: string, action: DataAction) : IngredientFormAction => {
     return {
         type: IngredientFormActionType.SET_INGREDIENT_PRODUCT_ACTION_TYPE,
         payload: {key:key, action:action},
@@ -96,7 +96,7 @@ export const setProductNameByFormKey = (key: string, newProductName: string) : I
 }
 
 // передать признак "создать продукт" в данные формы "Ингредиент-продукт" по ключу
-export const setProductSubmitActionType = (key: string, action: DataAction) : IngredientFormAction => {
+export const setProductDataActionType = (key: string, action: DataAction) : IngredientFormAction => {
     return {
         type: IngredientFormActionType.SET_SUBMIT_PRODUCT_ACTION_TYPE,
         payload: {key:key, action:action},

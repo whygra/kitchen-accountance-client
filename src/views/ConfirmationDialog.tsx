@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Button, Container, Row } from "react-bootstrap";
 
 interface ConfirmationDialogProps {
@@ -12,6 +13,18 @@ function ConfirmationDialog({
   prompt,
 }: ConfirmationDialogProps) 
 {
+  const [disabled, setDisabled] = useState(false)
+
+  function confirm(){
+    setDisabled(true)
+    onConfirm()
+  }
+
+  function cancel(){
+    setDisabled(true)
+    onCancel()
+  }
+
   return (
     <Container className="px-4 pb-1">
         <Row className="pb-5 px-2 pt-2">
@@ -19,8 +32,8 @@ function ConfirmationDialog({
         </Row>
         <Row>
             <p className="d-flex justify-content-between">
-                <Button onClick={onConfirm} variant="primary">Подтвердить</Button>
-                <Button onClick={onCancel} variant="secondary">Отмена</Button>
+                <Button disabled={disabled} onClick={confirm} variant="primary">Подтвердить</Button>
+                <Button disabled={disabled} onClick={cancel} variant="secondary">Отмена</Button>
             </p>
         </Row>
     </Container>

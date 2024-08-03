@@ -1,5 +1,6 @@
-import { Table } from "react-bootstrap";
-import { GetDishWithIngredientsDTO } from "../../../api/dishWithIngredients";
+import { Button, Table } from "react-bootstrap";
+import { GetDishWithIngredientsDTO } from "../../../api/dishes";
+import { Link } from "react-router-dom";
 
 interface DishIngredientsTableProps {
     dish: GetDishWithIngredientsDTO
@@ -13,8 +14,7 @@ function DishIngredientsTable({dish}:DishIngredientsTableProps) {
             <thead>
 
                 <tr className='text-center'>
-                    <th>Id Ингредиента</th>
-                    <th>Ингредиент</th>
+                    <th colSpan={2}>Ингредиент</th>
                     <th>Вес до обработки</th>
                     <th>Процент отхода</th>
                 </tr>
@@ -23,7 +23,7 @@ function DishIngredientsTable({dish}:DishIngredientsTableProps) {
 
                 {dish.dishes_ingredients.map(c => <tr className='text-center'>
                     <td>{c.ingredient.id}</td>
-                    <td>{c.ingredient.name} {c.ingredient.type.name}</td>
+                    <td><Link to={`/ingredients/details/${c.ingredient.id}`}>{c.ingredient.name} {c.ingredient.type.name}</Link></td>
                     <td>{c.ingredient_raw_weight}г.</td>
                     <td>{c.waste_percentage}%</td>
                 </tr>
