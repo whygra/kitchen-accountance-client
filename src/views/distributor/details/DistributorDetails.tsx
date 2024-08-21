@@ -1,32 +1,42 @@
 import { Accordion, Card, Col, Form, Row, Table } from 'react-bootstrap';
 import { Link, useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import { GetDistributorWithPurchaseOptionsDTO, getDistributorWithPurchaseOptions } from '../../../api/distributors';
+import { useContext, useEffect, useState } from 'react';
+import { DistributorWithPurchaseOptionsDTO as DistributorWithPurchaseOptionsDTO, getDistributorWithPurchaseOptions } from '../../../api/distributors';
 import DistributorPurchaseOptionsTable from './PurchaseOptionsTable';
 import PurchaseOptionsTable from './PurchaseOptionsTable';
+import { getIngredientWithProducts } from '../../../api/ingredients';
+import { appContext } from '../../../context/AppContextProvider';
 
 
 function DistributorDetails() 
 {   
     const [isLoading, setIsLoading] = useState(false)
-    const [distributor, setDistributor] = useState<GetDistributorWithPurchaseOptionsDTO|null>(null)
+    const [distributor, setDistributor] = useState<DistributorWithPurchaseOptionsDTO|null>(null)
     
     const {id} = useParams()
+
+    const {showModal} = useContext(appContext)
 
     useEffect(()=>{loadDistributor()}, [])
 
     async function loadDistributor() {
-        if (id === undefined)
-            throw Error("Ошибка загрузки данных: отсутствует id поставщика")
-        
-        setIsLoading(true)
-        const distributor = await getDistributorWithPurchaseOptions(parseInt(id??'0'))
-        
-        if (distributor === null)
-            throw Error("Не удалось получить данные о поставщике")
-        
-        setDistributor(distributor)
-        setIsLoading(false)
+        try{
+
+            if (id === undefined)
+                throw Error("Ошибка загрузки данных: отсутствует id поставщика")
+            
+            setIsLoading(true)
+            const res = await getDistributorWithPurchaseOptions(parseInt(id??'0'))
+            
+            if (res === null)
+                throw Error("Не удалось получить данные о поставщике")
+            
+            setDistributor(res)
+        } catch(error: Error | any){
+            showModal(<>{error?.message}</>)
+        } finally {
+            setIsLoading(false)
+        }
     }
 
     return isLoading ? (<>Loading...</>) : 
@@ -38,7 +48,7 @@ function DistributorDetails()
             <div className='d-flex justify-content-end'>
                 <Link to={`/distributors/edit/${distributor.id}`}><small>Редактировать...</small></Link>
             </div>
-            <Col lg={6} md={12} sm={12}>
+            <Col xl={6} lg={12} md={12} sm={12}>
                 
                 <Card className="p-3">
 

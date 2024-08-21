@@ -3,70 +3,77 @@ import NameInput from './DishNameInput';
 import { Button, Form } from 'react-bootstrap';
 import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { GetDishWithIngredientsDTO } from '../../../api/dishes';
-import { dishFormContext } from '../../../context';
+import { DishWithIngredientsDTO } from '../../../api/dishes';
+import SelectCreateGroup from '../../selectCreateGroup/SelectCreateGroup';
+import { dishCostCalculatorContext } from '../../../context/DishCostCalculatorContext';
+import { dishFormContext } from '../../../context/DishFormContext';
+import { appContext } from '../../../context/AppContextProvider';
 
-
-enum FormState{
-  FormInput,
-  WaitingForResponse,
-  ResponseReceived,
-}
 
 function DishForm() 
 {  
   const navigate = useNavigate()
 
-  const [state, setState] = useState(FormState.FormInput)
-  const [response, setResponse] = useState<GetDishWithIngredientsDTO|null>(null)
+  const [disabled, setDisabled] = useState(false)
 
-  const {formState, requestFn, setName} = useContext(dishFormContext);
+  const {showModal} = useContext(appContext)
+
+  const {
+    formState, requestFn, setName,
+    categories, setCategoryDataAction, 
+    setCategoryId, setCategoryName
+  } = useContext(dishFormContext);
 
   function hasIngredients() : boolean {
-    // есть хотя бы один продукт
+    // есть хотя бы один ингредиент
     return formState.dishIngredientForms.length > 0
   }
 
   async function commit() {
-    if (!hasIngredients())
-      throw Error("Необходимо выбрать хотя-бы один ингредиент")
+    if (!hasIngredients()){
+      showModal(<>Необходимо выбрать хотя-бы один ингредиент</>)
+      return
+    }
 
-    setState(FormState.WaitingForResponse)
-    
-    let response: GetDishWithIngredientsDTO | null = await requestFn()
-    setResponse(response)
-    setState(FormState.ResponseReceived)
+    setDisabled(true)
+    try{
+      const res = await requestFn()
+      showModal(<>{res?.id} {res?.name}</>)
+      navigate(`/dishes/details/${res?.id}`)
+    }
+    catch (error: Error | any) {
+      showModal(<>{error?.message}</>)
+      setDisabled(false)
+    }
   }
 
   function cancel() {
     navigate(-1)
   }
 
-  return (()=>{switch (state){
-    case FormState.FormInput:
-      return(<>
+  return (<>
         <Form.Group className='mb-3'>
-        <Form.Label><b>Название блюда</b></Form.Label>
-        <NameInput name={formState.name} setName={setName}/>
+          <Form.Label><b>Название блюда</b></Form.Label>
+          <NameInput name={formState.name} setName={setName}/>
+        </Form.Group>
+        <Form.Group className='mb-3'>
+          <SelectCreateGroup 
+            label='Категория'
+            dataAction={formState.categoryDataAction}
+            items={categories} 
+            name={formState.categoryName}
+            selectedId={formState.categoryId} 
+            setId={setCategoryId} 
+            setDataAction={setCategoryDataAction}
+            setName={setCategoryName}
+            />
         </Form.Group>
         <DishIngredientFormList/>
         <div className='d-flex'>
-          <Button className='me-2' onClick={commit}>Подтвердить</Button>
-          <Button className='me-2' variant='secondary' onClick={cancel}>Отмена</Button>
+          <Button disabled={disabled} className='me-2' onClick={commit}>Подтвердить</Button>
+          <Button disabled={disabled} className='me-2' variant='secondary' onClick={cancel}>Отмена</Button>
         </div>
       </>)
-    case FormState.WaitingForResponse:
-      return(<>Ожидание ответа от сервера...</>)
-    case FormState.ResponseReceived:
-      return(
-        <>
-          <p>id: {response?.id}</p>
-          <p>name: {response?.name}</p>
-        </>
-      )
-    default:
-      return (<>{formState}</>)
-  }})()
 }
 
 export default DishForm

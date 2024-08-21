@@ -1,11 +1,12 @@
 import { Table } from "react-bootstrap";
-import { GetIngredientWithProductsDTO } from "../../../api/ingredients";
+import { IngredientWithProductsDTO } from "../../../api/ingredients";
 
 interface IngredientProductsTableProps {
-    ingredient: GetIngredientWithProductsDTO
+    ingredient: IngredientWithProductsDTO
 }
 
 function IngredientProductsTable({ingredient}:IngredientProductsTableProps) {
+    console.log(ingredient.products)
     return(
         
         <><h4 className="text-center">Продукты</h4>
@@ -21,11 +22,11 @@ function IngredientProductsTable({ingredient}:IngredientProductsTableProps) {
             </thead>
             <tbody>
 
-                {ingredient.ingredients_products.map(c => <tr className='text-center'>
-                    <td>{c.product.id}</td>
-                    <td>{c.product.name}</td>
-                    <td>{c.raw_content_percentage}%</td>
-                    <td>{c.waste_percentage}%</td>
+                {ingredient.products.map(p => <tr className='text-center'>
+                    <td>{p.id}</td>
+                    <td>{p.name}</td>
+                    <td>{p.raw_content_percentage}%</td>
+                    <td>{p.waste_percentage}%</td>
                 </tr>
                 )}
             </tbody>

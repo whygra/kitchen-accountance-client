@@ -1,21 +1,30 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Accordion, Col, Row } from 'react-bootstrap';
 import DishListItem from './DishListItem';
-import { GetDishWithIngredientsDTO, getDishesWithIngredients } from '../../../api/dishes';
+import { DishWithIngredientsDTO, getDishesWithIngredients } from '../../../api/dishes';
 import { Link } from 'react-router-dom';
+import { appContext } from '../../../context/AppContextProvider';
 
 function DishList() 
 {
   
-    const [dishes, setDishes] = useState(new Array<GetDishWithIngredientsDTO>)
+    const [dishes, setDishes] = useState(new Array<DishWithIngredientsDTO>)
     const [isLoading, setIsLoading] = useState(false)
+
+    const {showModal} = useContext(appContext)
   
     async function loadDishes() {
-      setIsLoading(true)
-      const loaded = await getDishesWithIngredients()
-      // TODO: if loaded === null
-      setDishes(loaded ?? [])
-      setIsLoading(false)
+        setIsLoading(true)    
+        try{
+          const res = await getDishesWithIngredients()
+          setDishes(res ?? [])
+        }
+        catch (error: Error | any) {
+          showModal(<>{error?.message}</>)
+        }
+        finally{
+            setIsLoading(false)
+        }
     }
 
     useEffect(()=>{loadDishes()},[])

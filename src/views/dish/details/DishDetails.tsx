@@ -1,17 +1,18 @@
 import { Accordion, Card, Col, Form, Row, Table } from 'react-bootstrap';
 import { Link, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { GetDishWithIngredientsDTO, getDishWithIngredients } from '../../../api/dishes';
+import { DishWithIngredientsDTO, getDishWithIngredients, getDishWithPurchaseOptions } from '../../../api/dishes';
 import DishIngredientsTable from './DishIngredientsTable';
 import IngredientsWeightsCalculator from './IngredientsWeightsCalculator';
 import DishWeight from './DishWeight';
 import DishCostCalculator from './DishCostCalculator';
+import DishCostCalculatorContextProvider from '../../../context/DishCostCalculatorContext';
 
 
 function DishDetails() 
 {   
     const [isLoading, setIsLoading] = useState(false)
-    const [dish, setDish] = useState<GetDishWithIngredientsDTO|null>(null)
+    const [dish, setDish] = useState<DishWithIngredientsDTO|null>(null)
     
     const {id} = useParams()
 
@@ -56,8 +57,9 @@ function DishDetails()
             </Col>
             <Col lg={6} md={12} sm={12}>
                 <Card className="p-3">
-
-                <DishCostCalculator dishId={dish.id}/>
+                <DishCostCalculatorContextProvider id={dish.id}>
+                    <DishCostCalculator/>
+                </DishCostCalculatorContextProvider>
                 </Card>
             </Col>
             </Row>

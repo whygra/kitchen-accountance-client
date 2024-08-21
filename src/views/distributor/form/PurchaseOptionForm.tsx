@@ -1,10 +1,11 @@
 import { useContext } from "react"
-import { distributorFormContext } from "../../../context"
-import { DistributorFormState, PurchaseOptionFormState } from "../../../models/DistributorFormState"
+import { distributorFormContext } from "../../../context/DistributorFormContext"
+import { PurchaseOptionFormState } from "../../../models/DistributorFormState"
 import { DataAction } from "../../../models"
 import { Button, Card, Col, Form, Row } from "react-bootstrap"
-import {SelectCreateGroup as ProductSelectCreateGroup} from "../../product/form/SelectCreateGroup"
-import {SelectCreateGroup as UnitSelectCreateGroup} from "../../unit/form/SelectCreateGroup"
+import ProductSelectCreateGroup from "../../product/form/SelectCreateGroup"
+import UnitSelectCreateGroup from "../../unit/form/SelectCreateGroup"
+import { Link } from "react-router-dom"
 
 interface PurchaseOptionFormProps {
     formState: PurchaseOptionFormState
@@ -62,25 +63,54 @@ function PurchaseOptionForm({formState}: PurchaseOptionFormProps) {
           >
             <Row>
   
-              <Col md={3}>
-              <Form.Label>
-                Продукт
-              </Form.Label>
-              <ProductSelectCreateGroup
+              <Col lg={4} md={12} className='mb-2'>
+                <Form.Label>Наименование</Form.Label>
+                <Form.Control
+                    type="text"
+                    value={formState.name}
+                    onChange={e=>setName(e.target.value)}
+                    />
+              </Col>
+              <Col lg={4} md={6} sm={6} className='mb-2'>
+              <Form.Label>Масса нетто</Form.Label>
+              <Form.Control
+                  type="number"
+                  min={0}
+                  max={100}
+                  step={0.5}
+                  defaultValue={formState.netWeight}
+                  onChange={e=>setNetWeight(parseFloat(e.target.value))}
+                  />
+              </Col>
+              <Col lg={4} md={6} sm={6} className='mb-2'>
+              <Form.Label>Цена</Form.Label>
+              <Form.Control
+                  type="number"
+                  min={0}
+                  defaultValue={formState.price}
+                  onChange={e=>setPrice(parseFloat(e.target.value))}
+                  />
+              </Col>
+
+              <Col lg={6} md={6} sm={6} className='mb-2'>
+              {formState.productIsEditable ? 
+                <ProductSelectCreateGroup
                 productId = {formState.productId}
-                newProductName = {formState.productName}
+                name = {formState.productName}
                 dataAction = {formState.productDataAction}
                 products={products}
                 setDataAction = {setProductAction}
                 setName = {setNewProductName}
                 setProductId = {setProductId}
-                />
+                /> :
+                <>
+                  <Form.Label>Продукты</Form.Label>
+                  <Link to={`/purchase-options/edit/${formState.id}`}>редактировать</Link>
+                </>
+              }
               </Col>
-  
-              <Col md={3}>
-              <Form.Label>
-                Единица измерения
-              </Form.Label>
+
+              <Col lg={6} md={6} sm={6} className='mb-2'>
               <UnitSelectCreateGroup
                 unitId = {formState.unitId}
                 newUnitShortName = {formState.unitShortName}
@@ -92,34 +122,6 @@ function PurchaseOptionForm({formState}: PurchaseOptionFormProps) {
                 setShort = {setNewUnitShortName}
                 setUnitId = {setUnitId}
                 />
-              </Col>
-              <Col md={2}>
-              <Form.Label>Наименование</Form.Label>
-              <Form.Control
-                  type="text"
-                  value={formState.name}
-                  onChange={e=>setName(e.target.value)}
-                  />
-              </Col>
-              <Col md={2}>
-              <Form.Label>Масса нетто</Form.Label>
-              <Form.Control
-                  type="number"
-                  min={0}
-                  max={100}
-                  step={0.5}
-                  defaultValue={formState.netWeight}
-                  onChange={e=>setNetWeight(parseFloat(e.target.value))}
-                  />
-              </Col>
-              <Col md={2}>
-              <Form.Label>Цена</Form.Label>
-              <Form.Control
-                  type="number"
-                  min={0}
-                  defaultValue={formState.price}
-                  onChange={e=>setPrice(parseFloat(e.target.value))}
-                  />
               </Col>
             </Row>
           </Col>

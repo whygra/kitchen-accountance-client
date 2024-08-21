@@ -1,42 +1,25 @@
 import { Form, Table } from "react-bootstrap";
-import { GetIngredientProductDTO, GetIngredientWithProductsDTO } from "../../../api/ingredients";
 import { useEffect, useState } from "react";
+import { IngredientProductDTO } from "../../../api/products";
+import { IngredientWithProductsDTO } from "../../../api/ingredients";
+import IngredientDetails from "./IngredientDetails";
+import IngredientDetailsModel from "../../../models/IngredientDetailsModel";
 
 
-interface IngredientProductWithRequiredWeight{
-    ingredient_product: GetIngredientProductDTO
-    weight: number
-}
 
 interface ProductsWeightsCalculatorProps{
-    ingredient: GetIngredientWithProductsDTO
+    ingredient: IngredientWithProductsDTO
 }
 
 function ProductsWeightsCalculator({ingredient}:ProductsWeightsCalculatorProps) {
     
-    const [productsCalcData, setProductsCalcData] = useState<IngredientProductWithRequiredWeight[]>()
+    const ingredientDetails = new IngredientDetailsModel(ingredient)
+    const [productsCalcData, setProductsCalcData] = useState(ingredientDetails.getProductsWeights(NaN))
 
-    useEffect(()=>{
-        setProductsCalcData(ingredient.ingredients_products
-            .map(c=>{return{ingredient_product: c, weight: NaN}}))
-    }, [])
-
-    function calcProductWeights(requiredWeight: number){
-        setProductsCalcData(productsCalcData?.map(
-            (p) => {
-                return {
-                    ...p,
-                    weight: Math.round(requiredWeight * (
-                        // доля содержания
-                        p.ingredient_product.raw_content_percentage / 100
-                        // умножить на 1 + доля отхода
-                        * (1 + (p.ingredient_product.waste_percentage / 100))
-                    ))
-                }
-            }
-        ))
+    function calcProductWeights(ingredientAmount: number){
+        setProductsCalcData(ingredientDetails.getProductsWeights(ingredientAmount))
     }
-    
+
     return(
         <>
         <h4 className='text-center'>Калькулятор веса</h4>
@@ -58,7 +41,7 @@ function ProductsWeightsCalculator({ingredient}:ProductsWeightsCalculatorProps) 
                     <tbody>
                     {productsCalcData?.map(c=>
                         <tr>
-                            <td>{`${c.ingredient_product.product.id}. ${c.ingredient_product.product.name}`}</td>
+                            <td>{`${c.product.id}. ${c.product.name}`}</td>
                             <td className='text-end'><u>{isNaN(c.weight)?"-/-":`${c.weight} г.`}</u></td>
                         </tr>
                     )}

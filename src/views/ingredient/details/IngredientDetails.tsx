@@ -1,32 +1,38 @@
 import { Accordion, Card, Col, Form, Row, Table } from 'react-bootstrap';
-import { GetIngredientProductDTO, GetIngredientWithProductsDTO, getIngredientWithProducts } from '../../../api/ingredients';
+import { IngredientWithProductsDTO, getIngredientWithProducts } from '../../../api/ingredients';
 import { Link, useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import ProductsWeightsCalculator from './ProductsWeightsCalculator';
 import IngredientProductsTable from './IngredientProductsTable';
+import { appContext } from '../../../context/AppContextProvider';
 
 
 function IngredientDetails() 
 {   
     const [isLoading, setIsLoading] = useState(false)
-    const [ingredient, setIngredient] = useState<GetIngredientWithProductsDTO|null>(null)
-    
+    const [ingredient, setIngredient] = useState<IngredientWithProductsDTO|null>(null)
+    const {showModal} = useContext(appContext)
     const {id} = useParams()
 
     useEffect(()=>{loadIngredient()}, [])
 
     async function loadIngredient() {
-        if (id === undefined)
-            throw Error("Ошибка загрузки данных: отсутствует id ингредиента")
-        
-        setIsLoading(true)
-        const ingredient = await getIngredientWithProducts(parseInt(id??'0'))
-        
-        if (ingredient === null)
-            throw Error("Не удалось получить данные о ингредиенте")
-        
-        setIngredient(ingredient)
-        setIsLoading(false)
+        try{
+            if (id === undefined)
+                throw Error("Ошибка загрузки данных: отсутствует id ингредиента")
+            
+            setIsLoading(true)
+            const ingredient = await getIngredientWithProducts(parseInt(id??'0'))
+            
+            if (ingredient === null)
+                throw Error("Не удалось получить данные о ингредиенте")
+            
+            setIngredient(ingredient)
+        } catch(error: Error | any){
+            showModal(<>{error?.message}</>)
+        } finally {
+            setIsLoading(false)
+        }
     }
 
     return isLoading ? (<>Loading...</>) : 

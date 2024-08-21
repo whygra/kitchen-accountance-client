@@ -1,68 +1,27 @@
-import { GetIngredientWithProductsDTO, GetIngredientWithPurchaseOptionsDTO } from "./ingredients"
 import { BASE_URL } from "./constants"
-import { IngredientDTO } from "./ingredients"
+import { DishIngredientDTO, DishIngredientWithPurchaseOptionsDTO } from "./ingredients"
+import { DishCategoryDTO } from "./dishCategories"
 
 const ENTITY_PATH = "dishes"
 
 const WITH_INGREDIENTS = 'with-ingredients'
 const WITH_PURCHASE_OPTIONS = 'with-purchase-options'
 
-export interface GetDishWithPurchaseOptionsDTO {
+export interface DishWithIngredientsDTO {
   id: number
   name: string
-  deletion_allowed: boolean
-  dishes_ingredients: GetDishIngredientWithPurchaseOptionsDTO[]
+  category: DishCategoryDTO
+  ingredients: DishIngredientDTO[]
 }
 
-export interface GetDishWithIngredientsDTO {
+export interface DishWithPurchaseOptions {
   id: number
   name: string
-  deletion_allowed: boolean
-  dishes_ingredients: GetDishIngredientDTO[]
+  category: DishCategoryDTO
+  ingredients: DishIngredientWithPurchaseOptionsDTO[]
 }
 
-export interface GetDishIngredientWithPurchaseOptionsDTO {
-  id: number
-  ingredient: GetIngredientWithPurchaseOptionsDTO
-  waste_percentage: number
-  ingredient_raw_weight: number
-}
-
-export interface GetDishIngredientDTO {
-  id: number
-  ingredient: GetIngredientWithProductsDTO
-  waste_percentage: number
-  ingredient_raw_weight: number
-}
-
-export interface PutDishIngredientWithIngredientDTO {
-  data_action: string
-  ingredient_data_action: string
-  id: number
-  ingredient: IngredientDTO
-  waste_percentage: number
-  ingredient_raw_weight: number
-}
-
-export interface PutDishWithIngredientsDTO {
-  id: number
-  name: string
-  dishes_ingredients: PutDishIngredientWithIngredientDTO[]
-}
-
-export interface PostDishIngredientWithIngredientDTO {
-  ingredient_data_action: string
-  ingredient: IngredientDTO
-  waste_percentage: number
-  ingredient_raw_weight: number
-}
-
-export interface PostDishWithIngredientsDTO {
-  name: string
-  dishes_ingredients: PostDishIngredientWithIngredientDTO[]
-}
-
-export const putDishWithIngredients = async (updateData: PutDishWithIngredientsDTO): Promise<GetDishWithIngredientsDTO | null> => {
+export const putDishWithIngredients = async (updateData: DishWithIngredientsDTO): Promise<DishWithIngredientsDTO | null> => {
   console.log(updateData)
   const response = await fetch(`${BASE_URL}/${ENTITY_PATH}/${WITH_INGREDIENTS}/update/${updateData.id}`, {
     method: 'PUT',
@@ -72,13 +31,13 @@ export const putDishWithIngredients = async (updateData: PutDishWithIngredientsD
     body: JSON.stringify(updateData)
   })
   if (!response.ok)
-    throw new Error('Не удалось обновить блюдо')
+    throw new Error(`Не удалось обновить данные блюда (${response.status}: ${response.statusText})`)
   
   const data = await response.json()
   return data
 }
 
-export const postDishWithIngredients = async (createData: PostDishWithIngredientsDTO): Promise<GetDishWithIngredientsDTO | null> => {
+export const postDishWithIngredients = async (createData: DishWithIngredientsDTO): Promise<DishWithIngredientsDTO | null> => {
   console.log(createData);
   const response = await fetch(`${BASE_URL}/${ENTITY_PATH}/${WITH_INGREDIENTS}/create`, {
     method: 'POST',
@@ -88,45 +47,45 @@ export const postDishWithIngredients = async (createData: PostDishWithIngredient
     body: JSON.stringify(createData)
   })
   if (!response.ok)
-    throw new Error('Не удалось создать блюдо')
+    throw new Error(`Не удалось добавить данные блюда (${response.status}: ${response.statusText})`)
   
   const data = await response.json()
   return data
 }
 
-export const getDishesWithIngredients = async () : Promise<GetDishWithIngredientsDTO[] | null> => {
+export const getDishesWithIngredients = async () : Promise<DishWithIngredientsDTO[] | null> => {
   const response = await fetch(`${BASE_URL}/${ENTITY_PATH}/${WITH_INGREDIENTS}/all`)
   if(!response.ok)
-    throw new Error('Не удалось получить данные о блюдах')
+    throw new Error(`Не удалось получить данные блюда (${response.status}: ${response.statusText})`)
 
   const data = await response.json()
   return data
 }
 
-export const getDishWithIngredients = async (id: number) : Promise<GetDishWithIngredientsDTO | null> => {
+export const getDishWithIngredients = async (id: number) : Promise<DishWithIngredientsDTO | null> => {
   const response = await fetch(`${BASE_URL}/${ENTITY_PATH}/${WITH_INGREDIENTS}/${id}`)
   if(!response.ok)
-    throw new Error('Не удалось получить данные о блюде')
+    throw new Error(`Не удалось получить данные блюда (${response.status}: ${response.statusText})`)
 
   const data = await response.json()
   return data
 }
 
-export const getDishWithPurchaseOptions = async (id: number) : Promise<GetDishWithPurchaseOptionsDTO | null> => {
+export const getDishWithPurchaseOptions = async (id: number) : Promise<DishWithPurchaseOptions | null> => {
   const response = await fetch(`${BASE_URL}/${ENTITY_PATH}/${WITH_PURCHASE_OPTIONS}/${id}`)
   if(!response.ok)
-    throw new Error('Не удалось получить данные о блюде')
+    throw new Error(`Не удалось получить данные блюда (${response.status}: ${response.statusText})`)
 
   const data = await response.json()
   return data
 }
 
-export const deleteDish = async (id: number): Promise<GetDishIngredientDTO | null> => {
+export const deleteDish = async (id: number): Promise<DishIngredientDTO | null> => {
   const response = await fetch(`${BASE_URL}/${ENTITY_PATH}/delete/${id}`, {
     method: 'DELETE',
   })
   if (!response.ok) {
-    throw new Error('Не удалось удалить блюдо')
+    throw new Error(`Не удалось удалить данные блюда (${response.status}: ${response.statusText})`)
   }
   const data = await response.json()
   return data

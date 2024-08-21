@@ -3,33 +3,33 @@ import NameInput from './IngredientNameInput';
 import IngredientTypeSelect from './IngredientTypeSelect';
 import { Button, Container, Form } from 'react-bootstrap';
 import { useContext, useState } from 'react';
-import { IngredientDTO } from '../../../api/ingredients';
 import { useNavigate } from 'react-router-dom';
-import { IngredientFormState, IngredientProductFormState } from '../../../models/IngredientFormState';
-import { addIngredientProductForm } from '../../../redux/actions/ingredientFormActions';
-import { ingredientContext } from '../../../context';
-import { GetIngredientWithProductsDTO } from '../../../api/ingredients';
+import SelectCreateCategoryGroup from '../../selectCreateGroup/SelectCreateGroup';
+import { DataAction } from '../../../models';
+import ItemWeightInput from './ItemWeightInput';
+import { appContext } from '../../../context/AppContextProvider';
+import { ingredientContext } from '../../../context/IngredientFormContext';
 
-
-enum FormState{
-  FormInput,
-  WaitingForResponse,
-  ResponseReceived,
-}
 
 function IngredientForm() 
 {  
   const navigate = useNavigate()
 
-  const [state, setState] = useState(FormState.FormInput)
-  const [response, setResponse] = useState<GetIngredientWithProductsDTO|null>(null)
+  const [disabled, setDisabled] = useState(false)
 
-  const {formState, requestFn, setName, setTypeId, ingredientTypes} = useContext(ingredientContext);
+  const {showModal} = useContext(appContext)
+  const {
+    formState, 
+    requestFn, setName, setTypeId, setCategoryId, 
+    setCategoryDataAction, setCategoryName, setItemWeight, 
+    setIsItemMeasured, ingredientTypes, categories
+  } = useContext(ingredientContext);
 
   function contentPercentagesAreValid() : boolean {
     const contentPercentageSum = 
     formState.ingredientProductForms
-    .reduce((sum, current) => sum + current.rawContentPercentage, 0);
+      .filter(p=>p.productDataAction!=DataAction.Delete)
+      .reduce((sum, current) => sum + current.rawContentPercentage, 0);
     // сумма процентов содержания == 100
     return contentPercentageSum == 100.
   }
@@ -39,52 +39,69 @@ function IngredientForm()
     return formState.ingredientProductForms.length > 0
   }
 
+  
   async function commit() {
-    if (!contentPercentagesAreValid())
-      throw Error("Сумма процентов содержания должна равняться 100")
-    if (!hasProducts())
-      throw Error("Необходимо выбрать хотя-бы один продукт")
-
-    setState(FormState.WaitingForResponse)
-    
-    let response: GetIngredientWithProductsDTO | null = await requestFn()
-    setResponse(response)
-    setState(FormState.ResponseReceived)
+    if (!hasProducts()){
+      showModal(<>Необходимо выбрать хотя-бы один продукт</>)
+      return
+    }
+    if (!contentPercentagesAreValid()){
+      showModal(<>Сумма процентов содержания должна равняться 100</>)
+      return
+    }
+    setDisabled(true)
+    try{
+      const res = await requestFn()
+      console.log(res)
+      showModal(<>{res?.id} {res?.name}</>)
+      navigate(`/ingredients/details/${res?.id}`)
+    }
+    catch (error: Error | any) {
+      showModal(<>{error?.message}</>)
+      setDisabled(false)
+    }
   }
 
   function cancel() {
     navigate(-1)
   }
 
-  return (()=>{switch (state){
-    case FormState.FormInput:
-      return(<div className='pt-5'>
+  return (
+      <div className='pt-5'>
         <Form.Group className='mb-4'>
           <Form.Label><b>Название ингредиента</b></Form.Label>
           <NameInput name={formState.name} setName={setName}/>
         </Form.Group>
         <Form.Group className='mb-4'>
           <Form.Label><b>Тип ингредиента</b></Form.Label>
-          <IngredientTypeSelect ingredientTypes={ingredientTypes} typeId={formState.ingredientTypeId} setTypeId={setTypeId}/>
+          <IngredientTypeSelect ingredientTypes={ingredientTypes} typeId={formState.typeId} setTypeId={setTypeId}/>
+        </Form.Group>
+        <Form.Group className='mb-4'>
+          <ItemWeightInput
+            weight={formState.itemWeight}
+            isItemMeasured={formState.isItemMeasured}
+            setWeight={setItemWeight}
+            setIsItemMeasured={setIsItemMeasured}
+          />
+        </Form.Group>
+        <Form.Group className='mb-4'>
+          <SelectCreateCategoryGroup 
+            label='Категория'
+            dataAction={formState.categoryDataAction}
+            items={categories} 
+            name={formState.categoryName}
+            selectedId={formState.categoryId} 
+            setId={setCategoryId} 
+            setDataAction={setCategoryDataAction}
+            setName={setCategoryName}
+            />
         </Form.Group>
         <IngredientProductFormList/>
         <div className='d-flex'>
-          <Button className='me-2' onClick={commit}>Подтвердить</Button>
-          <Button className='me-2' variant='secondary' onClick={cancel}>Отмена</Button>
+          <Button disabled={disabled} className='me-2' onClick={commit}>Подтвердить</Button>
+          <Button disabled={disabled} className='me-2' variant='secondary' onClick={cancel}>Отмена</Button>
         </div>
       </div>)
-    case FormState.WaitingForResponse:
-      return(<>Ожидание ответа от сервера...</>)
-    case FormState.ResponseReceived:
-      return(
-        <>
-          <p>id: {response?.id}</p>
-          <p>name: {response?.name}</p>
-        </>
-      )
-    default:
-      return (<>{formState}</>)
-  }})()
 }
 
 export default IngredientForm

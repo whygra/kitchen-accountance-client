@@ -1,7 +1,7 @@
 import {Button, Container, Form, OverlayTrigger, Tooltip} from 'react-bootstrap'
 import PurchaseOptionForm from './PurchaseOptionForm'
 import { useContext } from 'react'
-import { distributorFormContext } from '../../../context'
+import { distributorFormContext } from '../../../context/DistributorFormContext'
 
 function PurchaseOptionFormList() {
 

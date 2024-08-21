@@ -1,21 +1,29 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Accordion, Col, Row, Table } from 'react-bootstrap';
-import { GetIngredientWithProductsDTO, getIngredientsWithProducts } from '../../../api/ingredients';
+import { IngredientWithProductsDTO, getIngredientsWithProducts } from '../../../api/ingredients';
 import IngredientListItem from './IngredientListItem';
 import { Link } from 'react-router-dom';
+import { appContext } from '../../../context/AppContextProvider';
 
 function IngredientList() 
 {
   
-    const [ingredients, setIngredients] = useState(new Array<GetIngredientWithProductsDTO>)
+    const [ingredients, setIngredients] = useState(new Array<IngredientWithProductsDTO>)
     const [isLoading, setIsLoading] = useState(false)
+    const {showModal} = useContext(appContext)
   
     async function loadIngredients() {
-      setIsLoading(true)
-      const loaded = await getIngredientsWithProducts()
-      // TODO: if loaded === null
-      setIngredients(loaded ?? [])
-      setIsLoading(false)
+        setIsLoading(true)    
+        try{
+          const res = await getIngredientsWithProducts()
+          setIngredients(res ?? [])
+        }
+        catch (error: Error | any) {
+          showModal(<>{error?.message}</>)
+        }
+        finally{
+            setIsLoading(false)
+        }
     }
 
     useEffect(()=>{loadIngredients()},[])

@@ -2,15 +2,15 @@ import { Accordion, Button, Col, Row, Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import DistributorPurchaseOptionsTable from '../details/PurchaseOptionsTable';
 import { useContext } from 'react';
-import { appContext } from '../../../context';
+import { appContext } from '../../../context/AppContextProvider';
 import ConfirmationDialog from '../../ConfirmationDialog';
-import { GetDistributorWithPurchaseOptionsDTO } from '../../../api/distributors';
+import { DistributorWithPurchaseOptionsDTO } from '../../../api/distributors';
 import { deleteDistributor as requestDeleteDistributor } from '../../../api/distributors';
 
 
 interface DistributorListItemProps {
     onDelete: ()=>void
-    distributor: GetDistributorWithPurchaseOptionsDTO
+    distributor: DistributorWithPurchaseOptionsDTO
   }
 
 function DistributorListItem({onDelete, distributor}: DistributorListItemProps) 
@@ -32,8 +32,8 @@ function DistributorListItem({onDelete, distributor}: DistributorListItemProps)
         <Accordion.Item eventKey={`${distributor.id}`}>
         <Accordion.Header style={{userSelect: 'text'}}>
             <Row className='w-100'>
-                <Col md={2} sm={2} className='text-end'>{distributor.id}</Col>
-                <Col md={10} sm={10} className='text-center'>{distributor.name}</Col>
+                <Col xs={2} className='text-end'>{distributor.id}</Col>
+                <Col xs={10} className='text-center'>{distributor.name}</Col>
             </Row>
         </Accordion.Header>
         <Accordion.Body>
@@ -43,8 +43,6 @@ function DistributorListItem({onDelete, distributor}: DistributorListItemProps)
                     <Button variant='info'><Link to={`/distributors/details/${distributor.id}`}>Подробнее</Link></Button>
                     <Button variant='secondary'><Link to={`/distributors/create/copy/${distributor.id}`}>Копировать</Link></Button>
                     <Button variant='warning'><Link to={`/distributors/edit/${distributor.id}`}>Редактировать</Link></Button>
-                    {distributor.deletion_allowed 
-                    ? 
                     <Button variant='danger' onClick={ () =>
                         showModal(
                             <ConfirmationDialog 
@@ -54,9 +52,6 @@ function DistributorListItem({onDelete, distributor}: DistributorListItemProps)
                             />
                         )
                     }>Удалить</Button>
-                    :
-                    <></>
-                    }
                 </div>
         </Accordion.Body>
         </Accordion.Item>

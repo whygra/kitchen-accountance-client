@@ -1,15 +1,15 @@
 import { Accordion, Button, Col, Row, Table } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
-import { GetDishWithIngredientsDTO, deleteDish as requestDeleteDish } from '../../../api/dishes';
+import { DishWithIngredientsDTO, deleteDish as requestDeleteDish } from '../../../api/dishes';
 import DishIngredientsTable from '../details/DishIngredientsTable';
 import DishWeight from '../details/DishWeight';
 import { useContext, useState } from 'react';
-import { appContext } from '../../../context';
+import { appContext } from '../../../context/AppContextProvider';
 import ConfirmationDialog from '../../ConfirmationDialog';
 
 
 interface DishListItemProps {
-    dish: GetDishWithIngredientsDTO
+    dish: DishWithIngredientsDTO
     onDelete: ()=>void
   }
 
@@ -44,8 +44,6 @@ function DishListItem({dish, onDelete}: DishListItemProps)
                     <Button variant='info'><Link to={`/dishes/details/${dish.id}`}>Подробнее</Link></Button>
                     <Button variant='secondary'><Link to={`/dishes/create/copy/${dish.id}`}>Копировать</Link></Button>
                     <Button variant='warning'><Link to={`/dishes/edit/${dish.id}`}>Редактировать</Link></Button>
-                    {dish.deletion_allowed 
-                    ? 
                     <Button variant='danger' onClick={ () =>
                         showModal(
                             <ConfirmationDialog 
@@ -55,9 +53,6 @@ function DishListItem({dish, onDelete}: DishListItemProps)
                             />
                         )
                     }>Удалить</Button>
-                    :
-                    <></>
-                    }
                 </div>
         </Accordion.Body>
         </Accordion.Item>

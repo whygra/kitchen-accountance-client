@@ -1,5 +1,8 @@
+import { DataAction } from "../models";
 import { BASE_URL } from "./constants";
-import { ProductDTO, ProductWithPurchaseOptionsDTO } from "./products";
+import { IngredientCategoryDTO } from "./ingredientCategories";
+import { IngredientProductDTO, IngredientProductWithPurchaseOptionsDTO, ProductDTO, ProductWithPurchaseOptionsDTO } from "./products";
+import { ProductPurchaseOption } from "./purchaseOptions";
 
 const ENTITY_PATH = "ingredients"
 const WITH_PRODUCTS = "with-products"
@@ -7,88 +10,60 @@ const WITH_PRODUCTS = "with-products"
 export interface IngredientDTO {
   id: number
   name: string
-  type_id: number
+  item_weight: number
+  category: IngredientCategoryDTO
+  is_item_measured: boolean
+  type: IngredientTypeDTO
 }
 
-export interface PostIngredientDTO {
-  name: string
-  type_id: number
-}
-
-export interface PutIngredientProductWithProductDTO {
-  data_action: string
-  product_data_action: string
+export interface IngredientWithProductsDTO {
   id: number
-  product: ProductDTO
+  name: string
+  item_weight: number
+  type: IngredientTypeDTO
+  category: IngredientCategoryDTO
+  is_item_measured: boolean
+  products: IngredientProductDTO[]
+}
+
+export interface IngredientTypeDTO {
+  id: number
+  name: string
+}
+
+export interface DishIngredientDTO {
+  id: number
+  name: string
+  item_weight: number
+  type: IngredientTypeDTO
+  category: IngredientCategoryDTO
+  is_item_measured: boolean
   waste_percentage: number
-  raw_content_percentage: number
+  ingredient_amount: number
 }
 
-export interface PostIngredientProductWithProductDTO {
-  product_data_action: string
-  product: ProductDTO
+export interface DishIngredientWithPurchaseOptionsDTO {
+  id: number
+  name: string
+  item_weight: number
+  type: IngredientTypeDTO
+  category: IngredientCategoryDTO
+  is_item_measured: boolean
+  products: IngredientProductWithPurchaseOptionsDTO[]
   waste_percentage: number
-  raw_content_percentage: number
-}
-
-export interface GetIngredientTypeDTO {
-  id: number
-  name: string
-}
-
-export interface GetIngredientProductDTO {
-  id: number
-  product: ProductDTO
-  waste_percentage: number
-  raw_content_percentage: number
-}
-
-export interface GetIngredientProductWithPurchaseOptionsDTO {
-  id: number
-  product: ProductWithPurchaseOptionsDTO
-  waste_percentage: number
-  raw_content_percentage: number
-}
-
-export interface PutIngredientWithProductsDTO {
-  id: number
-  name: string
-  type_id: number
-  ingredients_products: PutIngredientProductWithProductDTO[]
-}
-
-export interface PostIngredientWithProductsDTO {
-  name: string
-  type_id: number
-  ingredients_products: PostIngredientProductWithProductDTO[]
-}
-
-export interface GetIngredientWithProductsDTO {
-  id: number
-  name: string
-  type: GetIngredientTypeDTO
-  ingredients_products: GetIngredientProductDTO[]
-  deletion_allowed: boolean
-}
-
-export interface GetIngredientWithPurchaseOptionsDTO {
-  id: number
-  name: string
-  type: GetIngredientTypeDTO
-  ingredients_products: GetIngredientProductWithPurchaseOptionsDTO[]
-  deletion_allowed: boolean
+  ingredient_amount: number
 }
 
 export const getIngredients = async () : Promise<IngredientDTO[] | null> => {
   const response = await fetch(`${BASE_URL}/${ENTITY_PATH}/all`)
   if(!response.ok)
-    throw new Error('Не удалось получить данные о ингредиентах')
+    throw new Error(`Не удалось получить данные ингредиентов (${response.status}: ${response.statusText})`)
 
   const data = await response.json()
   return data
 }
 
-export const postIngredient = async (createData: PostIngredientDTO): Promise<IngredientDTO | null> => {
+export const postIngredient = async (createData: IngredientDTO): Promise<IngredientDTO | null> => {
   const response = await fetch(`${BASE_URL}/${ENTITY_PATH}/create`, {
     method: 'POST',
     headers: {
@@ -97,7 +72,7 @@ export const postIngredient = async (createData: PostIngredientDTO): Promise<Ing
     body: JSON.stringify(createData)
   })
   if (!response.ok) {
-    throw new Error('Не удалось создать ингредиент')
+    throw new Error(`Не удалось обновить данные ингредиента (${response.status}: ${response.statusText})`)
   }
   const data = await response.json()
   return data
@@ -112,14 +87,14 @@ export const putIngredient = async (ingredientData: IngredientDTO): Promise<Ingr
     body: JSON.stringify(ingredientData)
   })
   if (!response.ok) {
-    throw new Error('Не удалось обновить ингредиент')
+    throw new Error(`Не удалось обновить данные ингредиента (${response.status}: ${response.statusText})`)
   }
   const data = await response.json()
   return data
 }
 
 
-export const putIngredientWithProducts = async (updateData: PutIngredientWithProductsDTO): Promise<GetIngredientWithProductsDTO | null> => {
+export const putIngredientWithProducts = async (updateData: IngredientWithProductsDTO): Promise<IngredientWithProductsDTO | null> => {
   console.log(updateData)
   const response = await fetch(`${BASE_URL}/${ENTITY_PATH}/${WITH_PRODUCTS}/update/${updateData.id}`, {
     method: 'PUT',
@@ -129,13 +104,13 @@ export const putIngredientWithProducts = async (updateData: PutIngredientWithPro
     body: JSON.stringify(updateData)
   })
   if (!response.ok)
-    throw new Error('Не удалось обновить ингредиент')
+    throw new Error(`Не удалось обновить данные ингредиента (${response.status}: ${response.statusText})`)
   
   const data = await response.json()
   return data
 }
 
-export const postIngredientWithProducts = async (createData: PostIngredientWithProductsDTO): Promise<GetIngredientWithProductsDTO | null> => {
+export const postIngredientWithProducts = async (createData: IngredientWithProductsDTO): Promise<IngredientWithProductsDTO | null> => {
   console.log(createData);
   const response = await fetch(`${BASE_URL}/${ENTITY_PATH}/${WITH_PRODUCTS}/create`, {
     method: 'POST',
@@ -145,36 +120,36 @@ export const postIngredientWithProducts = async (createData: PostIngredientWithP
     body: JSON.stringify(createData)
   })
   if (!response.ok)
-    throw new Error('Не удалось создать ингредиент')
+    throw new Error(`Не удалось добавить данные ингредиента (${response.status}: ${response.statusText})`)
   
   const data = await response.json()
   return data
 }
 
-export const getIngredientsWithProducts = async () : Promise<GetIngredientWithProductsDTO[] | null> => {
+export const getIngredientsWithProducts = async () : Promise<IngredientWithProductsDTO[] | null> => {
   const response = await fetch(`${BASE_URL}/${ENTITY_PATH}/${WITH_PRODUCTS}/all`)
   if(!response.ok)
-    throw new Error('Не удалось получить данные о ингредиентах')
+    throw new Error(`Не удалось получить данные ингредиентов (${response.status}: ${response.statusText})`)
 
   const data = await response.json()
   return data
 }
 
-export const getIngredientWithProducts = async (id: number) : Promise<GetIngredientWithProductsDTO | null> => {
+export const getIngredientWithProducts = async (id: number) : Promise<IngredientWithProductsDTO | null> => {
   const response = await fetch(`${BASE_URL}/${ENTITY_PATH}/${WITH_PRODUCTS}/${id}`)
   if(!response.ok)
-    throw new Error('Не удалось получить данные об ингредиенте')
+    throw new Error(`Не удалось получить данные ингредиента (${response.status}: ${response.statusText})`)
 
   const data = await response.json()
   return data
 }
 
-export const deleteIngredient = async (id: number): Promise<GetIngredientWithProductsDTO | null> => {
+export const deleteIngredient = async (id: number): Promise<IngredientWithProductsDTO | null> => {
   const response = await fetch(`${BASE_URL}/${ENTITY_PATH}/delete/${id}`, {
     method: 'DELETE',
   })
   if (!response.ok) {
-    throw new Error('Не удалось удалить ингредиент')
+    throw new Error(`Не удалось удалить данные ингредиента (${response.status}: ${response.statusText})`)
   }
   const data = await response.json()
   return data

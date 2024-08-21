@@ -3,9 +3,9 @@ import { DataAction } from '../../../models'
 import { DishIngredientFormState } from '../../../models/DishFormState'
 import 'bootstrap'
 import { useContext } from 'react'
-import { dishFormContext } from '../../../context'
 import SelectCreateGroup from '../../ingredient/inputs/SelectCreateGroup'
 import { setIngredientTypeId } from '../../../redux/actions/ingredientFormActions'
+import { dishFormContext } from '../../../context/DishFormContext'
 
 interface DishesIngredientFormProps {
   formState: DishIngredientFormState,
@@ -16,11 +16,11 @@ function DishIngredientForm({formState}: DishesIngredientFormProps) {
   const {setDishIngredientFormState, removeDishIngredientForm, ingredientTypes, ingredients} = useContext(dishFormContext)
 
   function setIngredientId(ingredientId:number) {
-    setDishIngredientFormState({...formState, ingredientId: ingredientId})
+    setDishIngredientFormState({...formState, id: ingredientId})
   }
 
   function setNewIngredientName(name:string) {
-    setDishIngredientFormState({...formState, ingredientName: name})
+    setDishIngredientFormState({...formState, name: name})
   }
 
   function setIngredientAction(action:DataAction) {
@@ -28,11 +28,11 @@ function DishIngredientForm({formState}: DishesIngredientFormProps) {
   }
 
   function setTypeId(id:number) {
-    setDishIngredientFormState({...formState, ingredientTypeId: id})
+    setDishIngredientFormState({...formState, typeId: id})
   }
 
   function setContentPercentage(contentPercentage:number) {
-    setDishIngredientFormState({...formState, ingredientRawWeight: contentPercentage})
+    setDishIngredientFormState({...formState, ingredientAmount: contentPercentage})
   }
 
   function setWastePercentage(wastePercentage:number) {
@@ -43,18 +43,15 @@ function DishIngredientForm({formState}: DishesIngredientFormProps) {
     <Card className='w-100 p-3'>
       <Row>
         <Col md={11}
-        style={formState.dataAction==DataAction.Delete ? {pointerEvents: "none", opacity: "0.4"} : {}}
+        style={formState.ingredientDataAction==DataAction.Delete ? {pointerEvents: "none", opacity: "0.4"} : {}}
         >
           <Row>
 
-            <Col md={7}>
-            <Form.Label>
-              Ингредиент
-            </Form.Label>
+            <Col md={6}>
             <SelectCreateGroup
-              ingredientId = {formState.ingredientId}
-              newIngredientName = {formState.ingredientName}
-              newIngredientTypeId={formState.ingredientTypeId}
+              ingredientId = {formState.id}
+              newIngredientName = {formState.name}
+              newIngredientTypeId={formState.typeId}
               dataAction = {formState.ingredientDataAction}
               ingredientTypes={ingredientTypes}
               ingredients={ingredients}
@@ -64,13 +61,13 @@ function DishIngredientForm({formState}: DishesIngredientFormProps) {
               setIngredientId = {setIngredientId}
               />
             </Col>
-            <Col md={2}>
-            <Form.Label>Вес</Form.Label>
+            <Col md={3}>
+            <Form.Label>Вес/Количество</Form.Label>
             <Form.Control
                 type="number"
                 min={0.5}
                 step={0.1}
-                value={formState.ingredientRawWeight}
+                value={formState.ingredientAmount}
                 onChange={e=>setContentPercentage(parseFloat(e.target.value))}
                 />
             </Col>
@@ -88,7 +85,7 @@ function DishIngredientForm({formState}: DishesIngredientFormProps) {
           </Row>
         </Col>
         <Col md={1} className='d-flex justify-content-end'>
-          {formState.dataAction==DataAction.Delete 
+          {formState.ingredientDataAction==DataAction.Delete 
             ? <Button variant="warning" onClick={()=>setIngredientAction(DataAction.None)}>C</Button>
             : <Button variant="danger" onClick={()=>removeDishIngredientForm(formState.key)}>D</Button>
           }

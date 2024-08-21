@@ -1,16 +1,16 @@
 import { Accordion, Button, Col, Row, Table } from 'react-bootstrap';
-import { GetIngredientWithProductsDTO } from '../../../api/ingredients';
+import { IngredientWithProductsDTO } from '../../../api/ingredients';
 import { Link } from 'react-router-dom';
 import IngredientProductsTable from '../details/IngredientProductsTable';
 import { useContext } from 'react';
-import { appContext } from '../../../context';
+import { appContext } from '../../../context/AppContextProvider';
 import { deleteIngredient as requestDeleteIngredient } from '../../../api/ingredients';
 import ConfirmationDialog from '../../ConfirmationDialog';
 
 
 interface IngredientListItemProps {
     onDelete: ()=>void
-    ingredient: GetIngredientWithProductsDTO
+    ingredient: IngredientWithProductsDTO
   }
 
 function IngredientListItem({onDelete, ingredient}: IngredientListItemProps) 
@@ -45,8 +45,6 @@ function IngredientListItem({onDelete, ingredient}: IngredientListItemProps)
                     <Button variant='info'><Link to={`/ingredients/details/${ingredient.id}`}>Подробнее</Link></Button>
                     <Button variant='secondary'><Link to={`/ingredients/create/copy/${ingredient.id}`}>Копировать</Link></Button>
                     <Button variant='warning'><Link to={`/ingredients/edit/${ingredient.id}`}>Редактировать</Link></Button>
-                    {ingredient.deletion_allowed 
-                    ?
                     <Button variant='danger'
                         onClick={() =>
                             showModal(
@@ -58,8 +56,6 @@ function IngredientListItem({onDelete, ingredient}: IngredientListItemProps)
                             )
                         }
                     >Удалить</Button>
-                    : 
-                    <></>}
                 </div>
         </Accordion.Body>
         </Accordion.Item>

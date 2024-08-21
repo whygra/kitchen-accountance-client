@@ -4,7 +4,7 @@ import { DataAction } from '../../../models/index';
 import IngredientSelect from './IngredientSelect';
 import IngredientTypeSelect from '../form/IngredientTypeSelect';
 import { IngredientTypeDTO } from '../../../api/ingredientTypes';
-import { GetIngredientWithProductsDTO } from '../../../api/ingredients';
+import { IngredientDTO, IngredientWithProductsDTO } from '../../../api/ingredients';
 
 interface SelectCreateGroupProps {
   ingredientId: number
@@ -12,7 +12,7 @@ interface SelectCreateGroupProps {
   newIngredientTypeId: number
   dataAction: DataAction
   ingredientTypes: IngredientTypeDTO[]
-  ingredients: GetIngredientWithProductsDTO[]
+  ingredients: IngredientDTO[]
   setIngredientId: (id:number)=>void
   setTypeId: (id:number)=>void
   setName: (name:string)=>void
@@ -35,48 +35,48 @@ function SelectCreateGroup({
   const isCreateProduct = dataAction === DataAction.Create
 
   return (
-    <Row>
-      <Col md={3}>
-        <Form.Label className='my-0 w-100 text-center'><small>Новый</small></Form.Label>
-        <Form.Check
-          type="switch"
-          className='text-center'
-          defaultChecked={isCreateProduct}
-          onChange={(e)=>setDataAction(
-            e.target.checked 
-            ? DataAction.Create
-            : DataAction.None
-          )}
-          />
-      </Col>
+    <div>
+      <div className='d-flex justify-content-between'>
+          <Form.Label><b>Ингредиент</b></Form.Label>
+          <div className='d-flex'>
+          <small className='mx-1'><i>создать</i></small>
+          <Form.Check
+            type="switch"
+            defaultChecked={dataAction==DataAction.Create}
+            onChange={(e)=>setDataAction(
+              e.target.checked 
+              ? DataAction.Create
+              : DataAction.None
+            )}
+            />
+          </div>
+      </div>
       {
         isCreateProduct
         ? 
-        <>
+        <Row>
             <Col className='flex-fill' md={6}>
             <IngredientNameInput
                 name={newIngredientName}
                 setName={setName}
                 />
             </Col>
-            <Col md={3}>
+            <Col md={6}>
             <IngredientTypeSelect
                 typeId={newIngredientTypeId}
                 setTypeId={setTypeId}
                 ingredientTypes={ingredientTypes}
                 />
             </Col>
-        </>
+        </Row>
         :
-        <Col md={9}>
         <IngredientSelect
         ingredients={ingredients}
         ingredientId={ingredientId}
         setIngredientId={setIngredientId}
         />
-        </Col>
       }
-    </Row>
+    </div>
   )
 }
 

@@ -1,15 +1,16 @@
 import { Form, Table } from "react-bootstrap";
 import { useEffect, useState } from "react";
-import { GetDishIngredientDTO, GetDishWithIngredientsDTO } from "../../../api/dishes";
+import { DishWithIngredientsDTO } from "../../../api/dishes";
+import { DishIngredientDTO } from "../../../api/ingredients";
 
 
 interface DishIngredientWithRequiredWeight{
-    dish_ingredient: GetDishIngredientDTO
+    dish_ingredient: DishIngredientDTO
     weight: number
 }
 
 interface IngredientsWeightsCalculatorProps{
-    dish: GetDishWithIngredientsDTO
+    dish: DishWithIngredientsDTO
 }
 
 function IngredientsWeightsCalculator({dish}:IngredientsWeightsCalculatorProps) {
@@ -17,7 +18,7 @@ function IngredientsWeightsCalculator({dish}:IngredientsWeightsCalculatorProps) 
     const [ingredientsCalcData, setIngredientsCalcData] = useState<DishIngredientWithRequiredWeight[]>()
 
     useEffect(()=>{
-        setIngredientsCalcData(dish.dishes_ingredients
+        setIngredientsCalcData(dish.ingredients
             .map(d=>{return{dish_ingredient: d, weight: NaN}}))
     }, [])
 
@@ -26,7 +27,7 @@ function IngredientsWeightsCalculator({dish}:IngredientsWeightsCalculatorProps) 
             (p) => {
                 return {
                     ...p,
-                    weight: requiredAmount * p.dish_ingredient.ingredient_raw_weight
+                    weight: requiredAmount * p.dish_ingredient.ingredient_amount * p.dish_ingredient.item_weight
                 }
             }
         ))
@@ -53,7 +54,7 @@ function IngredientsWeightsCalculator({dish}:IngredientsWeightsCalculatorProps) 
                     <tbody>
                     {ingredientsCalcData?.map(c=>
                         <tr>
-                            <td>{`${c.dish_ingredient.ingredient.id}. ${c.dish_ingredient.ingredient.name} ${c.dish_ingredient.ingredient.type.name}`}</td>
+                            <td>{`${c.dish_ingredient.id}. ${c.dish_ingredient.name} ${c.dish_ingredient.type.name}`}</td>
                             <td className='text-end'><u>{isNaN(c.weight)?"-/-":`${c.weight} г.`}</u></td>
                         </tr>
                     )}

@@ -1,4 +1,4 @@
-import {Form} from 'react-bootstrap'
+import {Col, Form, Row} from 'react-bootstrap'
 import UnitSelect from './UnitSelect';
 import NameInput from './NameInput';
 import { DataAction } from '../../../models/index';
@@ -31,12 +31,13 @@ function SelectCreateGroup({
   const isCreateUnit = dataAction === DataAction.Create
 
   return (
-    <div className='d-flex justify-content-around'>
-      <div>
-        <Form.Label className='my-0'><small>Новая</small></Form.Label>
+    <div>
+      <div className='d-flex justify-content-between'>
+        <Form.Label>Единица измерения</Form.Label>
+        <div className='d-flex'>
+        <small className='my-0'><i>создать</i></small>
         <Form.Check
           type="switch"
-          className='text-center'
           defaultChecked={isCreateUnit}
           onChange={(e)=>setDataAction(
             e.target.checked 
@@ -44,6 +45,7 @@ function SelectCreateGroup({
             : DataAction.None
           )}
         />
+        </div>
       </div>
       <div>
       {
@@ -67,4 +69,4 @@ function SelectCreateGroup({
   )
 }
 
-export {SelectCreateGroup, SelectCreateGroup as default};
+export default SelectCreateGroup;

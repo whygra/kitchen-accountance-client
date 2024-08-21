@@ -3,15 +3,20 @@ import Home from "./views/Home";
 import IngredientForm from "./views/ingredient/form/IngredientForm";
 import IngredientList from "./views/ingredient/list/IngredientList";
 import NotFound from "./views/NotFound";
-import IngredientFormController from "./controllers/IngredientFormController";
+import IngredientFormController from "./context/IngredientFormContext";
 import { DataAction } from "./models";
 import IngredientDetails from "./views/ingredient/details/IngredientDetails";
-import DishFormController from "./controllers/DishFormController";
+import DishFormController from "./context/DishFormContext";
 import DishDetails from "./views/dish/details/DishDetails";
 import DishList from "./views/dish/list/DishList";
-import DistributorFormController from "./controllers/DistributorFormController";
+import DistributorFormController from "./context/DistributorFormContext";
 import DistributorDetails from "./views/distributor/details/DistributorDetails";
 import DistributorList from "./views/distributor/list/DistributorList";
+import IngredientFormContextProvider from "./context/IngredientFormContext";
+import DishFormContextProvider from "./context/DishFormContext";
+import DishForm from "./views/dish/form/DishForm";
+import DistributorFormContextProvider from "./context/DistributorFormContext";
+import DistributorForm from "./views/distributor/form/DistributorForm";
 
 const router = createBrowserRouter([
     {
@@ -20,15 +25,24 @@ const router = createBrowserRouter([
     },
     {
         path: '/ingredients/create',
-        element: <IngredientFormController action={DataAction.Create}/>
+        element: 
+            <IngredientFormContextProvider action={DataAction.Create}>
+                <IngredientForm/>
+            </IngredientFormContextProvider>
     },
     {
         path: '/ingredients/create/copy/:id',
-        element: <IngredientFormController action={DataAction.Create}/>
+        element: 
+            <IngredientFormContextProvider action={DataAction.Create}>
+                <IngredientForm/>
+            </IngredientFormContextProvider>
     },
     {
         path: '/ingredients/edit/:id',
-        element: <IngredientFormController action={DataAction.Update}/>
+        element: 
+            <IngredientFormContextProvider action={DataAction.Update}>
+                <IngredientForm/>
+            </IngredientFormContextProvider>
     },
     {
         path: '/ingredients/details/:id',
@@ -40,11 +54,24 @@ const router = createBrowserRouter([
     },
     {
         path: '/dishes/create/copy/:id',
-        element: <DishFormController action={DataAction.Create}/>
+        element: 
+            <DishFormContextProvider action={DataAction.Create}>
+                <DishForm/>
+            </DishFormContextProvider>
+    },
+    {
+        path: '/dishes/create',
+        element: 
+            <DishFormContextProvider action={DataAction.Create}>
+                <DishForm/>
+            </DishFormContextProvider>
     },
     {
         path: '/dishes/edit/:id',
-        element: <DishFormController action={DataAction.Update}/>
+        element: 
+            <DishFormContextProvider action={DataAction.Update}>
+                <DishForm/>
+            </DishFormContextProvider>
     },
     {
         path: '/dishes/details/:id',
@@ -56,15 +83,24 @@ const router = createBrowserRouter([
     },
     {
         path: '/distributors/create',
-        element: <DistributorFormController action={DataAction.Create}/>
+        element: 
+            <DistributorFormContextProvider action={DataAction.Create}>
+                <DistributorForm/>
+            </DistributorFormContextProvider>
     },
     {
         path: '/distributors/create/copy/:id',
-        element: <DistributorFormController action={DataAction.Create}/>
+        element: 
+            <DistributorFormContextProvider action={DataAction.Create}>
+                <DistributorForm/>
+            </DistributorFormContextProvider>
     },
     {
         path: '/distributors/edit/:id',
-        element: <DistributorFormController action={DataAction.Update}/>
+        element: 
+            <DistributorFormContextProvider action={DataAction.Update}>
+                <DistributorForm/>
+            </DistributorFormContextProvider>
     },
     {
         path: '/distributors/details/:id',

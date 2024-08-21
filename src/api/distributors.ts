@@ -1,5 +1,7 @@
+import { DataAction } from "../models"
 import { BASE_URL } from "./constants"
 import { ProductDTO } from "./products"
+import { DistributorPurchaseOptionDTO } from "./purchaseOptions"
 import { UnitDTO } from "./units"
 
 const ENTITY_PATH = "distributors"
@@ -10,53 +12,13 @@ export interface DistributorDTO {
   name:string
 }
 
-export interface GetDistributorWithPurchaseOptionsDTO {
+export interface DistributorWithPurchaseOptionsDTO {
   id: number
   name: string
-  deletion_allowed: boolean
-  purchase_options: GetPurchaseOptionWithProductDTO[]
+  purchase_options: DistributorPurchaseOptionDTO[]
 }
 
-export interface GetPurchaseOptionWithProductDTO {
-    id : number
-    product : ProductDTO
-    unit: UnitDTO
-    name : string
-    net_weight : number
-    price : number
-}
-
-export interface PutDistributorWithPurchaseOptionsDTO {
-  id: number
-  name: string
-  purchase_options: PutPurchaseOptionWithProductDTO[]
-}
-
-export interface PutPurchaseOptionWithProductDTO {
-  data_action: string
-  product_data_action: string
-  id: number
-  product: ProductDTO
-  name: string
-  net_weight: number
-  price : number
-}
-
-export interface PostDistributorWithPurchaseOptionsDTO {
-    name: string
-    purchase_options: PostPurchaseOptionWithProductDTO[]
-}
-
-export interface PostPurchaseOptionWithProductDTO {
-    product_data_action: string
-    id: number
-    product: ProductDTO
-    name: string
-    net_weight: number
-    price : number
-}
-
-export const putDistributorWithPurchaseOptions = async (updateData: PutDistributorWithPurchaseOptionsDTO): Promise<GetDistributorWithPurchaseOptionsDTO | null> => {
+export const putDistributorWithPurchaseOptions = async (updateData: DistributorWithPurchaseOptionsDTO): Promise<DistributorWithPurchaseOptionsDTO | null> => {
   console.log(updateData)
   const response = await fetch(`${BASE_URL}/${ENTITY_PATH}/${WITH_PURCHASE_OPTIONS}/update/${updateData.id}`, {
     method: 'PUT',
@@ -66,13 +28,13 @@ export const putDistributorWithPurchaseOptions = async (updateData: PutDistribut
     body: JSON.stringify(updateData)
   })
   if (!response.ok)
-    throw new Error('Не удалось обновить блюдо')
+    throw new Error(`Не удалось обновить данные поставщика (${response.status}: ${response.statusText})`)
   
   const data = await response.json()
   return data
 }
 
-export const postDistributorWithPurchaseOptions = async (createData: PostDistributorWithPurchaseOptionsDTO): Promise<GetDistributorWithPurchaseOptionsDTO | null> => {
+export const postDistributorWithPurchaseOptions = async (createData: DistributorWithPurchaseOptionsDTO): Promise<DistributorWithPurchaseOptionsDTO | null> => {
   console.log(createData);
   const response = await fetch(`${BASE_URL}/${ENTITY_PATH}/${WITH_PURCHASE_OPTIONS}/create`, {
     method: 'POST',
@@ -82,36 +44,36 @@ export const postDistributorWithPurchaseOptions = async (createData: PostDistrib
     body: JSON.stringify(createData)
   })
   if (!response.ok)
-    throw new Error('Не удалось создать блюдо')
+    throw new Error(`Не удалось добавить данные поставщика (${response.status}: ${response.statusText})`)
   
   const data = await response.json()
   return data
 }
 
-export const getDistributorsWithPurchaseOptions = async () : Promise<GetDistributorWithPurchaseOptionsDTO[] | null> => {
+export const getDistributorsWithPurchaseOptions = async () : Promise<DistributorWithPurchaseOptionsDTO[] | null> => {
   const response = await fetch(`${BASE_URL}/${ENTITY_PATH}/${WITH_PURCHASE_OPTIONS}/all`)
   if(!response.ok)
-    throw new Error('Не удалось получить данные о блюдах')
+    throw new Error(`Не удалось получить данные поставщиков (${response.status}: ${response.statusText})`)
 
   const data = await response.json()
   return data
 }
 
-export const getDistributorWithPurchaseOptions = async (id: number) : Promise<GetDistributorWithPurchaseOptionsDTO | null> => {
+export const getDistributorWithPurchaseOptions = async (id: number) : Promise<DistributorWithPurchaseOptionsDTO | null> => {
   const response = await fetch(`${BASE_URL}/${ENTITY_PATH}/${WITH_PURCHASE_OPTIONS}/${id}`)
   if(!response.ok)
-    throw new Error('Не удалось получить данные о блюде')
+    throw new Error(`Не удалось получить данные поставщика (${response.status}: ${response.statusText})`)
 
   const data = await response.json()
   return data
 }
 
-export const deleteDistributor = async (id: number): Promise<GetDistributorWithPurchaseOptionsDTO | null> => {
+export const deleteDistributor = async (id: number): Promise<DistributorWithPurchaseOptionsDTO | null> => {
   const response = await fetch(`${BASE_URL}/${ENTITY_PATH}/delete/${id}`, {
     method: 'DELETE',
   })
   if (!response.ok) {
-    throw new Error('Не удалось удалить блюдо')
+    throw new Error(`Не удалось удалить данные поставщика (${response.status}: ${response.statusText})`)
   }
   const data = await response.json()
   return data

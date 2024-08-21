@@ -76,7 +76,7 @@ export default function ingredientFormReducer(state:IngredientFormState=INGREDIE
             const ingredientProductForms = state.ingredientProductForms.map(x => Object.assign({}, x))
             const index = ingredientProductForms.findIndex(e=>e.key==action.payload.key)
 
-            ingredientProductForms[index].productId = action.payload.productId
+            ingredientProductForms[index].id = action.payload.productId
             return {...state, ingredientProductForms:ingredientProductForms}
         }
 
@@ -85,7 +85,7 @@ export default function ingredientFormReducer(state:IngredientFormState=INGREDIE
             const ingredientProductForms = state.ingredientProductForms.map(x => Object.assign({}, x))
             const index = ingredientProductForms.findIndex(e=>e.key==action.payload.key)
 
-            ingredientProductForms[index].productName = action.payload.newProductName
+            ingredientProductForms[index].name = action.payload.newProductName
             return {...state, ingredientProductForms:ingredientProductForms}
         }
         
@@ -97,7 +97,7 @@ export default function ingredientFormReducer(state:IngredientFormState=INGREDIE
             ingredientProductForms[index].productDataAction = action.payload.action
             // если действие - создать, установить id = 0
             if (action.payload.action === DataAction.Create) 
-                ingredientProductForms[index].productId = 0
+                ingredientProductForms[index].id = 0
             return {...state, ingredientProductForms:ingredientProductForms}
         }
         

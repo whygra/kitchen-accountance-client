@@ -5,7 +5,7 @@ import DishIngredientForm from './DishIngredientForm'
 import { v4 as uuid } from "uuid";
 import { DishIngredientFormState } from '../../../models/DishFormState'
 import { useContext } from 'react'
-import { dishFormContext } from '../../../context'
+import { dishFormContext } from '../../../context/DishFormContext'
 
 function DishIngredientFormList() {
 
@@ -21,9 +21,9 @@ function DishIngredientFormList() {
       
       <Form.Label><b>Ингредиенты:</b></Form.Label>
       {
-        forms.map(formState => 
-          <div key={`${formState.key}`}>
-            <DishIngredientForm formState={formState}/>
+        forms.map(fs => 
+          <div key={`${fs.key}`}>
+            <DishIngredientForm formState={fs}/>
           </div>)
       }
 

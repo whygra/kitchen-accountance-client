@@ -10,7 +10,7 @@ import IngredientProductForm from './IngredientProductForm'
 import { v4 as uuid } from "uuid";
 import { IngredientProductFormState } from '../../../models/IngredientFormState'
 import { useContext } from 'react'
-import { ingredientContext } from '../../../context'
+import { ingredientContext } from '../../../context/IngredientFormContext'
 
 function IngredientProductFormList() {
 
