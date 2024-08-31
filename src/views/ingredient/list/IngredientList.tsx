@@ -4,6 +4,7 @@ import { IngredientWithProductsDTO, getIngredientsWithProducts } from '../../../
 import IngredientListItem from './IngredientListItem';
 import { Link } from 'react-router-dom';
 import { appContext } from '../../../context/AppContextProvider';
+import { useErrorBoundary } from 'react-error-boundary';
 
 function IngredientList() 
 {
@@ -11,6 +12,7 @@ function IngredientList()
     const [ingredients, setIngredients] = useState(new Array<IngredientWithProductsDTO>)
     const [isLoading, setIsLoading] = useState(false)
     const {showModal} = useContext(appContext)
+    const {showBoundary} = useErrorBoundary()
   
     async function loadIngredients() {
         setIsLoading(true)    
@@ -19,7 +21,7 @@ function IngredientList()
           setIngredients(res ?? [])
         }
         catch (error: Error | any) {
-          showModal(<>{error?.message}</>)
+          showBoundary(error)
         }
         finally{
             setIsLoading(false)

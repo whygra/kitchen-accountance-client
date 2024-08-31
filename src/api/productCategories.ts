@@ -1,4 +1,5 @@
-import { BASE_URL } from "./constants";
+import { getCookie } from "../cookies";
+import { C_ACCESS_TOKEN, BASE_URL } from "./constants";
 
 const ENTITY_PATH = "product-categories"
 
@@ -8,11 +9,19 @@ export interface ProductCategoryDTO {
 }
 
 export const getProductCategories = async () : Promise<ProductCategoryDTO[] | null> => {
-  const response = await fetch(`${BASE_URL}/${ENTITY_PATH}/all`)
-  if(!response.ok)
-    throw new Error(`Не удалось получить данные категорий продуктов (${response.status}: ${response.statusText})`)
-
+  const response = await fetch(`${BASE_URL}/${ENTITY_PATH}/all`,{
+    
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer '+getCookie(C_ACCESS_TOKEN)
+    },
+  })
   const data = await response.json()
+  if (!response.ok) 
+    throw {
+      message: `Не удалось получить данные категорий продуктов ${data?.message}`,
+      name: `${response.status} ${response.statusText}`
+    }
   return data
 }
 
@@ -20,14 +29,17 @@ export const postProductCategory = async (createData: ProductCategoryDTO): Promi
   const response = await fetch(`${BASE_URL}/${ENTITY_PATH}/create`, {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer '+getCookie(C_ACCESS_TOKEN)
     },
     body: JSON.stringify(createData)
   })
-  if (!response.ok) {
-    throw new Error(`Не удалось получить данные категории продуктов (${response.status}: ${response.statusText})`)
-  }
   const data = await response.json()
+  if (!response.ok) 
+    throw {
+      message: `Не удалось добавить данные категории продуктов ${data?.message}`,
+      name: `${response.status} ${response.statusText}`
+    }
   return data
 }
 
@@ -35,14 +47,17 @@ export const putProductCategory = async (productСategoryData: ProductCategoryDT
   const response = await fetch(`${BASE_URL}/${ENTITY_PATH}/put/${productСategoryData.id}`, {
     method: 'PUT',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer '+getCookie(C_ACCESS_TOKEN)
     },
     body: JSON.stringify(productСategoryData)
   })
-  if (!response.ok) {
-    throw new Error(`Не удалось обновить данные категории продуктов (${response.status}: ${response.statusText})`)
-  }
   const data = await response.json()
+  if (!response.ok) 
+    throw {
+      message: `Не удалось обновить данные категории продуктов ${data?.message}`,
+      name: `${response.status} ${response.statusText}`
+    }
   return data
 }
 
@@ -51,11 +66,17 @@ export const putProductCategory = async (productСategoryData: ProductCategoryDT
 export const deleteProductCategory = async (id: number): Promise<Object | null> => {
   const response = await fetch(`${BASE_URL}/${ENTITY_PATH}/delete/${id}`, {
     method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer '+getCookie(C_ACCESS_TOKEN)
+    },
   })
-  if (!response.ok) {
-    throw new Error(`Не удалось удалить данные категории продуктов (${response.status}: ${response.statusText})`)
-  }
   const data = await response.json()
+  if (!response.ok) 
+    throw {
+      message: `Не удалось удалить данные категории продуктов ${data?.message}`,
+      name: `${response.status} ${response.statusText}`
+    }
   return data
 }
 

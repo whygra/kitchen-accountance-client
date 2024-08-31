@@ -1,5 +1,6 @@
+import { getCookie } from "../cookies";
 import { DataAction } from "../models";
-import { BASE_URL } from "./constants";
+import { C_ACCESS_TOKEN, BASE_URL } from "./constants";
 import { DistributorDTO } from "./distributors";
 import { ProductDTO, PurchaseOptionProductDTO } from "./products";
 import { UnitDTO } from "./units";
@@ -36,20 +37,35 @@ export interface ProductPurchaseOption {
 }
 
 export const getPurchaseOptions = async () : Promise<PurchaseOptionDTO[] | null> => {
-  const response = await fetch(`${BASE_URL}/${ENTITY_PATH}/all`)
-  if(!response.ok)
-    throw new Error(`Не удалось получить данные позиции закупки (${response.status}: ${response.statusText})`)
-
+  const response = await fetch(`${BASE_URL}/${ENTITY_PATH}/all`,{
+    
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer '+getCookie(C_ACCESS_TOKEN)
+    },
+  })
   const data = await response.json()
+  if (!response.ok) 
+    throw {
+      message: `Не удалось получить данные позиции закупки ${data?.message}`,
+      name: `${response.status} ${response.statusText}`
+    }
   return data
 }
 
 export const getPurchaseOptionsWithPurchaseOptions = async () : Promise<PurchaseOptionDTO[] | null> => {
-  const response = await fetch(`${BASE_URL}/${ENTITY_PATH}/all`)
-  if(!response.ok)
-    throw new Error(`Не удалось получить данные позиций закупки (${response.status}: ${response.statusText})`)
-
+  const response = await fetch(`${BASE_URL}/${ENTITY_PATH}/all`,{
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer '+getCookie(C_ACCESS_TOKEN)
+    },
+  })
   const data = await response.json()
+  if (!response.ok) 
+    throw {
+      message: `Не удалось получить данные позиции закупки ${data?.message}`,
+      name: `${response.status} ${response.statusText}`
+    }
   return data
 }
 
@@ -57,14 +73,17 @@ export const postPurchaseOption = async (createData: PurchaseOptionDTO): Promise
   const response = await fetch(`${BASE_URL}/${ENTITY_PATH}/create`, {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer '+getCookie(C_ACCESS_TOKEN)
     },
     body: JSON.stringify(createData)
   })
-  if (!response.ok) {
-    throw new Error(`Не удалось добавить данные позиции закупки (${response.status}: ${response.statusText})`)
-  }
   const data = await response.json()
+  if (!response.ok) 
+    throw {
+      message: `Не удалось обновить данные позиции закупки ${data?.message}`,
+      name: `${response.status} ${response.statusText}`
+    }
   return data
 }
 
@@ -72,14 +91,17 @@ export const putPurchaseOption = async (purchaseoptionData: PurchaseOptionDTO): 
   const response = await fetch(`${BASE_URL}/${ENTITY_PATH}/put/${purchaseoptionData.id}`, {
     method: 'PUT',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer '+getCookie(C_ACCESS_TOKEN)
     },
     body: JSON.stringify(purchaseoptionData)
   })
-  if (!response.ok) {
-    throw new Error(`Не удалось обновить данные позиции закупки (${response.status}: ${response.statusText})`)
-  }
   const data = await response.json()
+  if (!response.ok) 
+    throw {
+      message: `Не удалось обновить данные позиции закупки ${data?.message}`,
+      name: `${response.status} ${response.statusText}`
+    }
   return data
 }
 
@@ -88,11 +110,17 @@ export const putPurchaseOption = async (purchaseoptionData: PurchaseOptionDTO): 
 export const deletePurchaseOption = async (id: number): Promise<Object | null> => {
   const response = await fetch(`${BASE_URL}/${ENTITY_PATH}/delete/${id}`, {
     method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer '+getCookie(C_ACCESS_TOKEN)
+    },
   })
-  if (!response.ok) {
-    throw new Error(`Не удалось удалить данные позиции закупки (${response.status}: ${response.statusText})`)
-  }
   const data = await response.json()
+  if (!response.ok) 
+    throw {
+      message: `Не удалось удалить данные позиции закупки ${data?.message}`,
+      name: `${response.status} ${response.statusText}`
+    }
   return data
 }
 

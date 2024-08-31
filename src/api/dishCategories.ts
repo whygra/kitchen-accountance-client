@@ -1,4 +1,5 @@
-import { BASE_URL } from "./constants";
+import { getCookie } from "../cookies";
+import { C_ACCESS_TOKEN, BASE_URL } from "./constants";
 
 const ENTITY_PATH = "dish-categories"
 
@@ -8,11 +9,19 @@ export interface DishCategoryDTO {
 }
 
 export const getDishCategories = async () : Promise<DishCategoryDTO[] | null> => {
-  const response = await fetch(`${BASE_URL}/${ENTITY_PATH}/all`)
-  if(!response.ok)
-    throw new Error(`Не удалось получить данные категорий блюд (${response.status}: ${response.statusText})`)
-
+  const response = await fetch(`${BASE_URL}/${ENTITY_PATH}/all`,{
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer '+getCookie(C_ACCESS_TOKEN)
+    },
+  })
   const data = await response.json()
+  if(!response.ok)
+    throw {
+      message: `Не удалось получить данные категорий блюд ${data?.message}`,
+      name: `${response.status} ${response.statusText}`
+    }
+
   return data
 }
 
@@ -20,14 +29,17 @@ export const postDishCategory = async (createData: DishCategoryDTO): Promise<Dis
   const response = await fetch(`${BASE_URL}/${ENTITY_PATH}/create`, {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer '+getCookie(C_ACCESS_TOKEN)
     },
     body: JSON.stringify(createData)
   })
-  if (!response.ok) {
-    throw new Error(`Не удалось обновить данные категории блюд (${response.status}: ${response.statusText})`)
-  }
   const data = await response.json()
+  if (!response.ok) 
+    throw {
+      message: `Не удалось добавить данные категории блюд ${data?.message}`,
+      name: `${response.status} ${response.statusText}`
+    }
   return data
 }
 
@@ -35,25 +47,34 @@ export const putDishCategory = async (dishСategoryData: DishCategoryDTO): Promi
   const response = await fetch(`${BASE_URL}/${ENTITY_PATH}/put/${dishСategoryData.id}`, {
     method: 'PUT',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer '+getCookie(C_ACCESS_TOKEN)
     },
     body: JSON.stringify(dishСategoryData)
   })
-  if (!response.ok) {
-    throw new Error(`Не удалось обновить данные категории блюд (${response.status}: ${response.statusText})`)
-  }
   const data = await response.json()
+  if (!response.ok) 
+    throw {
+      message: `Не удалось обновить данные категории блюд ${data?.message}`,
+      name: `${response.status} ${response.statusText}`
+    }
   return data
 }
 
 export const deleteDishCategory = async (id: number): Promise<Object | null> => {
   const response = await fetch(`${BASE_URL}/${ENTITY_PATH}/delete/${id}`, {
-    method: 'DELETE',
+    method: 'DELETE',    
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer '+getCookie(C_ACCESS_TOKEN)
+    },
   })
-  if (!response.ok) {
-    throw new Error(`Не удалось удалить данные категории блюд (${response.status}: ${response.statusText})`)
-  }
   const data = await response.json()
+  if (!response.ok) 
+    throw {
+      message: `Не удалось удалить данные категории блюд ${data?.message}`,
+      name: `${response.status} ${response.statusText}`
+    }
   return data
 }
 

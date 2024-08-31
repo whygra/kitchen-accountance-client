@@ -3,7 +3,10 @@ import { Provider } from 'react-redux';
 import 'bootstrap';
 import 'react-bootstrap';
 import { Container, Modal } from 'react-bootstrap';
-import { createContext, ReactElement, ReactNode, useState } from 'react';
+import { createContext, ReactElement, ReactNode, useEffect, useState } from 'react';
+import { getCurrent, UserDTO } from '../api/users';
+import { getCookie, setCookie } from '../cookies';
+import { C_ACCESS_TOKEN, C_IS_SIGNED_IN } from '../api/constants';
 
 
   // контекст приложения
@@ -11,7 +14,7 @@ import { createContext, ReactElement, ReactNode, useState } from 'react';
     // отображение модального элемента с требуемым содержанием
     showModal: (component: JSX.Element)=>void
     hideModal: ()=>void
-    // отображение оповещений
+    // TODO: отображение оповещений
 
     // 
   }
@@ -26,8 +29,9 @@ interface AppContextProviderProps {
 }
 
 function AppContextProvider({children}:AppContextProviderProps) {
-  const [showModal, setShowModal] = useState(false);
-  const [component, setComponent] = useState(<></>);
+  const [showModal, setShowModal] = useState(false)
+  const [component, setComponent] = useState(<></>)
+
 
   const hideModal = () => {
     setComponent(<></>)
@@ -37,6 +41,7 @@ function AppContextProvider({children}:AppContextProviderProps) {
     setComponent(component)
     setShowModal(true);
   }
+
 
   return (
     <>

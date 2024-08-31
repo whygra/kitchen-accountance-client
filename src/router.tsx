@@ -17,6 +17,8 @@ import DishFormContextProvider from "./context/DishFormContext";
 import DishForm from "./views/dish/form/DishForm";
 import DistributorFormContextProvider from "./context/DistributorFormContext";
 import DistributorForm from "./views/distributor/form/DistributorForm";
+import SignUp from "./views/user/forms/SignUp";
+import SignIn from "./views/user/forms/SignIn";
 
 const router = createBrowserRouter([
     {
@@ -109,6 +111,14 @@ const router = createBrowserRouter([
     {
         path: '/distributors/all',
         element: <DistributorList/>
+    },
+    {
+        path: '/signin',
+        element: <SignIn/>
+    },
+    {
+        path: '/signup',
+        element: <SignUp/>
     },
     {
         path: '/',

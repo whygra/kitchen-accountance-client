@@ -4,12 +4,15 @@ import DishListItem from './DishListItem';
 import { DishWithIngredientsDTO, getDishesWithIngredients } from '../../../api/dishes';
 import { Link } from 'react-router-dom';
 import { appContext } from '../../../context/AppContextProvider';
+import { useErrorBoundary } from 'react-error-boundary';
 
 function DishList() 
 {
   
     const [dishes, setDishes] = useState(new Array<DishWithIngredientsDTO>)
     const [isLoading, setIsLoading] = useState(false)
+
+    const {showBoundary} = useErrorBoundary()
 
     const {showModal} = useContext(appContext)
   
@@ -20,7 +23,7 @@ function DishList()
           setDishes(res ?? [])
         }
         catch (error: Error | any) {
-          showModal(<>{error?.message}</>)
+          showBoundary(error)
         }
         finally{
             setIsLoading(false)

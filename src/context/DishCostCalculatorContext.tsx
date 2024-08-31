@@ -40,15 +40,10 @@ function DishCostCalculatorContextProvider({id, children} : DishCostCalculatorCo
 
   async function loadDish() {
       setIsLoading(true)
-      try{
-          const result = await getDishWithPurchaseOptions(id)
-          if(result!=null)
-            setModel(constructDishCostCalculator(result))
-      } catch (error : Error | any){
-          showModal(error?.message)
-      } finally{
-          setIsLoading(false)
-      }
+      const result = await getDishWithPurchaseOptions(id)
+      if(result!=null)
+        setModel(constructDishCostCalculator(result))
+      setIsLoading(false)
   }
 
   function setIngredientState(ingredient: IngredientCostCalculatorModel) {

@@ -4,6 +4,7 @@ import DistributorListItem from './DistributorListItem';
 import { DistributorWithPurchaseOptionsDTO, getDistributorsWithPurchaseOptions } from '../../../api/distributors';
 import { Link } from 'react-router-dom';
 import { appContext } from '../../../context/AppContextProvider';
+import { useErrorBoundary } from 'react-error-boundary';
 
 function DistributorList() 
 {
@@ -11,6 +12,7 @@ function DistributorList()
     const [distributors, setDistributors] = useState(new Array<DistributorWithPurchaseOptionsDTO>)
     const [isLoading, setIsLoading] = useState(false)
     const {showModal} = useContext(appContext)
+    const {showBoundary} = useErrorBoundary()
   
     async function loadDistributors() {
       setIsLoading(true)    
@@ -19,7 +21,7 @@ function DistributorList()
         setDistributors(res ?? [])
       }
       catch (error: Error | any) {
-        showModal(<>{error?.message}</>)
+        showBoundary(error)
       }
       finally{
           setIsLoading(false)
