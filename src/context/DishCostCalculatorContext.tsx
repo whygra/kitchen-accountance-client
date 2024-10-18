@@ -1,19 +1,18 @@
-import { getIngredientsWithProducts, IngredientWithProductsDTO } from '../api/ingredients';
+import { getIngredientsWithProducts, IngredientDTO } from '../api/ingredients';
 import { DataAction } from '../models';
 import { useParams } from 'react-router-dom';
 import { v4 as uuid } from "uuid";
 import { createContext, ReactElement, useContext, useEffect, useState } from 'react';
-import { setCalcDishCost, calcIngredientCost, constructIngredientCostCalculator, DishCostCalculatorModel, IngredientCostCalculatorModel, ProductCostCalculatorModel } from '../models/DishCostCalculatorModel';
+import { setCalcDishCost, calcIngredientCost, constructIngredientCostCalculator, DishCostCalculatorState, IngredientCostCalculatorModel, ProductCostCalculatorModel } from '../models/DishCostCalculatorState';
 import { getDishWithIngredients, getDishWithPurchaseOptions, postDishWithIngredients, putDishWithIngredients } from '../api/dishes';
-import { IngredientTypeDTO, getIngredientTypes } from '../api/ingredientTypes';
-import { DishCategoryDTO, getDishCategories } from '../api/dishCategories';
-import { constructDishCostCalculator } from '../models/DishCostCalculatorModel';
+import { constructDishCostCalculator } from '../models/DishCostCalculatorState';
 import DishCostCalculator from '../views/dish/details/DishCostCalculator';
 import { appContext } from './AppContextProvider';
+import Loading from '../views/shared/Loading';
 
   // контекст ккалькулятора стоимости блюда
   interface DishCostCalculator {
-    model : DishCostCalculatorModel
+    model : DishCostCalculatorState
     setIngredientCalculatorState : (state:IngredientCostCalculatorModel)=>void
     setProductCalculatorState : (ingredientId:number,state:ProductCostCalculatorModel)=>void
   }
@@ -31,7 +30,7 @@ interface DishCostCalculatorContextProviderProps{
 }
 
 function DishCostCalculatorContextProvider({id, children} : DishCostCalculatorContextProviderProps) {
-  const [model, setModel] = useState<DishCostCalculatorModel>(constructDishCostCalculator())
+  const [model, setModel] = useState<DishCostCalculatorState>(constructDishCostCalculator())
   const [isLoading, setIsLoading] = useState(false)
 
   const {showModal} = useContext(appContext)
@@ -54,6 +53,7 @@ function DishCostCalculatorContextProvider({id, children} : DishCostCalculatorCo
   }
 
   function setProductState(ingredientId: number, product: ProductCostCalculatorModel) {
+    // 
     let ingredient = {...model.ingredients.find(i=>i.id==ingredientId)!}
     ingredient = {...ingredient, products:ingredient.products.map(p=>p.id==product.id ? product:p)}
     const ingredients = model.ingredients.map(i=>
@@ -65,7 +65,7 @@ function DishCostCalculatorContextProvider({id, children} : DishCostCalculatorCo
     }))
   }
 
-  return isLoading ? (<>Loading...</>) : (
+  return isLoading ? (<Loading/>) : (
     <dishCostCalculatorContext.Provider value={{
       model: model,
       setIngredientCalculatorState: setIngredientState,

@@ -6,19 +6,19 @@ import { Container, Modal } from 'react-bootstrap';
 import { createContext, ReactElement, ReactNode, useEffect, useState } from 'react';
 import { getCurrent, UserDTO, UserPermissionDTO } from '../api/users';
 import { getCookie, setCookie } from '../cookies';
-import { C_ACCESS_TOKEN, C_IS_SIGNED_IN, C_PERMISSIONS, tryParseJson } from '../api/constants';
+import { C_ACCESS_TOKEN, C_IS_SIGNED_IN, C_PERMISSIONS, parseJsonOrNull } from '../api/constants';
 import { UserPermissions } from '../models';
 
 
   interface AuthContext {
     user: UserDTO|null
-    loadUserData: ()=>void,
+    updateUserData: ()=>void,
     hasPermission: (permission:UserPermissions)=>boolean,
   }
   
   export const authContext = createContext<AuthContext>({
     user: null,
-    loadUserData: ()=>{},
+    updateUserData: ()=>{},
     hasPermission: (permission:UserPermissions)=>false
   });
 
@@ -28,19 +28,19 @@ interface AuthContextProviderProps {
 
 function AuthContextProvider({children}:AuthContextProviderProps) {
   const [user, setUser] = useState<UserDTO|null>(null)
-  const permissions : UserPermissionDTO[] = tryParseJson(getCookie(C_PERMISSIONS))??[]
+  const [permissions, setPermissions] = useState<UserPermissionDTO[]>(parseJsonOrNull(getCookie(C_PERMISSIONS))??[])
 
   useEffect(()=>{
-    if(getCookie(C_IS_SIGNED_IN)=='true')
-      loadUserData()
+    updateUserData()
   }, [])
 
-  async function loadUserData(){
+  async function updateUserData(){
+
     const res = await getCurrent().catch(
       e=>null
     )
     setUser(res)
-    setCookie(C_PERMISSIONS, JSON.stringify(res?.permissions??[]), 300)
+    setPermissions(parseJsonOrNull(getCookie(C_PERMISSIONS))??[])
   }
 
   const hasPermission = (permission:UserPermissions) =>
@@ -53,7 +53,7 @@ function AuthContextProvider({children}:AuthContextProviderProps) {
       <authContext.Provider
           value={{
             user: user,
-            loadUserData:loadUserData,
+            updateUserData:updateUserData,
             hasPermission:hasPermission,
           }}
           >

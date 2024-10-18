@@ -1,11 +1,18 @@
 import { getCookie } from "../cookies";
 import { C_ACCESS_TOKEN, BASE_URL } from "./constants";
+import { DishDTO } from "./dishes";
 
 const ENTITY_PATH = "dish-categories"
 
 export interface DishCategoryDTO {
   id: number
   name: string
+}
+
+export interface DishCategoryWithDishesDTO {
+  id: number
+  name: string
+  dishes: DishDTO[]
 }
 
 export const getDishCategories = async () : Promise<DishCategoryDTO[] | null> => {
@@ -15,7 +22,7 @@ export const getDishCategories = async () : Promise<DishCategoryDTO[] | null> =>
       'Authorization': 'Bearer '+getCookie(C_ACCESS_TOKEN)
     },
   })
-  const data = await response.json()
+  const data = await response.json().catch(e=>null)
   if(!response.ok)
     throw {
       message: `Не удалось получить данные категорий блюд ${data?.message}`,
@@ -34,7 +41,7 @@ export const postDishCategory = async (createData: DishCategoryDTO): Promise<Dis
     },
     body: JSON.stringify(createData)
   })
-  const data = await response.json()
+  const data = await response.json().catch(e=>null)
   if (!response.ok) 
     throw {
       message: `Не удалось добавить данные категории блюд ${data?.message}`,
@@ -52,7 +59,7 @@ export const putDishCategory = async (dishСategoryData: DishCategoryDTO): Promi
     },
     body: JSON.stringify(dishСategoryData)
   })
-  const data = await response.json()
+  const data = await response.json().catch(e=>null)
   if (!response.ok) 
     throw {
       message: `Не удалось обновить данные категории блюд ${data?.message}`,
@@ -69,7 +76,7 @@ export const deleteDishCategory = async (id: number): Promise<Object | null> => 
       'Authorization': 'Bearer '+getCookie(C_ACCESS_TOKEN)
     },
   })
-  const data = await response.json()
+  const data = await response.json().catch(e=>null)
   if (!response.ok) 
     throw {
       message: `Не удалось удалить данные категории блюд ${data?.message}`,

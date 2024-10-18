@@ -1,16 +1,20 @@
 import { Accordion, Button, Col, Row, Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import DistributorPurchaseOptionsTable from '../details/PurchaseOptionsTable';
+import PurchaseOptionsTable from '../../purchase_option/table/PurchaseOptionsTable';
 import { useContext } from 'react';
 import { appContext } from '../../../context/AppContextProvider';
-import ConfirmationDialog from '../../ConfirmationDialog';
-import { DistributorWithPurchaseOptionsDTO } from '../../../api/distributors';
+import ConfirmationDialog from '../../shared/ConfirmationDialog';
+import { DistributorDTO } from '../../../api/distributors';
 import { deleteDistributor as requestDeleteDistributor } from '../../../api/distributors';
+import { authContext } from '../../../context/AuthContextProvider';
+import { UserPermissions } from '../../../models';
+import CUDButtons from '../../shared/CUDButtons';
+import { PurchaseOptionField } from '../../../hooks/sort/useSortPurchaseOptions';
 
 
 interface DistributorListItemProps {
     onDelete: ()=>void
-    distributor: DistributorWithPurchaseOptionsDTO
+    distributor: DistributorDTO
   }
 
 function DistributorListItem({onDelete, distributor}: DistributorListItemProps) 
@@ -30,30 +34,31 @@ function DistributorListItem({onDelete, distributor}: DistributorListItemProps)
     return (
         <>
         <Accordion.Item eventKey={`${distributor.id}`}>
-        <Accordion.Header style={{userSelect: 'text'}}>
-            <Row className='w-100'>
-                <Col xs={2} className='text-end'>{distributor.id}</Col>
-                <Col xs={10} className='text-center'>{distributor.name}</Col>
-            </Row>
-        </Accordion.Header>
-        <Accordion.Body>
-            <small><DistributorPurchaseOptionsTable distributor={distributor}/></small>
+            <Accordion.Header style={{userSelect: 'text'}}>
+                <Row className='w-100'>
+                    <Col xs={2} className='text-center'>{distributor.id}</Col>
+                    <Col xs={10} className='text-center'>{distributor.name}</Col>
+                </Row>
+            </Accordion.Header>
+            <Accordion.Body>
 
+                <small>
+                <PurchaseOptionsTable 
+                    purchaseOptions={distributor.purchase_options??[]}
+                    fieldsToExclude={[PurchaseOptionField.Distributor]}
+                /></small>
                 <div className='d-flex justify-content-between'>
-                    <Button variant='info'><Link to={`/distributors/details/${distributor.id}`}>Подробнее</Link></Button>
-                    <Button variant='secondary'><Link to={`/distributors/create/copy/${distributor.id}`}>Копировать</Link></Button>
-                    <Button variant='warning'><Link to={`/distributors/edit/${distributor.id}`}>Редактировать</Link></Button>
-                    <Button variant='danger' onClick={ () =>
-                        showModal(
-                            <ConfirmationDialog 
-                                onConfirm={()=>deleteDistributor(distributor.id)}
-                                onCancel={()=>hideModal()}
-                                prompt={`Вы уверены, что хотите удалить данные поставщика "${distributor.id}. ${distributor.name}" и все связи?`}
-                            />
-                        )
-                    }>Удалить</Button>
+                <Link to={`/distributors/details/${distributor.id}`}><Button variant='info'>Подробнее</Button></Link>
+                                
+                    <CUDButtons
+                        deleteFn={deleteDistributor}
+                        entity={distributor}
+                        path='distributors'
+                        requiredPermission={UserPermissions.CRUD_DISTRIBUTORS}
+                    />   
                 </div>
-        </Accordion.Body>
+
+            </Accordion.Body>
         </Accordion.Item>
         </>
     )

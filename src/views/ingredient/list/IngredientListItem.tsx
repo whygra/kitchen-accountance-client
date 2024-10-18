@@ -1,16 +1,20 @@
 import { Accordion, Button, Col, Row, Table } from 'react-bootstrap';
-import { IngredientWithProductsDTO } from '../../../api/ingredients';
+import { IngredientDTO } from '../../../api/ingredients';
 import { Link } from 'react-router-dom';
 import IngredientProductsTable from '../details/IngredientProductsTable';
 import { useContext } from 'react';
 import { appContext } from '../../../context/AppContextProvider';
 import { deleteIngredient as requestDeleteIngredient } from '../../../api/ingredients';
-import ConfirmationDialog from '../../ConfirmationDialog';
+import ConfirmationDialog from '../../shared/ConfirmationDialog';
+import { UserPermissions } from '../../../models';
+import BtnAskConfirmation from '../../shared/BtnAskConfirmation';
+import { authContext } from '../../../context/AuthContextProvider';
+import CUDButtons from '../../shared/CUDButtons';
 
 
 interface IngredientListItemProps {
     onDelete: ()=>void
-    ingredient: IngredientWithProductsDTO
+    ingredient: IngredientDTO
   }
 
 function IngredientListItem({onDelete, ingredient}: IngredientListItemProps) 
@@ -27,36 +31,28 @@ function IngredientListItem({onDelete, ingredient}: IngredientListItemProps)
             })
     }
 
-
     return (
         <>
         <Accordion.Item eventKey={`${ingredient.id}`}>
         <Accordion.Header style={{userSelect: 'text'}}>
-            <Row className='w-100'>
-                <Col md={2} sm={2} className='text-end'>{ingredient.id}</Col>
-                <Col md={8} sm={8} className='text-center'>{ingredient.name}</Col>
-                <Col md={2} sm={2} className='text-center'>{ingredient.type.name}</Col>
+            <Row className='text-center w-100 pe-4'>
+                <Col xs={2} className='text-center'>{ingredient.id}</Col>
+                <Col xs={4} className='text-center'>{ingredient.name}</Col>
+                <Col xs={2} className='text-center'>{ingredient.type.name}</Col>
+                <Col xs={4} className='text-center'>{ingredient.category?.name??'без категории'}</Col>
             </Row>
         </Accordion.Header>
         <Accordion.Body>
             <small><IngredientProductsTable ingredient={ingredient}/></small>
-
-                <div className='d-flex justify-content-between'>
-                    <Button variant='info'><Link to={`/ingredients/details/${ingredient.id}`}>Подробнее</Link></Button>
-                    <Button variant='secondary'><Link to={`/ingredients/create/copy/${ingredient.id}`}>Копировать</Link></Button>
-                    <Button variant='warning'><Link to={`/ingredients/edit/${ingredient.id}`}>Редактировать</Link></Button>
-                    <Button variant='danger'
-                        onClick={() =>
-                            showModal(
-                                <ConfirmationDialog
-                                    onConfirm={()=>deleteIngredient(ingredient.id)}
-                                    onCancel={hideModal}
-                                    prompt={`Вы уверены, что хотите удалить ингредиент "${ingredient.id}. ${ingredient.name} ${ingredient.type.name}" и все связи?`}
-                                />
-                            )
-                        }
-                    >Удалить</Button>
-                </div>
+            <div className='d-flex justify-content-between'>
+                <Link to={`/ingredients/details/${ingredient.id}`}><Button variant='info'>Подробнее</Button></Link>
+                <CUDButtons
+                    deleteFn={deleteIngredient}
+                    entity={ingredient}
+                    path='ingredients'
+                    requiredPermission={UserPermissions.CRUD_INGREDIENTS}
+                />   
+            </div>
         </Accordion.Body>
         </Accordion.Item>
         </>

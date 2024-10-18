@@ -1,15 +1,14 @@
 import { getCookie } from "../cookies";
 import { C_ACCESS_TOKEN, BASE_URL } from "./constants";
+import { IngredientDTO } from "./ingredients";
 
 const ENTITY_PATH = "ingredient-categories"
+
 
 export interface IngredientCategoryDTO {
   id: number
   name: string
-}
-
-export interface PostIngredientCategoryDTO {
-  name: string
+  ingredients?: IngredientDTO[]
 }
 
 export const getIngredientCategories = async () : Promise<IngredientCategoryDTO[] | null> => {
@@ -19,7 +18,7 @@ export const getIngredientCategories = async () : Promise<IngredientCategoryDTO[
       'Authorization': 'Bearer '+getCookie(C_ACCESS_TOKEN)
     },
   })
-  const data = await response.json()
+  const data = await response.json().catch(e=>null)
   if (!response.ok) 
     throw {
       message: `Не удалось получить данные категорий ингредиентов ${data?.message}`,
@@ -28,7 +27,7 @@ export const getIngredientCategories = async () : Promise<IngredientCategoryDTO[
   return data
 }
 
-export const postIngredientCategory = async (createData: PostIngredientCategoryDTO): Promise<IngredientCategoryDTO | null> => {
+export const postIngredientCategory = async (createData: IngredientCategoryDTO): Promise<IngredientCategoryDTO | null> => {
   const response = await fetch(`${BASE_URL}/${ENTITY_PATH}/create`, {
     method: 'POST',
     headers: {
@@ -37,7 +36,7 @@ export const postIngredientCategory = async (createData: PostIngredientCategoryD
     },
     body: JSON.stringify(createData)
   })
-  const data = await response.json()
+  const data = await response.json().catch(e=>null)
   if (!response.ok) 
     throw {
       message: `Не удалось добавить данные категории ингредиентов ${data?.message}`,
@@ -55,7 +54,7 @@ export const putIngredientCategory = async (ingredientСategoryData: IngredientC
     },
     body: JSON.stringify(ingredientСategoryData)
   })
-  const data = await response.json()
+  const data = await response.json().catch(e=>null)
   if (!response.ok) 
     throw {
       message: `Не удалось обновить данные категории ингредиентов ${data?.message}`,
@@ -74,7 +73,7 @@ export const deleteIngredientCategory = async (id: number): Promise<Object | nul
       'Authorization': 'Bearer '+getCookie(C_ACCESS_TOKEN)
     },
   })
-  const data = await response.json()
+  const data = await response.json().catch(e=>null)
   if (!response.ok) 
     throw {
       message: `Не удалось удалить данные категории ингредиентов ${data?.message}`,

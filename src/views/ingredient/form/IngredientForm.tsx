@@ -2,24 +2,32 @@ import IngredientProductFormList from './IngredientProductFormList';
 import NameInput from './IngredientNameInput';
 import IngredientTypeSelect from './IngredientTypeSelect';
 import { Button, Container, Form } from 'react-bootstrap';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import SelectCreateCategoryGroup from '../../selectCreateGroup/SelectCreateGroup';
-import { DataAction } from '../../../models';
+import SelectCreateCategoryGroup from '../../shared/selectCreateGroup/SelectCreateGroup';
+import { DataAction, UserPermissions } from '../../../models';
 import ItemWeightInput from './ItemWeightInput';
 import { appContext } from '../../../context/AppContextProvider';
 import { ingredientContext } from '../../../context/IngredientFormContext';
+import { authContext } from '../../../context/AuthContextProvider';
+import HistoryNav from '../../shared/HistoryNav';
 
 
 function IngredientForm() 
 {  
+  const {hasPermission} = useContext(authContext)
+  useEffect(()=>{
+    if(!hasPermission(UserPermissions.CRUD_INGREDIENTS))
+      throw {name:'403', message:'Нет прав доступа'}
+  }, [])
+  
   const navigate = useNavigate()
-
+  
   const [disabled, setDisabled] = useState(false)
 
   const {showModal} = useContext(appContext)
   const {
-    formState, 
+    formState, history, reloadState,
     requestFn, setName, setTypeId, setCategoryId, 
     setCategoryDataAction, setCategoryName, setItemWeight, 
     setIsItemMeasured, ingredientTypes, categories
@@ -29,7 +37,7 @@ function IngredientForm()
     const contentPercentageSum = 
     formState.ingredientProductForms
       .filter(p=>p.productDataAction!=DataAction.Delete)
-      .reduce((sum, current) => sum + current.rawContentPercentage, 0);
+      .reduce((sum, current) => sum + current.weight, 0);
     // сумма процентов содержания == 100
     return contentPercentageSum == 100.
   }
@@ -45,14 +53,11 @@ function IngredientForm()
       showModal(<>Необходимо выбрать хотя-бы один продукт</>)
       return
     }
-    if (!contentPercentagesAreValid()){
-      showModal(<>Сумма процентов содержания должна равняться 100</>)
-      return
-    }
+
+    // castToValidPercentages()
     setDisabled(true)
     try{
       const res = await requestFn()
-      console.log(res)
       showModal(<>{res?.id} {res?.name}</>)
       navigate(`/ingredients/details/${res?.id}`)
     }
@@ -68,6 +73,11 @@ function IngredientForm()
 
   return (
       <div className='pt-5'>
+        
+        <HistoryNav
+          history={history}
+          reloadFn={reloadState}
+        />
         <Form.Group className='mb-4'>
           <Form.Label><b>Название ингредиента</b></Form.Label>
           <NameInput name={formState.name} setName={setName}/>

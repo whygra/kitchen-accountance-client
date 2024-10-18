@@ -2,39 +2,52 @@ import { getCookie } from "../cookies";
 import { DataAction } from "../models";
 import { C_ACCESS_TOKEN, BASE_URL } from "./constants";
 import { DistributorDTO } from "./distributors";
-import { ProductDTO, PurchaseOptionProductDTO } from "./products";
+import { ProductDTO } from "./products";
 import { UnitDTO } from "./units";
 
 const ENTITY_PATH = "purchase-options"
+const WITH_PRODUCTS = "with-products"
 
 
 export interface PurchaseOptionDTO {
   id: number
-  distributor: DistributorDTO
+  distributor?: DistributorDTO
   unit: UnitDTO
+  code?: number
   name: string
   net_weight: number
   price: number
-  products: PurchaseOptionProductDTO[]
+  products?: ProductDTO[]
 }
 
 export interface DistributorPurchaseOptionDTO {
   id: number
   unit: UnitDTO
+  code?: number
   name: string
   net_weight: number
   price: number
-  products: PurchaseOptionProductDTO[]
+  products: ProductDTO[]
 }
 
-export interface ProductPurchaseOption {
+export interface ProductPurchaseOptionDTO {
   id: number
-  distributor: DistributorDTO
-  unit: UnitDTO
-  name: string
-  net_weight: number
-  price: number
+  distributor?: DistributorDTO
+  unit?: UnitDTO
+  code?: number
+  name?: string
+  net_weight?: number
+  price?: number
+  product_share: number
 }
+
+export interface DistributorPurchaseOptionColumnIndexes {
+  code?: number
+  name?: number
+  unit?: number
+  net_weight?: number
+  price?: number
+} 
 
 export const getPurchaseOptions = async () : Promise<PurchaseOptionDTO[] | null> => {
   const response = await fetch(`${BASE_URL}/${ENTITY_PATH}/all`,{
@@ -44,24 +57,40 @@ export const getPurchaseOptions = async () : Promise<PurchaseOptionDTO[] | null>
       'Authorization': 'Bearer '+getCookie(C_ACCESS_TOKEN)
     },
   })
-  const data = await response.json()
+  const data = await response.json().catch(e=>null)
   if (!response.ok) 
     throw {
-      message: `Не удалось получить данные позиции закупки ${data?.message}`,
+      message: `Не удалось получить данные позиций закупки ${data?.message}`,
       name: `${response.status} ${response.statusText}`
     }
   return data
 }
 
-export const getPurchaseOptionsWithPurchaseOptions = async () : Promise<PurchaseOptionDTO[] | null> => {
-  const response = await fetch(`${BASE_URL}/${ENTITY_PATH}/all`,{
+export const getPurchaseOptionsWithProducts = async () : Promise<PurchaseOptionDTO[] | null> => {
+  const response = await fetch(`${BASE_URL}/${ENTITY_PATH}/${WITH_PRODUCTS}/all`,{
     headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer '+getCookie(C_ACCESS_TOKEN)
     },
   })
-  const data = await response.json()
-  if (!response.ok) 
+  const data = await response.json().catch(e=>null)
+  if (!response.ok)
+    throw {
+      message: `Не удалось получить данные позиций закупки ${data?.message}`,
+      name: `${response.status} ${response.statusText}`
+    }
+  return data
+}
+
+export const getPurchaseOptionWithProducts = async (id:number) : Promise<PurchaseOptionDTO | null> => {
+  const response = await fetch(`${BASE_URL}/${ENTITY_PATH}/${WITH_PRODUCTS}/${id}`,{
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer '+getCookie(C_ACCESS_TOKEN)
+    },
+  })
+  const data = await response.json().catch(e=>null)
+  if (!response.ok)
     throw {
       message: `Не удалось получить данные позиции закупки ${data?.message}`,
       name: `${response.status} ${response.statusText}`
@@ -78,17 +107,36 @@ export const postPurchaseOption = async (createData: PurchaseOptionDTO): Promise
     },
     body: JSON.stringify(createData)
   })
-  const data = await response.json()
+  const data = await response.json().catch(e=>null)
   if (!response.ok) 
     throw {
-      message: `Не удалось обновить данные позиции закупки ${data?.message}`,
+      message: `Не удалось добавить данные позиции закупки ${data?.message}`,
+      name: `${response.status} ${response.statusText}`
+    }
+  return data
+}
+
+export const postPurchaseOptionWithProducts = async (createData: PurchaseOptionDTO): Promise<PurchaseOptionDTO | null> => {
+  console.log(createData)
+  const response = await fetch(`${BASE_URL}/${ENTITY_PATH}/${WITH_PRODUCTS}/create`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer '+getCookie(C_ACCESS_TOKEN)
+    },
+    body: JSON.stringify(createData)
+  })
+  const data = await response.json().catch(e=>null)
+  if (!response.ok) 
+    throw {
+      message: `Не удалось добавить данные позиции закупки ${data?.message}`,
       name: `${response.status} ${response.statusText}`
     }
   return data
 }
 
 export const putPurchaseOption = async (purchaseoptionData: PurchaseOptionDTO): Promise<PurchaseOptionDTO | null> => {
-  const response = await fetch(`${BASE_URL}/${ENTITY_PATH}/put/${purchaseoptionData.id}`, {
+  const response = await fetch(`${BASE_URL}/${ENTITY_PATH}/update/${purchaseoptionData.id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -96,7 +144,7 @@ export const putPurchaseOption = async (purchaseoptionData: PurchaseOptionDTO): 
     },
     body: JSON.stringify(purchaseoptionData)
   })
-  const data = await response.json()
+  const data = await response.json().catch(e=>null)
   if (!response.ok) 
     throw {
       message: `Не удалось обновить данные позиции закупки ${data?.message}`,
@@ -105,9 +153,26 @@ export const putPurchaseOption = async (purchaseoptionData: PurchaseOptionDTO): 
   return data
 }
 
+export const putPurchaseOptionWithProducts = async (purchaseoptionData: PurchaseOptionDTO): Promise<PurchaseOptionDTO | null> => {
+  console.log(purchaseoptionData)
+  const response = await fetch(`${BASE_URL}/${ENTITY_PATH}/${WITH_PRODUCTS}/update/${purchaseoptionData.id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer '+getCookie(C_ACCESS_TOKEN)
+    },
+    body: JSON.stringify(purchaseoptionData)
+  })
+  const data = await response.json().catch(e=>null)
+  if (!response.ok) 
+    throw {
+      message: `Не удалось обновить данные позиции закупки ${data?.message}`,
+      name: `${response.status} ${response.statusText}`
+    }
+  return data
+}
 
-
-export const deletePurchaseOption = async (id: number): Promise<Object | null> => {
+export const deletePurchaseOption = async (id: number): Promise<PurchaseOptionDTO | null> => {
   const response = await fetch(`${BASE_URL}/${ENTITY_PATH}/delete/${id}`, {
     method: 'DELETE',
     headers: {
@@ -115,7 +180,7 @@ export const deletePurchaseOption = async (id: number): Promise<Object | null> =
       'Authorization': 'Bearer '+getCookie(C_ACCESS_TOKEN)
     },
   })
-  const data = await response.json()
+  const data = await response.json().catch(e=>null)
   if (!response.ok) 
     throw {
       message: `Не удалось удалить данные позиции закупки ${data?.message}`,

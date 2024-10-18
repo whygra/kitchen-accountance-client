@@ -1,17 +1,25 @@
 import { useContext, useEffect, useState } from 'react';
-import { Accordion, Col, Row, Table } from 'react-bootstrap';
-import { IngredientWithProductsDTO, getIngredientsWithProducts } from '../../../api/ingredients';
+import { Accordion, Col, Image, Row, Table } from 'react-bootstrap';
+import { IngredientDTO, IngredientTypeDTO, getIngredientsWithProducts } from '../../../api/ingredients';
 import IngredientListItem from './IngredientListItem';
 import { Link } from 'react-router-dom';
 import { appContext } from '../../../context/AppContextProvider';
 import { useErrorBoundary } from 'react-error-boundary';
+import PaginationNav from '../../shared/PaginationNav';
+import { authContext } from '../../../context/AuthContextProvider';
+import { UserPermissions } from '../../../models';
+import useIngredientsTableHeader from '../../../hooks/useIngredientsTableHeader';
+import usePagination from '../../../hooks/usePagination';
+import { getIngredientTypes } from '../../../api/ingredientTypes';
+import TooltipButton from '../../shared/TooltipButton';
+import Loading from '../../shared/Loading';
 
 function IngredientList() 
 {
-  
-    const [ingredients, setIngredients] = useState(new Array<IngredientWithProductsDTO>)
+    const [ingredientTypes, setIngredientTypes] = useState<IngredientTypeDTO[]>([])
+    const [ingredients, setIngredients] = useState(new Array<IngredientDTO>)
     const [isLoading, setIsLoading] = useState(false)
-    const {showModal} = useContext(appContext)
+    const {hasPermission} = useContext(authContext)
     const {showBoundary} = useErrorBoundary()
   
     async function loadIngredients() {
@@ -19,6 +27,9 @@ function IngredientList()
         try{
           const res = await getIngredientsWithProducts()
           setIngredients(res ?? [])
+
+          const types = await getIngredientTypes()
+          setIngredientTypes(types ?? [])
         }
         catch (error: Error | any) {
           showBoundary(error)
@@ -29,20 +40,39 @@ function IngredientList()
     }
 
     useEffect(()=>{loadIngredients()},[])
+
+    useEffect(()=>{
+        document.title = "Ингредиенты"}
+    , [ingredients])
+
+    const {getComparer, getPredicate, header} = useIngredientsTableHeader(ingredientTypes)
+    
+    const filtered = ingredients
+        .filter(getPredicate())
+        .sort(getComparer())
+            
+    const {sliceLimits, paginationNav} = usePagination(filtered.length)
   
-    return isLoading ? (<>Loading...</>) : (
+    return isLoading ? (<Loading/>) : (
         <>
-        <Link to={'/ingredients/create'}>Создать</Link>
-        <Row className='ps-3 pe-5'>
-            <Col md={2} sm={2} className='text-end'><b>id</b></Col>
-            <Col md={8} sm={8} className='text-center'><b>Название ингредиента</b></Col>
-            <Col md={2} sm={2} className='text-center'><b>Тип</b></Col>
-        </Row>
+        {
+            hasPermission(UserPermissions.CRUD_INGREDIENTS)
+            ? <Link to={'/ingredients/create'}>
+                <TooltipButton variant='success' tooltip='создать'>
+                    Создать
+                </TooltipButton>
+            </Link>
+            : <></>
+        }
+        <p className='ps-3'>{header}</p>
         <Accordion>
-            {ingredients.map(c=>
+            {filtered
+                .slice(sliceLimits.start, sliceLimits.end)
+                .map(c=>
                 <IngredientListItem ingredient={c} onDelete={async()=>{await loadIngredients()}}/>
             )}
         </Accordion>
+        {paginationNav}
         </>
     )
 }

@@ -1,25 +1,33 @@
 import { useContext, useEffect, useState } from 'react';
-import { Accordion, Col, Row } from 'react-bootstrap';
+import { Accordion, Button, Col, Collapse, Form, Image, Row } from 'react-bootstrap';
 import DishListItem from './DishListItem';
-import { DishWithIngredientsDTO, getDishesWithIngredients } from '../../../api/dishes';
+import { DishDTO, getDishesWithPurchaseOptions, getDishWithPurchaseOptions } from '../../../api/dishes';
 import { Link } from 'react-router-dom';
-import { appContext } from '../../../context/AppContextProvider';
 import { useErrorBoundary } from 'react-error-boundary';
+import { authContext } from '../../../context/AuthContextProvider';
+import { UserPermissions } from '../../../models';
+import useDishesTableHeader from '../../../hooks/useDishesTableHeader';
+import usePagination from '../../../hooks/usePagination';
+import Loading from '../../shared/Loading';
 
 function DishList() 
 {
   
-    const [dishes, setDishes] = useState(new Array<DishWithIngredientsDTO>)
+    const [dishes, setDishes] = useState(new Array<DishDTO>)
     const [isLoading, setIsLoading] = useState(false)
 
     const {showBoundary} = useErrorBoundary()
 
-    const {showModal} = useContext(appContext)
+    const {hasPermission} = useContext(authContext)
+
+    useEffect(()=>{
+        document.title = "Блюда"}
+    , [dishes])
   
     async function loadDishes() {
         setIsLoading(true)    
         try{
-          const res = await getDishesWithIngredients()
+          const res = await getDishesWithPurchaseOptions()
           setDishes(res ?? [])
         }
         catch (error: Error | any) {
@@ -31,20 +39,32 @@ function DishList()
     }
 
     useEffect(()=>{loadDishes()},[])
-  
-    return isLoading ? (<>Loading...</>) : (
+
+    // заголовок и фильтры
+    const {getComparer, getPredicate, header} = useDishesTableHeader()
+
+    const filtered = dishes
+        .filter(getPredicate())
+        .sort(getComparer())
+
+    const {sliceLimits, paginationNav} = usePagination(filtered.length)
+
+    return isLoading ? (<Loading/>) : (
         <>
-        <Link to={'/dishes/create'}>Создать</Link>
-        <Row className='ps-3 pe-5'>
-            <Col md={2} sm={2} className='text-end'><b>id</b></Col>
-            <Col md={8} sm={8} className='text-center'><b>Название Блюда</b></Col>
-            <Col md={2} sm={2} className='text-center'><b>Вес Блюда</b></Col>
-        </Row>
+        {
+            hasPermission(UserPermissions.CRUD_DISHES)
+            ? <Link to={'/dishes/create'}><Button variant='success'>Создать</Button></Link>
+            : <></>
+        }
+        <div className='w-100 ps-3'>{header}</div>
         <Accordion>
-            {dishes.map(d=>
+            {filtered
+                .slice(sliceLimits.start, sliceLimits.end)
+                .map(d=>
                 <DishListItem dish={d} onDelete={async()=>{await loadDishes()}}/>
             )}
         </Accordion>
+        {paginationNav}
         </>
     )
 }

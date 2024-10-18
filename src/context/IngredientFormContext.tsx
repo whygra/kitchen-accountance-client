@@ -1,4 +1,4 @@
-import { getIngredientWithProducts, IngredientWithProductsDTO, postIngredientWithProducts, putIngredientWithProducts } from '../api/ingredients';
+import { getIngredientWithProducts, IngredientDTO, postIngredientWithProducts, putIngredientWithProducts } from '../api/ingredients';
 import { constructIngredientForm, constructIngredientProductForm, IngredientFormState, ingredientFormToDTO, IngredientProductFormState } from '../models/IngredientFormState';
 import { DataAction } from '../models';
 import { useParams } from 'react-router-dom';
@@ -6,14 +6,20 @@ import { createContext, ReactElement, useEffect, useState } from 'react';
 import { IngredientTypeDTO, getIngredientTypes } from '../api/ingredientTypes';
 import { ProductDTO, getProducts } from '../api/products';
 import { IngredientCategoryDTO, getIngredientCategories } from '../api/ingredientCategories';
+import { useErrorBoundary } from 'react-error-boundary';
+import { Image } from 'react-bootstrap';
+import Loading from '../views/shared/Loading';
 
 // контекст формы ингредиента
 interface IngredientFormContext {
-  castToValidPercentages: ()=>void
+  history: {canUndo: boolean, undo: ()=>void}
+  reloadState: ()=>void
+  getWeightToPercentageCoefficient: ()=>number
   addIngredientProductForm: ()=>void
   setIngredientProductFormState: (state:IngredientProductFormState)=>void
   removeIngredientProductForm: (key:string)=>void
-  requestFn: ()=>Promise<IngredientWithProductsDTO|null>
+  removeAllIngredientProductForms:()=>void,
+  requestFn: ()=>Promise<IngredientDTO|null>
   setTypeId: (id:number)=>void
   setName: (name:string)=>void
   setCategoryName: (name:string)=>void
@@ -28,10 +34,13 @@ interface IngredientFormContext {
 }
 
 export const ingredientContext = createContext<IngredientFormContext>({
-  castToValidPercentages:()=>{},
+  history: {canUndo: false, undo: ()=>{}},
+  reloadState: ()=>{},
+  getWeightToPercentageCoefficient:()=>1,
   addIngredientProductForm:()=>{},
   setIngredientProductFormState:(state:IngredientProductFormState)=>{},
   removeIngredientProductForm:(key:string)=>{},
+  removeAllIngredientProductForms:()=>{},
   requestFn:async()=>null,
   setTypeId:(id:number)=>{},
   setName:(name:string)=>{},
@@ -54,6 +63,8 @@ interface IngredientFormContextProviderProps{
 function IngredientFormContextProvider({action, children}:IngredientFormContextProviderProps) 
 {  
   const [formState, setFormState] = useState<IngredientFormState>(constructIngredientForm())
+  const historyLength = 10
+  const [formStateHistory, setFormStateHistory] = useState<IngredientFormState[]>([])
   const [isLoading, setIsLoading] = useState(false) 
   const [ingredientTypes, setIngredientTypes] = useState<IngredientTypeDTO[]>([]) 
   const [categories, setCategories]= useState<IngredientCategoryDTO[]>([])
@@ -61,16 +72,34 @@ function IngredientFormContextProvider({action, children}:IngredientFormContextP
 
   const {id} = useParams()
 
+  const {showBoundary} = useErrorBoundary()
+
+  useEffect(()=>{
+    document.title = action==DataAction.Create
+      ?'Создание ингредиента'
+      :`Редактирование ингредиента "${formState.id}. ${formState.name}"`
+  }, [formState])
+
   useEffect(()=>{initialize()}, [])
   
   async function initialize() {
     setIsLoading(true)
-    if(id!==undefined || action==DataAction.Update) 
-      loadIngredient()
+    try{
 
-    setIngredientTypes(await getIngredientTypes()??[]);
-    setProducts(await getProducts()??[]);
-    setCategories(await getIngredientCategories()??[])
+      if(id!==undefined || action==DataAction.Update) 
+        loadIngredient()
+      else
+        setFormState(constructIngredientForm())
+      
+      setFormStateHistory([])
+
+      setIngredientTypes(await getIngredientTypes()??[]);
+      setProducts(await getProducts()??[]);
+      setCategories([{id:0, name:'без категории'}, ...await getIngredientCategories()??[]])
+
+    } catch (e: any){
+      showBoundary(e)
+    }
     setIsLoading(false)
   }
 
@@ -79,44 +108,61 @@ function IngredientFormContextProvider({action, children}:IngredientFormContextP
         throw Error("Ошибка загрузки данных: отсутствует id ингредиента")
 
     const ingredient = await getIngredientWithProducts(parseInt(id))
-
     if (ingredient === null)
-        throw Error("Не удалось получить данные об ингредиенте")
+        throw Error("Не удалось получить данные ингредиента")
 
     setFormState(constructIngredientForm(ingredient))
   }
 
+  function saveToHistory(){
+    setFormStateHistory([formState, ...formStateHistory].slice(0,historyLength))
+  }
+
+  function undo(){
+    setFormState(formStateHistory[0])
+    setFormStateHistory(formStateHistory.slice(1,formStateHistory.length))
+  }
+
   function setTypeId(id: number) {
+    saveToHistory()
     setFormState({...formState, typeId:id})
   }
 
   function setName(name: string) {
+    saveToHistory()
     setFormState({...formState, name:name})
   }
 
   function setCategoryId(categoryId: number) {
+    saveToHistory()
     setFormState({...formState, categoryId:categoryId})
   }
 
   function setCategoryName(categoryName: string) {
+    saveToHistory()
     setFormState({...formState, categoryName:categoryName})
   }
 
   function setCategoryDataAction(dataAction: DataAction) {
+    saveToHistory()
     setFormState({...formState, categoryDataAction:dataAction})
   }
 
   function setItemWeight(weight: number) {
+    saveToHistory()
     setFormState({...formState, itemWeight:weight})
+    getStateWithWeightPercentages()
   }
 
   function setIsItemMeasured(value: boolean) {
+    saveToHistory()
     setFormState({...formState, isItemMeasured:value})
   }
 
   function addIngredientProductForm() {
+    saveToHistory()
     setFormState({
-      ...formState, 
+      ...formState,
       ingredientProductForms:
         [
           ...formState.ingredientProductForms,
@@ -124,71 +170,73 @@ function IngredientFormContextProvider({action, children}:IngredientFormContextP
         ]})
   }
 
-function setIngredientProductFormState(state:IngredientProductFormState) {
-  setFormState({
-    ...formState,
-    ingredientProductForms: formState.ingredientProductForms
-    .map(s=>s.key == state.key ? state : s)
-  })
-}
-
-  function removeIngredientProductForm(key:string){
-    const index = formState.ingredientProductForms.findIndex(s=>s.key==key)
-
-    // если id <= 0 записи нет в бд - просто убираем из коллекции
-    if (formState.ingredientProductForms[index].id <= 0)
-      setFormState({
-        ...formState,
-        ingredientProductForms: 
-          formState.ingredientProductForms
-          .filter((s, i)=>i!=index)
-      })
-      
-    // иначе - помечаем на удаление
-    else 
-      setFormState({
-        ...formState,
-        ingredientProductForms: 
-          formState.ingredientProductForms
-          .map((s, i)=>{
-            return i==index 
-              ? {...s, productDataAction: DataAction.Delete} 
-              : s
-            })
-      })
+  function setIngredientProductFormState(state:IngredientProductFormState) {
+    saveToHistory()
+    setFormState({
+      ...formState,
+      ingredientProductForms: formState.ingredientProductForms
+      .map(s=>s.key == state.key ? state : s)
+    })
   }
 
-  function castToValidPercentages() {
-    const productSharesSum = formState.ingredientProductForms
+  function removeIngredientProductForm(key:string){
+    saveToHistory()
+    setFormState({
+      ...formState,
+      ingredientProductForms: 
+        formState.ingredientProductForms
+        .filter((s)=>s.key!=key)
+    }) 
+  }
+
+  function removeAllIngredientProductForms(){
+    saveToHistory()
+    setFormState({
+      ...formState,
+      ingredientProductForms: []
+    })
+  }
+
+  function getWeightToPercentageCoefficient() {
+    const productTotalWeight = formState.ingredientProductForms
       .filter(p=>p.productDataAction!=DataAction.Delete)
-      .reduce((total, current)=>total+current.rawContentPercentage, 0)
-    const coefficient = 100 / productSharesSum
-    setFormState({...formState, ingredientProductForms:formState.ingredientProductForms
-      .map(c => {return c.productDataAction==DataAction.Delete ? c : {...c, rawContentPercentage:Math.round(c.rawContentPercentage*coefficient*10)/10}})}
-    )
+      .reduce((total, current)=>total+current.weight, 0)
+    return productTotalWeight==0 ? 0 : 100 / productTotalWeight
+  }
+
+  function getStateWithWeightPercentages() : IngredientFormState {
+    const coef = getWeightToPercentageCoefficient()
+    return {
+      ...formState,
+      ingredientProductForms:formState.ingredientProductForms
+        .map(f=>{return{...f, weightPercentage:f.weight*coef}})
+    }
   }
 
   async function update() {
-    return await putIngredientWithProducts(ingredientFormToDTO(formState))
+    return await putIngredientWithProducts(ingredientFormToDTO(getStateWithWeightPercentages()))
   }
 
   async function create() {
-    return await postIngredientWithProducts(ingredientFormToDTO(formState))
+    return await postIngredientWithProducts(ingredientFormToDTO(getStateWithWeightPercentages()))
   }
   
-  return isLoading ? (<>Loading...</>) : (
+  return isLoading ? (<Loading/>) : (
     <ingredientContext.Provider value={{
-      castToValidPercentages: castToValidPercentages,
+      history: {canUndo: formStateHistory.length>0, undo: undo},
+      reloadState: initialize,
+      getWeightToPercentageCoefficient: getWeightToPercentageCoefficient,
       addIngredientProductForm: addIngredientProductForm,
       setIngredientProductFormState: setIngredientProductFormState,
       removeIngredientProductForm: removeIngredientProductForm,
+      removeAllIngredientProductForms: removeAllIngredientProductForms,
       setCategoryDataAction: setCategoryDataAction,
       setCategoryId: setCategoryId,
       setCategoryName: setCategoryName,
       setItemWeight: setItemWeight,
       setIsItemMeasured: setIsItemMeasured,
       categories: categories,
-      formState: formState,
+      formState: getStateWithWeightPercentages(),
       ingredientTypes: ingredientTypes,
       products: products,
       setTypeId: setTypeId,

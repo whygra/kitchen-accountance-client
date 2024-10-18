@@ -1,8 +1,5 @@
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+  /* font-family:'Forum'; */
 }
 
 .logo {
@@ -39,4 +36,31 @@
 
 .read-the-docs {
   color: #888;
+}
+
+.app-title {
+  text-align: center;
+  text-decoration:underline;
+  color:rgb(254, 63, 50);
+  text-decoration-thickness: 0.3vw;
+  font-family:'Sardonyx';
+  font-size:13vw;
+  height: 13vw;
+}
+
+.app-desc {
+  text-align: center;
+  font-family:'Oranienbaum';
+  /* font-weight: bold; */
+  /* font-size:calc(14px + 0.5vw); */
+}
+
+.carousel-image {
+  filter: blur(5px) brightness(0.99);
+}
+
+.carousel-caption {
+  box-shadow: 0 0 20px 20px #00000067;
+  background: #00000067;
+  /* linear-gradient(#00000000, #000000, #00000000); */
 }

@@ -1,17 +1,17 @@
 import { Accordion, Button, Col, Form, Row, Table } from 'react-bootstrap';
 import { useContext, useState } from 'react';
 import { appContext } from '../../../context/AppContextProvider';
-import ConfirmationDialog from '../../ConfirmationDialog';
+import ConfirmationDialog from '../../shared/ConfirmationDialog';
 import { assignRoles, UserDTO, UserRoleDTO } from '../../../api/users';
 
 
 interface UserListItemProps {
     user: UserDTO
     roles: UserRoleDTO[]
-    setState: (user:UserDTO)=>void
+    loadData: ()=>void
   }
 
-function UserListItem({user, roles, setState}: UserListItemProps) 
+function UserListItem({user, roles, loadData}: UserListItemProps) 
 {      
     const [newRoleId, setNewRoleId] = useState(roles[0].id)
     const {showModal, hideModal} = useContext(appContext)
@@ -20,11 +20,13 @@ function UserListItem({user, roles, setState}: UserListItemProps)
     function assignRole() {
         setDisabled(true)
         hideModal()
-        assignRoles({...user, roles:[roles.find(r=>r.id==newRoleId)!]})
+        const role = roles.find(r=>r.id==newRoleId)
+        assignRoles({...user, roles:role==undefined ? [] : [role]})
         // оповестить об ответе
             .catch((e)=>{
                 showModal(<>{e?.message}</>)
             })
+            .then(()=>loadData())
             .finally(()=>setDisabled(false))
     }
 
@@ -47,6 +49,7 @@ function UserListItem({user, roles, setState}: UserListItemProps)
                         value={newRoleId}
                         onChange={e=>setNewRoleId(parseInt(e.target.value))}
                     >
+                        <option value={0}>-нет-</option>
                         {roles.map(r=>
                             <option value={r.id}>{r.name}</option>
                         )}
@@ -57,7 +60,7 @@ function UserListItem({user, roles, setState}: UserListItemProps)
                                 <ConfirmationDialog
                                     onConfirm={()=>assignRole()}
                                     onCancel={hideModal}
-                                    prompt={`Вы уверены, что хотите переназначить роли пользователя "${user.id}. ${user.name}"?`}
+                                    prompt={`Вы уверены, что хотите переназначить роль пользователя "${user.id}. ${user.name}"?`}
                                 />
                             )
                         }

@@ -12,7 +12,7 @@ function DishCostCalculator() {
 
     return (
         <>
-            <h4 className='text-center'>Калькулятор себестоимости</h4>
+            <h4 className='text-center'>Калькулятор себестоимости: {Number(model.cost).toFixed(2)} руб.</h4>
                 <Accordion>
                     {ingredients.map(i=>
                         <div key={`${i.id}`}>
@@ -20,7 +20,6 @@ function DishCostCalculator() {
                         </div>
                     )}
                 </Accordion>
-            <h3 className="pt-2 text-center">Итоговая стоимость: {Number(model.cost).toFixed(2)} руб.</h3>
         </>
     )
 }

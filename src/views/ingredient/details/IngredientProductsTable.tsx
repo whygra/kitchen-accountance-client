@@ -1,14 +1,17 @@
 import { Table } from "react-bootstrap";
-import { IngredientWithProductsDTO } from "../../../api/ingredients";
+import { IngredientDTO } from "../../../api/ingredients";
+import { Link } from "react-router-dom";
+import usePagination from "../../../hooks/usePagination";
 
 interface IngredientProductsTableProps {
-    ingredient: IngredientWithProductsDTO
+    ingredient: IngredientDTO
 }
 
 function IngredientProductsTable({ingredient}:IngredientProductsTableProps) {
-    console.log(ingredient.products)
-    return(
         
+    const {sliceLimits, paginationNav} = usePagination(ingredient.products?.length??0)
+
+    return(
         <><h4 className="text-center">Продукты</h4>
         <Table cellPadding={3} cellSpacing={3}>
             <thead>
@@ -22,15 +25,20 @@ function IngredientProductsTable({ingredient}:IngredientProductsTableProps) {
             </thead>
             <tbody>
 
-                {ingredient.products.map(p => <tr className='text-center'>
-                    <td>{p.id}</td>
-                    <td>{p.name}</td>
-                    <td>{p.raw_content_percentage}%</td>
-                    <td>{p.waste_percentage}%</td>
-                </tr>
+                {ingredient.products
+                    ?.slice(sliceLimits.start, sliceLimits.end)
+                    .map(p => 
+                    <tr className='text-center'>
+                        <td>{p.id}</td>
+                        <td><Link to={`/products/details/${p.id}`}>{p.name}</Link></td>
+                        <td>{p.raw_content_percentage}%</td>
+                        <td>{p.waste_percentage}%</td>
+                    </tr>
                 )}
             </tbody>
-        </Table></>
+        </Table>
+        {paginationNav}
+        </>
     )
 }
 

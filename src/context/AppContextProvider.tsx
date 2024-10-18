@@ -37,7 +37,7 @@ function AppContextProvider({children}:AppContextProviderProps) {
     setComponent(<></>)
     setShowModal(false);
   }
-  const displayModal = (component:JSX.Element) => {
+  const displayModal = (component:ReactElement) => {
     setComponent(component)
     setShowModal(true);
   }
@@ -52,7 +52,7 @@ function AppContextProvider({children}:AppContextProviderProps) {
           }}
           >
             {children}
-          <Modal show={showModal} onHide={hideModal}>
+          <Modal size='xl' show={showModal} onHide={hideModal}>
           <Modal.Header closeButton>
           </Modal.Header>
           {component}

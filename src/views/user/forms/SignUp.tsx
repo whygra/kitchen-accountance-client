@@ -1,12 +1,13 @@
 import { Button, Container, Form } from 'react-bootstrap';
 import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import SelectCreateCategoryGroup from '../../selectCreateGroup/SelectCreateGroup';
+import SelectCreateCategoryGroup from '../../shared/selectCreateGroup/SelectCreateGroup';
 import { DataAction } from '../../../models';
 import { appContext } from '../../../context/AppContextProvider';
 import { ingredientContext } from '../../../context/IngredientFormContext';
 import { signUp } from '../../../api/users';
 import { setCookie } from '../../../cookies';
+import { ErrorView } from '../../ErrorView';
 
 
 function SignUp() 
@@ -37,7 +38,7 @@ function SignUp()
       navigate(-1)
     }
     catch (error: Error | any) {
-      showModal(<>{error?.message}</>)
+      showModal(<ErrorView error={error}/>)
       setDisabled(false)
     }
   }

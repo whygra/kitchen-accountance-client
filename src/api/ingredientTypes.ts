@@ -15,7 +15,7 @@ export const getIngredientTypes = async () : Promise<IngredientTypeDTO[] | null>
       'Authorization': 'Bearer '+getCookie(C_ACCESS_TOKEN)
     },
   })
-  const data = await response.json()
+  const data = await response.json().catch(e=>null)
   if (!response.ok) 
     throw {
       message: `Не удалось получить данные типов ингредиентов ${data?.message}`,

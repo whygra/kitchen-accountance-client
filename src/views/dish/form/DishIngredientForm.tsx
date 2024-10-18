@@ -1,23 +1,22 @@
 import {Button, Card, Col, Container, Form, Row, Table} from 'react-bootstrap'
 import { DataAction } from '../../../models'
-import { DishIngredientFormState } from '../../../models/DishFormState'
+import { DishIngredientFormState, dishIngredientToDTO } from '../../../models/DishFormState'
 import 'bootstrap'
-import { useContext } from 'react'
-import SelectCreateGroup from '../../ingredient/inputs/SelectCreateGroup'
-import { setIngredientTypeId } from '../../../redux/actions/ingredientFormActions'
+import { ReactElement, useContext, useState } from 'react'
 import { dishFormContext } from '../../../context/DishFormContext'
+import TooltipButton from '../../shared/TooltipButton'
+import { IngredientDTO } from '../../../api/ingredients'
+import TableSelect from '../../shared/selectCreateGroup/TableSelect'
+import IngredientTypeSelect from '../../ingredient/form/IngredientTypeSelect'
 
 interface DishesIngredientFormProps {
+  openSelect: (i: DishIngredientFormState)=>void
   formState: DishIngredientFormState,
 }
 
-function DishIngredientForm({formState}: DishesIngredientFormProps) {
+function DishIngredientForm({formState, openSelect}: DishesIngredientFormProps) {
 
-  const {setDishIngredientFormState, removeDishIngredientForm, ingredientTypes, ingredients} = useContext(dishFormContext)
-
-  function setIngredientId(ingredientId:number) {
-    setDishIngredientFormState({...formState, id: ingredientId})
-  }
+    const {setDishIngredientFormState, removeDishIngredientForm, ingredientTypes, ingredients} = useContext(dishFormContext)
 
   function setNewIngredientName(name:string) {
     setDishIngredientFormState({...formState, name: name})
@@ -39,6 +38,8 @@ function DishIngredientForm({formState}: DishesIngredientFormProps) {
     setDishIngredientFormState({...formState, wastePercentage: wastePercentage})
   }
 
+  const selected = ingredients.find(i=>i.id==formState.id)
+
   return ( 
     <Card className='w-100 p-3'>
       <Row>
@@ -48,21 +49,38 @@ function DishIngredientForm({formState}: DishesIngredientFormProps) {
           <Row>
 
             <Col md={6}>
-            <SelectCreateGroup
-              ingredientId = {formState.id}
-              newIngredientName = {formState.name}
-              newIngredientTypeId={formState.typeId}
-              dataAction = {formState.ingredientDataAction}
-              ingredientTypes={ingredientTypes}
-              ingredients={ingredients}
-              setDataAction = {setIngredientAction}
-              setName = {setNewIngredientName}
-              setTypeId={setTypeId}
-              setIngredientId = {setIngredientId}
+            <div className="d-flex flex-row justify-content-between">
+              <b>Ингредиент</b>
+              <Form.Switch 
+                checked={formState.ingredientDataAction==DataAction.Create} 
+                onChange={(e)=>setIngredientAction(e.target.checked?DataAction.Create:DataAction.None)}
+                label={<small>создать</small>}
               />
+            </div>
+            {formState.ingredientDataAction == DataAction.Create 
+              ? 
+              <Row>
+              <Col className='flex-fill' md={6}>
+              <Form.Control
+                  value={formState.name}
+                  onChange={(e)=>setNewIngredientName(e.target.value)}
+                  />
+              </Col>
+              <Col md={6}>
+              <IngredientTypeSelect
+                  typeId={formState.typeId}
+                  setTypeId={setTypeId}
+                  ingredientTypes={ingredientTypes}
+                  />
+              </Col>
+          </Row>
+              : <Button variant='none' onClick={()=>openSelect(formState)}>
+                {selected ? `${selected.id}. ${selected.name} ${selected.type.name}` : 'не выбран'}
+                </Button>
+            }
             </Col>
             <Col md={3}>
-            <Form.Label>Вес/Количество</Form.Label>
+            <Form.Label>{formState.itemWeight!=1?'Количество':'Вес (грамм)'}</Form.Label>
             <Form.Control
                 type="number"
                 min={0.5}
@@ -72,7 +90,7 @@ function DishIngredientForm({formState}: DishesIngredientFormProps) {
                 />
             </Col>
             <Col md={3}>
-            <Form.Label>Процент отхода</Form.Label>
+            <Form.Label>Потери в весе (%)</Form.Label>
             <Form.Control
                 type="number"
                 min={0}
@@ -85,10 +103,11 @@ function DishIngredientForm({formState}: DishesIngredientFormProps) {
           </Row>
         </Col>
         <Col md={1} className='d-flex justify-content-end'>
-          {formState.ingredientDataAction==DataAction.Delete 
-            ? <Button variant="warning" onClick={()=>setIngredientAction(DataAction.None)}>C</Button>
-            : <Button variant="danger" onClick={()=>removeDishIngredientForm(formState.key)}>D</Button>
-          }
+          <TooltipButton
+            tooltip='удалить'
+            variant='danger'
+            onClick={()=>removeDishIngredientForm(formState.key)}
+          ><i className='bi bi-x-lg'/></TooltipButton>
           
         </Col>
       </Row>

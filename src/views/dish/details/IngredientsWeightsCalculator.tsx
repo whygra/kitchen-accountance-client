@@ -1,36 +1,36 @@
 import { Form, Table } from "react-bootstrap";
 import { useEffect, useState } from "react";
-import { DishWithIngredientsDTO } from "../../../api/dishes";
-import { DishIngredientDTO } from "../../../api/ingredients";
+import { DishDTO } from "../../../api/dishes";
+import { IngredientDTO } from "../../../api/ingredients";
 
 
-interface DishIngredientWithRequiredWeight{
-    dish_ingredient: DishIngredientDTO
-    weight: number
+interface DishIngredientWithRequiredAmount{
+    ingredient: IngredientDTO
+    amount: number
 }
 
 interface IngredientsWeightsCalculatorProps{
-    dish: DishWithIngredientsDTO
+    dish: DishDTO
 }
 
 function IngredientsWeightsCalculator({dish}:IngredientsWeightsCalculatorProps) {
     
-    const [ingredientsCalcData, setIngredientsCalcData] = useState<DishIngredientWithRequiredWeight[]>()
+    const [ingredientsCalcData, setIngredientsCalcData] = useState<DishIngredientWithRequiredAmount[]>()
 
     useEffect(()=>{
         setIngredientsCalcData(dish.ingredients
-            .map(d=>{return{dish_ingredient: d, weight: NaN}}))
-    }, [])
+            ?.map(d=>{return{ingredient: d, amount: NaN}})??[])
+    }, []) 
 
-    function calcIngredientsWeights(requiredAmount: number){
+    function calcIngredientsAmounts(requiredAmount: number){
         setIngredientsCalcData(ingredientsCalcData?.map(
             (p) => {
                 return {
                     ...p,
-                    weight: requiredAmount * p.dish_ingredient.ingredient_amount * p.dish_ingredient.item_weight
+                    amount: requiredAmount * p.ingredient.ingredient_amount!
                 }
             }
-        ))
+        )??[])
     }
     
     return(
@@ -42,7 +42,7 @@ function IngredientsWeightsCalculator({dish}:IngredientsWeightsCalculatorProps) 
                 min={1}
                 step={1}
                 defaultValue={1}
-                onChange={(e)=>calcIngredientsWeights(parseFloat(e.target.value))}
+                onChange={(e)=>calcIngredientsAmounts(parseFloat(e.target.value))}
                 />
                 <Table cellPadding={3} cellSpacing={3}>
                     <thead>
@@ -54,8 +54,8 @@ function IngredientsWeightsCalculator({dish}:IngredientsWeightsCalculatorProps) 
                     <tbody>
                     {ingredientsCalcData?.map(c=>
                         <tr>
-                            <td>{`${c.dish_ingredient.id}. ${c.dish_ingredient.name} ${c.dish_ingredient.type.name}`}</td>
-                            <td className='text-end'><u>{isNaN(c.weight)?"-/-":`${c.weight} г.`}</u></td>
+                            <td>{`${c.ingredient.id}. ${c.ingredient.name} ${c.ingredient.type.name}`}</td>
+                            <td className='text-end'><u>{isNaN(c.amount)?"-/-":`${c.amount} ${c.ingredient.is_item_measured?'шт.':'г.'}`}</u></td>
                         </tr>
                     )}
                     </tbody>

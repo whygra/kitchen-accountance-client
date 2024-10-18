@@ -38,7 +38,7 @@ function SelectCreateGroup({
         <small className='my-0'><i>создать</i></small>
         <Form.Check
           type="switch"
-          defaultChecked={isCreateUnit}
+          checked={isCreateUnit}
           onChange={(e)=>setDataAction(
             e.target.checked 
             ? DataAction.Create

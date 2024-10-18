@@ -1,8 +1,6 @@
 import { Accordion, Col, Form, FormSelect, Row, Table } from "react-bootstrap";
 import { useContext, useEffect, useState } from "react";
-import { IngredientProductWithPurchaseOptionsDTO } from "../../../api/products";
-import { ProductPurchaseOption } from "../../../api/purchaseOptions";
-import { ProductCostCalculatorModel, selectPurchaseOptionId } from "../../../models/DishCostCalculatorModel";
+import { ProductCostCalculatorModel, selectPurchaseOptionId } from "../../../models/DishCostCalculatorState";
 import { dishCostCalculatorContext } from "../../../context/DishCostCalculatorContext";
 
 
@@ -26,12 +24,12 @@ function ProductCostCalculator({product, ingredientId}:IngredientCostCalculatorP
     return(
         <Form.Group>
             <Form.Label>
-                {product.id}. {product.name} {Number(product.gramCost).toFixed(2)}:
+                {product.id}. {product.name} {Number(product.gramCost).toFixed(2)}₽/г.:
             </Form.Label>
             <FormSelect
                 value={selectedId} 
                 onChange={(e) => calcProductGramCost(parseInt(e.target.value))}>
-                {product.purchase_options.map(o => <option value={o.id}>{o.name} {o.price} р. ({o.distributor.name})</option>
+                {product.purchase_options.map(o => <option value={o.id}>{o.name} {o.price} р./{o.unit?.short} ({o.distributor?.name})</option>
                 )}
             </FormSelect>
         </Form.Group>

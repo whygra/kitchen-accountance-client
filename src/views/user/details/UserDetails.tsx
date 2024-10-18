@@ -1,7 +1,7 @@
 import { Button, Card, CardBody, Container, Form } from 'react-bootstrap';
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import SelectCreateCategoryGroup from '../../selectCreateGroup/SelectCreateGroup';
+import SelectCreateCategoryGroup from '../../shared/selectCreateGroup/SelectCreateGroup';
 import { DataAction } from '../../../models';
 import { appContext } from '../../../context/AppContextProvider';
 import { ingredientContext } from '../../../context/IngredientFormContext';
@@ -16,6 +16,10 @@ function UserDetails()
 
   const {user}=useContext(authContext)
 
+  useEffect(()=>{
+      document.title = "Профиль"}
+  , [user])
+
   return (
       <Card className='pt-5'>
         <CardBody className='mb-4'>
@@ -23,7 +27,7 @@ function UserDetails()
             <p>{user?.name}</p>
             <p><b>Адрес почты</b></p>
             <p>{user?.email}</p>
-            <p><b>Роли:</b></p>
+            <p><b>Роль:</b></p>
             <ul>
                 {user?.roles?.map(r=><li>{r.name}</li>)}
             </ul>

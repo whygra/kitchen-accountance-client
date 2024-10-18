@@ -9,11 +9,6 @@ export interface UnitDTO {
   short: string
 }
 
-export interface PostUnitDTO {
-  long: string
-  short: string
-}
-
 export const getUnits = async () : Promise<UnitDTO[] | null> => {
   const response = await fetch(`${BASE_URL}/${ENTITY_PATH}/all`,{
     
@@ -22,7 +17,7 @@ export const getUnits = async () : Promise<UnitDTO[] | null> => {
       'Authorization': 'Bearer '+getCookie(C_ACCESS_TOKEN)
     },
   })
-  const data = await response.json()
+  const data = await response.json().catch(e=>null)
   if (!response.ok) 
     throw {
       message: `Не удалось получить данные единицы измерения ${data?.message}`,
@@ -31,7 +26,7 @@ export const getUnits = async () : Promise<UnitDTO[] | null> => {
   return data
 }
 
-export const postUnit = async (createData: PostUnitDTO): Promise<UnitDTO | null> => {
+export const postUnit = async (createData: UnitDTO): Promise<UnitDTO | null> => {
   const response = await fetch(`${BASE_URL}/${ENTITY_PATH}/create`, {
     method: 'POST',
     headers: {
@@ -40,7 +35,7 @@ export const postUnit = async (createData: PostUnitDTO): Promise<UnitDTO | null>
     },
     body: JSON.stringify(createData)
   })
-  const data = await response.json()
+  const data = await response.json().catch(e=>null)
   if (!response.ok) 
     throw {
       message: `Не удалось добавить данные единицы измерения ${data?.message}`,
@@ -58,7 +53,7 @@ export const putUnit = async (unitData: UnitDTO): Promise<UnitDTO | null> => {
     },
     body: JSON.stringify(unitData)
   })
-  const data = await response.json()
+  const data = await response.json().catch(e=>null)
   if (!response.ok) 
     throw {
       message: `Не удалось обновить данные единицы измерения ${data?.message}`,
@@ -66,8 +61,6 @@ export const putUnit = async (unitData: UnitDTO): Promise<UnitDTO | null> => {
     }
   return data
 }
-
-
 
 export const deleteUnit = async (id: number): Promise<Object | null> => {
   const response = await fetch(`${BASE_URL}/${ENTITY_PATH}/delete/${id}`, {
@@ -77,7 +70,7 @@ export const deleteUnit = async (id: number): Promise<Object | null> => {
       'Authorization': 'Bearer '+getCookie(C_ACCESS_TOKEN)
     },
   })
-  const data = await response.json()
+  const data = await response.json().catch(e=>null)
   if (!response.ok) 
     throw {
       message: `Не удалось удалить данные единицы измерения ${data?.message}`,

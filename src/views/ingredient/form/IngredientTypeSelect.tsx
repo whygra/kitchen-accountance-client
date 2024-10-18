@@ -16,7 +16,7 @@ function IngredientTypeSelect({ingredientTypes, typeId, setTypeId}: IngredientTy
   
   return (
         <Form.Select
-          defaultValue={typeId}
+          value={typeId}
           onChange={e=>setTypeId(parseInt(e.target.value))}
         >
             {getOptions()}

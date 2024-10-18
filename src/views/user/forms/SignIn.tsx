@@ -1,12 +1,13 @@
 import { Button, Container, Form } from 'react-bootstrap';
 import { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import SelectCreateCategoryGroup from '../../selectCreateGroup/SelectCreateGroup';
+import SelectCreateCategoryGroup from '../../shared/selectCreateGroup/SelectCreateGroup';
 import { DataAction } from '../../../models';
 import { appContext } from '../../../context/AppContextProvider';
 import { ingredientContext } from '../../../context/IngredientFormContext';
 import { signIn, signUp } from '../../../api/users';
 import { setCookie } from '../../../cookies';
+import { authContext } from '../../../context/AuthContextProvider';
 
 
 function SignIn() 
@@ -19,6 +20,7 @@ function SignIn()
   const [password, setPassword] = useState('')
 
   const {showModal} = useContext(appContext)
+  const {updateUserData} = useContext(authContext)
 
   async function commit() {
     setDisabled(true)
@@ -30,6 +32,8 @@ function SignIn()
         email,
         password,
       })
+
+      await updateUserData()
       navigate('/home')
     }
     catch (error: Error | any) {

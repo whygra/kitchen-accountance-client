@@ -1,23 +1,22 @@
-import { useContext } from "react"
+import { useContext, useEffect } from "react"
 import { distributorFormContext } from "../../../context/DistributorFormContext"
 import { PurchaseOptionFormState } from "../../../models/DistributorFormState"
 import { DataAction } from "../../../models"
 import { Button, Card, Col, Form, Row } from "react-bootstrap"
-import ProductSelectCreateGroup from "../../product/form/SelectCreateGroup"
+import ProductSelectCreateGroup from "../../shared/selectCreateGroup/SelectCreateGroup"
 import UnitSelectCreateGroup from "../../unit/form/SelectCreateGroup"
 import { Link } from "react-router-dom"
+import TooltipButton from "../../shared/TooltipButton"
 
 interface PurchaseOptionFormProps {
     formState: PurchaseOptionFormState
+    openSelect: (o: PurchaseOptionFormState)=>void
 }
 
-function PurchaseOptionForm({formState}: PurchaseOptionFormProps) {
+function PurchaseOptionForm({formState, openSelect}: PurchaseOptionFormProps) {
 
     const {setPurchaseOptionFormState, removePurchaseOptionForm, units, products} = useContext(distributorFormContext)
   
-    function setProductId(productId:number) {
-      setPurchaseOptionFormState({...formState, productId: productId})
-    }
   
     function setNewProductName(name:string) {
       setPurchaseOptionFormState({...formState, productName: name})
@@ -55,14 +54,26 @@ function PurchaseOptionForm({formState}: PurchaseOptionFormProps) {
       setPurchaseOptionFormState({...formState, name: name})
     }
   
+    function setCode(code:number) {
+      setPurchaseOptionFormState({...formState, code: code})
+    }
+  
+    const selectedProduct = products.find(i=>i.id==formState.productId)
+    
     return ( 
       <Card className='w-100 p-3'>
         <Row>
-          <Col md={11}
-          style={formState.dataAction==DataAction.Delete ? {pointerEvents: "none", opacity: "0.4"} : {}}
-          >
+          <Col md={11}>
             <Row>
   
+            <Col lg={4} md={12} className='mb-2'>
+                <Form.Label>Код</Form.Label>
+                <Form.Control
+                    type="number"
+                    value={formState.code}
+                    onChange={e=>setCode(parseInt(e.target.value))}
+                    />
+              </Col>
               <Col lg={4} md={12} className='mb-2'>
                 <Form.Label>Наименование</Form.Label>
                 <Form.Control
@@ -92,25 +103,37 @@ function PurchaseOptionForm({formState}: PurchaseOptionFormProps) {
                   />
               </Col>
 
-              <Col lg={6} md={6} sm={6} className='mb-2'>
-              {formState.productIsEditable ? 
-                <ProductSelectCreateGroup
-                productId = {formState.productId}
-                name = {formState.productName}
-                dataAction = {formState.productDataAction}
-                products={products}
-                setDataAction = {setProductAction}
-                setName = {setNewProductName}
-                setProductId = {setProductId}
-                /> :
-                <>
-                  <Form.Label>Продукты</Form.Label>
-                  <Link to={`/purchase-options/edit/${formState.id}`}>редактировать</Link>
-                </>
-              }
+              <Col sm={6} lg={4}>
+              <div className="d-flex flex-row justify-content-between">
+              <b>Продукт</b>
+              <Form.Switch 
+                checked={formState.productDataAction==DataAction.Create} 
+                onChange={(e)=>setProductAction(e.target.checked?DataAction.Create:DataAction.None)}
+                label={<small><i>создать</i></small>}
+                />
+              </div>
+            {formState.productDataAction == DataAction.Create 
+              ? 
+              <Row>
+                <Form.Control
+                  value={formState.productName}
+                  onChange={(e)=>setNewProductName(e.target.value)}
+                />
+              </Row>
+              : formState.productIsEditable 
+              ? 
+              <Button variant='none' onClick={()=>openSelect(formState)}>
+                {selectedProduct ? `${selectedProduct.id}. ${selectedProduct.name}` : 'не выбран'}
+              </Button>
+              :
+              <>
+                <Form.Label>Продукты</Form.Label>
+                <Link to={`/purchase-options/edit/${formState.id}`}>редактировать</Link>
+              </>
+            }
               </Col>
 
-              <Col lg={6} md={6} sm={6} className='mb-2'>
+              <Col sm={6} lg={4} className='mb-2'>
               <UnitSelectCreateGroup
                 unitId = {formState.unitId}
                 newUnitShortName = {formState.unitShortName}
@@ -126,11 +149,11 @@ function PurchaseOptionForm({formState}: PurchaseOptionFormProps) {
             </Row>
           </Col>
           <Col md={1} className='d-flex justify-content-end'>
-            {formState.dataAction==DataAction.Delete 
-              ? <Button variant="warning" onClick={()=>setProductAction(DataAction.None)}>C</Button>
-              : <Button variant="danger" onClick={()=>removePurchaseOptionForm(formState.key)}>D</Button>
-            }
-            
+            <TooltipButton
+              tooltip='удалить'
+              variant='danger'
+              onClick={()=>removePurchaseOptionForm(formState.key)}
+            ><i className='bi bi-x-lg'/></TooltipButton>
           </Col>
         </Row>
       </Card>

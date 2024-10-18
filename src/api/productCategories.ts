@@ -1,11 +1,13 @@
 import { getCookie } from "../cookies";
 import { C_ACCESS_TOKEN, BASE_URL } from "./constants";
+import { ProductDTO } from "./products";
 
 const ENTITY_PATH = "product-categories"
 
 export interface ProductCategoryDTO {
   id: number
   name: string
+  products?: ProductDTO[]
 }
 
 export const getProductCategories = async () : Promise<ProductCategoryDTO[] | null> => {
@@ -16,7 +18,7 @@ export const getProductCategories = async () : Promise<ProductCategoryDTO[] | nu
       'Authorization': 'Bearer '+getCookie(C_ACCESS_TOKEN)
     },
   })
-  const data = await response.json()
+  const data = await response.json().catch(e=>null)
   if (!response.ok) 
     throw {
       message: `Не удалось получить данные категорий продуктов ${data?.message}`,
@@ -34,7 +36,7 @@ export const postProductCategory = async (createData: ProductCategoryDTO): Promi
     },
     body: JSON.stringify(createData)
   })
-  const data = await response.json()
+  const data = await response.json().catch(e=>null)
   if (!response.ok) 
     throw {
       message: `Не удалось добавить данные категории продуктов ${data?.message}`,
@@ -52,7 +54,7 @@ export const putProductCategory = async (productСategoryData: ProductCategoryDT
     },
     body: JSON.stringify(productСategoryData)
   })
-  const data = await response.json()
+  const data = await response.json().catch(e=>null)
   if (!response.ok) 
     throw {
       message: `Не удалось обновить данные категории продуктов ${data?.message}`,
@@ -71,7 +73,7 @@ export const deleteProductCategory = async (id: number): Promise<Object | null> 
       'Authorization': 'Bearer '+getCookie(C_ACCESS_TOKEN)
     },
   })
-  const data = await response.json()
+  const data = await response.json().catch(e=>null)
   if (!response.ok) 
     throw {
       message: `Не удалось удалить данные категории продуктов ${data?.message}`,

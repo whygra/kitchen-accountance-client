@@ -1,13 +1,6 @@
 import { Accordion, Col, Form, Row, Table } from "react-bootstrap";
-import { useContext, useEffect, useState } from "react";
-import { DishIngredientWithPurchaseOptionsDTO } from "../../../api/ingredients";
 import ProductCostCalculator from "./ProductCostCalculator";
-import IngredientDetailsModel from "../../../models/IngredientDetailsModel";
-import { IngredientProductDTO, IngredientProductWithPurchaseOptionsDTO } from "../../../api/products";
-import { ProductPurchaseOption, PurchaseOptionDTO } from "../../../api/purchaseOptions";
-import { calcIngredientCost, IngredientCostCalculatorModel, ProductCostCalculatorModel } from "../../../models/DishCostCalculatorModel";
-import DishCostCalculator from "./DishCostCalculator";
-import { dishCostCalculatorContext } from "../../../context/DishCostCalculatorContext";
+import { calcIngredientCost, IngredientCostCalculatorModel, ProductCostCalculatorModel } from "../../../models/DishCostCalculatorState";
 
 
 interface IngredientCostCalculatorProps{

@@ -1,5 +1,5 @@
 import DistributorForm from '../views/distributor/form/DistributorForm';
-import { DistributorWithPurchaseOptionsDTO, getDistributorWithPurchaseOptions, postDistributorWithPurchaseOptions, putDistributorWithPurchaseOptions } from '../api/distributors';
+import { DistributorDTO, getDistributorWithPurchaseOptions, postDistributorWithPurchaseOptions, putDistributorWithPurchaseOptions } from '../api/distributors';
 import { constructDistributorForm, constructDistributorPurchaseOptionForm, DistributorFormState, distributorFormToDTO, PurchaseOptionFormState } from '../models/DistributorFormState';
 import { DataAction } from '../models';
 import { useParams } from 'react-router-dom';
@@ -7,16 +7,21 @@ import { v4 as uuid } from "uuid";
 import { createContext, ReactElement, useEffect, useState } from 'react';
 import { UnitDTO, getUnits } from '../api/units';
 import { ProductDTO, getProducts } from '../api/products';
+import { Image } from 'react-bootstrap';
+import Loading from '../views/shared/Loading';
 
   
 interface DistributorFormContext {
   formState: DistributorFormState
   products: ProductDTO[]
   units: UnitDTO[]
+  history: {canUndo: boolean, undo: ()=>void},
+  reloadState: ()=>Promise<void>
   addPurchaseOptionForm: ()=>void
   setPurchaseOptionFormState: (state:PurchaseOptionFormState)=>void
   removePurchaseOptionForm: (key:string)=>void    
-  requestFn:()=>Promise<DistributorWithPurchaseOptionsDTO|null>
+  removeAllPurchaseOptionForms: ()=>void    
+  requestFn:()=>Promise<DistributorDTO|null>
   setName:(name:string)=>void
 }  
 
@@ -24,9 +29,12 @@ export const distributorFormContext = createContext<DistributorFormContext>({
   formState: constructDistributorForm(),
   products: [],
   units: [],
+  history: {canUndo: false, undo: ()=>{}},
+  reloadState: async()=>{},
   addPurchaseOptionForm: ()=>{},
   setPurchaseOptionFormState: (state:PurchaseOptionFormState)=>{},
   removePurchaseOptionForm: (key:string)=>{},
+  removeAllPurchaseOptionForms: ()=>{},
   requestFn:async()=>null,
   setName:(name:string)=>{},
 })
@@ -39,11 +47,19 @@ interface DistributorFormContextProviderProps{
 function DistributorFormContextProvider({action, children}:DistributorFormContextProviderProps) 
 {  
   const [formState, setFormState] = useState<DistributorFormState>(constructDistributorForm())
+  const historyLength = 10
+  const [formStateHistory, setFormStateHistory] = useState<DistributorFormState[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [units, setUnits] = useState<UnitDTO[]>([])
   const [products, setProducts] = useState<ProductDTO[]>([]) 
 
   const {id} = useParams()
+
+  useEffect(()=>{
+    document.title = action==DataAction.Create
+      ?'Создание данных поставщика'
+      :`Редактирование данных поставщика "${formState.id}. ${formState.name}"`
+  }, [formState])
 
   useEffect(()=>{initialize()}, [])
   
@@ -51,9 +67,13 @@ function DistributorFormContextProvider({action, children}:DistributorFormContex
     setIsLoading(true)
     if(id!==undefined || action==DataAction.Update) 
       loadDistributor()
+    else
+      setFormState(constructDistributorForm())
+
+    setFormStateHistory([])
 
     setUnits(await getUnits()??[]);
-    setProducts(await getProducts()??[]);
+    setProducts([{id:0, name:'нет'}, ...(await getProducts()??[])]);
 
     setIsLoading(false)
   }
@@ -72,12 +92,22 @@ function DistributorFormContextProvider({action, children}:DistributorFormContex
     )
   }
 
+  function saveToHistory(){
+    setFormStateHistory([formState, ...formStateHistory].slice(0,historyLength))
+  }
+
+  function undo(){
+    setFormState(formStateHistory[0])
+    setFormStateHistory(formStateHistory.slice(1,formStateHistory.length))
+  }
+
   function setName(name: string) {
+    saveToHistory()
     setFormState({...formState, name:name})
   }
 
   function addPurchaseOptionForm() {
-    console.log('add')
+    saveToHistory()
     setFormState({
       ...formState, 
       purchaseOptionForms:
@@ -88,7 +118,8 @@ function DistributorFormContextProvider({action, children}:DistributorFormContex
   }
 
 function setPurchaseOptionFormState(state:PurchaseOptionFormState) {
-  setFormState({
+    saveToHistory()
+    setFormState({
     ...formState,
     purchaseOptionForms: formState.purchaseOptionForms
     .map(s=>s.key == state.key ? state : s)
@@ -96,29 +127,21 @@ function setPurchaseOptionFormState(state:PurchaseOptionFormState) {
 }
 
   function removePurchaseOptionForm(key:string){
-    const index = formState.purchaseOptionForms.findIndex(s=>s.key==key)
+    saveToHistory()
+    setFormState({
+      ...formState,
+      purchaseOptionForms: 
+        formState.purchaseOptionForms
+        .filter((s)=>s.key!=key)
+    })    
+  }
 
-    // если id <= 0 записи нет в бд - просто убираем из коллекции
-    if (formState.purchaseOptionForms[index].id <= 0)
-      setFormState({
-        ...formState,
-        purchaseOptionForms: 
-          formState.purchaseOptionForms
-          .filter((s, i)=>i!=index)
-      })
-      
-    // иначе - помечаем на удаление
-    else 
-      setFormState({
-        ...formState,
-        purchaseOptionForms: 
-          formState.purchaseOptionForms
-          .map((s, i)=>{
-            return i==index 
-              ? {...s, dataAction: DataAction.Delete} 
-              : s
-            })
-      })
+  function removeAllPurchaseOptionForms(){
+    saveToHistory()
+    setFormState({
+      ...formState,
+      purchaseOptionForms: []
+    })
   }
 
   async function update() {
@@ -129,11 +152,14 @@ function setPurchaseOptionFormState(state:PurchaseOptionFormState) {
     return await postDistributorWithPurchaseOptions(distributorFormToDTO(formState))
   }
   
-  return isLoading ? (<>Loading...</>) : (
+  return isLoading ? (<Loading/>) : (
     <distributorFormContext.Provider value={{
+      history: {canUndo: formStateHistory.length>0, undo: undo},
+      reloadState: initialize,
       addPurchaseOptionForm: addPurchaseOptionForm,
       setPurchaseOptionFormState: setPurchaseOptionFormState,
       removePurchaseOptionForm: removePurchaseOptionForm,
+      removeAllPurchaseOptionForms: removeAllPurchaseOptionForms,
       formState: formState,
       units: units,
       products: products,

@@ -1,7 +1,8 @@
 import { v4 as uuid } from "uuid";
 import { DataAction } from "."
-import { DishWithIngredientsDTO } from "../api/dishes"
-import { DishIngredientDTO } from "../api/ingredients"
+import { DishDTO } from "../api/dishes"
+import { IngredientDTO } from "../api/ingredients";
+import { ServerImageData } from "../api/constants";
 
 export interface DishFormState {
     categoryDataAction: DataAction
@@ -10,20 +11,22 @@ export interface DishFormState {
     categoryId: number
     categoryName: string
     dishIngredientForms: DishIngredientFormState[]
+    image?: ServerImageData
 }
 
-export function constructDishForm(dto?: DishWithIngredientsDTO): DishFormState{
+export function constructDishForm(dto?: DishDTO): DishFormState{
     return {
         categoryDataAction: DataAction.None,
+        image: dto?.image,
         id: dto?.id ?? 0,
         name: dto?.name ?? '',
-        categoryId: dto?.category.id ?? 1,
-        categoryName: dto?.category.name ?? '',
-        dishIngredientForms: dto?.ingredients.map(i=>constructDishIngredientForm(i)) ?? [],
+        categoryId: dto?.category?.id ?? 0,
+        categoryName: dto?.category?.name ?? '',
+        dishIngredientForms: dto?.ingredients?.map(i=>constructDishIngredientForm(i)) ?? [],
     }
 }
 
-export function dishFormToDTO(formState: DishFormState): DishWithIngredientsDTO{
+export function dishFormToDTO(formState: DishFormState): DishDTO{
     return {
         id: formState.id,
         name: formState.name,
@@ -33,7 +36,9 @@ export function dishFormToDTO(formState: DishFormState): DishWithIngredientsDTO{
         },
         ingredients: formState.dishIngredientForms
             .filter(f=>f.ingredientDataAction!=DataAction.Delete)
-            .map(f=>dishIngredientToDTO(f))
+            .map(f=>dishIngredientToDTO(f)),
+
+        image: formState.image,
     }
 }
 
@@ -50,7 +55,7 @@ export interface DishIngredientFormState {
     wastePercentage: number
 }
 
-export function constructDishIngredientForm(dto?: DishIngredientDTO) : DishIngredientFormState{
+export function constructDishIngredientForm(dto?: IngredientDTO) : DishIngredientFormState{
     return {
         ingredientDataAction: DataAction.None,
         key: uuid(),
@@ -59,13 +64,13 @@ export function constructDishIngredientForm(dto?: DishIngredientDTO) : DishIngre
         itemWeight: dto?.item_weight ?? 1,
         isItemMeasured: dto?.is_item_measured ?? false,
         typeId: dto?.type.id ?? 1,
-        categoryId: dto?.category.id ?? 1,
+        categoryId: dto?.category?.id ?? 0,
         ingredientAmount: dto?.ingredient_amount ?? 0,
         wastePercentage: dto?.waste_percentage ?? 0,
     }
 }
 
-export function dishIngredientToDTO(formState: DishIngredientFormState): DishIngredientDTO {
+export function dishIngredientToDTO(formState: DishIngredientFormState): IngredientDTO {
     return {
         id: formState.ingredientDataAction==DataAction.Create ? 0 : formState.id,
         name: formState.name,
