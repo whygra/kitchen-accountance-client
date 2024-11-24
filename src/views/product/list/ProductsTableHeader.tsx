@@ -48,7 +48,7 @@ function ProductsTableHeader({
                         (fieldsToExclude?.findIndex(o=>o==ProductField.Name)??-1)==-1
                         ?
                         <th
-                            style={{width: '6%'}}>                    
+                            style={{width: '3%'}}>                    
                         <HeaderSortButton
                         header='Название'
                         field={ProductField.Name}
@@ -64,10 +64,26 @@ function ProductsTableHeader({
                         ?
                         <th
                             className=''
-                            style={{width: '5%'}}>                    
+                            style={{width: '4%'}}>                    
                             <HeaderSortButton
                             header='Категория'
                             field={ProductField.Category}
+                            onClick={toggleSort}
+                            activeField={activeField}
+                            sortIsDesc={sortIsDesc}
+                            />
+                        </th>
+                        :<></>
+                    }
+                    {
+                        (fieldsToExclude?.findIndex(o=>o==ProductField.Group)??-1)==-1
+                        ?
+                        <th
+                            className=''
+                            style={{width: '4%'}}>                    
+                            <HeaderSortButton
+                            header='Группа'
+                            field={ProductField.Group}
                             onClick={toggleSort}
                             activeField={activeField}
                             sortIsDesc={sortIsDesc}
@@ -109,6 +125,7 @@ function ProductsTableHeader({
                             className=''
                         >
                             <Form.Control
+                            autoFocus
                             value={searchData.name}
                             placeholder='наименование'
                             onChange={(e)=>setSearchData({...searchData, name: e.target.value.toLocaleLowerCase()})}
@@ -126,6 +143,20 @@ function ProductsTableHeader({
                             value={searchData.category}
                             placeholder='категория'
                             onChange={(e)=>setSearchData({...searchData, category: e.target.value.toLocaleLowerCase()})}
+                        />
+                        </td>
+                        :<></>
+                    }
+                    {
+                        (fieldsToExclude?.findIndex(o=>o==ProductField.Group)??-1)==-1
+                        ?
+                        <td
+                            className=''
+                        >
+                            <Form.Control
+                            value={searchData.group}
+                            placeholder='группа'
+                            onChange={(e)=>setSearchData({...searchData, group: e.target.value.toLocaleLowerCase()})}
                         />
                         </td>
                         :<></>

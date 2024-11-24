@@ -53,7 +53,7 @@ function DistributorDetails()
 
     async function deleteFn(id: number) {
         await deleteDistributor(id)
-        navigate('/distributors')
+        navigate('/distributors/all')
     } 
 
     return isLoading ? (<Loading/>) : 

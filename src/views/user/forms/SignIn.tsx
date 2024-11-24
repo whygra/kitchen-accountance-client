@@ -4,8 +4,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import SelectCreateCategoryGroup from '../../shared/selectCreateGroup/SelectCreateGroup';
 import { DataAction } from '../../../models';
 import { appContext } from '../../../context/AppContextProvider';
-import { ingredientContext } from '../../../context/IngredientFormContext';
-import { signIn, signUp } from '../../../api/users';
+import { ingredientContext } from '../../../context/ingredient/IngredientFormContext';
+import { signIn, signUp } from '../../../api/auth';
 import { setCookie } from '../../../cookies';
 import { authContext } from '../../../context/AuthContextProvider';
 
@@ -32,7 +32,7 @@ function SignIn()
         email,
         password,
       })
-
+      
       await updateUserData()
       navigate('/home')
     }

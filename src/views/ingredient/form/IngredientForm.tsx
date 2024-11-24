@@ -2,20 +2,21 @@ import IngredientProductFormList from './IngredientProductFormList';
 import NameInput from './IngredientNameInput';
 import IngredientTypeSelect from './IngredientTypeSelect';
 import { Button, Container, Form } from 'react-bootstrap';
-import { useContext, useEffect, useState } from 'react';
+import { FormEvent, useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import SelectCreateCategoryGroup from '../../shared/selectCreateGroup/SelectCreateGroup';
+import SelectCreateGroup from '../../shared/selectCreateGroup/SelectCreateGroup';
 import { DataAction, UserPermissions } from '../../../models';
 import ItemWeightInput from './ItemWeightInput';
 import { appContext } from '../../../context/AppContextProvider';
-import { ingredientContext } from '../../../context/IngredientFormContext';
+import { ingredientContext } from '../../../context/ingredient/IngredientFormContext';
 import { authContext } from '../../../context/AuthContextProvider';
 import HistoryNav from '../../shared/HistoryNav';
+import { projectContext } from '../../../context/ProjectContextProvider';
 
 
 function IngredientForm() 
 {  
-  const {hasPermission} = useContext(authContext)
+  const {hasPermission} = useContext(projectContext)
   useEffect(()=>{
     if(!hasPermission(UserPermissions.CRUD_INGREDIENTS))
       throw {name:'403', message:'Нет прав доступа'}
@@ -28,11 +29,14 @@ function IngredientForm()
   const {showModal} = useContext(appContext)
   const {
     formState, history, reloadState,
-    requestFn, setName, setTypeId, setCategoryId, 
-    setCategoryDataAction, setCategoryName, setItemWeight, 
-    setIsItemMeasured, ingredientTypes, categories
+    requestFn, setName, setTypeId, 
+    setCategoryId, setCategoryDataAction, setCategoryName, 
+    setGroupId, setGroupDataAction, setGroupName, 
+    setItemWeight, 
+    setIsItemMeasured, ingredientTypes, categories, groups
   } = useContext(ingredientContext);
 
+  console.log(groups)
   function contentPercentagesAreValid() : boolean {
     const contentPercentageSum = 
     formState.ingredientProductForms
@@ -69,7 +73,21 @@ function IngredientForm()
 
   function cancel() {
     navigate(-1)
-  }
+  }  
+  const [validated, setValidated] = useState(false);
+
+  const handleSubmit = (event:FormEvent) => {
+    event.preventDefault();
+    
+    const form = event.currentTarget as any;
+    if (form.checkValidity() === false) {
+      event.stopPropagation();      
+      setValidated(true);
+      return
+    }
+
+    commit()
+  };
 
   return (
       <div className='pt-5'>
@@ -78,9 +96,21 @@ function IngredientForm()
           history={history}
           reloadFn={reloadState}
         />
+        <Form aria-disabled={disabled} noValidate validated={validated} onSubmit={handleSubmit}>
+
         <Form.Group className='mb-4'>
           <Form.Label><b>Название ингредиента</b></Form.Label>
-          <NameInput name={formState.name} setName={setName}/>
+          <Form.Control
+            required
+            type="text"
+            placeholder="Название ингредиента" 
+            value={formState.name}
+            onChange={e=>setName(e.target.value)}
+          />
+          
+          <Form.Control.Feedback type="invalid">
+            введите название
+          </Form.Control.Feedback>
         </Form.Group>
         <Form.Group className='mb-4'>
           <Form.Label><b>Тип ингредиента</b></Form.Label>
@@ -95,7 +125,7 @@ function IngredientForm()
           />
         </Form.Group>
         <Form.Group className='mb-4'>
-          <SelectCreateCategoryGroup 
+          <SelectCreateGroup 
             label='Категория'
             dataAction={formState.categoryDataAction}
             items={categories} 
@@ -106,11 +136,24 @@ function IngredientForm()
             setName={setCategoryName}
             />
         </Form.Group>
+        <Form.Group className='mb-4'>
+          <SelectCreateGroup 
+            label='Группа'
+            dataAction={formState.groupDataAction}
+            items={groups} 
+            name={formState.groupName}
+            selectedId={formState.groupId} 
+            setId={setGroupId} 
+            setDataAction={setGroupDataAction}
+            setName={setGroupName}
+            />
+        </Form.Group>
         <IngredientProductFormList/>
         <div className='d-flex'>
-          <Button disabled={disabled} className='me-2' onClick={commit}>Подтвердить</Button>
+          <Button disabled={disabled} className='me-2' type='submit'>Подтвердить</Button>
           <Button disabled={disabled} className='me-2' variant='secondary' onClick={cancel}>Отмена</Button>
         </div>
+        </Form>
       </div>)
 }
 

@@ -9,7 +9,7 @@ interface IngredientProductsTableProps {
 
 function ProductIngredientsTable({product}:IngredientProductsTableProps) {
         
-    const {sliceLimits, paginationNav} = usePagination(product.ingredients?.length??0)
+    const {sliceLimits, nav} = usePagination(product.ingredients?.length??0)
 
     return(
         <><h4 className="text-center">Используется в ингредиентах</h4>
@@ -28,14 +28,14 @@ function ProductIngredientsTable({product}:IngredientProductsTableProps) {
                     ?.slice(sliceLimits.start, sliceLimits.end)
                     .map(p => 
                     <tr className='text-center'>
-                        <td><Link to={`/ingredients/details/${p.id}`}>{p.id}.{p.name} {p.type.name}</Link></td>
+                        <td><Link to={`/ingredients/details/${p.id}`}>{p.id}.{p.name} {p.type?.name}</Link></td>
                         <td>{p.raw_content_percentage}%</td>
                         <td>{p.waste_percentage}%</td>
                     </tr>
                 )}
             </tbody>
         </Table>
-        {paginationNav}
+        {nav}
         </>
     )
 }

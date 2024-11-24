@@ -37,12 +37,17 @@ function ItemWeightInput({
         <Form.Group>
           <Form.Label><b>Вес 1 шт. в граммах</b></Form.Label>
           <Form.Control
+            required
             type='number'
             min={0.1}
             step={0.1}
             defaultValue={weight}
             onChange={(e)=>setWeight(parseFloat(e.target.value))}
           />
+          
+          <Form.Control.Feedback type="invalid">
+            введите допустимое значение ( .. ≥ 0.1)
+          </Form.Control.Feedback>
         </Form.Group>
         :
         <></>

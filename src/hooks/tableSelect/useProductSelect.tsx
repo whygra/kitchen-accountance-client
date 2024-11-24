@@ -15,7 +15,6 @@ export default function useProductSelect(
 ){
 
     const [displaySelect, setDisplaySelect] = useState(false)
-    
     function showSelect() {
         setDisplaySelect(true)
     }
@@ -37,6 +36,7 @@ export default function useProductSelect(
       selectedId={selectedId}
       setId={selectId}
       items={filteredItems}
+
     />
       
   </ModalWrapper>

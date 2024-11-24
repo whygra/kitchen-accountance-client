@@ -12,7 +12,7 @@ export interface GenericTableProps<T extends NamedEntity> {
 
 function GenericTable<T extends NamedEntity>({items, getHeader, constructRow}:GenericTableProps<T>): ReactElement{
 
-    const {sliceLimits, paginationNav, makeSlice} = usePagination(items?.length??0) 
+    const {sliceLimits, nav, makeSlice} = usePagination(items?.length??0) 
     
     return (
         <>
@@ -23,7 +23,7 @@ function GenericTable<T extends NamedEntity>({items, getHeader, constructRow}:Ge
                     .map(i=><tr className="text-center">{constructRow(i)}</tr>)}
             </tbody>
         </Table>
-        {paginationNav}
+        {nav}
         </>
     )
 }

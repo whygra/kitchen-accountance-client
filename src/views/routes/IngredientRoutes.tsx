@@ -1,5 +1,5 @@
 import { Route } from "react-router-dom";
-import IngredientFormContextProvider from "../../context/IngredientFormContext";
+import IngredientFormContextProvider from "../../context/ingredient/IngredientFormContext";
 import IngredientForm from "../ingredient/form/IngredientForm";
 import IngredientDetails from "../ingredient/details/IngredientDetails";
 import IngredientList from "../ingredient/list/IngredientList";

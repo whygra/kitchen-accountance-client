@@ -1,5 +1,5 @@
-import { useContext, useEffect, useState } from 'react';
-import { Accordion, Button, Col, Collapse, Form, Image, Row } from 'react-bootstrap';
+import { useContext, useEffect, useRef, useState } from 'react';
+import { Accordion, Button, Col, Collapse, Form, Image, Row, Table } from 'react-bootstrap';
 import DishListItem from './DishListItem';
 import { DishDTO, getDishesWithPurchaseOptions, getDishWithPurchaseOptions } from '../../../api/dishes';
 import { Link } from 'react-router-dom';
@@ -9,6 +9,9 @@ import { UserPermissions } from '../../../models';
 import useDishesTableHeader from '../../../hooks/useDishesTableHeader';
 import usePagination from '../../../hooks/usePagination';
 import Loading from '../../shared/Loading';
+import { projectContext } from '../../../context/ProjectContextProvider';
+import { IngredientField } from '../../../hooks/sort/useSortIngredients';
+import { DishField } from '../../../hooks/sort/useSortDishes';
 
 function DishList() 
 {
@@ -18,7 +21,7 @@ function DishList()
 
     const {showBoundary} = useErrorBoundary()
 
-    const {hasPermission} = useContext(authContext)
+    const {hasPermission} = useContext(projectContext)
 
     useEffect(()=>{
         document.title = "Блюда"}
@@ -41,22 +44,25 @@ function DishList()
     useEffect(()=>{loadDishes()},[])
 
     // заголовок и фильтры
-    const {getComparer, getPredicate, header} = useDishesTableHeader()
+    const {getComparer, getPredicate, header} = useDishesTableHeader(false, [DishField.Id])
 
     const filtered = dishes
         .filter(getPredicate())
         .sort(getComparer())
 
-    const {sliceLimits, paginationNav} = usePagination(filtered.length)
+    const {sliceLimits, nav} = usePagination(filtered.length)
 
     return isLoading ? (<Loading/>) : (
         <>
+        <div className='d-flex justify-content-between'>
+            <h2>Блюда</h2>
         {
             hasPermission(UserPermissions.CRUD_DISHES)
             ? <Link to={'/dishes/create'}><Button variant='success'>Создать</Button></Link>
             : <></>
         }
-        <div className='w-100 ps-3'>{header}</div>
+        </div>
+        <Table className='w-100'>{header}</Table>
         <Accordion>
             {filtered
                 .slice(sliceLimits.start, sliceLimits.end)
@@ -64,7 +70,7 @@ function DishList()
                 <DishListItem dish={d} onDelete={async()=>{await loadDishes()}}/>
             )}
         </Accordion>
-        {paginationNav}
+        {nav}
         </>
     )
 }

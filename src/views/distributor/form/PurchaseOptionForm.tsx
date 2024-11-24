@@ -2,11 +2,12 @@ import { useContext, useEffect } from "react"
 import { distributorFormContext } from "../../../context/DistributorFormContext"
 import { PurchaseOptionFormState } from "../../../models/DistributorFormState"
 import { DataAction } from "../../../models"
-import { Button, Card, Col, Form, Row } from "react-bootstrap"
+import { Button, Card, Col, Form, FormControl, Row } from "react-bootstrap"
 import ProductSelectCreateGroup from "../../shared/selectCreateGroup/SelectCreateGroup"
 import UnitSelectCreateGroup from "../../unit/form/SelectCreateGroup"
 import { Link } from "react-router-dom"
 import TooltipButton from "../../shared/TooltipButton"
+import IsCreateSwitch from "../../shared/selectCreateGroup/IsCreateSwitch"
 
 interface PurchaseOptionFormProps {
     formState: PurchaseOptionFormState
@@ -66,65 +67,90 @@ function PurchaseOptionForm({formState, openSelect}: PurchaseOptionFormProps) {
           <Col md={11}>
             <Row>
   
-            <Col lg={4} md={12} className='mb-2'>
-                <Form.Label>Код</Form.Label>
-                <Form.Control
-                    type="number"
-                    value={formState.code}
-                    onChange={e=>setCode(parseInt(e.target.value))}
-                    />
-              </Col>
-              <Col lg={4} md={12} className='mb-2'>
-                <Form.Label>Наименование</Form.Label>
-                <Form.Control
-                    type="text"
-                    value={formState.name}
-                    onChange={e=>setName(e.target.value)}
-                    />
-              </Col>
-              <Col lg={4} md={6} sm={6} className='mb-2'>
-              <Form.Label>Масса нетто</Form.Label>
+            <Form.Group as={Col} lg={4} md={12} className='mb-2'>
+              <Form.Label>Код</Form.Label>
               <Form.Control
-                  type="number"
-                  min={0}
-                  max={100}
-                  step={0.5}
-                  defaultValue={formState.netWeight}
-                  onChange={e=>setNetWeight(parseFloat(e.target.value))}
-                  />
-              </Col>
-              <Col lg={4} md={6} sm={6} className='mb-2'>
-              <Form.Label>Цена</Form.Label>
+                type="number"
+                value={formState.code}
+                onChange={e=>setCode(parseInt(e.target.value))}
+              />
+            </Form.Group>
+            <Form.Group as={Col} lg={4} md={12} className='mb-2'>
+              <Form.Label>Наименование</Form.Label>
               <Form.Control
-                  type="number"
-                  min={0}
-                  defaultValue={formState.price}
-                  onChange={e=>setPrice(parseFloat(e.target.value))}
-                  />
-              </Col>
+                required
+                type="text"
+                value={formState.name}
+                onChange={e=>setName(e.target.value)}
+              />
+              <Form.Control.Feedback type="invalid">
+                введите наименование
+              </Form.Control.Feedback>
+              
+            </Form.Group>
+            <Form.Group as={Col} lg={4} md={6} sm={6} className='mb-2'>
+              <Form.Label>Масса нетто (грамм)</Form.Label>
+              <Form.Control
+                required
+                type="number"
+                min={1}
+                step={1}
+                defaultValue={formState.netWeight}
+                onChange={e=>setNetWeight(parseFloat(e.target.value))}
+              />
+              <Form.Control.Feedback type="invalid">
+                введите допустимое значение ( .. ≥ 1 )
+              </Form.Control.Feedback>
+            </Form.Group>
+            <Form.Group as={Col} lg={4} md={6} sm={6} className='mb-2'>
+            <Form.Label>Цена</Form.Label>
+            <Form.Control
+              required
+              type="number"
+              min={0}
+              step={0.01}
+              defaultValue={formState.price}
+              onChange={e=>setPrice(parseFloat(e.target.value))}
+            />
+            <Form.Control.Feedback type="invalid">
+              введите допустимое значение ( .. ≥ 0  )
+            </Form.Control.Feedback>
+            </Form.Group>
 
-              <Col sm={6} lg={4}>
-              <div className="d-flex flex-row justify-content-between">
-              <b>Продукт</b>
-              <Form.Switch 
-                checked={formState.productDataAction==DataAction.Create} 
-                onChange={(e)=>setProductAction(e.target.checked?DataAction.Create:DataAction.None)}
-                label={<small><i>создать</i></small>}
-                />
-              </div>
+            <Col sm={6} lg={4}>
+            <div className="d-flex flex-row justify-content-between">
+            <b>Продукт</b>
+              <IsCreateSwitch
+                dataAction={formState.productDataAction}
+                setDataAction={setProductAction}
+              />
+            </div>
             {formState.productDataAction == DataAction.Create 
-              ? 
-              <Row>
+              ?<Form.Group>
                 <Form.Control
+                  required
+                  className="mt-2"
                   value={formState.productName}
                   onChange={(e)=>setNewProductName(e.target.value)}
                 />
-              </Row>
+                <Form.Control.Feedback type="invalid">
+                  введите допустимое значение ( .. ≥ 1 )
+                </Form.Control.Feedback>
+              </Form.Group>
               : formState.productIsEditable 
               ? 
-              <Button variant='none' onClick={()=>openSelect(formState)}>
-                {selectedProduct ? `${selectedProduct.id}. ${selectedProduct.name}` : 'не выбран'}
-              </Button>
+              <Form.Group>
+              
+              <FormControl
+                className="mt-2"
+                style={{caretColor:'transparent'}}
+                type='text'
+                role="button"
+                placeholder='--не выбран--'
+                onClick={()=>openSelect(formState)} 
+                value={selectedProduct ? `${selectedProduct.id}. ${selectedProduct.name}` : ''}
+                />
+              </Form.Group>
               :
               <>
                 <Form.Label>Продукты</Form.Label>

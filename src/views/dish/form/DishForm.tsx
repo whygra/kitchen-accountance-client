@@ -1,21 +1,22 @@
 import DishIngredientFormList from './DishIngredientFormList';
 import NameInput from './DishNameInput';
 import { Button, Col, Form, Image, Row } from 'react-bootstrap';
-import { useContext, useEffect, useRef, useState } from 'react';
+import { FormEvent, useContext, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { DishDTO } from '../../../api/dishes';
 import SelectCreateGroup from '../../shared/selectCreateGroup/SelectCreateGroup';
-import { dishCostCalculatorContext } from '../../../context/DishCostCalculatorContext';
-import { dishFormContext } from '../../../context/DishFormContext';
+import { dishCostCalculatorContext } from '../../../context/dish/DishCostCalculatorContext';
+import { dishFormContext } from '../../../context/dish/DishFormContext';
 import { appContext } from '../../../context/AppContextProvider';
 import { authContext } from '../../../context/AuthContextProvider';
 import { UserPermissions } from '../../../models';
 import HistoryNav from '../../shared/HistoryNav';
 import SmallTooltipButton from '../../shared/SmallTooltipButton';
+import { projectContext } from '../../../context/ProjectContextProvider';
 
 function DishForm() 
 {  
-  const {hasPermission} = useContext(authContext)
+  const {hasPermission} = useContext(projectContext)
 
   const imageInputRef = useRef<HTMLInputElement>(null)
 
@@ -35,19 +36,38 @@ function DishForm()
     formState, requestFn, setName,
     categories, setCategoryDataAction, 
     setCategoryId, setCategoryName,
+    groups, setGroupId,
+    setGroupDataAction, setGroupName,
     history, reloadState
   } = useContext(dishFormContext);
-
+  
   function hasIngredients() : boolean {
     // есть хотя бы один ингредиент
     return formState.dishIngredientForms.length > 0
   }
 
-  async function commit() {
+  
+  const [validated, setValidated] = useState(false);
+
+  const handleSubmit = (event:FormEvent) => {
+    event.preventDefault();
+    
+    const form = event.currentTarget as any;
+    if (form.checkValidity() === false) {
+      event.stopPropagation();      
+      setValidated(true);
+      return
+    }
+
     if (!hasIngredients()){
       showModal(<>Необходимо выбрать хотя-бы один ингредиент</>)
       return
     }
+
+    commit()
+  };
+
+  async function commit() {
 
     setDisabled(true)
     try{
@@ -89,14 +109,21 @@ function DishForm()
           history={history}
           reloadFn={reloadState}
         />
+        <Form aria-disabled={disabled} noValidate validated={validated} onSubmit={handleSubmit}>
+
         <Row>
         <Col sm={12} md={6} lg={7}>
         <Form.Group className='mb-3'>
           <Form.Label><b>Название блюда</b></Form.Label>
           <Form.Control
+            required
             value={formState.name}
             onChange={(e)=>setName(e.target.value)}
           />
+          
+          <Form.Control.Feedback type="invalid">
+            введите название
+          </Form.Control.Feedback>
         </Form.Group>
         <Form.Group className='mb-3'>
           <SelectCreateGroup 
@@ -108,6 +135,18 @@ function DishForm()
             setId={setCategoryId} 
             setDataAction={setCategoryDataAction}
             setName={setCategoryName}
+          />
+        </Form.Group>
+        <Form.Group className='mb-3'>
+          <SelectCreateGroup 
+            label='Группа'
+            dataAction={formState.groupDataAction}
+            items={groups} 
+            name={formState.groupName}
+            selectedId={formState.groupId} 
+            setId={setGroupId} 
+            setDataAction={setGroupDataAction}
+            setName={setGroupName}
             />
         </Form.Group>
         </Col>
@@ -146,9 +185,11 @@ function DishForm()
         </Row>
         <DishIngredientFormList/>
         <div className='d-flex'>
-          <Button disabled={disabled} className='me-2' onClick={commit}>Подтвердить</Button>
+          <Button disabled={disabled} className='me-2' type='submit'>Подтвердить</Button>
           <Button disabled={disabled} className='me-2' variant='secondary' onClick={cancel}>Отмена</Button>
         </div>
+        </Form>
+
       </>)
 }
 

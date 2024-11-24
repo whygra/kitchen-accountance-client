@@ -8,9 +8,10 @@ interface TooltipButtonProps {
     tooltip: string
     variant: string
     onClick?: ()=>void
+    type?:"button" | "submit" | "reset" | undefined
     children: ReactElement|string
 }
-function TooltipButton({disabled, children, tooltip, variant, onClick}:TooltipButtonProps) {
+function TooltipButton({disabled, children, tooltip, variant, onClick, type}:TooltipButtonProps) {
 
     return(
         <OverlayTrigger
@@ -20,7 +21,7 @@ function TooltipButton({disabled, children, tooltip, variant, onClick}:TooltipBu
           </Tooltip>
         }
       >
-        <Button className="ms-1" disabled={disabled} variant={variant} onClick={onClick}>{children}</Button>
+        <Button type={type??'button'} className="ms-1" disabled={disabled} variant={variant} onClick={onClick}>{children}</Button>
       </OverlayTrigger>
     )
 }

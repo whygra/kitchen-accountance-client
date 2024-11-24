@@ -1,6 +1,6 @@
 import NameInput from './DistributorNameInput';
 import { Button, Container, Form, Row } from 'react-bootstrap';
-import { useContext, useEffect, useState } from 'react';
+import { FormEvent, useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { DishDTO } from '../../../api/dishes';
 import PurchaseOptionFormList from './PurchaseOptionFormList';
@@ -23,6 +23,8 @@ interface SpreadsheetUploadFormProps {
 
 function SpreadsheetUploadForm({columnIndexes: initIndexes, onCommit, onCancel}:SpreadsheetUploadFormProps) 
 {
+    const [errorMsg, setErrorMsg] = useState<string>()
+    const {showModal} = useContext(appContext)
     const [file, setFile] = useState<File>()
     const [columnIndexes, setColumnIndexes] = useState(initIndexes)
     const [disabled, setDisabled] = useState(false)
@@ -32,6 +34,7 @@ function SpreadsheetUploadForm({columnIndexes: initIndexes, onCommit, onCancel}:
     }
 
     async function commit(){
+        setErrorMsg(undefined)
         setDisabled(true)
         try{
             if (file==undefined)
@@ -40,7 +43,7 @@ function SpreadsheetUploadForm({columnIndexes: initIndexes, onCommit, onCancel}:
             await onCommit(file, columnIndexes)
         }
         catch (error: any){
-            console.log(error)
+            setErrorMsg(error.message)
         }
         setDisabled(false)
     }
@@ -48,32 +51,54 @@ function SpreadsheetUploadForm({columnIndexes: initIndexes, onCommit, onCancel}:
     function cancel(){
         onCancel()
     }
+    const [validated, setValidated] = useState(false);
+  
+    const handleSubmit = (event:FormEvent) => {
+      event.preventDefault();
+      
+      const form = event.currentTarget as any;
+      if (form.checkValidity() === false) {
+        event.stopPropagation();      
+        setValidated(true);
+        return
+      }
+  
+      commit()
+    };
+
+    
+    const indexesAreUnique = columnIndexes.filter(
+        (value, index, self)=>
+            !value.index
+            || self.findIndex(i=>i.index==value.index)==index
+    ).length == columnIndexes.length
 
   return (
     <Container className="pb-1">
-        <Row className="pb-5 px-2 pt-2">
-            Выберите номера столбцов, в которых располагаются соответствующие данные
-        </Row>
-        <Row className="pb-5 px-2 pt-2">
+        <Form aria-disabled={disabled} noValidate validated={validated} onSubmit={handleSubmit}>
+        <Row className="mb-2 px-2 pt-2">
             {initIndexes.map((v)=><SpreadsheetColumnIdInput columnIndex={v} onIdChanged={onIndexChanged}/>)}
         </Row>
 
-        <Form.Group>
+        <Form.Group className='mb-4'>
             <Form.Label>Файл</Form.Label>
             <Form.Control type='file' accept='.xlsx'
                 onChange={(e)=>setFile((e.target as HTMLInputElement).files?.[0] ?? undefined)}
             />
         </Form.Group>
-
+        <Row className='text-danger px-3'>
+            {indexesAreUnique
+                ?''
+                :'Номера столбцов не могут повторяться'
+            }
+        </Row>
         <Row>
             <p className="d-flex justify-content-between">
-                {file!=undefined
-                    ? <Button disabled={disabled} onClick={commit} variant="primary">Подтвердить</Button>
-                    : <></>
-                }
+                <Button disabled={disabled || !file} type='submit' variant="primary">Подтвердить</Button>
                 <Button disabled={disabled} onClick={cancel} variant="secondary">Отмена</Button>
             </p>
         </Row>
+        </Form>
     </Container>
     )
 }

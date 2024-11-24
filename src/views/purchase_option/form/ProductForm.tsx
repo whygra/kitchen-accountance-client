@@ -5,6 +5,7 @@ import { purchaseOptionFormContext } from "../../../context/PurchaseOptionFormCo
 import { ProductFormState } from "../../../models/PurchaseOptionFormState"
 import SelectCreateGroup from "../../shared/selectCreateGroup/SelectCreateGroup"
 import TooltipButton from "../../shared/TooltipButton"
+import IsCreateSwitch from "../../shared/selectCreateGroup/IsCreateSwitch"
 
 interface ProductFormProps {
     formState: ProductFormState
@@ -28,6 +29,7 @@ function ProductForm({formState, openSelect}: ProductFormProps) {
     }
   
     const selectedProduct = products.find(p=>p.id==formState.id)
+
     
     return ( 
       <Card className='w-100 p-3'>
@@ -40,33 +42,56 @@ function ProductForm({formState, openSelect}: ProductFormProps) {
               <Col sm={6} className='mb-2'>
                 <div className="d-flex flex-row justify-content-between">
                 <b>Продукт</b>
-                <Form.Switch 
-                  checked={formState.dataAction==DataAction.Create} 
-                  onChange={(e)=>setAction(e.target.checked?DataAction.Create:DataAction.None)}
-                  label={<small><i>создать</i></small>}
+                  <IsCreateSwitch
+                    dataAction={formState.dataAction}
+                    setDataAction={setAction}
                   />
                 </div>
                 {formState.dataAction == DataAction.Create 
                   ? 
-                  <Row>
+                  <Form.Group>
                     <Form.Control
+                      required
                       value={formState.name}
                       onChange={(e)=>setProductName(e.target.value)}
-                    />
-                  </Row>
+                    />            
+                  <Form.Control.Feedback type="invalid">
+                    введите название
+                  </Form.Control.Feedback>
+                    
+                  </Form.Group>
                   :
-                  <Button variant='none' onClick={()=>openSelect(formState)}>
-                    {selectedProduct ? `${selectedProduct.id}. ${selectedProduct.name}` : 'не выбран'}
-                  </Button>
+                  <Form.Group>
+                  <Form.Control 
+                    style={{caretColor:'transparent'}}
+                    type='text'
+                    role="button"
+                    placeholder='--не выбран--'
+                    onClick={()=>openSelect(formState)} 
+                    required
+                    value={selectedProduct ? `${selectedProduct.id}. ${selectedProduct.name}` : ''} 
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    выберите продукт
+                  </Form.Control.Feedback>
+                  </Form.Group>
                 }
               </Col>
   
-              <Col lg={6} md={6} sm={6} className='mb-2'>
+              <Col as={Form.Group} lg={6} md={6} sm={6} className='mb-2'>
                 <Form.Label>Доля разборки</Form.Label>
                 <Form.Control
+                  type='number'
+                  required
+                  min={1}
+                  max={100}
+                  step={0.1}
                   value={formState.productShare}
                   onChange={e=>setProductShare(parseInt(e.target.value))}
                 />
+                <Form.Control.Feedback type="invalid">
+                  введите значение (от 1 до 100)
+                </Form.Control.Feedback>
               </Col>
 
             </Row>

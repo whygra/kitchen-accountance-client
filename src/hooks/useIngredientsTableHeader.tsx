@@ -6,7 +6,7 @@ import useFilterIngredients from './filter/useFilterIngredients';
 import useSortIngredients, { IngredientField } from './sort/useSortIngredients';
 import { IngredientTypeDTO } from '../api/ingredients';
 
-function useIngredientsTableHeader(ingredientTypes: IngredientTypeDTO[], filtersOpen?: boolean, fieldsToExclude?:IngredientField[]) 
+function useIngredientsTableHeader(ingredientTypes: IngredientTypeDTO[] = [{id: 0, name: 'ГП'},{id: 0, name: 'ПФ'}], filtersOpen?: boolean, fieldsToExclude?:IngredientField[]) 
 {
     // поиск
     const {searchData, setSearchData, getPredicate} = useFilterIngredients()

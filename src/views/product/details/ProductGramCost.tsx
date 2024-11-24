@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { ProductDTO } from "../../../api/products";
 import { IngredientDTO } from "../../../api/ingredients";
 import ProductDetails from "./ProductDetails";
-import { constructIngredientProductsWeightsCalculator, getProductsWeights } from "../../../models/IngredientProductsWeightsCalculatorState";
+import { constructIngredientProductsWeightsCalculator, getProductsWeights } from "../../../models/ingredient/IngredientProductsWeightsCalculatorState";
 
 
 
@@ -29,8 +29,14 @@ function ProductGramCost({product}:ProductGramCostProps) {
         
     return(
         <>
-            <p>Стоимость 1 грамма</p>
-            <p>Средняя: {avgGramCost.toFixed(2)}, Максимальная: {maxGramCost.toFixed(2)}, Минимальная: {minGramCost.toFixed(2)}</p>
+            <Table className="text-center">
+                <thead>
+                    <tr><th colSpan={3}>Стоимость 1 грамма</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Средняя: {avgGramCost.toFixed(2)}</td><td>Максимальная: {maxGramCost.toFixed(2)}</td><td>Минимальная: {minGramCost.toFixed(2)}</td></tr>
+                </tbody>
+            </Table>
         </>
     )
 }

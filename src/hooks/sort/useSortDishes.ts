@@ -8,8 +8,10 @@ export enum DishField {
     Id,
     Name,
     Category,
+    Group,
     Products,
     Weight,
+    Image,
 }
 
 class Comparers {
@@ -38,6 +40,14 @@ class Comparers {
         static readonly CategoryDesc = (i1:DishDTO, i2:DishDTO)=>
             i2.category?.name.localeCompare(i1.category?.name??'')??-1
     
+    
+        // Категория
+        static readonly GroupAsc = (i1:DishDTO, i2:DishDTO)=>{
+            return i1.group?.name.localeCompare(i2.group?.name??'')??-1
+        }
+        static readonly GroupDesc = (i1:DishDTO, i2:DishDTO)=>
+            i2.group?.name.localeCompare(i1.group?.name??'')??-1
+    
         // функция получения компаратора
         static readonly getComparer = (field: DishField, isDesc: boolean) => {
             switch (field) {
@@ -45,6 +55,8 @@ class Comparers {
                     return isDesc ?Comparers.NameDesc :Comparers.NameAsc
                 case DishField.Category:
                     return isDesc ?Comparers.CategoryDesc :Comparers.CategoryAsc
+                case DishField.Group:
+                    return isDesc ?Comparers.GroupDesc :Comparers.GroupAsc
                 case DishField.Weight:
                     return isDesc ?Comparers.WeightDesc :Comparers.WeightAsc
                 case DishField.Id:

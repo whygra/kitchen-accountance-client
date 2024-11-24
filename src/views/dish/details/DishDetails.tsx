@@ -1,12 +1,11 @@
 import { Accordion, Button, Card, Col, Form, Image, Row, Table } from 'react-bootstrap';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
-import { deleteDish, DishDTO, getDishWithIngredients, getDishWithPurchaseOptions } from '../../../api/dishes';
+import { calcDishWeight, deleteDish, DishDTO, getDishWithIngredients, getDishWithPurchaseOptions } from '../../../api/dishes';
 import DishIngredientsTable from './DishIngredientsTable';
 import IngredientsWeightsCalculator from './IngredientsWeightsCalculator';
-import DishWeight from './DishWeight';
 import DishCostCalculator from './DishCostCalculator';
-import DishCostCalculatorContextProvider from '../../../context/DishCostCalculatorContext';
+import DishCostCalculatorContextProvider from '../../../context/dish/DishCostCalculatorContext';
 import { UserPermissions } from '../../../models';
 import { authContext } from '../../../context/AuthContextProvider';
 import CUDButtons from '../../shared/CUDButtons';
@@ -54,7 +53,9 @@ function DishDetails()
         <>
             <Row className='mt-5'>
             <h3 className='text-center'>{`${dish.id}. ${dish.name}`}</h3>
-            <h5 className='text-center'>Вес блюда: <DishWeight dish={dish}/> г.</h5>
+            <h5 className='text-center'>Вес блюда: {calcDishWeight(dish).toFixed(2)} г.</h5>
+            <span className='text-center'>Категория: "{dish.category?.name ?? '-без категории-'}"</span>
+            <span className='text-center'>Группа: "{dish.group?.name ?? '-без группы-'}"</span>
             
             <CUDButtons
                 deleteFn={deleteFn}
@@ -76,7 +77,7 @@ function DishDetails()
                         <h3>Нет изображения</h3>
                     </div>
                     : <div 
-                    style={{height:'20em'}} 
+                    style={{maxHeight:'20em'}} 
                         className='bg-light text-secondary d-flex justify-content-center align-items-center text-center'
                         >
                         <Image  style={{maxHeight:'100%', maxWidth:'100%'}} src={`${dish.image?.url}`}/>
@@ -97,7 +98,7 @@ function DishDetails()
                 <IngredientsWeightsCalculator dish={dish}/>
                 </Card>
             </Col>
-            <Col md={12} lg={6}>
+            <Col lg={12} xl={6}>
                 <Card className="p-3">
                 <DishCostCalculatorContextProvider id={dish.id}>
                     <DishCostCalculator/>

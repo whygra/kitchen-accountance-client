@@ -1,6 +1,6 @@
 import NameInput from './DistributorNameInput';
 import { Button, Form } from 'react-bootstrap';
-import { useContext, useEffect, useState } from 'react';
+import { FormEvent, useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { DishDTO } from '../../../api/dishes';
 import PurchaseOptionFormList from './PurchaseOptionFormList';
@@ -13,11 +13,12 @@ import BtnShowFileUploadForm from './BtnShowFileUploadForm';
 import { authContext } from '../../../context/AuthContextProvider';
 import { UserPermissions } from '../../../models';
 import HistoryNav from '../../shared/HistoryNav';
+import { projectContext } from '../../../context/ProjectContextProvider';
 
 
 function DistributorForm() 
 {  
-  const {hasPermission} = useContext(authContext)
+  const {hasPermission} = useContext(projectContext)
   useEffect(()=>{
     if(!hasPermission(UserPermissions.CRUD_DISTRIBUTORS))
       throw {name:'403', message:'Нет прав доступа'}
@@ -56,26 +57,64 @@ function DistributorForm()
     navigate(-1)
   }
 
+  const [isValidating, setIsValidating] = useState(false)
+  
+  const [validated, setValidated] = useState(true);
+
+  const handleSubmit = (event:FormEvent) => {
+    console.log('submit')
+    setIsValidating(true)
+
+    event.preventDefault();
+
+    const form = event.currentTarget as any;
+    if (form.checkValidity() === false) {
+      event.stopPropagation();      
+      setValidated(true);
+      setIsValidating(false)
+      return
+    }
+
+    commit()
+  };
+
   return (<>
         <HistoryNav
           history={history}
           reloadFn={reloadState}
         />
+        <Form aria-disabled={disabled} noValidate validated={validated} onSubmit={handleSubmit}>
+
         <Form.Group className='mb-3'>
         <Form.Label><b>Название организации</b></Form.Label>
-        <NameInput name={formState.name} setName={setName}/>
+        
+          <Form.Control
+            required
+            type="text"
+            placeholder="Название организации" 
+            value={formState.name}
+            onChange={e=>setName(e.target.value)}
+          />
+          
+          <Form.Control.Feedback type="invalid">
+            введите название
+          </Form.Control.Feedback>
         </Form.Group>
+        
         {
+          // загрузка прайс-листа
           id!==undefined
           ? <BtnShowFileUploadForm onSuccess={reloadState} distributorId={formState.id}/>
           : <></>
         }
-        <PurchaseOptionFormList/>
+
+        <PurchaseOptionFormList goToInvalid={isValidating}/>
         <div className='d-flex'>
-          <Button disabled={disabled} className='me-2' onClick={commit}>Подтвердить</Button>
+          <Button disabled={disabled} className='me-2' type='submit'>Подтвердить</Button>
           <Button disabled={disabled} className='me-2' variant='secondary' onClick={cancel}>Отмена</Button>
         </div>
-      </>)
+        </Form>
+        </>)
 }
 
 export default DistributorForm

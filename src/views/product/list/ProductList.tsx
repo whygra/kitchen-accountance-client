@@ -1,24 +1,21 @@
 import { useContext, useEffect, useState } from 'react';
-import { Accordion, Button, Col, Image, Row, Table } from 'react-bootstrap';
-import { IngredientDTO, getIngredientsWithProducts } from '../../../api/ingredients';
+import { Accordion, Button, Row } from 'react-bootstrap';
 import ProductListItem from './ProductListItem';
 import { Link } from 'react-router-dom';
-import { appContext } from '../../../context/AppContextProvider';
 import { useErrorBoundary } from 'react-error-boundary';
-import { getProducts, getProductsWithPurchaseOptions, getProductWithPurchaseOptions, ProductDTO } from '../../../api/products';
-import PaginationNav from '../../shared/PaginationNav';
-import { authContext } from '../../../context/AuthContextProvider';
+import { getProductsWithPurchaseOptions, ProductDTO } from '../../../api/products';
 import { UserPermissions } from '../../../models';
 import usePagination from '../../../hooks/usePagination';
 import useProductsTableHeader from '../../../hooks/useProductsTableHeader';
 import Loading from '../../shared/Loading';
+import { projectContext } from '../../../context/ProjectContextProvider';
 
 function ProductList() 
 {
   
     const [products, setProducts] = useState(new Array<ProductDTO>)
     const [isLoading, setIsLoading] = useState(false)
-    const {hasPermission} = useContext(authContext)
+    const {hasPermission} = useContext(projectContext)
     const {showBoundary} = useErrorBoundary()
   
     async function loadProducts() {
@@ -46,10 +43,12 @@ function ProductList()
     const filtered = products
         .filter(getPredicate())
         .sort(getComparer())
-    const {sliceLimits, paginationNav} = usePagination(filtered.length) 
+    const {sliceLimits, nav} = usePagination(filtered.length) 
   
     return isLoading ? (<Loading/>) : (
         <>
+        <div className='d-flex justify-content-between'>
+            <h2>Продукты</h2>
         {
             hasPermission(UserPermissions.CRUD_PRODUCTS)
             ? 
@@ -58,6 +57,7 @@ function ProductList()
             </Link>
             : <></>
         }
+        </div>
         <Row className='ps-1'>
             {header}
         </Row>
@@ -68,7 +68,7 @@ function ProductList()
                 <ProductListItem product={c} onDelete={async()=>{await loadProducts()}}/>
             )}
         </Accordion>
-        {paginationNav}
+        {nav}
         </>
     )
 }

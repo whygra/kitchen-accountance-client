@@ -26,7 +26,7 @@ export default function useIngredientSelect(
     }
 
     // уникальные типы из коллекции ингредиентов
-    const types = items.map(i=>i.type).filter((t, i, arr)=>arr.indexOf(t)==i)
+    const types = items.map(i=>i.type!).filter((t, i, arr)=>arr.indexOf(t)==i)
     
     const selectFilter = useIngredientsTableHeader(types, true, fieldsToExclude)
     const filteredItems = items

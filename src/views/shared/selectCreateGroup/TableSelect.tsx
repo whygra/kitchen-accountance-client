@@ -17,7 +17,7 @@ interface TableSelectProps<T extends NamedEntity> {
 
 function TableSelect<T extends NamedEntity>({constructRow, header, selectedId, setId, items} : TableSelectProps<T>) {
 
-  const {paginationNav, sliceLimits} = usePagination(items.length)
+  const {nav, sliceLimits} = usePagination(items.length)
   
   return(
     <div>
@@ -25,10 +25,10 @@ function TableSelect<T extends NamedEntity>({constructRow, header, selectedId, s
             {header}
             <tbody className='text-center'>
               {items.slice(sliceLimits.start, sliceLimits.end)
-                .map(i=><tr className={`${i.id==selectedId?'table-active':''}`} onClick={()=>setId(i.id)}>{constructRow(i)}</tr>)}
+                .map(i=><tr className={`${i.id==selectedId?'table-active fw-bold':''}`} onClick={()=>setId(i.id)}>{constructRow(i)}</tr>)}
             </tbody>
         </Table>
-        {paginationNav}
+        {nav}
     </div>
     )
 }

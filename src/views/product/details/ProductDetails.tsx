@@ -63,19 +63,20 @@ function ProductDetails()
                     entity={product}
                 />
             </div>
+            <div className='d-flex fw-bold flex-column pt-2 pb-4 ps-4'>
+                <span>Категория: "{product.category?.name ?? '-без категории-'}"</span>
+                <span>Группа: "{product.group?.name ?? '-без группы-'}"</span>
+            </div>
             <Col md={12}>
                 <Card className="p-3">
                 <ProductPurchaseOptionsTable product={product}/>
+                <ProductGramCost product={product}/>
+
                 </Card>
             </Col>
             <Col md={12}>
                 <Card className="p-3">
                 <ProductIngredientsTable product={product}/>
-                </Card>
-            </Col>
-            <Col md={12}>
-                <Card className="p-3">
-                <ProductGramCost product={product}/>
                 </Card>
             </Col>
             </Row>

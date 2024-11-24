@@ -1,8 +1,8 @@
 import { Table } from "react-bootstrap";
 import { IngredientDTO } from "../../../api/ingredients";
 import { useState } from "react";
-import PaginationNav from "../../shared/PaginationNav";
 import { Link } from "react-router-dom";
+import usePagination from "../../../hooks/usePagination";
 
 interface IngredientDishesTableProps {
     ingredient: IngredientDTO
@@ -10,13 +10,8 @@ interface IngredientDishesTableProps {
 
 function IngredientDishesTable({ingredient}:IngredientDishesTableProps) {
         
-    // границы среза коллекции, отображаемого на странице
-    const [sliceLimits, setSliceLimits] = useState({start:0, end:1})
-
-    // функция назначает границы среза коллекции, вызывается компонентом пагинации
-    function makeSlice(pageLength:number, pageNumber:number){
-        setSliceLimits({start:pageLength*(pageNumber-1), end:pageLength*pageNumber})
-    }
+    const {nav, sliceLimits} = usePagination(ingredient.dishes?.length??0)
+    
     return(
         
         <><h4 className="text-center">Используется в блюдах</h4>
@@ -44,11 +39,7 @@ function IngredientDishesTable({ingredient}:IngredientDishesTableProps) {
                 )}
             </tbody>
         </Table>
-        <PaginationNav 
-            initPageLength={5} 
-            makeSlice={makeSlice} 
-            totalLength={ingredient.dishes?.length??0}
-        />
+        {nav}
         </>
     )
 }

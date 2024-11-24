@@ -10,9 +10,9 @@ import { UserPermissions } from '../../../models';
 import ConfirmationDialog from '../../shared/ConfirmationDialog';
 import BtnAskConfirmation from '../../shared/BtnAskConfirmation';
 import CUDButtons from '../../shared/CUDButtons';
-import { calcAvgWastePercentage } from '../../../models/IngredientProductsWeightsCalculatorState';
+import { calcAvgWastePercentage } from '../../../models/ingredient/IngredientProductsWeightsCalculatorState';
 import IngredientDishesTable from './IngredientDishesTable';
-import { constructIngredientCostCalculator } from '../../../models/DishCostCalculatorState';
+import { constructIngredientCostCalculator } from '../../../models/dish/DishCostCalculatorState';
 import IngredientCostCalculator from '../../dish/details/IngredientCostCalculator';
 import Loading from '../../shared/Loading';
 
@@ -62,7 +62,7 @@ function IngredientDetails()
         <>
             <Row className='mt-5'>
             <div className='d-flex justify-content-between'>
-            <h3 className='text-center'>{`${ingredient.id}. ${ingredient.name} ${ingredient.type.name}`}</h3>
+            <h3 className='text-center'>{`${ingredient.id}. ${ingredient.name} ${ingredient.type?.name}`}</h3>
             <CUDButtons
                 deleteFn={deleteFn}
                 entity={ingredient}
@@ -70,17 +70,17 @@ function IngredientDetails()
                 requiredPermission={UserPermissions.CRUD_INGREDIENTS}
             />   
             </div>
-            <Col lg={12} sm={12}>
-                <ListGroup>
-                    <ListGroupItem>категория: {ingredient.category?.name ?? 'нет'}</ListGroupItem>
-                    <ListGroupItem>тип: {ingredient.type.name}</ListGroupItem>
-                    <ListGroupItem>средний процент отхода: {calcAvgWastePercentage(ingredient).toFixed(2)}</ListGroupItem>
-                    {ingredient.is_item_measured
-                        ?<ListGroupItem>вес 1шт: {ingredient.item_weight}</ListGroupItem>
+            <div className='d-flex fw-bold flex-column pt-2 pb-4 ps-4'>
+                <span>Тип: "{ingredient.type?.name}"</span>
+                <span>Категория: "{ingredient.category?.name ?? '-без категории-'}"</span>
+                <span>Группа: "{ingredient.group?.name ?? '-без группы-'}"</span>
+                <span>Средний процент отхода: {calcAvgWastePercentage(ingredient).toFixed(2)}</span>
+                {ingredient.is_item_measured
+                        ?<span>Вес 1шт: {ingredient.item_weight} г.</span>
                         :<></>
                     }
-                </ListGroup>
-            </Col>
+            </div>
+                    
             <Col xl={6} lg={12} sm={12}>
                 <Card className="p-3">
 

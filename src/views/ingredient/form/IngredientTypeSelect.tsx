@@ -10,6 +10,9 @@ interface IngredientTypeSelectProps {
 
 function IngredientTypeSelect({ingredientTypes, typeId, setTypeId}: IngredientTypeSelectProps) {
 
+  useEffect(()=>{
+    setTypeId(ingredientTypes[0]?.id)
+  },[])
   function getOptions() : ReactNode {
     return ingredientTypes.map(ingredientType => <option value={ingredientType.id}>{ingredientType.name}</option>)
   }

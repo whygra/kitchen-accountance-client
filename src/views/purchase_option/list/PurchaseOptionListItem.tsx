@@ -1,12 +1,12 @@
 import { Accordion, Button, Col, Row, Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import PurchaseOptionProductsTable from '../details/PurchaseOptionProductsTable';
 import { UserPermissions } from '../../../models';
 import { deletePurchaseOption as requestDelete, PurchaseOptionDTO } from '../../../api/purchaseOptions';
 import CUDButtons from '../../shared/CUDButtons';
 import { useContext } from 'react';
 import { appContext } from '../../../context/AppContextProvider';
 import { ErrorView } from '../../ErrorView';
+import ProductsTable from '../../product/list/ProductsTable';
 
 
 interface PurchaseOptionListItemProps {
@@ -41,7 +41,7 @@ function PurchaseOptionListItem({onDelete, purchaseOption}: PurchaseOptionListIt
             </Row>
         </Accordion.Header>
         <Accordion.Body>
-            <small><PurchaseOptionProductsTable purchaseOption={purchaseOption}/></small>
+            <small><ProductsTable products={purchaseOption.products??[]} fieldsToExclude={[]}/></small>
 
                 <div className='d-flex justify-content-between'>
                     <CUDButtons

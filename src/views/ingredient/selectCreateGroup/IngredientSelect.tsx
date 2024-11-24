@@ -28,7 +28,7 @@ function IngredientSelect({header, ingredientId, setIngredientId, ingredients, p
       variant='none'
       onClick={()=>setDisplayTable(true)}
       >
-      {selected.id} {selected.name} {selected.type.name}  
+      {selected.id} {selected.name} {selected.type?.name}  
     </Button>
       <ModalWrapper show={displayTable} onHide={()=>setDisplayTable(false)}>
         <TableSelect

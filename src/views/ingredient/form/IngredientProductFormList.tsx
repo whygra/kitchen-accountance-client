@@ -1,10 +1,9 @@
 import {Button, Container, Form, OverlayTrigger, Tooltip} from 'react-bootstrap'
 import IngredientProductForm from './IngredientProductForm'
 import { v4 as uuid } from "uuid";
-import { IngredientProductFormState } from '../../../models/IngredientFormState'
+import { IngredientProductFormState } from '../../../models/ingredient/IngredientFormState'
 import { useContext, useState } from 'react'
-import { ingredientContext } from '../../../context/IngredientFormContext'
-import PaginationNav from '../../shared/PaginationNav'
+import { ingredientContext } from '../../../context/ingredient/IngredientFormContext'
 import ConfirmationDialog from '../../shared/ConfirmationDialog'
 import { appContext } from '../../../context/AppContextProvider'
 import TooltipButton from '../../shared/TooltipButton'

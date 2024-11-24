@@ -1,12 +1,14 @@
 import { useContext, useEffect, useState } from 'react';
-import { Accordion, Col, Row, Table } from 'react-bootstrap';
+import { Accordion, Button, Col, Row, Table } from 'react-bootstrap';
 import { IngredientDTO, getIngredientsWithProducts } from '../../../api/ingredients';
 import UserListItem from './UserListItem';
 import { Link } from 'react-router-dom';
 import { appContext } from '../../../context/AppContextProvider';
 import { useErrorBoundary } from 'react-error-boundary';
-import { getRoles, getUsers, UserDTO, UserRoleDTO } from '../../../api/users';
+import { getProjectUsers, UserDTO } from '../../../api/users';
 import Loading from '../../shared/Loading';
+import { RoleDTO } from '../../../api/projects';
+import { getRoles } from '../../../api/roles';
 
 function UserList() 
 {
@@ -15,7 +17,7 @@ function UserList()
     const [isLoading, setIsLoading] = useState(false)
     const {showModal} = useContext(appContext)
     const {showBoundary} = useErrorBoundary()
-    const [roles, setRoles] = useState(new Array<UserRoleDTO>)
+    const [roles, setRoles] = useState(new Array<RoleDTO>)
 
     async function loadRoles() {
         try{
@@ -28,7 +30,7 @@ function UserList()
 
     async function loadUsers() {
         try{
-          const res = await getUsers()
+          const res = await getProjectUsers()
           setUsers(res ?? [])
         }
         catch (error: Error | any) {
@@ -57,6 +59,10 @@ function UserList()
   
     return isLoading ? (<Loading/>) : (
         <>
+        <div className='d-flex justify-content-between'>
+            <h2>Пользователи</h2>
+            <Button variant='success'>Пригласить</Button>
+        </div>
         <Row className='ps-3 pe-5'>
             <Col md={1} sm={1} className='text-end'><b>id</b></Col>
             <Col md={3} sm={3} className='text-center'><b>Имя пользователя</b></Col>

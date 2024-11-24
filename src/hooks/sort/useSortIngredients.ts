@@ -1,6 +1,4 @@
 import { useState } from "react"
-import { PurchaseOptionDTO } from "../../api/purchaseOptions"
-import { calcDishWeight, DishDTO } from "../../api/dishes"
 import { IngredientDTO } from "../../api/ingredients"
 
 export enum IngredientField {
@@ -8,7 +6,8 @@ export enum IngredientField {
     Id,
     Name,
     Category,
-    TypeId,
+    Group,
+    Type,
 }
 
 class Comparers {
@@ -18,7 +17,7 @@ class Comparers {
     static readonly IdDesc = (i1:IngredientDTO, i2:IngredientDTO)=>
         i2.id - i1.id
     
-            // Наименование
+    // Наименование
     static readonly NameAsc = (i1:IngredientDTO, i2:IngredientDTO)=>
         i1.name.localeCompare(i2.name)
     static readonly NameDesc = (i1:IngredientDTO, i2:IngredientDTO)=>
@@ -30,11 +29,17 @@ class Comparers {
     static readonly CategoryDesc = (i1:IngredientDTO, i2:IngredientDTO)=>
         i2.category?.name.localeCompare(i1.category?.name??'')??-1
 
+    // Группа
+    static readonly GroupAsc = (i1:IngredientDTO, i2:IngredientDTO)=>
+        i1.group?.name.localeCompare(i2.group?.name??'')??-1
+    static readonly GroupDesc = (i1:IngredientDTO, i2:IngredientDTO)=>
+        i2.group?.name.localeCompare(i1.group?.name??'')??-1
+
     // Тип
     static readonly TypeAsc = (i1:IngredientDTO, i2:IngredientDTO)=>
-        i1.type.id - i2.type.id
+        i1.type?.name.localeCompare(i2.type?.name??'')??-1
     static readonly TypeDesc = (i1:IngredientDTO, i2:IngredientDTO)=>
-        i2.type.id - i1.type.id
+        i2.type?.name.localeCompare(i1.type?.name??'')??-1
 
     // функция получения компаратора
     static readonly getComparer = (field: IngredientField, isDesc: boolean) => {
@@ -43,10 +48,12 @@ class Comparers {
                 return isDesc ?Comparers.IdDesc :Comparers.IdAsc
             case IngredientField.Name:
                 return isDesc ?Comparers.NameDesc :Comparers.NameAsc
-            case IngredientField.TypeId:
+            case IngredientField.Type:
                 return isDesc ?Comparers.TypeDesc :Comparers.TypeAsc
             case IngredientField.Category:
                 return isDesc ?Comparers.CategoryDesc :Comparers.CategoryAsc
+            case IngredientField.Group:
+                return isDesc ?Comparers.GroupDesc :Comparers.GroupAsc
             default:
                 return (i1:IngredientDTO, i2:IngredientDTO)=>0
         }

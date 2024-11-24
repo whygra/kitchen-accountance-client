@@ -4,8 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import SelectCreateCategoryGroup from '../../shared/selectCreateGroup/SelectCreateGroup';
 import { DataAction } from '../../../models';
 import { appContext } from '../../../context/AppContextProvider';
-import { ingredientContext } from '../../../context/IngredientFormContext';
-import { getCurrent, signUp, UserDTO } from '../../../api/users';
+import { ingredientContext } from '../../../context/ingredient/IngredientFormContext';
 import { setCookie } from '../../../cookies';
 import { useErrorBoundary } from 'react-error-boundary';
 import { authContext } from '../../../context/AuthContextProvider';
@@ -27,10 +26,6 @@ function UserDetails()
             <p>{user?.name}</p>
             <p><b>Адрес почты</b></p>
             <p>{user?.email}</p>
-            <p><b>Роль:</b></p>
-            <ul>
-                {user?.roles?.map(r=><li>{r.name}</li>)}
-            </ul>
         </CardBody>
 
       </Card>)

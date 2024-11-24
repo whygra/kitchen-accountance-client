@@ -2,8 +2,9 @@ import { Table } from "react-bootstrap";
 import { IngredientDTO } from "../../../api/ingredients";
 import { ProductDTO } from "../../../api/products";
 import { useState } from "react";
-import PaginationNav from "../../shared/PaginationNav";
 import { Link } from "react-router-dom";
+import { calcGramCost } from "../../../models/dish/DishCostCalculatorState";
+import usePagination from "../../../hooks/usePagination";
 
 interface ProductPurchaseOptionsTableProps {
     product: ProductDTO
@@ -11,13 +12,8 @@ interface ProductPurchaseOptionsTableProps {
 
 function ProductPurchaseOptionsTable({product}:ProductPurchaseOptionsTableProps) {
         
-    // границы среза коллекции, отображаемого на странице
-    const [sliceLimits, setSliceLimits] = useState({start:0, end:1})
+    const {sliceLimits, nav} = usePagination(product.ingredients?.length??0)
 
-    // функция назначает границы среза коллекции, вызывается компонентом пагинации
-    function makeSlice(pageLength:number, pageNumber:number){
-        setSliceLimits({start:pageLength*(pageNumber-1), end:pageLength*pageNumber})
-    }
     return(
         
         <><h4 className="text-center">Позиции закупки</h4>
@@ -31,6 +27,7 @@ function ProductPurchaseOptionsTable({product}:ProductPurchaseOptionsTableProps)
                     <th>Цена</th>
                     <th>Масса нетто</th>
                     <th>Ед. изм.</th>
+                    <th>Стоимость 1г.</th>
                 </tr>
             </thead>
             <tbody>
@@ -44,15 +41,12 @@ function ProductPurchaseOptionsTable({product}:ProductPurchaseOptionsTableProps)
                     <td>{p.price}₽</td>
                     <td>{p.net_weight}г.</td>
                     <td>{p.unit?.short}</td>
+                    <td>{(p.price && p.net_weight) ? (p.price / p.net_weight).toFixed(2) : '?'} ₽/г.</td>
                 </tr>
                 )}
             </tbody>
         </Table>
-        <PaginationNav
-            makeSlice={makeSlice}
-            initPageLength={5}
-            totalLength={product.purchase_options?.length??0}
-        />
+        {nav}
         </>
     )
 }

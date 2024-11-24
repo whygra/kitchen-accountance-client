@@ -1,6 +1,6 @@
 import { Accordion, Col, Form, Row, Table } from "react-bootstrap";
 import ProductCostCalculator from "./ProductCostCalculator";
-import { calcIngredientCost, IngredientCostCalculatorModel, ProductCostCalculatorModel } from "../../../models/DishCostCalculatorState";
+import { calcIngredientCost, IngredientCostCalculatorModel, ProductCostCalculatorModel } from "../../../models/dish/DishCostCalculatorState";
 
 
 interface IngredientCostCalculatorProps{
@@ -18,7 +18,7 @@ function IngredientCostCalculator({ingredient}:IngredientCostCalculatorProps) {
                     {ingredient.name} - {Number(ingredient.cost).toFixed(2)} руб.
                 </Accordion.Header>
                 <Accordion.Body>
-                    {products.map(p=>
+                    {products?.map(p=>
                         <ProductCostCalculator product={p} ingredientId={ingredient.id} />
                     )}
                 </Accordion.Body>

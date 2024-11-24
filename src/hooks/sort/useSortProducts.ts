@@ -8,6 +8,7 @@ export enum ProductField {
     Id,
     Name,
     Category,
+    Group,
 }
 
 class Comparers {
@@ -29,6 +30,12 @@ class Comparers {
     static readonly CategoryDesc = (i1:ProductDTO, i2:ProductDTO)=>
         i2.category?.name.localeCompare(i1.category?.name??'')??-1
 
+    // Категория
+    static readonly GroupAsc = (i1:ProductDTO, i2:ProductDTO)=>
+        i1.group?.name.localeCompare(i2.group?.name??'')??-1
+    static readonly GroupDesc = (i1:ProductDTO, i2:ProductDTO)=>
+        i2.group?.name.localeCompare(i1.group?.name??'')??-1
+
     // функция получения компаратора
     static readonly getComparer = (field: ProductField, isDesc: boolean) => {
         switch (field) {
@@ -38,6 +45,8 @@ class Comparers {
                 return isDesc ?Comparers.NameDesc :Comparers.NameAsc
             case ProductField.Category:
                 return isDesc ?Comparers.CategoryDesc :Comparers.CategoryAsc
+            case ProductField.Group:
+                return isDesc ?Comparers.GroupDesc :Comparers.GroupAsc
             default:
                 return (i1:ProductDTO, i2:ProductDTO)=>0
         }

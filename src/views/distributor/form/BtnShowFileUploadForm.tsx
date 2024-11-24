@@ -6,6 +6,7 @@ import SpreadsheetUploadForm, { ColumnIndex } from "./SpreasheetUploadForm"
 import { Button, Form } from "react-bootstrap"
 import { authContext } from "../../../context/AuthContextProvider"
 import { UserPermissions } from "../../../models"
+import { projectContext } from "../../../context/ProjectContextProvider"
 
 interface BtnShowFileUploadFormProps {
     distributorId: number
@@ -13,7 +14,7 @@ interface BtnShowFileUploadFormProps {
 }
 
 function BtnShowFileUploadForm({onSuccess, distributorId}:BtnShowFileUploadFormProps) {
-    const {hasPermission} = useContext(authContext)
+    const {hasPermission} = useContext(projectContext)
     if(!hasPermission(UserPermissions.CRUD_DISTRIBUTORS))
         return (<></>)
 
@@ -32,7 +33,7 @@ function BtnShowFileUploadForm({onSuccess, distributorId}:BtnShowFileUploadFormP
             id: distributorId,
             column_indexes: column_indexes,
             file: file,
-        }).catch(e=>console.log(e))
+        }).catch(e=>showModal(<>{e.message}</>, <h3>Ошибка</h3>))
         hideModal()
         onSuccess()
     }
@@ -49,7 +50,10 @@ function BtnShowFileUploadForm({onSuccess, distributorId}:BtnShowFileUploadFormP
             ]}
             onCommit={uploadFile}
             onCancel={hideModal}
-            />
+            />,
+            <h5>
+                Выберите номера столбцов, в которых располагаются соответствующие данные
+            </h5>
         )
     }
 

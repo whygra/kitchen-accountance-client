@@ -3,6 +3,7 @@ import NameInput from './NameInput';
 import { DataAction } from '../../../models/index';
 import Select from './Select';
 import { NamedEntity } from '../../../api/constants';
+import IsCreateSwitch from './IsCreateSwitch';
 
 interface SelectCreateGroupProps<T extends NamedEntity> {
   selectedId: number
@@ -32,18 +33,10 @@ function SelectCreateGroup<T extends NamedEntity>({
     <div>
     <div className='d-flex justify-content-between'>
         <Form.Label><b>{label}</b></Form.Label>
-        <div className='d-flex'>
-        <small className='mx-1'><i>создать</i></small>
-        <Form.Check
-          type="switch"
-          checked={isCreateCategory}
-          onChange={(e)=>setDataAction(
-            e.target.checked 
-            ? DataAction.Create
-            : DataAction.None
-          )}
-          />
-        </div>
+        <IsCreateSwitch
+          dataAction={dataAction}
+          setDataAction={setDataAction}
+        />
     </div>
     <div className='px-1'>
     {
@@ -55,6 +48,7 @@ function SelectCreateGroup<T extends NamedEntity>({
       />
       :
       <Select
+      
       items={items}
       selectedId={selectedId}
       setId={setId}

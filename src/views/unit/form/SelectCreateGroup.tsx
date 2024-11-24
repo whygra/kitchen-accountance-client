@@ -3,6 +3,8 @@ import UnitSelect from './UnitSelect';
 import NameInput from './NameInput';
 import { DataAction } from '../../../models/index';
 import { UnitDTO } from '../../../api/units';
+import { useEffect } from 'react';
+import IsCreateSwitch from '../../shared/selectCreateGroup/IsCreateSwitch';
 
 interface SelectCreateGroupProps {
   unitId: number
@@ -30,22 +32,18 @@ function SelectCreateGroup({
 {
   const isCreateUnit = dataAction === DataAction.Create
 
+  useEffect(()=>{
+    setUnitId(units[0]?.id)
+  },[])
+
   return (
     <div>
       <div className='d-flex justify-content-between'>
         <Form.Label>Единица измерения</Form.Label>
-        <div className='d-flex'>
-        <small className='my-0'><i>создать</i></small>
-        <Form.Check
-          type="switch"
-          checked={isCreateUnit}
-          onChange={(e)=>setDataAction(
-            e.target.checked 
-            ? DataAction.Create
-            : DataAction.None
-          )}
+        <IsCreateSwitch
+          dataAction={dataAction}
+          setDataAction={setDataAction}
         />
-        </div>
       </div>
       <div>
       {

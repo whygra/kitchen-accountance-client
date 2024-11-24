@@ -1,6 +1,4 @@
 import { useState } from "react"
-import { PurchaseOptionDTO } from "../../api/purchaseOptions"
-import { calcDishWeight, DishDTO } from "../../api/dishes"
 import { IngredientDTO } from "../../api/ingredients"
 
 
@@ -8,14 +6,16 @@ export interface SearchParams {
     id: number
     name: string
     category: string    
-    typeId: number
+    group: string    
+    type: string
 }
 
 export const EMPTY_SEARCH_PARAMS: SearchParams = {
     id: NaN,
     name: '', 
     category: '', 
-    typeId: NaN, 
+    group: '', 
+    type: '', 
 }
 
 export default function useFilterIngredients() {
@@ -24,9 +24,10 @@ export default function useFilterIngredients() {
     function getPredicate() {
         return (i:IngredientDTO) =>
             (Number.isNaN(searchData.id) || i.id == searchData.id)
-            && (searchData.category.length==0 || i.category?.name.toLocaleLowerCase().includes(searchData.category))
-            && (searchData.name.length==0 || i.name.toLocaleLowerCase().includes(searchData.name))
-            && (Number.isNaN(searchData.typeId) || i.type.id == searchData.typeId)
+            && (searchData.category.length==0 || searchData.category.split(' ').every(s=>i.category?.name.toLocaleLowerCase().includes(s)))
+            && (searchData.group.length==0 || searchData.group.split(' ').every(s=>i.group?.name.toLocaleLowerCase().includes(s)))
+            && (searchData.name.length==0 || searchData.name.split(' ').every(s=>i.name.toLocaleLowerCase().includes(s)))
+            && (searchData.type=='' || i.type?.name.toLocaleLowerCase() == searchData.type.toLocaleLowerCase())
     }
     
     return {searchData, setSearchData, getPredicate}

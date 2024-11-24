@@ -3,12 +3,11 @@ import { useDispatch } from 'react-redux'
 import { Dispatch } from 'redux'
 import DishIngredientForm from './DishIngredientForm'
 import { v4 as uuid } from "uuid";
-import { DishIngredientFormState } from '../../../models/DishFormState'
+import { DishIngredientFormState } from '../../../models/dish/DishFormState'
 import { useContext, useState } from 'react'
-import { dishFormContext } from '../../../context/DishFormContext'
+import { dishFormContext } from '../../../context/dish/DishFormContext'
 import { appContext } from '../../../context/AppContextProvider';
 import ConfirmationDialog from '../../shared/ConfirmationDialog';
-import PaginationNav from '../../shared/PaginationNav';
 import BtnAskConfirmation from '../../shared/BtnAskConfirmation';
 import TooltipButton from '../../shared/TooltipButton';
 import useDishesTableHeader from '../../../hooks/useDishesTableHeader';
@@ -18,7 +17,7 @@ import DishesTableItem from '../list/DishesTableItem';
 import IngredientsTableItem from '../../ingredient/list/IngredientsTableItem';
 import ModalWrapper from '../../shared/ModalWrapper';
 import useIngredientsTableHeader from '../../../hooks/useIngredientsTableHeader';
-import { IngredientProductFormState } from '../../../models/IngredientFormState';
+import { IngredientProductFormState } from '../../../models/ingredient/IngredientFormState';
 import useIngredientSelect from '../../../hooks/tableSelect/useIngredientSelect';
 
 function DishIngredientFormList() {
@@ -54,7 +53,12 @@ function DishIngredientFormList() {
   
   function setDishIngredientId(id: number){
     if(!activeForm) return
-    setDishIngredientFormState({...activeForm, id: id})
+    const ingredient = ingredients.find(i=>i.id==id)
+    setDishIngredientFormState({
+      ...activeForm, 
+      id: id, 
+      isItemMeasured:ingredient?.is_item_measured??false
+    })
   }
   
   const {modalSelect, showSelect} = useIngredientSelect(ingredients, setDishIngredientId, activeForm?.id??0)
@@ -72,9 +76,9 @@ function DishIngredientFormList() {
       {
         formState.dishIngredientForms
           .map(fs =>
-          <div key={`${fs.key}`}>
-            <DishIngredientForm openSelect={openSelect}  formState={fs}/>
-          </div>
+            <div key={`${fs.key}`}>
+              <DishIngredientForm openSelect={openSelect}  formState={fs}/>
+            </div>
           )
       }
       <div className="d-flex flex-row-reverse">

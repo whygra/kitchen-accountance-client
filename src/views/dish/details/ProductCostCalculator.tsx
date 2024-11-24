@@ -1,7 +1,7 @@
 import { Accordion, Col, Form, FormSelect, Row, Table } from "react-bootstrap";
 import { useContext, useEffect, useState } from "react";
-import { ProductCostCalculatorModel, selectPurchaseOptionId } from "../../../models/DishCostCalculatorState";
-import { dishCostCalculatorContext } from "../../../context/DishCostCalculatorContext";
+import { ProductCostCalculatorModel, selectPurchaseOptionId } from "../../../models/dish/DishCostCalculatorState";
+import { dishCostCalculatorContext } from "../../../context/dish/DishCostCalculatorContext";
 
 
 interface IngredientCostCalculatorProps{
@@ -22,17 +22,26 @@ function ProductCostCalculator({product, ingredientId}:IngredientCostCalculatorP
     }
 
     return(
-        <Form.Group>
-            <Form.Label>
-                {product.id}. {product.name} {Number(product.gramCost).toFixed(2)}₽/г.:
-            </Form.Label>
+        <Table className="text-center text-nowrap">
+            <thead><tr>
+                <th style={{width: '70%'}}>{product.id}. {product.name}</th>
+                <td style={{width: '10%'}} className="text-underline">{product.weight.toFixed(2)}г.</td>
+                <td style={{width: '10%'}} className="text-underline">{product.gramCost.toFixed(2)}₽/г.</td>
+                <td style={{width: '10%'}} className="text-underline">{(product.weight*product.gramCost).toFixed(2)}₽</td>
+            </tr></thead>
+            <tbody>
+            <tr>
+            <td colSpan={4}>
             <FormSelect
                 value={selectedId} 
                 onChange={(e) => calcProductGramCost(parseInt(e.target.value))}>
                 {product.purchase_options.map(o => <option value={o.id}>{o.name} {o.price} р./{o.unit?.short} ({o.distributor?.name})</option>
                 )}
             </FormSelect>
-        </Form.Group>
+            </td>
+            </tr>
+            </tbody>
+        </Table>
     )
 }
 export default ProductCostCalculator;

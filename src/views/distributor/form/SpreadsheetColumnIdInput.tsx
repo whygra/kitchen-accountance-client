@@ -19,17 +19,26 @@ function SpreadsheetColumnIdInput({onIdChanged, columnIndex}:FileColumnIdInputPr
     const [index, setIndex] = useState(columnIndex.index)
     const [include, setInclude] = useState(true)
   return (
-    <Col>
-        <Form.Label>{columnIndex.viewName}</Form.Label>
-        <Form.Check checked={include} onChange={(e)=>{setInclude(e.target.checked); onIdChanged({...columnIndex, index: undefined})}}/>
+    <Form.Group as={Col} className='d-flex flex-column justify-content-between'>
+      <div className='d-flex justify-content-between'>
+        <Form.Label><small>{columnIndex.viewName}</small></Form.Label>
+        <Form.Check className='px-2' checked={include} onChange={(e)=>{setInclude(e.target.checked); onIdChanged({...columnIndex, index: undefined})}}/>
+      </div>
         <Form.Control
             type='number'
             min={1}
             disabled={!include}
+            required={include}
             value={index}
-            onChange={(e)=>{setIndex(parseInt(e.target.value));onIdChanged({...columnIndex, index: parseInt(e.target.value)})}}
+            onChange={(e)=>{
+              setIndex(parseInt(e.target.value))
+              onIdChanged({...columnIndex, index: parseInt(e.target.value)})
+            }}
         />
-    </Col>
+        <Form.Control.Feedback type="invalid">
+          введите номер столбца ( .. ≥ 1 )
+        </Form.Control.Feedback>
+    </Form.Group>
     )
 }
 

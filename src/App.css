@@ -8,11 +8,28 @@
   will-change: filter;
   transition: filter 300ms;
 }
+
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
 }
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+input:valid, select:valid {
+  outline: none !important;
+  box-shadow:none !important;
+  border:1px solid #ccc !important;
+}
+
+.form-control:valid {
+  background-image: none !important;
+  padding-right: inherit !important;
+}
+
+.form-select:valid {
+  background-image: var(--bs-form-select-bg-img) !important;
+  padding-right: inherit !important;
 }
 
 @keyframes logo-spin {
@@ -44,15 +61,13 @@
   color:rgb(254, 63, 50);
   text-decoration-thickness: 0.3vw;
   font-family:'Sardonyx';
-  font-size:13vw;
+  font-size:min(13vw, 82pt);
   height: 13vw;
 }
 
 .app-desc {
   text-align: center;
   font-family:'Oranienbaum';
-  /* font-weight: bold; */
-  /* font-size:calc(14px + 0.5vw); */
 }
 
 .carousel-image {

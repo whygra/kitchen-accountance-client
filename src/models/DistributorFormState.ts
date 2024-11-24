@@ -72,7 +72,6 @@ export function purchaseOptionFormToDTO (state: PurchaseOptionFormState) : Distr
         id: state.id,
         products: (state.productDataAction!=DataAction.Create && state.productId==0) ? [] : [{
             id: state.productDataAction==DataAction.Create ? 0 : state.productId,
-            category: {id: 1, name: ''},
             name: state.productName,
             product_share: 100,
         }],
@@ -87,3 +86,12 @@ export function purchaseOptionFormToDTO (state: PurchaseOptionFormState) : Distr
         price: state.price,
     }
 }
+
+
+export function isInvalid(o: PurchaseOptionFormState): boolean{
+    return o.name == '' 
+        || o.netWeight < 1 || isNaN(o.netWeight)
+        || o.price < 0 || isNaN(o.price)
+        || (o.productDataAction==DataAction.Create && o.productName=='')
+        || (o.unitDataAction==DataAction.Create && (o.unitLongName==''||o.unitShortName==''))
+  }

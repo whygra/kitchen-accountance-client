@@ -36,7 +36,7 @@ function IngredientsTableHeader({
                     (fieldsToExclude?.findIndex(o=>o==IngredientField.Id)??-1)==-1
                     ?
                     <th
-                        style={{width: '2%'}}>                    
+                        style={{width: '1%'}}>                    
                         <HeaderSortButton
                         header='Id'
                         field={IngredientField.Id}
@@ -63,13 +63,13 @@ function IngredientsTableHeader({
                     :<></>
                 }
                 {
-                    (fieldsToExclude?.findIndex(o=>o==IngredientField.TypeId)??-1)==-1
+                    (fieldsToExclude?.findIndex(o=>o==IngredientField.Type)??-1)==-1
                     ?
                     <th
                         style={{width: '2%'}}>                    
                     <HeaderSortButton
                     header='Тип'
-                    field={IngredientField.TypeId}
+                    field={IngredientField.Type}
                     onClick={toggleSort}
                     activeField={activeField}
                     sortIsDesc={sortIsDesc}
@@ -86,6 +86,22 @@ function IngredientsTableHeader({
                         <HeaderSortButton
                         header='Категория'
                         field={IngredientField.Category}
+                        onClick={toggleSort}
+                        activeField={activeField}
+                        sortIsDesc={sortIsDesc}
+                        />
+                    </th>
+                    :<></>
+                }
+                {
+                    (fieldsToExclude?.findIndex(o=>o==IngredientField.Group)??-1)==-1
+                    ?
+                    <th
+                        className=''
+                        style={{width: '4%'}}>                    
+                        <HeaderSortButton
+                        header='Группа'
+                        field={IngredientField.Group}
                         onClick={toggleSort}
                         activeField={activeField}
                         sortIsDesc={sortIsDesc}
@@ -127,6 +143,7 @@ function IngredientsTableHeader({
                         className=''
                     >
                         <Form.Control
+                        autoFocus
                         value={searchData.name}
                         placeholder='наименование'
                         onChange={(e)=>setSearchData({...searchData, name: e.target.value.toLocaleLowerCase()})}
@@ -141,11 +158,11 @@ function IngredientsTableHeader({
                         className=''
                     >
                         <Form.Select
-                        value={searchData.typeId}
-                        onChange={(e)=>setSearchData({...searchData, typeId: parseInt(e.target.value)})}
+                        value={searchData.type}
+                        onChange={(e)=>setSearchData({...searchData, type: e.target.value})}
                         >
                             <option value={NaN}>-любой-</option>
-                            {ingredientTypes.map(t=><option value={t.id}>{t.name}</option>)}
+                            {ingredientTypes.map(t=><option value={t.name}>{t.name}</option>)}
                         </Form.Select>
                     </td>
                     :<></>
@@ -160,6 +177,20 @@ function IngredientsTableHeader({
                         value={searchData.category}
                         placeholder='категория'
                         onChange={(e)=>setSearchData({...searchData, category: e.target.value.toLocaleLowerCase()})}
+                    />
+                    </td>
+                    :<></>
+                }
+                {
+                    (fieldsToExclude?.findIndex(o=>o==IngredientField.Group)??-1)==-1
+                    ?
+                    <td
+                        className=''
+                    >
+                        <Form.Control
+                        value={searchData.group}
+                        placeholder='группа'
+                        onChange={(e)=>setSearchData({...searchData, group: e.target.value.toLocaleLowerCase()})}
                     />
                     </td>
                     :<></>

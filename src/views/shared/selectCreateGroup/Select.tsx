@@ -13,7 +13,6 @@ interface SelectProps<T extends NamedEntity> {
 
 function Select<T extends NamedEntity>({selectedId, items, setId} : SelectProps<T>) {
 
-
   useEffect(()=>{
     // если выбранного id нет в коллекции
     // выбрать первый элемент
@@ -23,16 +22,18 @@ function Select<T extends NamedEntity>({selectedId, items, setId} : SelectProps<
   }, [])
   
   return(
-    <div>
-    {
+    <Form.Group>
       <Form.Select
+        required
         value={selectedId}
         onChange={e=>setId(parseInt(e.target.value))}
       >
         {items?.map(item => <option value={item.id}>{`${item.id}. ${item.name}`}</option>)} 
       </Form.Select>
-    }
-    </div>
+      <Form.Control.Feedback type="invalid">
+            выберите элемент
+          </Form.Control.Feedback>
+    </Form.Group>
     )
     
       

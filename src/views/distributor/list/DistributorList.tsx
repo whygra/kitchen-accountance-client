@@ -5,19 +5,20 @@ import { DistributorDTO, getDistributorsWithPurchaseOptions } from '../../../api
 import { Link } from 'react-router-dom';
 import { appContext } from '../../../context/AppContextProvider';
 import { useErrorBoundary } from 'react-error-boundary';
-import PaginationNav from '../../shared/PaginationNav';
 import { authContext } from '../../../context/AuthContextProvider';
 import { UserPermissions } from '../../../models';
 import TooltipButton from '../../shared/TooltipButton';
 import useDistributorsTableHeader from '../../../hooks/useDistributorsTableHeader';
 import Loading from '../../shared/Loading';
+import { projectContext } from '../../../context/ProjectContextProvider';
+import usePagination from '../../../hooks/usePagination';
 
 function DistributorList() 
 {
   
     const [distributors, setDistributors] = useState(new Array<DistributorDTO>)
     const [isLoading, setIsLoading] = useState(false)
-    const {hasPermission} = useContext(authContext)
+    const {hasPermission} = useContext(projectContext)
     const {showModal} = useContext(appContext)
     const {showBoundary} = useErrorBoundary()
   
@@ -47,16 +48,13 @@ function DistributorList()
         .filter(getPredicate())
         .sort(getComparer())
     
-    // границы среза коллекции, отображаемого на странице
-    const [sliceLimits, setSliceLimits] = useState({start:0, end:1})
-
-    // функция назначает границы среза коллекции, вызывается компонентом пагинации
-    function makeSlice(pageLength:number, pageNumber:number){
-        setSliceLimits({start:pageLength*(pageNumber-1), end:pageLength*pageNumber})
-    }
+    const {sliceLimits, nav} = usePagination(filtered.length)
   
     return isLoading ? (<Loading/>) : (
         <>
+        
+        <div className='d-flex justify-content-between'>
+            <h2>Поставщики</h2>
         {
             hasPermission(UserPermissions.CRUD_DISTRIBUTORS)
             ? <Link to={'/distributors/create'}>
@@ -66,6 +64,7 @@ function DistributorList()
             </Link>
             : <></>
         }
+        </div>
         <Row className='ps-1'>
             {header}
         </Row>
@@ -74,7 +73,7 @@ function DistributorList()
                 <DistributorListItem onDelete={async()=>{await loadDistributors()}} distributor={d}/>
             )}
         </Accordion>
-        <PaginationNav initPageLength={5} makeSlice={makeSlice} totalLength={distributors.length}/>
+        {nav}
         </>
     )
 }

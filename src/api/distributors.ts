@@ -1,6 +1,6 @@
 import { getCookie } from "../cookies"
 import { DataAction } from "../models"
-import { C_ACCESS_TOKEN, BASE_URL } from "./constants"
+import { C_ACCESS_TOKEN, BASE_URL, C_SELECTED_PROJECT_ID, PROJECT_PATH } from "./constants"
 import { ProductDTO } from "./products"
 import { DistributorPurchaseOptionColumnIndexes, DistributorPurchaseOptionDTO } from "./purchaseOptions"
 import { UnitDTO } from "./units"
@@ -22,13 +22,15 @@ export interface InsertDistributorPurchaseOptionsFromXLSX {
 
 export const putDistributorWithPurchaseOptions = async (updateData: DistributorDTO): Promise<DistributorDTO | null> => {
   console.log(updateData)
-  const response = await fetch(`${BASE_URL}/${ENTITY_PATH}/${WITH_PURCHASE_OPTIONS}/update/${updateData.id}`, {
+  const response = await fetch(`${BASE_URL}/${PROJECT_PATH}/${parseInt(getCookie(C_SELECTED_PROJECT_ID))}/${ENTITY_PATH}/${WITH_PURCHASE_OPTIONS}/update/${updateData.id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer '+getCookie(C_ACCESS_TOKEN)
     },
-    body: JSON.stringify(updateData)
+    body: JSON.stringify({
+      ...updateData,
+    })
   })
   const data = await response.json().catch(e=>null)
   if (!response.ok)
@@ -42,13 +44,13 @@ export const putDistributorWithPurchaseOptions = async (updateData: DistributorD
 
 
 export const uploadDistributorPurchaseOptionsSpreadsheet = async (insertData: InsertDistributorPurchaseOptionsFromXLSX): Promise<DistributorDTO | null> => {
+  console.log(JSON.stringify(insertData))
   let formData = new FormData(); 
-  
   formData.append('id', `${insertData.id}`)
   formData.append('column_indexes', JSON.stringify(insertData.column_indexes))
   formData.append('file', insertData.file)
-  
-  const response = await fetch(`${BASE_URL}/${ENTITY_PATH}/${WITH_PURCHASE_OPTIONS}/upload-options-file`, {
+  console.log(formData.values)
+  const response = await fetch(`${BASE_URL}/${PROJECT_PATH}/${parseInt(getCookie(C_SELECTED_PROJECT_ID))}/${ENTITY_PATH}/${WITH_PURCHASE_OPTIONS}/${insertData.id}/upload-options-file`, {
     method: 'POST',
     headers: {
       'Authorization': 'Bearer '+getCookie(C_ACCESS_TOKEN)
@@ -56,10 +58,10 @@ export const uploadDistributorPurchaseOptionsSpreadsheet = async (insertData: In
     body: formData
   })
 
-  const data = await response.json().catch(e=>null)
+  const data = await response.json().catch(e=>console.log(e))
   if (!response.ok)
     throw {
-      message: `Не удалось обновить данные поставщика ${data?.message}`,
+      message: `${response.status} Не удалось обновить данные поставщика ${data?.message}: ${data?.errors[0]}`,
       name: `${response.status} ${response.statusText}`
     }
   
@@ -68,13 +70,15 @@ export const uploadDistributorPurchaseOptionsSpreadsheet = async (insertData: In
 
 export const postDistributorWithPurchaseOptions = async (createData: DistributorDTO): Promise<DistributorDTO | null> => {
   console.log(createData);
-  const response = await fetch(`${BASE_URL}/${ENTITY_PATH}/${WITH_PURCHASE_OPTIONS}/create`, {
+  const response = await fetch(`${BASE_URL}/${PROJECT_PATH}/${parseInt(getCookie(C_SELECTED_PROJECT_ID))}/${ENTITY_PATH}/${WITH_PURCHASE_OPTIONS}/create`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer '+getCookie(C_ACCESS_TOKEN)
     },
-    body: JSON.stringify(createData)
+    body: JSON.stringify({
+      ...createData,
+    })
   })
   const data = await response.json().catch(e=>null)
   if (!response.ok) 
@@ -87,11 +91,12 @@ export const postDistributorWithPurchaseOptions = async (createData: Distributor
 }
 
 export const getDistributors = async () : Promise<DistributorDTO[] | null> => {
-  const response = await fetch(`${BASE_URL}/${ENTITY_PATH}/all`,{
+  const response = await fetch(`${BASE_URL}/${PROJECT_PATH}/${parseInt(getCookie(C_SELECTED_PROJECT_ID))}/${ENTITY_PATH}/all`,{
     headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer '+getCookie(C_ACCESS_TOKEN)
     },
+
   })
   const data = await response.json().catch(e=>null)
   if (!response.ok) 
@@ -103,27 +108,29 @@ export const getDistributors = async () : Promise<DistributorDTO[] | null> => {
 }
 
 export const getDistributorsWithPurchaseOptions = async () : Promise<DistributorDTO[] | null> => {
-  const response = await fetch(`${BASE_URL}/${ENTITY_PATH}/${WITH_PURCHASE_OPTIONS}/all`,{
+  const response = await fetch(`${BASE_URL}/${PROJECT_PATH}/${parseInt(getCookie(C_SELECTED_PROJECT_ID))}/${ENTITY_PATH}/${WITH_PURCHASE_OPTIONS}/all`, {
     headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer '+getCookie(C_ACCESS_TOKEN)
     },
+
   })
-  const data = await response.json().catch(e=>null)
+  const data = await response.json().catch(e=>e)
   if (!response.ok) 
     throw {
-      message: `Не удалось получить данные поставщиков ${data?.message}`,
+      message: `Не удалось получить данные поставщиков: ${data.message}`,
       name: `${response.status} ${response.statusText}`
     }
   return data
 }
 
 export const getDistributorWithPurchaseOptions = async (id: number) : Promise<DistributorDTO | null> => {
-  const response = await fetch(`${BASE_URL}/${ENTITY_PATH}/${WITH_PURCHASE_OPTIONS}/${id}`,{
+  const response = await fetch(`${BASE_URL}/${PROJECT_PATH}/${parseInt(getCookie(C_SELECTED_PROJECT_ID))}/${ENTITY_PATH}/${WITH_PURCHASE_OPTIONS}/${id}`,{
     headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer '+getCookie(C_ACCESS_TOKEN)
     },
+
   })
   const data = await response.json().catch(e=>null)
   if (!response.ok) 
@@ -136,12 +143,13 @@ export const getDistributorWithPurchaseOptions = async (id: number) : Promise<Di
 }
 
 export const deleteDistributor = async (id: number): Promise<DistributorDTO | null> => {
-  const response = await fetch(`${BASE_URL}/${ENTITY_PATH}/delete/${id}`, {
+  const response = await fetch(`${BASE_URL}/${PROJECT_PATH}/${parseInt(getCookie(C_SELECTED_PROJECT_ID))}/${ENTITY_PATH}/delete/${id}`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer '+getCookie(C_ACCESS_TOKEN)
     },
+
   })
   const data = await response.json().catch(e=>null)
   if (!response.ok) 

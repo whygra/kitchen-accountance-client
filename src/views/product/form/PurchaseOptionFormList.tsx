@@ -1,19 +1,12 @@
 import {Button, Container, Form, Modal, OverlayTrigger, Tooltip} from 'react-bootstrap'
 import PurchaseOptionForm from './PurchaseOptionForm'
-import { useContext, useEffect, useRef, useState } from 'react'
-import { distributorFormContext } from '../../../context/DistributorFormContext'
-import PaginationNav from '../../shared/PaginationNav';
+import { useContext, useState } from 'react'
 import { appContext } from '../../../context/AppContextProvider';
 import ConfirmationDialog from '../../shared/ConfirmationDialog';
-import { productFormContext } from '../../../context/ProductFormContext';
+import { productFormContext } from '../../../context/product/ProductFormContext';
 import TooltipButton from '../../shared/TooltipButton';
-import TableSelect from '../../shared/selectCreateGroup/TableSelect';
-import { PurchaseOptionField } from '../../../hooks/sort/useSortPurchaseOptions';
-import PurchaseOptionsTableItem from '../../purchase_option/table/PurchaseOptionsTableItem';
-import { constructProductPurchaseOptionForm, PurchaseOptionFormState } from '../../../models/ProductFormState';
-import useProductSelect from '../../../hooks/tableSelect/useProductSelect';
+import { constructProductPurchaseOptionForm, PurchaseOptionFormState } from '../../../models/product/ProductFormState';
 import usePurchaseOptionSelect from '../../../hooks/tableSelect/usePurchaseOptionSelect';
-import usePurchaseOptionsTableHeader from '../../../hooks/usePurchaseOptionsTableHeader';
 
 function PurchaseOptionFormList() {
 
@@ -52,7 +45,13 @@ function PurchaseOptionFormList() {
       setPurchaseOptionFormState({...activeForm, id:id})
   }
   
-  const {modalSelect, showSelect} = usePurchaseOptionSelect(purchaseOptions, setPurchaseOptionId, activeForm?.id??0)
+  const {modalSelect, showSelect} = usePurchaseOptionSelect(
+    // скрыть выбранные позиции закупки
+    purchaseOptions.filter(o=>
+      formState.purchaseOptionForms.findIndex(f=>f.id==o.id)==-1 
+      || o.id == activeForm?.id), 
+    setPurchaseOptionId, activeForm?.id??0
+  )
     
   function openSelect(form:PurchaseOptionFormState){
     setActiveForm(form)

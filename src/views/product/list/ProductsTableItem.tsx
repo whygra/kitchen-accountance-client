@@ -1,15 +1,4 @@
-import { Accordion, Button, Col, Row, Table } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
-import ProductPurchaseOptionsTable from '../details/ProductPurchaseOptionsTable';
-import { useContext } from 'react';
-import { appContext } from '../../../context/AppContextProvider';
-import { deleteIngredient as requestDeleteIngredient } from '../../../api/ingredients';
-import ConfirmationDialog from '../../shared/ConfirmationDialog';
 import { ProductDTO } from '../../../api/products';
-import { UserPermissions } from '../../../models';
-import BtnAskConfirmation from '../../shared/BtnAskConfirmation';
-import { authContext } from '../../../context/AuthContextProvider';
-import CUDButtons from '../../shared/CUDButtons';
 import { ProductField } from '../../../hooks/sort/useSortProducts';
 
 
@@ -33,6 +22,10 @@ function ProductsTableItem({product, fieldsToExclude}: ProductsTableItemProps)
             {fieldsToExclude && fieldsToExclude?.find(f=>f==ProductField.Category)
                 ? <></>
                 : <td width={5} className='text-center'>{product.category?.name ?? 'без категории'}</td>
+            }
+            {fieldsToExclude && fieldsToExclude?.find(f=>f==ProductField.Group)
+                ? <></>
+                : <td width={5} className='text-center'>{product.group?.name ?? 'без группы'}</td>
             }
         </>
     )

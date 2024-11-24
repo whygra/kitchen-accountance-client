@@ -1,4 +1,4 @@
-import { Accordion, Button, Col, Row } from 'react-bootstrap';
+import { Accordion, Button, Col, Image, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { calcDishWeight, DishDTO, deleteDish as requestDeleteDish } from '../../../api/dishes';
 import DishIngredientsTable from '../details/DishIngredientsTable';
@@ -10,6 +10,7 @@ import CUDButtons from '../../shared/CUDButtons';
 interface DishListItemProps {
     dish: DishDTO
     onDelete: ()=>void
+    
   }
 
 function DishListItem({dish, onDelete}: DishListItemProps) 
@@ -31,10 +32,13 @@ function DishListItem({dish, onDelete}: DishListItemProps)
         <Accordion.Item eventKey={`${dish.id}`}>
         <Accordion.Header style={{userSelect: 'text'}}>
             <Row className='w-100 text-center pe-3'>
-                <Col xs={2}>{dish.id}</Col>
-                <Col xs={4}>{dish.name}</Col>
+                <Col xs={1}>
+                    <Image style={{width:40, height:40}} src={`${(dish.image?.url ?? '') == '' ? '/icons/dish-image-placeholder.png' : dish.image?.url}`}/>
+                </Col>
+                <Col xs={3}>{dish.id}. {dish.name}</Col>
                 <Col xs={3}>{dish.category?.name??'без категории'}</Col>
-                <Col xs={3}>{calcDishWeight(dish)}</Col>
+                <Col xs={3}>{dish.group?.name??'без группы'}</Col>
+                <Col xs={2}>{calcDishWeight(dish).toFixed()} г.</Col>
             </Row>
         </Accordion.Header>
         <Accordion.Body>

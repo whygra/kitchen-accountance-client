@@ -19,7 +19,7 @@ function PurchaseOptionsTable({purchaseOptions, fieldsToExclude}:PurchaseOptions
     .filter(getPredicate())
     .sort(getComparer())
     
-    const {sliceLimits, paginationNav} = usePagination(filtered?.length??0)
+    const {sliceLimits, nav} = usePagination(filtered?.length??0)
     return(
         
         <><h4 className="text-center">Позиции закупки</h4>
@@ -35,7 +35,7 @@ function PurchaseOptionsTable({purchaseOptions, fieldsToExclude}:PurchaseOptions
                 )}
             </tbody>
         </Table>
-        {paginationNav}
+        {nav}
         </>
     )
 }

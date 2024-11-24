@@ -8,6 +8,7 @@ export enum DataAction{
 
 
 export enum UserPermissions {
+    EDIT_PROJECT = 'edit-project',
     CRUD_DISTRIBUTORS = 'crud-distributors',
     CRUD_PRODUCTS = 'crud-products',
     CRUD_INGREDIENTS = 'crud-ingredients',

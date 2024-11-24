@@ -4,10 +4,10 @@ import { useNavigate } from 'react-router-dom';
 import SelectCreateCategoryGroup from '../../shared/selectCreateGroup/SelectCreateGroup';
 import { DataAction } from '../../../models';
 import { appContext } from '../../../context/AppContextProvider';
-import { ingredientContext } from '../../../context/IngredientFormContext';
-import { signUp } from '../../../api/users';
+import { ingredientContext } from '../../../context/ingredient/IngredientFormContext';
 import { setCookie } from '../../../cookies';
 import { ErrorView } from '../../ErrorView';
+import { signUp } from '../../../api/auth';
 
 
 function SignUp() 
@@ -29,13 +29,18 @@ function SignUp()
     try{
         if(!passwordsMatch())
             throw new Error('Пароли не совпадают')
-      const res = await signUp({
+      signUp({
         id:0,
         name,
         email,
         password,
       })
-      navigate(-1)
+      .catch(e=>console.log(e))
+      .then(res=>{
+        console.log(res)
+        navigate('/')
+        showModal(<>{}</>)
+      })
     }
     catch (error: Error | any) {
       showModal(<ErrorView error={error}/>)

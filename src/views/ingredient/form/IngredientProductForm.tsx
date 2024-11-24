@@ -1,11 +1,12 @@
-import {Button, Card, Col, Container, Form, Row, Table} from 'react-bootstrap'
+import {Button, Card, Col, Container, Form, FormControl, Row, Table} from 'react-bootstrap'
 import SelectCreateGroup from '../../shared/selectCreateGroup/SelectCreateGroup'
 import { DataAction } from '../../../models'
-import { IngredientProductFormState } from '../../../models/IngredientFormState'
+import { IngredientProductFormState } from '../../../models/ingredient/IngredientFormState'
 import 'bootstrap'
 import { useContext, useEffect } from 'react'
-import { ingredientContext } from '../../../context/IngredientFormContext'
+import { ingredientContext } from '../../../context/ingredient/IngredientFormContext'
 import TooltipButton from '../../shared/TooltipButton'
+import IsCreateSwitch from '../../shared/selectCreateGroup/IsCreateSwitch'
 
 interface IngredientsProductFormProps {
   formState: IngredientProductFormState,
@@ -54,58 +55,77 @@ function IngredientProductForm({formState, openSelect}: IngredientsProductFormPr
           <Row>
 
           <Col sm={6}>
-              <div className="d-flex flex-row justify-content-between">
+              <div className="mb-2 d-flex flex-row justify-content-between">
               <b>Продукт</b>
-              <Form.Switch 
-                checked={formState.productDataAction==DataAction.Create} 
-                onChange={(e)=>setProductAction(e.target.checked?DataAction.Create:DataAction.None)}
-                label={<small><i>создать</i></small>}
+                <IsCreateSwitch
+                  dataAction={formState.productDataAction}
+                  setDataAction={setProductAction}
                 />
               </div>
             {formState.productDataAction == DataAction.Create 
-              ? 
-              <Row>
+              ? <Form.Group>
                 <Form.Control
+                  required
                   value={formState.name}
                   onChange={(e)=>setProductName(e.target.value)}
-                />
-              </Row>
-              : 
-              <Button variant='none' onClick={()=>openSelect(formState)}>
-                {selectedProduct ? `${selectedProduct.id}. ${selectedProduct.name}` : 'не выбран'}
-              </Button>
+                  />  
+                <Form.Control.Feedback type="invalid">
+                  введите название
+                </Form.Control.Feedback>
+                </Form.Group>
+              : <Form.Group>
+                <FormControl
+                  style={{caretColor:'transparent'}}
+                  type='text'
+                  role="button"
+                  placeholder='--не выбран--'
+                  onClick={()=>openSelect(formState)} 
+                  required 
+                  value={selectedProduct ? `${selectedProduct.id}. ${selectedProduct.name}` : ''} 
+                  />
+                <Form.Control.Feedback type="invalid">
+                  выберите элемент
+                </Form.Control.Feedback>
+                </Form.Group>
             }
               </Col>
             <Col md={3}>
             <div className='d-flex'>
-              <div className='flex-grow-1'>
-                <Form.Label>Вес</Form.Label>
+              <Form.Group className='flex-grow-1'>
+                <Form.Label>Вес (грамм)</Form.Label>
                 <Form.Control
-                    type="number"
-                    min={0.5}
-                    max={100}
-                    step={0.5}
-                    value={formState.weight}
-                    onChange={e=>setWeight(parseFloat(e.target.value))}
-                    />
-              </div>
+                  type="number"
+                  required
+                  min={0.01}
+                  step={0.01}
+                  value={formState.weight}
+                  onChange={e=>setWeight(parseFloat(e.target.value))}
+                />
+                <Form.Control.Feedback type="invalid">
+                  введите допустимое значение ( .. ≥ 0.01 )
+                </Form.Control.Feedback>
+              </Form.Group>
               <div className='d-flex flex-column ms-3' style={{width: '3.8em'}}>
                 <i>Доля</i>
                 <i className='text-end mt-3'>{formState.weightPercentage.toFixed(2)}%</i>
               </div>
             </div>
             </Col>
-            <Col md={3}>
+            <Form.Group as={Col} md={3}>
             <Form.Label>Потери в весе (%)</Form.Label>
             <Form.Control
                 type="number"
+                required
                 min={0}
                 max={100}
-                step={0.5}
+                step={0.01}
                 defaultValue={formState.wastePercentage}
                 onChange={e=>setWastePercentage(parseFloat(e.target.value))}
                 />
-            </Col>
+            <Form.Control.Feedback type="invalid">
+              введите допустимое значение (от 0 до 100)
+            </Form.Control.Feedback>
+            </Form.Group>
           </Row>
         </Col>
         <Col md={1} className='d-flex justify-content-end'>

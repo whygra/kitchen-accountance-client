@@ -48,13 +48,13 @@ function IngredientsWeightsCalculator({dish}:IngredientsWeightsCalculatorProps) 
                     <thead>
                     <tr>
                         <th>Ингредиент</th>
-                        <th className='text-end'>Требуемый вес</th>
+                        <th className='text-end'>Требуемый вес/количество</th>
                     </tr>
                     </thead>
                     <tbody>
                     {ingredientsCalcData?.map(c=>
                         <tr>
-                            <td>{`${c.ingredient.id}. ${c.ingredient.name} ${c.ingredient.type.name}`}</td>
+                            <td>{`${c.ingredient.id}. ${c.ingredient.name} ${c.ingredient.type?.name}`}</td>
                             <td className='text-end'><u>{isNaN(c.amount)?"-/-":`${c.amount} ${c.ingredient.is_item_measured?'шт.':'г.'}`}</u></td>
                         </tr>
                     )}

@@ -81,7 +81,7 @@ class Comparers {
             case PurchaseOptionField.NetWeight:
                 return isDesc ?Comparers.NetWeightDesc :Comparers.NetWeightAsc
             case PurchaseOptionField.Price:
-                return isDesc ?Comparers.PriceDesc :Comparers.DistributorAsc
+                return isDesc ?Comparers.PriceDesc :Comparers.PriceAsc
             case PurchaseOptionField.Product:
                 return isDesc ?Comparers.ProductDesc :Comparers.ProductAsc
             default:

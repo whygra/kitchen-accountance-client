@@ -9,7 +9,7 @@ interface IngredientProductsTableProps {
 
 function IngredientProductsTable({ingredient}:IngredientProductsTableProps) {
         
-    const {sliceLimits, paginationNav} = usePagination(ingredient.products?.length??0)
+    const {sliceLimits, nav} = usePagination(ingredient.products?.length??0)
 
     return(
         <><h4 className="text-center">Продукты</h4>
@@ -37,7 +37,7 @@ function IngredientProductsTable({ingredient}:IngredientProductsTableProps) {
                 )}
             </tbody>
         </Table>
-        {paginationNav}
+        {nav}
         </>
     )
 }

@@ -5,7 +5,6 @@ import IngredientListItem from './IngredientListItem';
 import { Link } from 'react-router-dom';
 import { appContext } from '../../../context/AppContextProvider';
 import { useErrorBoundary } from 'react-error-boundary';
-import PaginationNav from '../../shared/PaginationNav';
 import { authContext } from '../../../context/AuthContextProvider';
 import { UserPermissions } from '../../../models';
 import useIngredientsTableHeader from '../../../hooks/useIngredientsTableHeader';
@@ -13,13 +12,14 @@ import usePagination from '../../../hooks/usePagination';
 import { getIngredientTypes } from '../../../api/ingredientTypes';
 import TooltipButton from '../../shared/TooltipButton';
 import Loading from '../../shared/Loading';
+import { projectContext } from '../../../context/ProjectContextProvider';
 
 function IngredientList() 
 {
     const [ingredientTypes, setIngredientTypes] = useState<IngredientTypeDTO[]>([])
     const [ingredients, setIngredients] = useState(new Array<IngredientDTO>)
     const [isLoading, setIsLoading] = useState(false)
-    const {hasPermission} = useContext(authContext)
+    const {hasPermission} = useContext(projectContext)
     const {showBoundary} = useErrorBoundary()
   
     async function loadIngredients() {
@@ -51,10 +51,13 @@ function IngredientList()
         .filter(getPredicate())
         .sort(getComparer())
             
-    const {sliceLimits, paginationNav} = usePagination(filtered.length)
+    const {sliceLimits, nav} = usePagination(filtered.length)
   
     return isLoading ? (<Loading/>) : (
         <>
+        
+        <div className='d-flex justify-content-between'>
+            <h2>Ингредиенты</h2>
         {
             hasPermission(UserPermissions.CRUD_INGREDIENTS)
             ? <Link to={'/ingredients/create'}>
@@ -64,7 +67,8 @@ function IngredientList()
             </Link>
             : <></>
         }
-        <p className='ps-3'>{header}</p>
+        </div>
+        <p>{header}</p>
         <Accordion>
             {filtered
                 .slice(sliceLimits.start, sliceLimits.end)
@@ -72,7 +76,7 @@ function IngredientList()
                 <IngredientListItem ingredient={c} onDelete={async()=>{await loadIngredients()}}/>
             )}
         </Accordion>
-        {paginationNav}
+        {nav}
         </>
     )
 }

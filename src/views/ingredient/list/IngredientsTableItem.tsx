@@ -15,17 +15,21 @@ function IngredientsTableItem({ingredient, fieldsToExclude}: IngredientsTableIte
                 ? <></>
                 : <td width={2} className='text-center'>{ingredient.id}</td>
             }
-            {fieldsToExclude && fieldsToExclude?.find(f=>f==IngredientField.Id)
+            {fieldsToExclude && fieldsToExclude?.find(f=>f==IngredientField.Name)
                 ? <></>
                 : <td width={4} className='text-center'>{ingredient.name}</td>
             }
-            {fieldsToExclude && fieldsToExclude?.find(f=>f==IngredientField.Id)
+            {fieldsToExclude && fieldsToExclude?.find(f=>f==IngredientField.Type)
                 ? <></>
-                : <td width={2} className='text-center'>{ingredient.type.name}</td>
+                : <td width={2} className='text-center'>{ingredient.type?.name}</td>
             }
-            {fieldsToExclude && fieldsToExclude?.find(f=>f==IngredientField.Id)
+            {fieldsToExclude && fieldsToExclude?.find(f=>f==IngredientField.Category)
                 ? <></>
                 : <td width={4} className='text-center'>{ingredient.category?.name??'без категории'}</td>
+            }
+            {fieldsToExclude && fieldsToExclude?.find(f=>f==IngredientField.Group)
+                ? <></>
+                : <td width={4} className='text-center'>{ingredient.category?.name??'без группы'}</td>
             }
         </>
     )

@@ -2,13 +2,13 @@ import { Accordion, Button, Card, Col, Form, Image, ListGroup, ListGroupItem, Ro
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
 import PurchaseOptionGramCost from './PurchaseOptionGramCost';
-import PurchaseOptionProductsTable from './PurchaseOptionProductsTable';
 import { appContext } from '../../../context/AppContextProvider';
 import { UserPermissions } from '../../../models';
 import { authContext } from '../../../context/AuthContextProvider';
 import { deletePurchaseOption, getPurchaseOptions, getPurchaseOptionsWithProducts, getPurchaseOptionWithProducts, PurchaseOptionDTO } from '../../../api/purchaseOptions';
 import CUDButtons from '../../shared/CUDButtons';
 import Loading from '../../shared/Loading';
+import ProductsTable from '../../product/list/ProductsTable';
 
 
 function PurchaseOptionDetails() 
@@ -80,7 +80,7 @@ function PurchaseOptionDetails()
             <Col lg={6} md={12}>
                 <Card className="p-3">
 
-                <PurchaseOptionProductsTable purchaseOption={purchaseOption}/>
+                <ProductsTable products={purchaseOption.products??[]} fieldsToExclude={[]}/>
                 </Card>
             </Col>
             </Row>

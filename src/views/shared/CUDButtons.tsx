@@ -4,6 +4,7 @@ import { useContext } from "react"
 import { authContext } from "../../context/AuthContextProvider"
 import { UserPermissions } from "../../models"
 import TooltipButton from "./TooltipButton"
+import { projectContext } from "../../context/ProjectContextProvider"
 
 interface CUDButtonsProps {
     entity: {id:number, name:string}
@@ -14,7 +15,7 @@ interface CUDButtonsProps {
 
 function CUDButtons({entity, requiredPermission, path, deleteFn}:CUDButtonsProps) {
 
-    const {hasPermission} = useContext(authContext)
+    const {hasPermission} = useContext(projectContext)
 
     return hasPermission(requiredPermission) ? (
         <div className="d-flex justify-content-end">

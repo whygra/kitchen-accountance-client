@@ -2,10 +2,9 @@ import {Button, Container, Form, OverlayTrigger, Tooltip} from 'react-bootstrap'
 import PurchaseOptionForm from './ProductForm'
 import { useContext, useEffect, useRef, useState } from 'react'
 import { distributorFormContext } from '../../../context/DistributorFormContext'
-import PaginationNav from '../../shared/PaginationNav';
 import { appContext } from '../../../context/AppContextProvider';
 import ConfirmationDialog from '../../shared/ConfirmationDialog';
-import { productFormContext } from '../../../context/ProductFormContext';
+import { productFormContext } from '../../../context/product/ProductFormContext';
 import ProductForm from './ProductForm';
 import { purchaseOptionFormContext } from '../../../context/PurchaseOptionFormContext';
 import TooltipButton from '../../shared/TooltipButton';
@@ -26,7 +25,7 @@ function ProductFormList() {
 
 
   // границы среза коллекции, отображаемого на странице
-  const {sliceLimits, paginationNav} = usePagination(formState.productForms.length)
+  const {sliceLimits, nav} = usePagination(formState.productForms.length)
 
   function deleteAll(){
     removeAllForms()
@@ -64,7 +63,7 @@ function ProductFormList() {
           </div>)
       }
 
-      {paginationNav}
+      {nav}
       <div className="d-flex flex-row-reverse">
 
         <TooltipButton

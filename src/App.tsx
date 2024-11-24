@@ -9,23 +9,26 @@ import { ErrorFallbackScreen } from './views/ErrorFallbackScreen';
 import AppRoutes from './views/routes';
 import AuthContextProvider from './context/AuthContextProvider';
 import Navbar from './views/Navbar';
+import ProjectContextProvider from './context/ProjectContextProvider';
 
 function App() {
   const location = useLocation();
     return (
       <AuthContextProvider>
-      <div className='fixed-top h-100 d-flex flex-column flex-md-row'>
-        <div className='h-md-100 flex-shrink-1'>
-          <Navbar/>
-        </div>
-        <div className='flex-grow-1 w-100 overflow-y-scroll'>
-          <Container className='p-5'>
-            <ErrorBoundary key={location.pathname} FallbackComponent={ErrorFallbackScreen}>
-              <AppRoutes/>
-            </ErrorBoundary>
-          </Container>
-        </div>
-      </div>
+        <ProjectContextProvider>
+          <div className='fixed-top h-100 d-flex flex-column flex-md-row'>
+            <div className='h-md-100 flex-shrink-1'>
+              <Navbar/>
+            </div>
+            <div className='flex-grow-1 w-100 overflow-y-scroll'>
+              <Container className='p-5'>
+                <ErrorBoundary key={location.pathname} FallbackComponent={ErrorFallbackScreen}>
+                  <AppRoutes/>
+                </ErrorBoundary>
+              </Container>
+            </div>
+          </div>
+        </ProjectContextProvider>
       </AuthContextProvider>
     )
 }

@@ -91,6 +91,7 @@ function DistributorsTableHeader({
                             className=''
                         >
                             <Form.Control
+                            autoFocus
                             value={searchData.name}
                             placeholder='наименование'
                             onChange={(e)=>setSearchData({...searchData, name: e.target.value.toLocaleLowerCase()})}

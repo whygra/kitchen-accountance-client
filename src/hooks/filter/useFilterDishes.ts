@@ -7,6 +7,7 @@ export interface SearchParams {
     id: number
     name: string
     category: string
+    group: string
     minWeight: number
     maxWeight: number
     hasAnyProducts: string[]
@@ -17,6 +18,7 @@ export const EMPTY_SEARCH_PARAMS: SearchParams = {
     id: NaN,
     name: '', 
     category: '', 
+    group: '', 
     minWeight: NaN, 
     maxWeight: NaN, 
     hasAnyProducts: [],
@@ -31,33 +33,21 @@ export default function useFilterDishes() {
         return (i:DishDTO) => {
 
             const products = getDishProducts(i)
-            let hasAnyProducts = false
-            for(const product of searchData.hasAnyProducts.filter(p=>p!=''&&p!=' ')){
-                if (products.find(p=>p.name.toLocaleLowerCase().includes(product.toLocaleLowerCase()))!=undefined){
-                    hasAnyProducts = true
-                    break
-                }
-            }
-
-            let excludesProducts = true
-            for(const product of searchData.excludesProducts.filter(p=>p!=''&&p!=' ')){
-                if (products.find(p=>p.name.toLocaleLowerCase().includes(product.toLocaleLowerCase()))!=undefined){
-                    excludesProducts = false
-                    break
-                }
-            }
             
             const dishWeight = calcDishWeight(i)
-            return (searchData.name.length==0 || i.name.toLocaleLowerCase().includes(searchData.name))
-            && (searchData.category.length==0 || i.category?.name.toLocaleLowerCase().includes(searchData.category))
+            return (
+                (searchData.name.length==0 || searchData.name.split(' ').every(s=>i.name.toLocaleLowerCase().includes(s)))
+            && (searchData.category.length==0 || searchData.category.split(' ').every(s=>i.category?.name.toLocaleLowerCase().includes(s)))
+            && (searchData.group.length==0 || searchData.group.split(' ').every(s=>i.group?.name.toLocaleLowerCase().includes(s)))
             //id
             && (Number.isNaN(searchData.id) || searchData.id == i.id)
             //weight
             && (Number.isNaN(searchData.minWeight) || dishWeight >= searchData.minWeight)
             && (Number.isNaN(searchData.maxWeight) || dishWeight <= searchData.maxWeight)
             // products
-            && (searchData.hasAnyProducts.length==0 || hasAnyProducts)
-            && (searchData.excludesProducts.length==0 || excludesProducts)
+            && (searchData.hasAnyProducts.length==0 || searchData.hasAnyProducts.some(s=>products.some(p=>p.name.toLocaleLowerCase().includes(s))))
+            && (searchData.excludesProducts.length==0 || searchData.excludesProducts.some(s=>products.some(p=>!(p.name.toLocaleLowerCase().includes(s)))))
+            )
         }
     }
     

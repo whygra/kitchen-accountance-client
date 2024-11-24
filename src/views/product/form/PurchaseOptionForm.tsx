@@ -1,7 +1,7 @@
 import { ReactElement, useContext, useState } from "react"
-import { PurchaseOptionFormState } from "../../../models/ProductFormState"
+import { PurchaseOptionFormState } from "../../../models/product/ProductFormState"
 import { Button, Card, Col, Form, Modal, Row } from "react-bootstrap"
-import { productFormContext } from "../../../context/ProductFormContext"
+import { productFormContext } from "../../../context/product/ProductFormContext"
 import TooltipButton from "../../shared/TooltipButton"
 import { PurchaseOptionDTO } from "../../../api/purchaseOptions"
 import { PurchaseOptionField } from "../../../hooks/sort/useSortPurchaseOptions"
@@ -32,24 +32,40 @@ function PurchaseOptionForm({formState, openSelect}: PurchaseOptionFormProps) {
               <Col sm={6} className='mb-2'>
 
                 <Form.Label>Позиция закупки</Form.Label>
-                <Row>
 
-                <Button
-                  className="text-start"
-                  variant='none'
-                  onClick={()=>openSelect(formState)}
-                  >{selectedPO ? `${selectedPO.id}. ${purchaseOptions.find(item => item.id==formState.id)?.name}` : 'не выбран'}
-                </Button>
-                </Row>
+                <Form.Group>
+                <Form.Control 
+                  style={{caretColor:'transparent'}}
+                  type='text'
+                  role="button"
+                  placeholder='--не выбран--'
+                  onClick={()=>openSelect(formState)} 
+                  required
+                  value={selectedPO ? `${selectedPO.id}. ${selectedPO.name}` : ''} 
+                />
+        
+                <Form.Control.Feedback type="invalid">
+                  выберите позицию закупки
+                </Form.Control.Feedback>
+                </Form.Group>
                 
               </Col>
   
-              <Col sm={6} className='mb-2'>
+              <Col as={Form.Group} sm={6} className='mb-2'>
                 <Form.Label>Доля разборки</Form.Label>
                 <Form.Control
+                  required
+                  type='number'
+                  min={1}
+                  max={100}
+                  step={0.1}
                   value={formState.productShare}
                   onChange={e=>setProductShare(parseInt(e.target.value))}
                 />
+        
+                <Form.Control.Feedback type="invalid">
+                  введите значение (от 1 до 100)
+                </Form.Control.Feedback>
               </Col>
 
             </Row>

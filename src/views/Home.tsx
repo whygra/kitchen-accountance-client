@@ -1,7 +1,8 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Carousel, CarouselItem, Image } from 'react-bootstrap'
 
 function Home() {
+  useEffect(()=>{document.title='KitchenAccountance - главная'},[])
   return (
     <div className='m-0 p-0 d-flex flex-column justify-content-start align-items-center'>
       <h1 className='app-title'>KitchenAccountance</h1>
