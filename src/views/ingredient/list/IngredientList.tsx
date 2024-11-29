@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
-import { Accordion, Col, Image, Row, Table } from 'react-bootstrap';
+import { Accordion, Card, Col, Image, Row, Table } from 'react-bootstrap';
 import { IngredientDTO, IngredientTypeDTO, getIngredientsWithProducts } from '../../../api/ingredients';
 import IngredientListItem from './IngredientListItem';
 import { Link } from 'react-router-dom';
@@ -68,6 +68,7 @@ function IngredientList()
             : <></>
         }
         </div>
+        <hr/>
         <p>{header}</p>
         <Accordion>
             {filtered
@@ -77,6 +78,7 @@ function IngredientList()
             )}
         </Accordion>
         {nav}
+
         </>
     )
 }

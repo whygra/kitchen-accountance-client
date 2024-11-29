@@ -44,13 +44,13 @@ function PurchaseOptionListItem({onDelete, purchaseOption}: PurchaseOptionListIt
             <small><ProductsTable products={purchaseOption.products??[]} fieldsToExclude={[]}/></small>
 
                 <div className='d-flex justify-content-between'>
+                    <Link to={`/purchase-options/details/${purchaseOption.id}`}><Button variant='info'>Подробнее</Button></Link>
                     <CUDButtons
                         deleteFn={deletePurchaseOption}
                         entity={purchaseOption}
                         path='purchase-options'
                         requiredPermission={UserPermissions.CRUD_DISTRIBUTORS}
                     />   
-                    <Link to={`/purchase-options/details/${purchaseOption.id}`}><Button variant='info'>Подробнее</Button></Link>
                 </div>
         </Accordion.Body>
         </Accordion.Item>

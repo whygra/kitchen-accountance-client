@@ -61,6 +61,7 @@ function DishGroupList()
             : <></>
         }
         </div>
+        <hr/>
         <div className='w-100 ps-3'>{header}</div>
         <Accordion>
             {filtered

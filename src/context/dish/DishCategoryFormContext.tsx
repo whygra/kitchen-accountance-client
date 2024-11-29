@@ -53,8 +53,8 @@ function DishCategoryFormContextProvider({action, children}:DishCategoryFormCont
 
   useEffect(()=>{
     document.title = action==DataAction.Create
-      ?'Создание блюда'
-      :`Редактирование блюда "${formState.id}. ${formState.name}"`
+      ?'Создание категори блюд'
+      :`Редактирование категории блюд "${formState.id}. ${formState.name}"`
   }, [formState])
   
   useEffect(()=>{initialize()}, [])
@@ -75,13 +75,12 @@ function DishCategoryFormContextProvider({action, children}:DishCategoryFormCont
 
   async function loadDishCategory() {
     if (id === undefined)
-      throw Error("Ошибка загрузки данных: отсутствует id блюда")
+      throw Error("Ошибка загрузки данных: отсутствует id категории блюд")
 
     const dishCategory = await getDishCategoryWithDishes(parseInt(id))
 
-    console.log(dishCategory)
     if (dishCategory === null)
-      throw Error("Не удалось получить данные блюда")
+      throw Error("Не удалось получить данные категории блюд")
     setFormState(constructDishCategoryForm(dishCategory))
   }
 

@@ -8,6 +8,7 @@ import CUDButtons from '../../shared/CUDButtons';
 import Loading from '../../shared/Loading';
 import { BASE_URL } from '../../../api/constants';
 import { projectContext } from '../../../context/ProjectContextProvider';
+import UpdatedAt from '../../shared/UpdatedAt';
 
 
 function ProjectDetails() 
@@ -62,12 +63,15 @@ function ProjectDetails()
                 </div>
                 <h3 className='text-center'>{`${project.id}. ${project.name}`}</h3>
             </div>
+            <div>
             <CUDButtons
                 deleteFn={deleteFn}
                 entity={project}
                 path='projects'
                 requiredPermission={UserPermissions.EDIT_PROJECT}
-            />
+                />
+                <UpdatedAt entity={project}/>
+            </div>
         </div>
     )
 }

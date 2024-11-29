@@ -1,5 +1,6 @@
 import { getCookie } from "../cookies";
 import { C_ACCESS_TOKEN, BASE_URL, ServerImageData } from "./constants";
+import { UserDTO } from "./users";
 
 const ENTITY_PATH = "projects"
 
@@ -20,6 +21,8 @@ export interface ProjectDTO {
   role?: RoleDTO
   logo? : ServerImageData
   backdrop? : ServerImageData
+  updated_by_user?: UserDTO
+  updated_at?: string
 }
 
 

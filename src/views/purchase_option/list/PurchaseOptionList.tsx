@@ -70,6 +70,7 @@ function PurchaseOptionList()
             : <></>
         }
         </div>
+        <hr/>
         <Table>{header}</Table>
 
         <Accordion>

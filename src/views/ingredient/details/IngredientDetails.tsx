@@ -15,6 +15,7 @@ import IngredientDishesTable from './IngredientDishesTable';
 import { constructIngredientCostCalculator } from '../../../models/dish/DishCostCalculatorState';
 import IngredientCostCalculator from '../../dish/details/IngredientCostCalculator';
 import Loading from '../../shared/Loading';
+import UpdatedAt from '../../shared/UpdatedAt';
 
 
 function IngredientDetails() 
@@ -61,24 +62,28 @@ function IngredientDetails()
            ingredient===null ? (<>Не удалось получить данные ингредиента</>) : (
         <>
             <Row className='mt-5'>
-            <div className='d-flex justify-content-between'>
-            <h3 className='text-center'>{`${ingredient.id}. ${ingredient.name} ${ingredient.type?.name}`}</h3>
-            <CUDButtons
-                deleteFn={deleteFn}
-                entity={ingredient}
-                path='ingredients'
-                requiredPermission={UserPermissions.CRUD_INGREDIENTS}
-            />   
-            </div>
-            <div className='d-flex fw-bold flex-column pt-2 pb-4 ps-4'>
-                <span>Тип: "{ingredient.type?.name}"</span>
-                <span>Категория: "{ingredient.category?.name ?? '-без категории-'}"</span>
-                <span>Группа: "{ingredient.group?.name ?? '-без группы-'}"</span>
-                <span>Средний процент отхода: {calcAvgWastePercentage(ingredient).toFixed(2)}</span>
-                {ingredient.is_item_measured
+            <div className='d-flex flex-row justify-content-between align-items-end'>
+                <div className='d-flex flex-column'>
+                    <h3>{`${ingredient.id}. ${ingredient.name} ${ingredient.type?.name}`}</h3>
+                    <span>Тип: "{ingredient.type?.name}"</span>
+                    <span>Категория: "{ingredient.category?.name ?? '-без категории-'}"</span>
+                    <span>Группа: "{ingredient.group?.name ?? '-без группы-'}"</span>
+                    <span>Средний процент отхода: {calcAvgWastePercentage(ingredient).toFixed(2)}</span>
+                    {ingredient.is_item_measured
                         ?<span>Вес 1шт: {ingredient.item_weight} г.</span>
                         :<></>
                     }
+                </div>
+                
+                <div>
+                    <CUDButtons
+                        deleteFn={deleteFn}
+                        entity={ingredient}
+                        path='ingredients'
+                        requiredPermission={UserPermissions.CRUD_INGREDIENTS}
+                    />   
+                    <UpdatedAt entity={ingredient}/>
+                </div>
             </div>
                     
             <Col xl={6} lg={12} sm={12}>

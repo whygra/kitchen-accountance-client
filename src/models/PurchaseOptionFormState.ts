@@ -1,7 +1,7 @@
 import { DataAction } from "."
 import { ProductDTO } from "../api/products"
 import { v4 as uuid } from "uuid";
-import { ProductPurchaseOptionDTO, PurchaseOptionDTO } from "../api/purchaseOptions";
+import { PurchaseOptionDTO } from "../api/purchaseOptions";
 import { DistributorDTO } from "../api/distributors";
 
 

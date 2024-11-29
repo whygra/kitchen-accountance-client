@@ -8,23 +8,24 @@ import TableRowUnitForm from '../form/TableRowUnitForm';
 import TableRowUnitElement from './TableRowUnitElement';
 import TooltipButton from '../../shared/TooltipButton';
 import { projectContext } from '../../../context/ProjectContextProvider';
+import BtnAskConfirmation from '../../shared/BtnAskConfirmation';
 
 interface UnitListItemProps {
-    unit: UnitDTO
-    formAction: DataAction
+    unit?: UnitDTO
     onSubmited: ()=>void
   }
 
-function UnitListItem({unit, formAction, onSubmited}: UnitListItemProps) 
+function UnitListItem({unit, onSubmited}: UnitListItemProps) 
 {   
     const {hasPermission} = useContext(projectContext)
-    const [formUnit, setFormUnit] = useState(unit)
-    const [displayForm, setDisplayForm] = useState(formAction==DataAction.Create)
+    const [formUnit, setFormUnit] = useState(unit??{id:0, long:'', short:''})
+    const [displayForm, setDisplayForm] = useState(false)
     const {showModal, hideModal} = useContext(appContext)
+    const [disabled, setDisabled] = useState(false)
 
     function cancelEdit() {
         setDisplayForm(false)
-        setFormUnit(unit)
+        setFormUnit(unit??{id:0, long:'', short:''})
     }
     
     const deleteUnit = (id: number) => {
@@ -37,62 +38,83 @@ function UnitListItem({unit, formAction, onSubmited}: UnitListItemProps)
             })
     }
 
-    function commit() {
-        if (formAction = DataAction.Create)
-            postUnit(formUnit)
-                .catch(e=>showModal(<>{e.message}</>))
-                .then(res=>onSubmited())
-        if (formAction = DataAction.Update)
-            putUnit(formUnit)
-                .catch(e=>showModal(<>{e.message}</>))
-                .then(res=>onSubmited())
+    async function commit() {
+        setDisabled(true)
+        try {
+            if (unit == undefined)
+                await postUnit(formUnit)
+            else
+                await putUnit(formUnit)
+        } catch (err: any) {
+            showModal(<>{err.message}</>)
+        }
+        onSubmited()
+        setDisabled(false)
     }
 
     const canEdit = hasPermission(UserPermissions.CRUD_DISTRIBUTORS)
 
     return (
         <tr>
-            { canEdit && (displayForm || formAction==DataAction.Create)
+            { canEdit && displayForm
+                // форма
                 ? <><TableRowUnitForm unit={formUnit} setUnit={setFormUnit}/> 
                     <td>
                         <TooltipButton
-                            tooltip={formAction==DataAction.Update ? 'обновить' : 'создать'}
-                            variant={formAction==DataAction.Update ? 'warning' : 'success'}
+                            disabled={disabled}
+                            tooltip={unit ? 'обновить' : 'создать'}
+                            variant={unit ? 'warning' : 'success'}
                             onClick={commit}
                         >
                             <i className='bi bi-check-lg'/>
                         </TooltipButton>
-                        {formAction==DataAction.Create
-                            ?<TooltipButton
-                                tooltip='отмена'
-                                variant='secondary'
-                                onClick={cancelEdit}
-                            >
-                                <i className='bi bi-arrow-return-left'/>
-                            </TooltipButton>
-                            :<></>
-                        }
+                        <TooltipButton
+                            disabled={disabled}
+                            tooltip='отмена'
+                            variant='secondary'
+                            onClick={cancelEdit}
+                        >
+                            <i className='bi bi-arrow-return-left'/>
+                        </TooltipButton>
+                        
                     </td>
                 </>
-                : <><TableRowUnitElement unit={unit}/> 
-                    {canEdit
-                    ?<td>
-                        <TooltipButton
-                            tooltip='изменить'
-                            variant='warning'
-                            onClick={()=>setDisplayForm(true)}
-                        >
-                            <i className='bi bi-pen'/>
-                        </TooltipButton>
-                        <TooltipButton
-                            tooltip='удалить'
-                            variant='danger'
-                            onClick={()=>deleteUnit(unit.id)}
-                            >
-                            <i className='bi bi-trash3'/>
-                        </TooltipButton>
-                    </td>
-                    :<></>
+                // представление
+                : <>
+                    {unit
+                        ? <><TableRowUnitElement unit={formUnit}/>
+                        {canEdit 
+                            ?
+                                <td>
+                                    <TooltipButton
+                                        tooltip='изменить'
+                                        variant='warning'
+                                        onClick={()=>setDisplayForm(true)}
+                                    >
+                                        <i className='bi bi-pen'/>
+                                    </TooltipButton>
+                                    
+                                    <BtnAskConfirmation
+                                        prompt={`Вы действительно хотите удалить единицу измерения "${unit.id}. ${unit.long}"?`}
+                                        tooltip='удалить'
+                                        variant='danger'
+                                        onConfirm={()=>deleteUnit(unit.id)}
+                                        >
+                                        <i className='bi bi-trash3'/>
+                                    </BtnAskConfirmation>
+                                </td>
+                            : <td></td>
+                        }</>
+                        :
+                            <td colSpan={4}>
+                                <TooltipButton
+                                    tooltip='создать'
+                                    variant='success'
+                                    onClick={()=>setDisplayForm(true)}
+                                    >
+                                    создать
+                                </TooltipButton>
+                            </td>
                     }
                 </>
             } 

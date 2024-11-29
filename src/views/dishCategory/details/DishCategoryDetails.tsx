@@ -9,6 +9,7 @@ import Loading from '../../shared/Loading';
 import { BASE_URL } from '../../../api/constants';
 import DishesTable from '../../dish/list/DishTable';
 import { DishField } from '../../../hooks/sort/useSortDishes';
+import UpdatedAt from '../../shared/UpdatedAt';
 
 
 function DishCategoryDetails() 
@@ -52,15 +53,21 @@ function DishCategoryDetails()
         <>
 
             <Row className='mt-5'>
-                <Link className='text-secondary' to='/dish-categories/all'>Все категории блюд...</Link>
-            <div className='d-flex flex-row justify-content-between'>
+            <div className='d-flex flex-row justify-content-between align-items-end'>
+                <div>
+                <Link className='text-secondary' to='/dish-categories/all'>&lt; Все категории блюд...</Link>
                 <h3>{dishCategory.id}. {dishCategory.name}</h3>
+                </div>
+                
+                <div>
                 <CUDButtons
                     deleteFn={deleteFn}
                     entity={dishCategory}
                     path='dish-categories'
                     requiredPermission={UserPermissions.CRUD_DISHES}
-                /> 
+                    /> 
+                    <UpdatedAt entity={dishCategory}/>
+                </div>
             </div>
             <Col md={12}>
                 

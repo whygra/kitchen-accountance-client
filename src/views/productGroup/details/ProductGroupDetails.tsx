@@ -9,6 +9,7 @@ import Loading from '../../shared/Loading';
 import { BASE_URL } from '../../../api/constants';
 import ProductsTable from '../../product/list/ProductsTable';
 import { ProductField } from '../../../hooks/sort/useSortProducts';
+import UpdatedAt from '../../shared/UpdatedAt';
 
 
 function ProductGroupDetails() 
@@ -52,16 +53,22 @@ function ProductGroupDetails()
         <>
 
             <Row className='mt-5'>
-                <Link className='text-secondary' to='/product-groups/all'>Все группы ингредиентов...</Link>
-                <div className='d-flex flex-row justify-content-between'>
-                    <h3>{productGroup.id}. {productGroup.name}</h3>
+            <div className='d-flex flex-row justify-content-between align-items-end'>
+                <div>
+                <Link className='text-secondary' to='/product-groups/all'>&lt; Все группы продуктов...</Link>
+                <h3>{productGroup.id}. {productGroup.name}</h3>
+                </div>
+                
+                <div>
                     <CUDButtons
                         deleteFn={deleteFn}
                         entity={productGroup}
-                        path='product-groups'
+                        path='product-group'
                         requiredPermission={UserPermissions.CRUD_PRODUCTS}
                     /> 
+                    <UpdatedAt entity={productGroup}/>
                 </div>
+            </div>
             <Col md={12}>
                 
                 <Card className="p-3">

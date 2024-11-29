@@ -5,7 +5,7 @@ import { IngredientGroupDTO } from "../../api/ingredientGroups";
 import { IngredientTypeDTO, IngredientDTO } from "../../api/ingredients";
 import { ProductCategoryDTO } from "../../api/productCategories";
 import { ProductDTO } from "../../api/products";
-import { ProductPurchaseOptionDTO } from "../../api/purchaseOptions";
+import { PurchaseOptionDTO } from "../../api/purchaseOptions";
 
 export interface DishCostCalculatorState {
     
@@ -77,7 +77,7 @@ export interface ProductCostCalculatorModel {
     id: number
     name: string
     category?: ProductCategoryDTO
-    purchase_options: ProductPurchaseOptionDTO[]
+    purchase_options: PurchaseOptionDTO[]
     waste_percentage: number
     raw_content_percentage: number
     // стоимость 1г по выбраной позиции закупки

@@ -11,6 +11,7 @@ import { authContext } from '../../../context/AuthContextProvider';
 import CUDButtons from '../../shared/CUDButtons';
 import Loading from '../../shared/Loading';
 import { BASE_URL } from '../../../api/constants';
+import UpdatedAt from '../../shared/UpdatedAt';
 
 
 function DishDetails() 
@@ -52,17 +53,25 @@ function DishDetails()
            dish===null ? (<>Не удалось получить блюдо</>) : (
         <>
             <Row className='mt-5'>
-            <h3 className='text-center'>{`${dish.id}. ${dish.name}`}</h3>
-            <h5 className='text-center'>Вес блюда: {calcDishWeight(dish).toFixed(2)} г.</h5>
-            <span className='text-center'>Категория: "{dish.category?.name ?? '-без категории-'}"</span>
-            <span className='text-center'>Группа: "{dish.group?.name ?? '-без группы-'}"</span>
-            
-            <CUDButtons
-                deleteFn={deleteFn}
-                entity={dish}
-                path='dishes'
-                requiredPermission={UserPermissions.CRUD_DISHES}
-            />
+            <div className='d-flex justify-content-between align-items-end'>
+                <div className='d-flex flex-column'>
+                    <h3>{`${dish.id}. ${dish.name}`}</h3>
+                    <span>Вес блюда: {calcDishWeight(dish).toFixed(2)} г.</span>
+                    <span>Категория: "{dish.category?.name ?? '-без категории-'}"</span>
+                    <span>Группа: "{dish.group?.name ?? '-без группы-'}"</span>
+                </div>
+                <div>
+
+                <CUDButtons
+                    deleteFn={deleteFn}
+                    entity={dish}
+                    path='dishes'
+                    requiredPermission={UserPermissions.CRUD_DISHES}
+                    />
+                    <UpdatedAt entity={dish}/>
+
+                </div>
+            </div>
             <Col md={12} lg={12}>
                 
                 <Card 

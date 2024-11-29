@@ -53,8 +53,8 @@ function IngredientGroupFormContextProvider({action, children}:IngredientGroupFo
 
   useEffect(()=>{
     document.title = action==DataAction.Create
-      ?'Создание блюда'
-      :`Редактирование блюда "${formState.id}. ${formState.name}"`
+      ?'Создание группы ингредиентов'
+      :`Редактирование группы ингредиентов "${formState.id}. ${formState.name}"`
   }, [formState])
   
   useEffect(()=>{initialize()}, [])
@@ -75,12 +75,12 @@ function IngredientGroupFormContextProvider({action, children}:IngredientGroupFo
 
   async function loadIngredientGroup() {
     if (id === undefined)
-      throw Error("Ошибка загрузки данных: отсутствует id блюда")
+      throw Error("Ошибка загрузки данных: отсутствует id группы ингредиентов")
 
     const ingredientGroup = await getIngredientGroupWithIngredients(parseInt(id))
 
     if (ingredientGroup === null)
-      throw Error("Не удалось получить данные блюда")
+      throw Error("Не удалось получить данные группы ингредиентов")
     setFormState(constructIngredientGroupForm(ingredientGroup))
   }
 

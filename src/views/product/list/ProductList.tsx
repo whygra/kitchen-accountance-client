@@ -58,6 +58,7 @@ function ProductList()
             : <></>
         }
         </div>
+        <hr/>
         <Row className='ps-1'>
             {header}
         </Row>

@@ -1,5 +1,6 @@
 import { getCookie } from "../cookies";
 import { C_ACCESS_TOKEN, BASE_URL, C_SELECTED_PROJECT_ID, PROJECT_PATH } from "./constants";
+import { UserDTO } from "./users";
 
 const ENTITY_PATH = "units"
 
@@ -7,6 +8,7 @@ export interface UnitDTO {
   id: number
   long: string
   short: string
+  updated_by_user?: UserDTO
 }
 
 export const getUnits = async () : Promise<UnitDTO[] | null> => {
@@ -27,15 +29,14 @@ export const getUnits = async () : Promise<UnitDTO[] | null> => {
 }
 
 export const postUnit = async (createData: UnitDTO): Promise<UnitDTO | null> => {
+  console.log(createData)
   const response = await fetch(`${BASE_URL}/${PROJECT_PATH}/${parseInt(getCookie(C_SELECTED_PROJECT_ID))}/${ENTITY_PATH}/create`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer '+getCookie(C_ACCESS_TOKEN)
     },
-    body: JSON.stringify({
-      ...createData,
-    })
+    body: JSON.stringify(createData)
   })
   const data = await response.json().catch(e=>null)
   if (!response.ok) 
@@ -53,9 +54,7 @@ export const putUnit = async (unitData: UnitDTO): Promise<UnitDTO | null> => {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer '+getCookie(C_ACCESS_TOKEN)
     },
-    body: JSON.stringify({
-      ...unitData,
-    })
+    body: JSON.stringify(unitData)
   })
   const data = await response.json().catch(e=>null)
   if (!response.ok) 

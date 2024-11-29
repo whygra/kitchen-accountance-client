@@ -1,6 +1,7 @@
 import { getCookie } from "../cookies";
 import { C_ACCESS_TOKEN, BASE_URL, C_SELECTED_PROJECT_ID, PROJECT_PATH } from "./constants";
 import { DishDTO } from "./dishes";
+import { UserDTO } from "./users";
 
 const ENTITY_PATH = "dish-categories"
 const WITH_DISHES = "with-dishes"
@@ -9,6 +10,8 @@ export interface DishCategoryDTO {
   id: number
   name: string
   dishes?: DishDTO[]
+  updated_by_user?: UserDTO
+  updated_at?: string
 }
 
 export const getDishCategories = async () : Promise<DishCategoryDTO[] | null> => {

@@ -6,6 +6,7 @@ import { ProductCategoryDTO } from "./productCategories";
 import { ProductGroupDTO } from "./productGroups";
 import { PurchaseOptionDTO, ProductPurchaseOptionDTO } from "./purchaseOptions";
 import { UnitDTO } from "./units";
+import { UserDTO } from "./users";
 
 const ENTITY_PATH = "products"
 const WITH_PURCHASE_OPTIONS = "with-purchase-options"
@@ -20,6 +21,8 @@ export interface ProductDTO {
   product_share?: number
   purchase_options?: ProductPurchaseOptionDTO[]
   ingredients?: IngredientDTO[]
+  updated_by_user?: UserDTO
+  updated_at?: string
 }
 
 

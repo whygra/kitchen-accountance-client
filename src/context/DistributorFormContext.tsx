@@ -85,7 +85,7 @@ function DistributorFormContextProvider({action, children}:DistributorFormContex
     const distributor = await getDistributorWithPurchaseOptions(parseInt(id))
 
     if (distributor === null)
-      throw Error("Не удалось получить данные о поставщике")
+      throw Error("Не удалось получить данные поставщика")
 
     setFormState(
       constructDistributorForm(distributor)

@@ -9,6 +9,7 @@ import Loading from '../../shared/Loading';
 import { BASE_URL } from '../../../api/constants';
 import DishesTable from '../../dish/list/DishTable';
 import { DishField } from '../../../hooks/sort/useSortDishes';
+import UpdatedAt from '../../shared/UpdatedAt';
 
 
 function DishGroupDetails() 
@@ -50,18 +51,22 @@ function DishGroupDetails()
         <>
             <Row className='mt-5'>
             
-            <Col lg={12}>
-                <Link className='text-secondary' to='/dish-groups/all'>Все группы блюд...</Link>
-                <div className='d-flex flex-row justify-content-between'>
-                    <h3>{dishGroup.id}. {dishGroup.name}</h3>
-                    <CUDButtons
-                        deleteFn={deleteFn}
-                        entity={dishGroup}
-                        path='dish-groups'
-                        requiredPermission={UserPermissions.CRUD_DISHES}
-                    /> 
+            <div className='d-flex flex-row justify-content-between align-items-end'>
+                <div>
+                <Link className='text-secondary' to='/dish-groups/all'>&lt; Все группы блюд...</Link>
+                <h3>{dishGroup.id}. {dishGroup.name}</h3>
                 </div>
-            </Col>
+                
+                <div>
+                <CUDButtons
+                    deleteFn={deleteFn}
+                    entity={dishGroup}
+                    path='dish-categories'
+                    requiredPermission={UserPermissions.CRUD_DISHES}
+                    /> 
+                    <UpdatedAt entity={dishGroup}/>
+                </div>
+            </div>
             <Col lg={12}>
                 <Card className="p-3">
 

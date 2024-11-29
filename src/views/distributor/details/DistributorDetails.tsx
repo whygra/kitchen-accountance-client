@@ -13,6 +13,7 @@ import BtnAskConfirmation from '../../shared/BtnAskConfirmation';
 import CUDButtons from '../../shared/CUDButtons';
 import { PurchaseOptionField } from '../../../hooks/sort/useSortPurchaseOptions';
 import Loading from '../../shared/Loading';
+import UpdatedAt from '../../shared/UpdatedAt';
 
 
 function DistributorDetails() 
@@ -60,19 +61,27 @@ function DistributorDetails()
            distributor===null ? (<>Не удалось получить данные поставщика</>) : (
         <>
             <Row className='mt-5'>
-            <h3 className='text-center'>{`${distributor.id}. ${distributor.name}`}</h3>
+                <div className='d-flex justify-content-between align-items-end'>
+                    <h3 className='text-center'>{`${distributor.id}. ${distributor.name}`}</h3>
+                    <div>
+
+                    <CUDButtons
+                    deleteFn={deleteFn}
+                    entity={distributor}
+                    path='distributors'
+                    requiredPermission={UserPermissions.CRUD_DISTRIBUTORS}
+                    />   
+                    <UpdatedAt entity={distributor}/>
+                    </div>
+                </div>
             
-            <CUDButtons
-                deleteFn={deleteFn}
-                entity={distributor}
-                path='distributors'
-                requiredPermission={UserPermissions.CRUD_DISTRIBUTORS}
-            />   
+            
             <Col md={12}>
                 
                 <Card className="p-3">
                 
-                <div className="me-auto">
+                <div className="d-flex justify-content-between align-items-end">
+                    <h4 className="text-center">Позиции закупки</h4>
                     <BtnShowFileUploadForm onSuccess={loadDistributor} distributorId={distributor.id}/>
                 </div>
                 <PurchaseOptionsTable 

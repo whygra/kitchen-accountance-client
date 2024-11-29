@@ -52,8 +52,8 @@ function ProductGroupFormContextProvider({action, children}:ProductGroupFormCont
 
   useEffect(()=>{
     document.title = action==DataAction.Create
-      ?'Создание блюда'
-      :`Редактирование блюда "${formState.id}. ${formState.name}"`
+      ?'Создание группы продуктов'
+      :`Редактирование группы продуктов "${formState.id}. ${formState.name}"`
   }, [formState])
   
   useEffect(()=>{initialize()}, [])
@@ -74,12 +74,12 @@ function ProductGroupFormContextProvider({action, children}:ProductGroupFormCont
 
   async function loadProductGroup() {
     if (id === undefined)
-      throw Error("Ошибка загрузки данных: отсутствует id блюда")
+      throw Error("Ошибка загрузки данных: отсутствует id группы продуктов")
 
     const productGroup = await getProductGroupWithProducts(parseInt(id))
 
     if (productGroup === null)
-      throw Error("Не удалось получить данные блюда")
+      throw Error("Не удалось получить данные группы продуктов")
     setFormState(constructProductGroupForm(productGroup))
   }
 

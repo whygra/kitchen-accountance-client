@@ -9,6 +9,7 @@ import { deletePurchaseOption, getPurchaseOptions, getPurchaseOptionsWithProduct
 import CUDButtons from '../../shared/CUDButtons';
 import Loading from '../../shared/Loading';
 import ProductsTable from '../../product/list/ProductsTable';
+import UpdatedAt from '../../shared/UpdatedAt';
 
 
 function PurchaseOptionDetails() 
@@ -53,16 +54,20 @@ function PurchaseOptionDetails()
     return isLoading ? (<Loading/>) : 
            purchaseOption===null ? (<>Не удалось получить данные позиции закупки</>) : (
         <>
-            <div className='d-flex justify-content-between'>
-            <h3 className='text-center'>{`${purchaseOption.id}. ${purchaseOption.name}`}</h3>
+            <Row className='mt-5'>
+        <div className='d-flex flex-row justify-content-between align-items-end'>
+            <h3>{purchaseOption.id}. {purchaseOption.name}</h3>
+            
+            <div>
                 <CUDButtons
                     deleteFn={deleteFn}
                     entity={purchaseOption}
                     path='purchase-options'
                     requiredPermission={UserPermissions.CRUD_DISTRIBUTORS}
-                />   
+                /> 
+                <UpdatedAt entity={purchaseOption}/>
             </div>
-            <Row className='mt-5'>
+        </div>
             <Col lg={6} md={12}>
                 <Card className="p-3">
                     <Table>

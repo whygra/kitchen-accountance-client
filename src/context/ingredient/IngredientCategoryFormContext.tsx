@@ -54,8 +54,8 @@ function IngredientCategoryFormContextProvider({action, children}:IngredientCate
 
   useEffect(()=>{
     document.title = action==DataAction.Create
-      ?'Создание блюда'
-      :`Редактирование блюда "${formState.id}. ${formState.name}"`
+      ?'Создание категории ингредиентов'
+      :`Редактирование категории ингредиентов "${formState.id}. ${formState.name}"`
   }, [formState])
   
   useEffect(()=>{initialize()}, [])
@@ -76,12 +76,12 @@ function IngredientCategoryFormContextProvider({action, children}:IngredientCate
 
   async function loadIngredientCategory() {
     if (id === undefined)
-      throw Error("Ошибка загрузки данных: отсутствует id блюда")
+      throw Error("Ошибка загрузки данных: отсутствует id категории ингредиентов")
 
     const ingredientCategory = await getIngredientCategoryWithIngredients(parseInt(id))
 
     if (ingredientCategory === null)
-      throw Error("Не удалось получить данные блюда")
+      throw Error("Не удалось получить данные категории ингредиентов")
     setFormState(constructIngredientCategoryForm(ingredientCategory))
   }
 

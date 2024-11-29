@@ -9,6 +9,7 @@ import Loading from '../../shared/Loading';
 import { BASE_URL } from '../../../api/constants';
 import ProductsTable from '../../product/list/ProductsTable';
 import { ProductField } from '../../../hooks/sort/useSortProducts';
+import UpdatedAt from '../../shared/UpdatedAt';
 
 
 function ProductCategoryDetails() 
@@ -52,15 +53,23 @@ function ProductCategoryDetails()
         <>
 
             <Row className='mt-5'>
-                <Link className='text-secondary' to='/product-categories/all'>Все категории ингредиентов...</Link>
-            <div className='d-flex flex-row justify-content-between'>
+            <div className='d-flex flex-row justify-content-between align-items-end'>
+                <div>
+                <Link className='text-secondary' to='/product-categories/all'>&lt; Все категории продуктов...</Link>
                 <h3>{productCategory.id}. {productCategory.name}</h3>
-                <CUDButtons
-                    deleteFn={deleteFn}
-                    entity={productCategory}
-                    path='product-categories'
-                    requiredPermission={UserPermissions.CRUD_PRODUCTS}
-                /> 
+                </div>
+                
+                <div>
+                    <CUDButtons
+                        deleteFn={deleteFn}
+                        entity={productCategory}
+                        path='product-categories'
+                        requiredPermission={UserPermissions.CRUD_PRODUCTS}
+                    /> 
+                    <UpdatedAt entity={productCategory}/>
+                </div>
+            </div>
+            <div className='d-flex flex-row justify-content-between'>
             </div>
             <Col md={12}>
                 

@@ -62,7 +62,10 @@ function DishList()
             : <></>
         }
         </div>
-        <Table className='w-100'>{header}</Table>
+        <hr/>
+        <p>{header}
+        </p>
+
         <Accordion>
             {filtered
                 .slice(sliceLimits.start, sliceLimits.end)

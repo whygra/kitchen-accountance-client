@@ -52,8 +52,8 @@ function ProductCategoryFormContextProvider({action, children}:ProductCategoryFo
 
   useEffect(()=>{
     document.title = action==DataAction.Create
-      ?'Создание блюда'
-      :`Редактирование блюда "${formState.id}. ${formState.name}"`
+      ?'Создание категории продуктов'
+      :`Редактирование категории продуктов "${formState.id}. ${formState.name}"`
   }, [formState])
   
   useEffect(()=>{initialize()}, [])
@@ -74,12 +74,12 @@ function ProductCategoryFormContextProvider({action, children}:ProductCategoryFo
 
   async function loadProductCategory() {
     if (id === undefined)
-      throw Error("Ошибка загрузки данных: отсутствует id блюда")
+      throw Error("Ошибка загрузки данных: отсутствует id категории продуктов")
 
     const productCategory = await getProductCategoryWithProducts(parseInt(id))
 
     if (productCategory === null)
-      throw Error("Не удалось получить данные блюда")
+      throw Error("Не удалось получить данные категории продуктов")
     setFormState(constructProductCategoryForm(productCategory))
   }
 

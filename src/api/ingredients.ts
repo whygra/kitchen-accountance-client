@@ -5,6 +5,7 @@ import { DishDTO } from "./dishes";
 import { IngredientCategoryDTO } from "./ingredientCategories";
 import { IngredientGroupDTO } from "./ingredientGroups";
 import { ProductDTO } from "./products";
+import { UserDTO } from "./users";
 
 const ENTITY_PATH = "ingredients"
 const WITH_PRODUCTS = "with-products"
@@ -20,6 +21,8 @@ export interface IngredientDTO {
   group?: IngredientGroupDTO
   products?: ProductDTO[]
   dishes?: DishDTO[]
+  updated_by_user?: UserDTO
+  updated_at?: string
   
   waste_percentage?: number
   ingredient_amount?: number

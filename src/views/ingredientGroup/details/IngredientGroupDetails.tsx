@@ -9,6 +9,7 @@ import Loading from '../../shared/Loading';
 import { BASE_URL } from '../../../api/constants';
 import IngredientsTable from '../../ingredient/list/IngredientTable';
 import { IngredientField } from '../../../hooks/sort/useSortIngredients';
+import UpdatedAt from '../../shared/UpdatedAt';
 
 
 function IngredientGroupDetails() 
@@ -52,16 +53,22 @@ function IngredientGroupDetails()
         <>
 
             <Row className='mt-5'>
-                <Link className='text-secondary' to='/ingredient-groups/all'>Все группы ингредиентов...</Link>
-                <div className='d-flex flex-row justify-content-between'>
-                    <h3>{ingredientGroup.id}. {ingredientGroup.name}</h3>
+            <div className='d-flex flex-row justify-content-between align-items-end'>
+                <div>
+                <Link className='text-secondary' to='/ingredient-groups/all'>&lt; Все группы ингредиентов...</Link>
+                <h3>{ingredientGroup.id}. {ingredientGroup.name}</h3>
+                </div>
+                
+                <div>
                     <CUDButtons
                         deleteFn={deleteFn}
                         entity={ingredientGroup}
                         path='ingredient-groups'
                         requiredPermission={UserPermissions.CRUD_INGREDIENTS}
-                    /> 
+                    />
+                    <UpdatedAt entity={ingredientGroup}/>
                 </div>
+            </div>
             <Col md={12}>
                 
                 <Card className="p-3">

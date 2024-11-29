@@ -33,7 +33,7 @@ function DishListItem({dish, onDelete}: DishListItemProps)
         <Accordion.Header style={{userSelect: 'text'}}>
             <Row className='w-100 text-center pe-3'>
                 <Col xs={1}>
-                    <Image style={{width:40, height:40}} src={`${(dish.image?.url ?? '') == '' ? '/icons/dish-image-placeholder.png' : dish.image?.url}`}/>
+                    <Image style={{width:40, height:40}} src={`${(dish.image?.url??'')!='' ?dish.image?.url :'/icons/dish-image-placeholder.png'}`}/>
                 </Col>
                 <Col xs={3}>{dish.id}. {dish.name}</Col>
                 <Col xs={3}>{dish.category?.name??'без категории'}</Col>

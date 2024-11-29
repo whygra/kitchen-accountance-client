@@ -40,26 +40,11 @@ function UnitList()
 
     useEffect(()=>{loadUnits()},[])
 
-    const [displayCreateForm, setDisplayCreateForm] = useState(false)
-
-    function showCreateForm() {
-        setDisplayCreateForm(true)
-    }
-
-    function hideCreateForm() {
-        setDisplayCreateForm(false)
-    }
-
     return isLoading ? (<Loading/>) : (
         <>
         <div className='d-flex justify-content-between'>
 
             <h2>Единицы измерения</h2>
-        {
-            hasPermission(UserPermissions.CRUD_DISTRIBUTORS)
-            ? <Button variant='success' onClick={showCreateForm}>Создать</Button>
-            : <></>
-        }
         </div>
         <Card>
 
@@ -75,13 +60,11 @@ function UnitList()
             <tbody>
 
             {units.map(u=>
-                <UnitListItem formAction={DataAction.Update} unit={u} onSubmited={async()=>{await loadUnits()}}/>
+                <UnitListItem unit={u} onSubmited={async()=>{await loadUnits()}}/>
             )}
+                <UnitListItem  onSubmited={async()=>{await loadUnits()}}/>
+
             </tbody>
-            {displayCreateForm
-                ? <UnitListItem formAction={DataAction.Create} unit={{id:0,long:'',short:''}} onSubmited={async()=>{await loadUnits()}}/>
-                : <></>
-            }
         </Table>
         </Card>
 

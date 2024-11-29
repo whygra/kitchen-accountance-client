@@ -65,6 +65,7 @@ function DistributorList()
             : <></>
         }
         </div>
+        <hr/>
         <Row className='ps-1'>
             {header}
         </Row>

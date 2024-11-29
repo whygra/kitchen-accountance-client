@@ -9,6 +9,7 @@ import { UserPermissions } from '../../../models';
 import CUDButtons from '../../shared/CUDButtons';
 import ProductIngredientsTable from './ProductIngredientsTable';
 import Loading from '../../shared/Loading';
+import UpdatedAt from '../../shared/UpdatedAt';
 
 
 function ProductDetails() 
@@ -54,18 +55,22 @@ function ProductDetails()
            product===null ? (<>Не удалось получить продукт</>) : (
         <>
             <Row className='mt-5'>
-            <div className='d-flex justify-content-between'>
-                <h3 className='text-center'>{`${product.id}. ${product.name}`}</h3>
-                <CUDButtons
-                    requiredPermission={UserPermissions.CRUD_PRODUCTS}
-                    path='products'
-                    deleteFn={deleteFn} 
-                    entity={product}
-                />
-            </div>
-            <div className='d-flex fw-bold flex-column pt-2 pb-4 ps-4'>
-                <span>Категория: "{product.category?.name ?? '-без категории-'}"</span>
-                <span>Группа: "{product.group?.name ?? '-без группы-'}"</span>
+            <div className='d-flex flex-row justify-content-between align-items-end'>
+                <div className='d-flex flex-column'>
+                <h3>{`${product.id}. ${product.name}`}</h3>
+                    <span>Категория: "{product.category?.name ?? '-без категории-'}"</span>
+                    <span>Группа: "{product.group?.name ?? '-без группы-'}"</span>
+                </div>
+                
+                <div>
+                    <CUDButtons
+                        requiredPermission={UserPermissions.CRUD_PRODUCTS}
+                        path='products'
+                        deleteFn={deleteFn} 
+                        entity={product}
+                    />
+                    <UpdatedAt entity={product}/>
+                </div>
             </div>
             <Col md={12}>
                 <Card className="p-3">

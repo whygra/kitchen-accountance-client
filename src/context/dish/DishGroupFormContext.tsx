@@ -53,8 +53,8 @@ function DishGroupFormContextProvider({action, children}:DishGroupFormContextPro
 
   useEffect(()=>{
     document.title = action==DataAction.Create
-      ?'Создание блюда'
-      :`Редактирование блюда "${formState.id}. ${formState.name}"`
+      ?'Создание группы блюд'
+      :`Редактирование группы блюд "${formState.id}. ${formState.name}"`
   }, [formState])
   
   useEffect(()=>{initialize()}, [])
@@ -75,12 +75,12 @@ function DishGroupFormContextProvider({action, children}:DishGroupFormContextPro
 
   async function loadDishGroup() {
     if (id === undefined)
-      throw Error("Ошибка загрузки данных: отсутствует id блюда")
+      throw Error("Ошибка загрузки данных: отсутствует id группы блюд")
 
     const dishGroup = await getDishGroupWithDishes(parseInt(id))
 
     if (dishGroup === null)
-      throw Error("Не удалось получить данные блюда")
+      throw Error("Не удалось получить данные группы блюд")
     setFormState(constructDishGroupForm(dishGroup))
   }
 

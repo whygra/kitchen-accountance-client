@@ -16,7 +16,7 @@ function DishesTableItem({dish, fieldsToExclude}:DishesTableItemProps) {
             {
                 fieldsToExclude && fieldsToExclude?.find(o=>o==DishField.Image)
                 ? <></>
-                : <td style={{width:'5%'}}><Image width={40} src={`${dish.image?.url}`}/></td>
+                : <td style={{width:'5%'}}><Image width={40} src={`${(dish.image?.url??'')!='' ?dish.image?.url :'/icons/dish-image-placeholder.png'}`}/></td>
             }
             {
                 fieldsToExclude && fieldsToExclude?.find(o=>o==DishField.Id)

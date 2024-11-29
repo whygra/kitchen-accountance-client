@@ -55,7 +55,7 @@ function DishCostCalculatorContextProvider({id, children} : DishCostCalculatorCo
   function setProductState(ingredientId: number, product: ProductCostCalculatorModel) {
     // 
     let ingredient = {...model.ingredients.find(i=>i.id==ingredientId)!}
-    ingredient = {...ingredient, products:ingredient.products.map(p=>p.id==product.id ? product:p)}
+    ingredient = {...ingredient, products:ingredient.products?.map(p=>p.id==product.id ? product:p)}
     const ingredients = model.ingredients.map(i=>
       i.id == ingredientId ? calcIngredientCost(ingredient) : i
     )

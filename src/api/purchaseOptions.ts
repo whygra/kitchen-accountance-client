@@ -8,7 +8,6 @@ import { UnitDTO } from "./units";
 const ENTITY_PATH = "purchase-options"
 const WITH_PRODUCTS = "with-products"
 
-
 export interface PurchaseOptionDTO {
   id: number
   distributor?: DistributorDTO
@@ -18,6 +17,7 @@ export interface PurchaseOptionDTO {
   net_weight: number
   price: number
   products?: ProductDTO[]
+  updated_at?: string
 }
 
 export interface DistributorPurchaseOptionDTO {

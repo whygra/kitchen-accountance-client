@@ -9,6 +9,7 @@ import Loading from '../../shared/Loading';
 import { BASE_URL } from '../../../api/constants';
 import IngredientsTable from '../../ingredient/list/IngredientTable';
 import { IngredientField } from '../../../hooks/sort/useSortIngredients';
+import UpdatedAt from '../../shared/UpdatedAt';
 
 
 function IngredientCategoryDetails() 
@@ -52,16 +53,22 @@ function IngredientCategoryDetails()
         <>
 
             <Row className='mt-5'>
-                <Link className='text-secondary' to='/ingredient-categories/all'>Все категории ингредиентов...</Link>
-            <div className='d-flex flex-row justify-content-between'>
+                <div className='d-flex flex-row justify-content-between align-items-end'>
+                <div>
+                <Link className='text-secondary' to='/ingredient-categories/all'>&lt; Все категории ингредиентов...</Link>
                 <h3>{ingredientCategory.id}. {ingredientCategory.name}</h3>
+                </div>
+                
+                <div>
                 <CUDButtons
                     deleteFn={deleteFn}
                     entity={ingredientCategory}
                     path='ingredient-categories'
-                    requiredPermission={UserPermissions.CRUD_INGREDIENTS}
-                /> 
-            </div>
+                    requiredPermission={UserPermissions.CRUD_DISHES}
+                    /> 
+                    <UpdatedAt entity={ingredientCategory}/>
+                </div>
+                </div>
             <Col md={12}>
                 
                 <Card className="p-3">

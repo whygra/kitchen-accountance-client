@@ -22,7 +22,7 @@ function PurchaseOptionsTable({purchaseOptions, fieldsToExclude}:PurchaseOptions
     const {sliceLimits, nav} = usePagination(filtered?.length??0)
     return(
         
-        <><h4 className="text-center">Позиции закупки</h4>
+        <>
         <Table cellPadding={3} cellSpacing={3}>
             {header}
             <tbody>

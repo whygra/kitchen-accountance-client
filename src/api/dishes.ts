@@ -4,6 +4,7 @@ import { getCookie } from "../cookies"
 import { IngredientDTO } from "./ingredients"
 import { InsertDistributorPurchaseOptionsFromXLSX } from "./distributors"
 import { DishGroupDTO } from "./dishGroups"
+import { UserDTO } from "./users"
 
 const ENTITY_PATH = "dishes"
 
@@ -30,6 +31,8 @@ export interface DishDTO {
   waste_percentage?: number
   ingredient_amount?: number
   image? : ServerImageData
+  updated_by_user?: UserDTO
+  updated_at?: string
 }
 
 export const calcDishWeight = (dish: DishDTO) =>

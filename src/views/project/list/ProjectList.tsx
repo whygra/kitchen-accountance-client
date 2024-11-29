@@ -56,6 +56,7 @@ function ProjectList()
             <h2>Мои проекты</h2>
         <Link to={'/projects/create'}><Button variant='success'>Создать</Button></Link>
         </div>
+        <hr/>
         <Table>
             {header}
             <tbody>
