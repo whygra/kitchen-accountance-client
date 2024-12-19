@@ -40,9 +40,13 @@ function AuthContextProvider({children}:AuthContextProviderProps) {
 
   async function updateUserData(){
 
+    if(getCookie(C_ACCESS_TOKEN)=='')
+      return
+    
     const res = await getCurrent().catch(
-      e=>null
-    )
+      e=>showModal(<div>{e.message}</div>, <b>{e.name}</b>)
+    ) ?? null
+
     setUser(res)
 
     setCookie(C_IS_SIGNED_IN, res==null?'':'true', res==null?0:1)

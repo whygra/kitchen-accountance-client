@@ -47,7 +47,6 @@ export const putDistributorWithPurchaseOptions = async (updateData: DistributorD
 
 
 export const uploadDistributorPurchaseOptionsSpreadsheet = async (insertData: InsertDistributorPurchaseOptionsFromXLSX): Promise<DistributorDTO | null> => {
-  console.log(JSON.stringify(insertData))
   let formData = new FormData(); 
   formData.append('id', `${insertData.id}`)
   formData.append('column_indexes', JSON.stringify(insertData.column_indexes))

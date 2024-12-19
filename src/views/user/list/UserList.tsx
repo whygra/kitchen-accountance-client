@@ -9,6 +9,8 @@ import { getProjectUsers, UserDTO } from '../../../api/users';
 import Loading from '../../shared/Loading';
 import { RoleDTO } from '../../../api/projects';
 import { getRoles } from '../../../api/roles';
+import { projectContext } from '../../../context/ProjectContextProvider';
+import { UserPermissions } from '../../../models';
 
 function UserList() 
 {
@@ -18,6 +20,7 @@ function UserList()
     const {showModal} = useContext(appContext)
     const {showBoundary} = useErrorBoundary()
     const [roles, setRoles] = useState(new Array<RoleDTO>)
+    const {hasPermission} = useContext(projectContext)
 
     async function loadRoles() {
         try{
@@ -61,13 +64,17 @@ function UserList()
         <>
         <div className='d-flex justify-content-between'>
             <h2>Пользователи</h2>
-            <Button variant='success'>Пригласить</Button>
+            {hasPermission(UserPermissions.CRUD_USERS)
+                ? <Link to='/users/invite'><Button variant='success'>Пригласить</Button></Link>
+                : <></>
+            }
+            
         </div>
         <Row className='ps-3 pe-5'>
             <Col md={1} sm={1} className='text-end'><b>id</b></Col>
-            <Col md={3} sm={3} className='text-center'><b>Имя пользователя</b></Col>
+            <Col md={4} sm={4} className='text-center'><b>Имя пользователя</b></Col>
             <Col md={4} sm={4} className='text-center'><b>Email</b></Col>
-            <Col md={4} sm={4} className='text-center'><b>Роль</b></Col>
+            <Col md={3} sm={3} className='text-center'><b>Роль</b></Col>
         </Row>
         <Accordion>
             {users.map(u=>

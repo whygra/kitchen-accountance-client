@@ -10,8 +10,9 @@ interface BtnAskConfirmationProps {
     prompt: string
     onConfirm: ()=>void
     children: ReactElement|string
+    disabled?: boolean
 }
-function BtnAskConfirmation({children, prompt, onConfirm, tooltip, variant}:BtnAskConfirmationProps) {
+function BtnAskConfirmation({children, prompt, onConfirm, tooltip, variant, disabled}:BtnAskConfirmationProps) {
 
     const {showModal, hideModal} = useContext(appContext)
     
@@ -30,6 +31,7 @@ function BtnAskConfirmation({children, prompt, onConfirm, tooltip, variant}:BtnA
 
     return(
       <TooltipButton
+        disabled={disabled}
         tooltip={tooltip}
         variant={variant}
         onClick={showDialog}

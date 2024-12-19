@@ -1,9 +1,9 @@
 import { Route } from "react-router-dom";
-import DishCategoryFormContextProvider from "../../context/dish/DishCategoryFormContext";
-import DishCategoryForm from "../dishCategory/form/DishCategoryForm";
-import DishCategoryDetails from "../dishCategory/details/DishCategoryDetails";
-import DishCategoryList from "../dishCategory/list/DishCategoryList";
-import { DataAction } from "../../models";
+import DishCategoryFormContextProvider from "../context/dish/DishCategoryFormContext";
+import DishCategoryForm from "../views/dishCategory/form/DishCategoryForm";
+import DishCategoryDetails from "../views/dishCategory/details/DishCategoryDetails";
+import DishCategoryList from "../views/dishCategory/list/DishCategoryList";
+import { DataAction } from "../models";
 
 function useDishCategoryRoutes() {
     return (

@@ -23,6 +23,7 @@ interface IngredientFormContext {
   requestFn: ()=>Promise<IngredientDTO|null>
   setTypeId: (id:number)=>void
   setName: (name:string)=>void
+  setDescription: (description:string)=>void
   setCategoryName: (name:string)=>void
   setCategoryId: (id:number)=>void
   setCategoryDataAction: (action:DataAction)=>void
@@ -49,6 +50,7 @@ export const ingredientContext = createContext<IngredientFormContext>({
   requestFn:async()=>null,
   setTypeId:(id:number)=>{},
   setName:(name:string)=>{},
+  setDescription:(description:string)=>{},
   setCategoryName: (name:string)=>{},
   setCategoryId: (id:number)=>{},
   setCategoryDataAction: (action:DataAction)=>{},
@@ -142,6 +144,11 @@ function IngredientFormContextProvider({action, children}:IngredientFormContextP
   function setName(name: string) {
     saveToHistory()
     setFormState({...formState, name:name})
+  }
+
+  function setDescription(description: string) {
+    saveToHistory()
+    setFormState({...formState, description:description})
   }
 
   function setCategoryId(categoryId: number) {
@@ -271,6 +278,7 @@ function IngredientFormContextProvider({action, children}:IngredientFormContextP
       products: products,
       setTypeId: setTypeId,
       setName: setName,
+      setDescription: setDescription,
       requestFn: action==DataAction.Update ? update : create
     }}>
 

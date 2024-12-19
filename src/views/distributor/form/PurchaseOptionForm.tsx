@@ -119,7 +119,7 @@ function PurchaseOptionForm({formState, openSelect}: PurchaseOptionFormProps) {
 
             <Col sm={6} lg={4}>
             <div className="d-flex flex-row justify-content-between">
-            <b>Продукт</b>
+            <b>{formState.productIsEditable ? "Продукт" : 'Продукты'}</b>
               <IsCreateSwitch
                 dataAction={formState.productDataAction}
                 setDataAction={setProductAction}
@@ -152,10 +152,17 @@ function PurchaseOptionForm({formState, openSelect}: PurchaseOptionFormProps) {
                 />
               </Form.Group>
               :
-              <>
-                <Form.Label>Продукты</Form.Label>
-                <Link to={`/purchase-options/edit/${formState.id}`}>редактировать</Link>
-              </>
+              <div
+                className="mt-2"
+              >
+                <Link to={`/purchase-options/edit/${formState.id}`}>
+                  <TooltipButton 
+                    tooltip="редактировать..."
+                    variant='warning'>
+                    <>[{formState.productName},...] <i className="bi bi-pencil"/></>
+                  </TooltipButton>
+                </Link>
+              </div>
             }
               </Col>
 

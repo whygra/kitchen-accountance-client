@@ -1,9 +1,9 @@
 import { Route } from "react-router-dom";
-import { DataAction } from "../../models";
-import DishFormContextProvider from "../../context/dish/DishFormContext";
-import DishForm from "../dish/form/DishForm";
-import DishDetails from "../dish/details/DishDetails";
-import DishList from "../dish/list/DishList";
+import { DataAction } from "../models";
+import DishFormContextProvider from "../context/dish/DishFormContext";
+import DishForm from "../views/dish/form/DishForm";
+import DishDetails from "../views/dish/details/DishDetails";
+import DishList from "../views/dish/list/DishList";
 
 function useDishRoutes() {
     return (

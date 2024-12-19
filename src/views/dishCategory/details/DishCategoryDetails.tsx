@@ -33,9 +33,7 @@ function DishCategoryDetails()
         
         setIsLoading(true)
         const dishCategory = await getDishCategoryWithDishes(parseInt(id??'0'))
-        
-        console.log(dishCategory)
-        
+                
         if (dishCategory === null)
             throw Error("Не удалось получить данные о категории блюд")
         

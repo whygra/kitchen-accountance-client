@@ -27,7 +27,7 @@ function BtnShowFileUploadForm({onSuccess, distributorId}:BtnShowFileUploadFormP
             code: zeroBasedIndexes.find(c=>c.name=='code')?.index,
             unit: zeroBasedIndexes.find(c=>c.name=='unit')?.index,
             price: zeroBasedIndexes.find(c=>c.name=='price')?.index,
-        } 
+        }
         
         await uploadDistributorPurchaseOptionsSpreadsheet({
             id: distributorId,

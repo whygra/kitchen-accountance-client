@@ -62,7 +62,7 @@ function DishGroupDishFormList() {
             </div>
           )
       }
-      <div className="d-flex flex-row-reverse">
+      <div className="d-flex flex-row-reverse mt-2">
 
         <TooltipButton
           tooltip='добавить ингредиент'

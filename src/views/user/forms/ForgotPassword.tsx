@@ -1,25 +1,23 @@
 import { Button, Container, Form } from 'react-bootstrap';
 import { useContext, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import SelectCreateCategoryGroup from '../../shared/selectCreateGroup/SelectCreateGroup';
 import { DataAction } from '../../../models';
 import { appContext } from '../../../context/AppContextProvider';
 import { ingredientContext } from '../../../context/ingredient/IngredientFormContext';
+import { forgotPassword, signIn, signUp } from '../../../api/auth';
 import { setCookie } from '../../../cookies';
+import { authContext } from '../../../context/AuthContextProvider';
 import { ErrorView } from '../../ErrorView';
-import { signUp } from '../../../api/auth';
 
 
-function SignUp() 
+function ForgotPassword() 
 {  
   const navigate = useNavigate()
 
   const [disabled, setDisabled] = useState(false)
 
-  const [name, setName] = useState('')
   const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [cPassword, setCPassword] = useState('')
 
   const {showModal} = useContext(appContext)
 
@@ -27,26 +25,14 @@ function SignUp()
     setDisabled(true)
     
     try{
-      if(!passwordsMatch())
-        throw new Error('Пароли не совпадают')
-      const res = await signUp({
-        id:0,
-        name,
-        email,
-        password,
-      })
-      
-      navigate('/')
+      const res = await forgotPassword(email)
       showModal(<>{res?.message}</>)
+      navigate('/home')
     }
     catch (error: Error | any) {
       showModal(<div className='p-2 text-center'><ErrorView error={error}/></div>, <b>{error.name}</b>)
       setDisabled(false)
     }
-  }
-
-  function passwordsMatch(){
-    return password.localeCompare(cPassword) == 0
   }
 
   function cancel() {
@@ -55,39 +41,14 @@ function SignUp()
 
   return (
       <Container className='pt-5'>
+        <h3 className='text-center'>Сброс пароля</h3>
+        <Link to='/signup'>Нет учетной записи? создать</Link>
         <Form.Group className='mb-4'>
-            <Form.Label><b>Имя пользователя</b></Form.Label>
-            <Form.Control
-            type='text'
-            value={name} 
-            onChange={(e)=>setName(e.target.value)}
-            />
-        </Form.Group>
-
-        <Form.Group className='mb-4'>
-          <Form.Label><b>Email</b></Form.Label>
+          <Form.Label><b>Введите адрес email, на который зарегистрированна учетная запись</b></Form.Label>
           <Form.Control
             type='email'
             value={email}
             onChange={(e)=>setEmail(e.target.value)}
-          />
-        </Form.Group>
-
-        <Form.Group className='mb-4'>
-          <Form.Label><b>Пароль</b></Form.Label>
-          <Form.Control
-            type='password'
-            value={password}
-            onChange={(e)=>setPassword(e.target.value)}
-          />
-        </Form.Group>
-
-        <Form.Group className='mb-4'>
-          <Form.Label><b>Подтвердить пароль</b></Form.Label>
-          <Form.Control
-            type='password'
-            value={cPassword}
-            onChange={(e)=>setCPassword(e.target.value)}
           />
         </Form.Group>
 
@@ -98,4 +59,4 @@ function SignUp()
       </Container>)
 }
 
-export default SignUp
+export default ForgotPassword

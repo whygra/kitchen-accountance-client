@@ -25,6 +25,7 @@ export function getDishProducts(dish:DishDTO){
 export interface DishDTO {
   id: number
   name: string
+  description?: string
   category?: DishCategoryDTO
   group?: DishGroupDTO
   ingredients?: IngredientDTO[]

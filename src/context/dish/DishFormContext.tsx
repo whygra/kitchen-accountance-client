@@ -26,6 +26,7 @@ interface DishFormContext {
   removeAllDishIngredientForms: ()=>void
   requestFn: ()=>Promise<DishDTO|null>
   setName: (name:string)=>void
+  setDescription: (description:string)=>void
   setCategoryName: (name:string)=>void
   setCategoryId: (id:number)=>void
   setCategoryDataAction: (action:DataAction)=>void
@@ -50,6 +51,7 @@ export const dishFormContext = createContext<DishFormContext>({
   removeAllDishIngredientForms: ()=>{},
   requestFn:async()=>null,
   setName:(name:string)=>{},
+  setDescription:(description:string)=>{},
   setCategoryName: (name:string)=>{},
   setCategoryId: (id:number)=>{},
   setCategoryDataAction: (action:DataAction)=>{},
@@ -131,9 +133,13 @@ function DishFormContextProvider({action, children}:DishFormContextProviderProps
   }
 
   function setName(name: string) {
-    console.log(name)
     saveToHistory()
     setFormState({...formState, name:name})
+  }
+
+  function setDescription(description: string) {
+    saveToHistory()
+    setFormState({...formState, description:description})
   }
 
   function setCategoryId(categoryId: number) {
@@ -256,6 +262,7 @@ function DishFormContextProvider({action, children}:DishFormContextProviderProps
       removeDishIngredientForm: removeDishIngredientForm,
       removeAllDishIngredientForms: removeAllDishIngredientForms,
       setName: setName,
+      setDescription: setDescription,
       setCategoryDataAction: setCategoryDataAction,
       setCategoryId: setCategoryId,
       setCategoryName: setCategoryName,

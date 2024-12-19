@@ -16,13 +16,16 @@ export interface ProductDTO {
   name: string
   category?: ProductCategoryDTO
   group?: ProductGroupDTO
-  waste_percentage?: number
-  raw_content_percentage?: number
-  product_share?: number
-  purchase_options?: ProductPurchaseOptionDTO[]
-  ingredients?: IngredientDTO[]
   updated_by_user?: UserDTO
   updated_at?: string
+  
+  ingredients?: IngredientDTO[]
+  purchase_options?: ProductPurchaseOptionDTO[]
+
+  waste_percentage?: number
+  raw_content_percentage?: number
+  description?: string
+  product_share?: number
 }
 
 

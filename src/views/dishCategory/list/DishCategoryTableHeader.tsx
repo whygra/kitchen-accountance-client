@@ -33,8 +33,8 @@ function DishCategoriesTableHeader({
                     {
                         (fieldsToExclude?.findIndex(o=>o==DishCategoryField.Id)??-1)==-1
                         ?
-                        <th
-                            style={{width: '2%'}}>                    
+                        <td
+                            width='2%'>                    
                             <HeaderSortButton
                             header='Id'
                             field={DishCategoryField.Id}
@@ -42,14 +42,14 @@ function DishCategoriesTableHeader({
                             activeField={activeField}
                             sortIsDesc={sortIsDesc}
                         />
-                        </th>
+                        </td>
                         :<></>
                     }
                     {
                         (fieldsToExclude?.findIndex(o=>o==DishCategoryField.Name)??-1)==-1
                         ?
-                        <th
-                            style={{width: '4%'}}>                    
+                        <td
+                            width='4%'>                    
                         <HeaderSortButton
                         header='Название'
                         field={DishCategoryField.Name}
@@ -57,7 +57,7 @@ function DishCategoriesTableHeader({
                         activeField={activeField}
                         sortIsDesc={sortIsDesc}
                         />
-                        </th>
+                        </td>
                         :<></>
                     }
                     <td style={{width: '0.1%'}}>

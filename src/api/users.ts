@@ -54,3 +54,40 @@ export const assignRole = async (userData: UserDTO): Promise<UserDTO | null> => 
   return data
 }
 
+export const inviteToProject = async (email: string): Promise<UserDTO | null> => {
+  const response = await fetch(`${BASE_URL}/${PROJECT_PATH}/${parseInt(getCookie(C_SELECTED_PROJECT_ID))}/${ENTITY_PATH}/invite`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer '+getCookie(C_ACCESS_TOKEN)
+    },
+    body: JSON.stringify({email: email})
+  })
+  const data = await response.json().catch(e=>null)
+  if (!response.ok) 
+    throw {
+      message: `Не удалось пригласить пользователя\n ${data?.message}`,
+      name: `${response.status} ${response.statusText}`,
+      errors: data?.errors,
+    }
+  return data
+}
+
+export const removeFromProject = async (id: number): Promise<UserDTO | null> => {
+  const response = await fetch(`${BASE_URL}/${PROJECT_PATH}/${parseInt(getCookie(C_SELECTED_PROJECT_ID))}/${ENTITY_PATH}/remove/${id}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer '+getCookie(C_ACCESS_TOKEN)
+    },
+  })
+  const data = await response.json().catch(e=>null)
+  if (!response.ok) 
+    throw {
+      message: `Не удалось исключить пользователя\n ${data?.message}`,
+      name: `${response.status} ${response.statusText}`,
+      errors: data?.errors,
+    }
+  return data
+}
+

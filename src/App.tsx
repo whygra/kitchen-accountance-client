@@ -6,7 +6,7 @@ import './App.css';
 import { Col, Container, Modal, Row } from 'react-bootstrap';
 import { ErrorBoundary, useErrorBoundary } from 'react-error-boundary';
 import { ErrorFallbackScreen } from './views/ErrorFallbackScreen';
-import AppRoutes from './views/routes';
+import AppRoutes from './routes';
 import AuthContextProvider from './context/AuthContextProvider';
 import Navbar from './views/Navbar';
 import ProjectContextProvider from './context/ProjectContextProvider';

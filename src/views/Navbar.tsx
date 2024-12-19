@@ -26,6 +26,10 @@ function Navbar() {
       onCancel={hideModal}
       onConfirm={()=>{
         requestSignOut()
+        .catch(e=>{
+          hideModal()
+          showModal(<div className='p-2'>{e.message}</div>, <b>{e.name}</b>)
+        })
         .then(async ()=>{
             await updateUserData()
             hideModal()
@@ -35,8 +39,10 @@ function Navbar() {
     />)
   }
   return (
-    <div className="fixed-left bg-light text-center d-flex flex-row flex-md-column h-100 justify-content-center align-items-center pb-0">
-      <div className='d-flex text-center justify-content-center'>
+    <div 
+      className="fixed-left bg-light text-center d-flex flex-row flex-md-column h-100 justify-content-between align-items-center pb-0">
+      <div 
+        className='d-flex text-center justify-content-center'>
         <Link to="/home" className="d-block p-3 link-dark text-decoration-none" title="Главная" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Icon-only">
           <Image 
             style={project ? {
@@ -47,22 +53,29 @@ function Navbar() {
         </Link>
         {project 
         ?
-        <div className="p-3 pe-0 position-absolute border-bottom btn-group dropend">
+        <div 
+          style={{width: '7em', height: '7em'}}
+          className="pe-0 ps-3 position-absolute border-bottom btn-group dropend d-flex flex-row justify-content-between">
           
           <Link 
-            className='link-dark text-decoration-none'
+            className='flex-grow-1 link-dark text-decoration-none'
             title={project.name} data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Icon-only"
             to={`/projects/details/${project.id}`}
           >
-            <Image
-              className='p-0 ps-1 m-0' 
-              width='80em' 
-              src={project.logo?.url} 
-              alt={project.name}
-            />
+            <div className='w-100 h-100 m-0 d-flex justify-content-center align-items-center text-decoration-underline fw-bolder text-wrap'>
+              {project.logo?.url ?? '' != ''
+              ? <Image
+                  className='w-100 m-0' 
+                  src={project.logo?.url} 
+                  alt={project.name}
+                />
+              : <h5>{project.name}</h5>
+            }
+            </div>
           </Link>
         <Link 
           to={'#'}
+          style={{width: '0.1em'}}
           className="link-dark text-decoration-none dropdown-toggle dropdown-toggle-split" 
           data-bs-toggle="dropdown" 
           aria-expanded="false"
@@ -148,7 +161,7 @@ function Navbar() {
     
     <div className="p-3 pe-0 text-center border-top btn-group dropend">
 
-    <Link className="link-dark text-decoration-none" to='/profile'>
+    <Link className="link-dark text-decoration-none" to={isSignedIn ? '/profile' : '/signin'}>
       Профиль
     </Link>
     <Link 

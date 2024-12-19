@@ -14,6 +14,7 @@ const WITH_PURCHASE_OPTIONS = "with-purchase-options"
 export interface IngredientDTO {
   id: number
   name: string
+  description?: string
   item_weight?: number
   type?: IngredientTypeDTO
   is_item_measured?: boolean

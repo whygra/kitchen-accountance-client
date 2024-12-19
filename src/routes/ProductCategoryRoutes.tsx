@@ -1,9 +1,9 @@
 import { Route } from "react-router-dom";
-import ProductCategoryFormContextProvider from "../../context/product/ProductCategoryFormContext";
-import ProductCategoryForm from "../productCategory/form/ProductCategoryForm";
-import ProductCategoryDetails from "../productCategory/details/ProductCategoryDetails";
-import ProductCategoryList from "../productCategory/list/ProductCategoryList";
-import { DataAction } from "../../models";
+import ProductCategoryFormContextProvider from "../context/product/ProductCategoryFormContext";
+import ProductCategoryForm from "../views/productCategory/form/ProductCategoryForm";
+import ProductCategoryDetails from "../views/productCategory/details/ProductCategoryDetails";
+import ProductCategoryList from "../views/productCategory/list/ProductCategoryList";
+import { DataAction } from "../models";
 
 function useProductCategoryRoutes() {
     return (

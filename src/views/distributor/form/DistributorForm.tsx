@@ -62,7 +62,6 @@ function DistributorForm()
   const [validated, setValidated] = useState(true);
 
   const handleSubmit = (event:FormEvent) => {
-    console.log('submit')
     setIsValidating(true)
 
     event.preventDefault();

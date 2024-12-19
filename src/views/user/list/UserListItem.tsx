@@ -2,8 +2,13 @@ import { Accordion, Button, Col, Form, Row, Table } from 'react-bootstrap';
 import { useContext, useState } from 'react';
 import { appContext } from '../../../context/AppContextProvider';
 import ConfirmationDialog from '../../shared/ConfirmationDialog';
-import { assignRole, UserDTO } from '../../../api/users';
+import { assignRole, removeFromProject, UserDTO } from '../../../api/users';
 import { RoleDTO } from '../../../api/projects';
+import TooltipButton from '../../shared/TooltipButton';
+import BtnAskConfirmation from '../../shared/BtnAskConfirmation';
+import { projectContext } from '../../../context/ProjectContextProvider';
+import { authContext } from '../../../context/AuthContextProvider';
+import { UserPermissions } from '../../../models';
 
 
 interface UserListItemProps {
@@ -14,9 +19,12 @@ interface UserListItemProps {
 
 function UserListItem({user, roles, loadData}: UserListItemProps) 
 {      
-    const [newRoleId, setNewRoleId] = useState(roles[0].id)
+    const [newRoleId, setNewRoleId] = useState(user.role?.id ?? roles[0].id)
     const {showModal, hideModal} = useContext(appContext)
+    const {hasPermission} = useContext(projectContext)
     const [disabled, setDisabled] = useState(false)
+    const {project} = useContext(projectContext)
+    const {user:current} = useContext(authContext)
 
     function assign() {
         setDisabled(true)
@@ -31,41 +39,69 @@ function UserListItem({user, roles, loadData}: UserListItemProps)
             .finally(()=>setDisabled(false))
     }
 
+    function remove() {
+        setDisabled(true)
+        removeFromProject(user.id)
+        // оповестить об ответе
+            .catch((e)=>{
+                showModal(<>{e?.message}</>)
+            })
+            .then(()=>loadData())
+            .finally(()=>setDisabled(false))
+    }
+
     return (
         <>
         <Accordion.Item eventKey={`${user.id}`}>
         <Accordion.Header style={{userSelect: 'text'}}>
             <Row className='w-100'>
                 <Col md={1} sm={1} className='text-end'>{user.id}</Col>
-                <Col md={3} sm={3} className='text-center'>{user.name}</Col>
+                <Col md={4} sm={4} className='text-center'>{user.name}</Col>
                 <Col md={4} sm={4} className='text-center'>{user.email}</Col>
-                <Col md={4} sm={4} className='text-center'>{user.role?.name}</Col>
+                <Col md={3} sm={3} className='text-center'>{user.role?.name}</Col>
             </Row>
         </Accordion.Header>
         <Accordion.Body>
-
-                    <Form.Label>Изменить роль</Form.Label>
+            {user.id == current?.id || (!hasPermission(UserPermissions.CRUD_USERS))
+            ? <></>
+            :
+        <div className='d-flex justify-content-end align-items-end w-100'>
+            <div className='border-1 flex-grow-1'>
+                <Form.Label>Изменить роль</Form.Label>
                 <div className='d-flex justify-content-between'>
                     <Form.Select
                         value={newRoleId}
                         onChange={e=>setNewRoleId(parseInt(e.target.value))}
-                    >
+                        >
                         {roles.map(r=>
                             <option value={r.id}>{r.name}</option>
                         )}
                     </Form.Select>
-                    <Button disabled={disabled} variant='danger'
-                        onClick={() =>
-                            showModal(
-                                <ConfirmationDialog
-                                    onConfirm={()=>assign()}
-                                    onCancel={hideModal}
-                                    prompt={`Вы уверены, что хотите переназначить роль пользователя "${user.id}. ${user.name}"?`}
-                                />
-                            )
-                        }
-                    >Подтвердить</Button>
+                    
+                    <BtnAskConfirmation 
+                        tooltip='назначить роль'
+                        disabled={disabled} variant='warning'
+                        prompt={`Вы уверены, что хотите переназначить роль пользователя "${user.id}. ${user.name}"?`}
+                        onConfirm={assign}
+                        >
+                        <i className='bi bi-check2'/>
+                    </BtnAskConfirmation>
                 </div>
+            </div>
+            <div>
+                <BtnAskConfirmation
+                    variant='danger'
+                    disabled={disabled}
+                    tooltip='исключить из проекта'
+                    onConfirm={remove}
+                    prompt={`Вы уверены, что хотите исключить пользователя "${user.name}" из проекта "${project?.name}"`} 
+                >
+                    <i className='bi bi-person-dash'/>
+                </BtnAskConfirmation>
+            </div>
+        </div>
+            }
+
         </Accordion.Body>
         </Accordion.Item>
         </>

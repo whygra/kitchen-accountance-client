@@ -1,9 +1,9 @@
 import { Route } from "react-router-dom";
-import ProductGroupFormContextProvider from "../../context/product/ProductGroupFormContext";
-import ProductGroupForm from "../productGroup/form/ProductGroupForm";
-import ProductGroupDetails from "../productGroup/details/ProductGroupDetails";
-import ProductGroupList from "../productGroup/list/ProductGroupList";
-import { DataAction } from "../../models";
+import ProductGroupFormContextProvider from "../context/product/ProductGroupFormContext";
+import ProductGroupForm from "../views/productGroup/form/ProductGroupForm";
+import ProductGroupDetails from "../views/productGroup/details/ProductGroupDetails";
+import ProductGroupList from "../views/productGroup/list/ProductGroupList";
+import { DataAction } from "../models";
 
 function useProductGroupRoutes() {
     return (

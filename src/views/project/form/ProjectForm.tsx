@@ -9,6 +9,7 @@ import HistoryNav from '../../shared/HistoryNav';
 import SmallTooltipButton from '../../shared/SmallTooltipButton';
 import { projectFormContext } from '../../../context/ProjectFormContextProvider';
 import { projectContext } from '../../../context/ProjectContextProvider';
+import BtnShowFileUploadForm from './BtnShowFileUploadForm';
 
 function ProjectForm() 
 {  
@@ -103,7 +104,8 @@ function ProjectForm()
     commit()
   };
 
-  return (<>
+  return (
+    <>
         <HistoryNav
           history={history}
           reloadFn={reloadState}

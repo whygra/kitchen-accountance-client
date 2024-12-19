@@ -13,7 +13,7 @@ function ProductsTableItem({product, fieldsToExclude}: ProductsTableItemProps)
         <>
             {fieldsToExclude && fieldsToExclude?.find(f=>f==ProductField.Id)
                 ? <></>
-                : <td width={1} className='text-end'>{product.id}</td>
+                : <td width={1} className='text-center'>{product.id}</td>
             }
             {fieldsToExclude && fieldsToExclude?.find(f=>f==ProductField.Name)
                 ? <></>

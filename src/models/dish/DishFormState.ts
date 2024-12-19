@@ -9,6 +9,7 @@ export interface DishFormState {
     groupDataAction: DataAction
     id: number
     name: string
+    description: string
     categoryId: number
     categoryName: string
     groupId: number
@@ -24,6 +25,7 @@ export function constructDishForm(dto?: DishDTO): DishFormState{
         image: dto?.image,
         id: dto?.id ?? 0,
         name: dto?.name ?? '',
+        description: dto?.description ?? '',
         categoryId: dto?.category?.id ?? 0,
         categoryName: dto?.category?.name ?? '',
         groupId: dto?.group?.id ?? 0,
@@ -36,6 +38,7 @@ export function dishFormToDTO(formState: DishFormState): DishDTO{
     return {
         id: formState.id,
         name: formState.name,
+        description: formState.description,
         category: {
             id: formState.categoryDataAction == DataAction.Create ? 0 : formState.categoryId,
             name: formState.categoryDataAction == DataAction.Create ? formState.categoryName : '',

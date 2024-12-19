@@ -163,6 +163,7 @@ function PurchaseOptionForm()
           type="number"
           placeholder="Цена"
           min={1}
+          step={0.01}
           value={formState.price}
           onChange={e=>setPrice(parseInt(e.target.value))}
         />        

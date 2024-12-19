@@ -8,6 +8,7 @@ import CUDButtons from '../../shared/CUDButtons';
 import TooltipButton from '../../shared/TooltipButton';
 import BtnAskConfirmation from '../../shared/BtnAskConfirmation';
 import { projectContext } from '../../../context/ProjectContextProvider';
+import { authContext } from '../../../context/AuthContextProvider';
 
 interface ProjectListItemProps {
     project: ProjectDTO
@@ -16,7 +17,8 @@ interface ProjectListItemProps {
 
 function ProjectListItem({project, onDeleted}: ProjectListItemProps) 
 {   
-    const {project: selectedProject, selectProject: setProject} = useContext(projectContext)
+    const {project: selectedProject, selectProject: setProject, hasPermission} = useContext(projectContext)
+    const {user} = useContext(authContext)
     const {showModal, hideModal} = useContext(appContext)
 
     const deleteProject = () => {
@@ -24,6 +26,8 @@ function ProjectListItem({project, onDeleted}: ProjectListItemProps)
         // оповестить об ответе
             .catch()
             .then(()=>{
+                if(selectedProject?.id==project.id)
+                    setProject(null)
                 onDeleted()
                 hideModal()
             })
@@ -64,15 +68,20 @@ function ProjectListItem({project, onDeleted}: ProjectListItemProps)
                             S
                         </TooltipButton>
                     }
-                    
-                    <BtnAskConfirmation
-                        onConfirm={deleteProject}
-                        prompt={`Вы уверены, что хотите удалить проект "${project.name}" и все его данные?`}
-                        tooltip='удалить'
-                        variant='danger'
-                    >
-                        D
-                    </BtnAskConfirmation>
+                    {
+                        project.creator&&user&&project.creator?.id == user?.id
+                        ?
+                        <BtnAskConfirmation
+                            onConfirm={deleteProject}
+                            prompt={`Вы уверены, что хотите удалить проект "${project.name}" и все его данные?`}
+                            tooltip='удалить'
+                            variant='danger'
+                        >
+                            D
+                        </BtnAskConfirmation>
+                        :
+                        <></>
+                    }
                 </div>
             </td>
         </tr>

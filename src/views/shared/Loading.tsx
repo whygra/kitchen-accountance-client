@@ -4,12 +4,16 @@ import { appContext } from "../../context/AppContextProvider"
 import ConfirmationDialog from "./ConfirmationDialog"
 import TooltipButton from "./TooltipButton"
 
-function Loading() {
+interface LoadingProps{
+    width?: number
+
+}
+function Loading({width}:LoadingProps) {
 
     return(
-        <div className="d-flex justify-content-center">
+        <div className="d-flex justify-content-center m-0 p-0">
 
-        <Image width={'40px'} style={{filter: 'hue-rotate(210deg)'}} src='/icons/icons8-loading.gif'/>
+        <Image width={width??'40px'} style={{filter: 'hue-rotate(210deg)'}} src='/icons/icons8-loading.gif'/>
         </div>
     )
 }

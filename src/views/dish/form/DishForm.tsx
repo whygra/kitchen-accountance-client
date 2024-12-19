@@ -14,6 +14,7 @@ import HistoryNav from '../../shared/HistoryNav';
 import SmallTooltipButton from '../../shared/SmallTooltipButton';
 import { projectContext } from '../../../context/ProjectContextProvider';
 
+
 function DishForm() 
 {  
   const {hasPermission} = useContext(projectContext)
@@ -33,7 +34,7 @@ function DishForm()
   
   const {
     setImage, resetImage,
-    formState, requestFn, setName,
+    formState, requestFn, setName, setDescription,
     categories, setCategoryDataAction, 
     setCategoryId, setCategoryName,
     groups, setGroupId,
@@ -78,6 +79,19 @@ function DishForm()
     catch (error: Error | any) {
       showModal(<>{error?.message}</>)
       setDisabled(false)
+    }
+  }
+
+
+  function preventSubmit(e: any) {
+    if (
+      e.code == 'Enter' ||
+      e.keyCode == 13 ||
+      e.key == " " ||
+      e.code == "Space" ||      
+      e.keyCode == 32
+    ) {
+      e.preventDefault();
     }
   }
 
@@ -181,6 +195,17 @@ function DishForm()
             ref={imageInputRef}
             onChange={handleImageChange}
           />
+        </Col>
+        <Col md={12}>
+        <Form.Group className='mb-3'>
+          <Form.Label><b>Описание</b></Form.Label>
+          <textarea
+            className='form-control border-1'
+            onKeyDown={e=>preventSubmit(e)}
+            value={formState.description}
+            onChange={(e)=>setDescription(e.target.value)}
+          />
+        </Form.Group>
         </Col>
         </Row>
         <DishIngredientFormList/>

@@ -33,9 +33,7 @@ function IngredientCategoryDetails()
         
         setIsLoading(true)
         const ingredientCategory = await getIngredientCategoryWithIngredients(parseInt(id??'0'))
-        
-        console.log(ingredientCategory)
-        
+                
         if (ingredientCategory === null)
             throw Error("Не удалось получить данные о блюде")
         

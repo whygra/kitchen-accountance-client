@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { IngredientDTO } from '../../../api/ingredients';
 import { IngredientField } from '../../../hooks/sort/useSortIngredients';
 
@@ -17,7 +18,7 @@ function IngredientsTableItem({ingredient, fieldsToExclude}: IngredientsTableIte
             }
             {fieldsToExclude && fieldsToExclude?.find(f=>f==IngredientField.Name)
                 ? <></>
-                : <td width={4} className='text-center'>{ingredient.name}</td>
+                : <td width={4} className='text-center'><Link to={`/ingredients/details/${ingredient.id}`}>{ingredient.name}</Link></td>
             }
             {fieldsToExclude && fieldsToExclude?.find(f=>f==IngredientField.Type)
                 ? <></>

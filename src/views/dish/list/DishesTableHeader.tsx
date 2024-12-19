@@ -34,7 +34,7 @@ function DishesTableHeader({
                         (fieldsToExclude?.findIndex(o=>o==DishField.Image)??-1)==-1
                         ?
                         <td
-                            width={'0.1%'}
+                            width='1%'
                         >                    
                             <HeaderSortButton
                             header='Фото'
@@ -50,7 +50,7 @@ function DishesTableHeader({
                         (fieldsToExclude?.findIndex(o=>o==DishField.Id)??-1)==-1
                         ?
                         <td
-                            width={'7%'}
+                            width='1%'
                         >                    
                             <HeaderSortButton
                             header='Id'
@@ -66,7 +66,7 @@ function DishesTableHeader({
                         (fieldsToExclude?.findIndex(o=>o==DishField.Name)??-1)==-1
                         ?
                         <td
-                            width={'20%'}>                    
+                            width='3%'>                    
                         <HeaderSortButton
                         header='Название'
                         field={DishField.Name}
@@ -82,7 +82,7 @@ function DishesTableHeader({
                         ?
                         <td
                             className=''
-                            width={'20%'}>                    
+                            width='3%'>                    
                             <HeaderSortButton
                             header='Категория'
                             field={DishField.Category}
@@ -98,7 +98,7 @@ function DishesTableHeader({
                         ?
                         <td
                             className=''
-                            width={'20%'}>                    
+                            width='3%'>                    
                             <HeaderSortButton
                             header='Группа'
                             field={DishField.Group}
@@ -114,7 +114,7 @@ function DishesTableHeader({
                         ?
                         <td
                             className=''
-                            width={'10%'}>
+                            width='2%'>
                             <HeaderSortButton
                             header='Вес блюда'
                             field={DishField.Weight}
@@ -240,16 +240,18 @@ function DishesTableHeader({
                     </td>
                 </tr>
                 <tr className={`${!searchOpen?'d-none':''} bg-light`}>                        
-                    <td colSpan={5-(fieldsToExclude?.length??0)}
-                            className=''
+                    <td colSpan={7-(fieldsToExclude?.length??0)}
+                            className='p-2'
                         >
                             <Form.Label className="w-100 text-center"><b>Продукты</b></Form.Label>
                         <TagSearch
+                            variant='primary'
                             label='выбрать'
                             items={searchData.hasAnyProducts}
                             onItemsChanged={(items)=>setSearchData({...searchData, hasAnyProducts: items})}
                         />
                         <TagSearch
+                            variant='danger'
                             label='исключить'
                             items={searchData.excludesProducts}
                             onItemsChanged={(items)=>setSearchData({...searchData, excludesProducts: items})}

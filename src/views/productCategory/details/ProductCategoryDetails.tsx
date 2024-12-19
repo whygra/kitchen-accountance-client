@@ -33,9 +33,7 @@ function ProductCategoryDetails()
         
         setIsLoading(true)
         const productCategory = await getProductCategoryWithProducts(parseInt(id??'0'))
-        
-        console.log(productCategory)
-        
+                
         if (productCategory === null)
             throw Error("Не удалось получить данные о блюде")
         

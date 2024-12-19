@@ -1,15 +1,20 @@
 import { Route } from "react-router-dom";
-import ProjectDetails from "../project/details/ProjectDetails";
-import { DataAction } from "../../models";
-import ProjectList from "../project/list/ProjectList";
-import ProjectFormContextProvider from "../../context/ProjectFormContextProvider";
-import ProjectForm from "../project/form/ProjectForm";
+import ProjectDetails from "../views/project/details/ProjectDetails";
+import { DataAction } from "../models";
+import ProjectList from "../views/project/list/ProjectList";
+import ProjectFormContextProvider from "../context/ProjectFormContextProvider";
+import ProjectForm from "../views/project/form/ProjectForm";
 
 function useProjectRoutes() {
     return (
         <Route path="/projects">
             <Route
                 path={'create'}
+                element={<ProjectFormContextProvider action={DataAction.Create}>
+                    <ProjectForm />
+                </ProjectFormContextProvider>} />
+            <Route
+                path={'create/copy/:id'}
                 element={<ProjectFormContextProvider action={DataAction.Create}>
                     <ProjectForm />
                 </ProjectFormContextProvider>} />

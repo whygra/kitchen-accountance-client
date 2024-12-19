@@ -1,6 +1,6 @@
 import { getCookie, setCookie } from "../cookies";
 import { UserPermissions } from "../models";
-import { C_ACCESS_TOKEN, BASE_URL, C_IS_SIGNED_IN, C_SELECTED_PROJECT_ID } from "./constants";
+import { C_ACCESS_TOKEN, BASE_URL, C_IS_SIGNED_IN, C_SELECTED_PROJECT_ID, C_PROJECT_PERMISSIONS } from "./constants";
 import { ProjectDTO, RoleDTO } from "./projects";
 import { UserDTO } from "./users";
 
@@ -19,7 +19,7 @@ export const getCurrent = async () : Promise<UserDTO | null> => {
       'Authorization': 'Bearer '+getCookie(C_ACCESS_TOKEN)
     },
   })
-  const data = await response.json().catch(e=>null)
+  const data = await response.json().catch(e=>{throw e})
   if (!response.ok) {
     setCookie(C_IS_SIGNED_IN, '', 0)
     throw {
@@ -41,7 +41,7 @@ export const signUp = async (createData: UserDTO): Promise<AuthResponse | null> 
     body: JSON.stringify(createData)
   })
   console.log(createData)
-  const data = await response.json().catch(e=>null)
+  const data = await response.json().catch(e=>{throw e})
   if (!response.ok) 
     throw {
       message: `Не удалось создать учетную запись ${data?.message}`,
@@ -65,6 +65,43 @@ export const resendVerificationEmail = async (): Promise<{message:string}|null> 
   if (!response.ok) 
     throw {
       message: `Не удалось отправить ссылку ${data?.message}`,
+      name: `${response.status} ${response.statusText}`,
+      errors: data?.errors,
+    }
+  return data
+}
+
+export const forgotPassword = async (email: string): Promise<{message:string}|null> => {
+  const response = await fetch(`${BASE_URL}/${ENTITY_PATH}/forgot-password`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({email: email})
+  })
+  const data = await response.json().catch(e=>{throw e})
+  if (!response.ok) 
+    throw {
+      message: `${data?.message}`,
+      name: `${response.status} ${response.statusText}`,
+      errors: data?.errors,
+    }
+  return data
+}
+
+export const resetPassword = async (body: {email: string, password: string, token: string}): Promise<{message:string}|null> => {
+  console.log(body)
+  const response = await fetch(`${BASE_URL}/${ENTITY_PATH}/reset-password`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(body)
+  })
+  const data = await response.json().catch(e=>{throw e})
+  if (!response.ok) 
+    throw {
+      message: `${data?.message}`,
       name: `${response.status} ${response.statusText}`,
       errors: data?.errors,
     }
@@ -112,6 +149,10 @@ export const signOut = async (): Promise<AuthResponse | null> => {
     name: `${response.status} ${response.statusText}`,
     errors: data?.errors,
   }
+  
+  setCookie(C_SELECTED_PROJECT_ID, '', 0)
+  setCookie(C_PROJECT_PERMISSIONS, '', 0)
+
   setCookie(C_ACCESS_TOKEN, '', 0)
   setCookie(C_IS_SIGNED_IN, '', 0)
   return data

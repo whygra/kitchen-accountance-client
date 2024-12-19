@@ -38,7 +38,7 @@ function SelectCreateGroup<T extends NamedEntity>({
           setDataAction={setDataAction}
         />
     </div>
-    <div className='px-1'>
+    <div>
     {
       isCreateCategory
       ? 

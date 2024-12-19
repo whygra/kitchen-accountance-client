@@ -54,7 +54,7 @@ function IngredientProductForm({formState, openSelect}: IngredientsProductFormPr
         >
           <Row>
 
-          <Col sm={6}>
+          <Col md={12} lg={4}>
               <div className="mb-2 d-flex flex-row justify-content-between">
               <b>Продукт</b>
                 <IsCreateSwitch
@@ -89,10 +89,12 @@ function IngredientProductForm({formState, openSelect}: IngredientsProductFormPr
                 </Form.Group>
             }
               </Col>
-            <Col md={3}>
+            <Col md={6} lg={4} >
             <div className='d-flex'>
               <Form.Group className='flex-grow-1'>
                 <Form.Label>Вес (грамм)</Form.Label>
+                <div className='d-flex flex-row justify-content-between align-items-start'>
+
                 <Form.Control
                   type="number"
                   required
@@ -100,18 +102,17 @@ function IngredientProductForm({formState, openSelect}: IngredientsProductFormPr
                   step={0.01}
                   value={formState.weight}
                   onChange={e=>setWeight(parseFloat(e.target.value))}
-                />
+                  />
+                  <span className='px-2 pt-2 text-end text-primary text-nowrap'>: {formState.weightPercentage.toFixed(2)}%</span>
+
+                </div>
                 <Form.Control.Feedback type="invalid">
                   введите допустимое значение ( .. ≥ 0.01 )
                 </Form.Control.Feedback>
               </Form.Group>
-              <div className='d-flex flex-column ms-3' style={{width: '3.8em'}}>
-                <i>Доля</i>
-                <i className='text-end mt-3'>{formState.weightPercentage.toFixed(2)}%</i>
-              </div>
             </div>
             </Col>
-            <Form.Group as={Col} md={3}>
+            <Form.Group as={Col} md={6} lg={4}>
             <Form.Label>Потери в весе (%)</Form.Label>
             <Form.Control
                 type="number"

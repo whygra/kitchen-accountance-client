@@ -1,9 +1,9 @@
 import { Route } from "react-router-dom";
-import ProductDetails from "../product/details/ProductDetails";
-import { DataAction } from "../../models";
-import ProductList from "../product/list/ProductList";
-import ProductFormContextProvider from "../../context/product/ProductFormContext";
-import ProductForm from "../product/form/ProductForm";
+import ProductDetails from "../views/product/details/ProductDetails";
+import { DataAction } from "../models";
+import ProductList from "../views/product/list/ProductList";
+import ProductFormContextProvider from "../context/product/ProductFormContext";
+import ProductForm from "../views/product/form/ProductForm";
 
 function useProductRoutes() {
     return (

@@ -1,9 +1,9 @@
 import { Route } from "react-router-dom";
-import PurchaseOptionDetails from "../purchase_option/details/PurchaseOptionDetails";
-import { DataAction } from "../../models";
-import PurchaseOptionList from "../purchase_option/list/PurchaseOptionList";
-import PurchaseOptionFormContextProvider from "../../context/PurchaseOptionFormContext";
-import PurchaseOptionForm from "../purchase_option/form/PurchaseOptionForm";
+import PurchaseOptionDetails from "../views/purchase_option/details/PurchaseOptionDetails";
+import { DataAction } from "../models";
+import PurchaseOptionList from "../views/purchase_option/list/PurchaseOptionList";
+import PurchaseOptionFormContextProvider from "../context/PurchaseOptionFormContext";
+import PurchaseOptionForm from "../views/purchase_option/form/PurchaseOptionForm";
 
 function usePurchaseOptionRoutes() {
     return (

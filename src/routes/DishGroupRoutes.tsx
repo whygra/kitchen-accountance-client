@@ -1,9 +1,9 @@
 import { Route } from "react-router-dom";
-import DishGroupFormContextProvider from "../../context/dish/DishGroupFormContext";
-import DishGroupForm from "../dishGroup/form/DishGroupForm";
-import DishGroupDetails from "../dishGroup/details/DishGroupDetails";
-import DishGroupList from "../dishGroup/list/DishGroupList";
-import { DataAction } from "../../models";
+import DishGroupFormContextProvider from "../context/dish/DishGroupFormContext";
+import DishGroupForm from "../views/dishGroup/form/DishGroupForm";
+import DishGroupDetails from "../views/dishGroup/details/DishGroupDetails";
+import DishGroupList from "../views/dishGroup/list/DishGroupList";
+import { DataAction } from "../models";
 
 function useDishGroupRoutes() {
     return (

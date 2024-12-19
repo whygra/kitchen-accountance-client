@@ -29,22 +29,12 @@ function IngredientForm()
   const {showModal} = useContext(appContext)
   const {
     formState, history, reloadState,
-    requestFn, setName, setTypeId, 
+    requestFn, setName, setDescription, setTypeId, 
     setCategoryId, setCategoryDataAction, setCategoryName, 
     setGroupId, setGroupDataAction, setGroupName, 
     setItemWeight, 
     setIsItemMeasured, ingredientTypes, categories, groups
   } = useContext(ingredientContext);
-
-  console.log(groups)
-  function contentPercentagesAreValid() : boolean {
-    const contentPercentageSum = 
-    formState.ingredientProductForms
-      .filter(p=>p.productDataAction!=DataAction.Delete)
-      .reduce((sum, current) => sum + current.weight, 0);
-    // сумма процентов содержания == 100
-    return contentPercentageSum == 100.
-  }
 
   function hasProducts() : boolean {
     // есть хотя бы один продукт
@@ -58,7 +48,6 @@ function IngredientForm()
       return
     }
 
-    // castToValidPercentages()
     setDisabled(true)
     try{
       const res = await requestFn()
@@ -88,6 +77,13 @@ function IngredientForm()
 
     commit()
   };
+
+  function preventSubmit(e: any) {
+    var key = e.keyCode || 0;     
+    if (key == 13) {
+      e.preventDefault();
+    }
+  }
 
   return (
       <div className='pt-5'>
@@ -147,6 +143,15 @@ function IngredientForm()
             setDataAction={setGroupDataAction}
             setName={setGroupName}
             />
+        </Form.Group>
+        <Form.Group className='mb-3'>
+          <Form.Label><b>Описание</b></Form.Label>
+          <textarea
+            className='form-control border-1'
+            onKeyDown={e=>preventSubmit(e)}
+            value={formState.description}
+            onChange={(e)=>setDescription(e.target.value)}
+          />
         </Form.Group>
         <IngredientProductFormList/>
         <div className='d-flex'>

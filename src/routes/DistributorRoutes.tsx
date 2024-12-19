@@ -1,9 +1,9 @@
 import { Route } from "react-router-dom";
-import { DataAction } from "../../models";
-import DistributorFormContextProvider from "../../context/DistributorFormContext";
-import DistributorForm from "../distributor/form/DistributorForm";
-import DistributorDetails from "../distributor/details/DistributorDetails";
-import DistributorList from "../distributor/list/DistributorList";
+import { DataAction } from "../models";
+import DistributorFormContextProvider from "../context/DistributorFormContext";
+import DistributorForm from "../views/distributor/form/DistributorForm";
+import DistributorDetails from "../views/distributor/details/DistributorDetails";
+import DistributorList from "../views/distributor/list/DistributorList";
 
 function useDistributorRoutes() {
     return (

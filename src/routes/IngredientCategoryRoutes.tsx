@@ -1,9 +1,9 @@
 import { Route } from "react-router-dom";
-import IngredientCategoryFormContextProvider from "../../context/ingredient/IngredientCategoryFormContext";
-import IngredientCategoryForm from "../ingredientCategory/form/IngredientCategoryForm";
-import IngredientCategoryDetails from "../ingredientCategory/details/IngredientCategoryDetails";
-import IngredientCategoryList from "../ingredientCategory/list/IngredientCategoryList";
-import { DataAction } from "../../models";
+import IngredientCategoryFormContextProvider from "../context/ingredient/IngredientCategoryFormContext";
+import IngredientCategoryForm from "../views/ingredientCategory/form/IngredientCategoryForm";
+import IngredientCategoryDetails from "../views/ingredientCategory/details/IngredientCategoryDetails";
+import IngredientCategoryList from "../views/ingredientCategory/list/IngredientCategoryList";
+import { DataAction } from "../models";
 
 function useIngredientCategoryRoutes() {
     return (

@@ -1,9 +1,9 @@
 import { Route } from "react-router-dom";
-import IngredientFormContextProvider from "../../context/ingredient/IngredientFormContext";
-import IngredientForm from "../ingredient/form/IngredientForm";
-import IngredientDetails from "../ingredient/details/IngredientDetails";
-import IngredientList from "../ingredient/list/IngredientList";
-import { DataAction } from "../../models";
+import IngredientFormContextProvider from "../context/ingredient/IngredientFormContext";
+import IngredientForm from "../views/ingredient/form/IngredientForm";
+import IngredientDetails from "../views/ingredient/details/IngredientDetails";
+import IngredientList from "../views/ingredient/list/IngredientList";
+import { DataAction } from "../models";
 
 function useIngredientRoutes() {
     return (

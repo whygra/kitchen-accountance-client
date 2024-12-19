@@ -6,6 +6,7 @@ import { ProductDTO } from "../../api/products"
 export interface IngredientFormState {
     id: number
     name: string
+    description: string
     categoryDataAction: DataAction
     categoryId: number
     categoryName: string
@@ -23,6 +24,7 @@ export function constructIngredientForm(dto?: IngredientDTO): IngredientFormStat
     return {    
         id: dto?.id ?? 0,
         name: dto?.name ?? '',
+        description: dto?.description ?? '',
         categoryDataAction: DataAction.None,
         categoryId: dto?.category?.id ?? 0,
         categoryName: dto?.category?.name ?? '',
@@ -40,6 +42,7 @@ export function ingredientFormToDTO(formState: IngredientFormState): IngredientD
     return {
         id: formState.id,
         name: formState.name,
+        description: formState.description,
         item_weight: formState.isItemMeasured ? formState.itemWeight : 1,
         is_item_measured: formState.isItemMeasured,
         category: {

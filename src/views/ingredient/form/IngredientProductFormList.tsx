@@ -35,7 +35,7 @@ function IngredientProductFormList() {
   }
 
   return (
-    <Container>
+    <div>
       
       <Form.Label><b>Продукты:</b></Form.Label>
       {
@@ -46,7 +46,7 @@ function IngredientProductFormList() {
           </div>)
       }
       
-      <div className="d-flex flex-row-reverse">
+      <div className="d-flex flex-row-reverse mt-2">
 
         <TooltipButton
           tooltip='добавить продукт'
@@ -63,7 +63,7 @@ function IngredientProductFormList() {
       </div>
 
       {modalSelect}
-    </Container>
+    </div>
   )
 }
 

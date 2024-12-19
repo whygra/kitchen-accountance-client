@@ -70,7 +70,6 @@ function DishIngredientFormList() {
 
   return (
     <>
-    <Container>
       
       <Form.Label><b>Ингредиенты:</b></Form.Label>
       {
@@ -81,7 +80,7 @@ function DishIngredientFormList() {
             </div>
           )
       }
-      <div className="d-flex flex-row-reverse">
+      <div className="d-flex flex-row-reverse mt-2">
 
         <TooltipButton
           tooltip='добавить ингредиент'
@@ -96,7 +95,6 @@ function DishIngredientFormList() {
           prompt='удалить все ингредиенты? несохраненные данные будут потеряны'
         ><i className='bi bi-x-lg'/></BtnAskConfirmation>
       </div>
-    </Container>
     {modalSelect}
     </>
   )

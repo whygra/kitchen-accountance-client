@@ -33,9 +33,7 @@ function IngredientGroupDetails()
         
         setIsLoading(true)
         const ingredientGroup = await getIngredientGroupWithIngredients(parseInt(id??'0'))
-        
-        console.log(ingredientGroup)
-        
+                
         if (ingredientGroup === null)
             throw Error("Не удалось получить данные группы ингредиентов")
         

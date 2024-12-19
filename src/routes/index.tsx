@@ -1,20 +1,20 @@
 import { Route, Routes } from 'react-router-dom'
 import 'bootstrap';
 import 'react-bootstrap';
-import Home from '../Home';
-import DistributorDetails from '../distributor/details/DistributorDetails';
-import SignIn from '../user/forms/SignIn';
-import SignUp from '../user/forms/SignUp';
-import NotFound from '../NotFound';
-import UserDetails from '../user/details/UserDetails';
-import UserList from '../user/list/UserList';
+import Home from '../views/Home';
+import DistributorDetails from '../views/distributor/details/DistributorDetails';
+import SignIn from '../views/user/forms/SignIn';
+import SignUp from '../views/user/forms/SignUp';
+import NotFound from '../views/NotFound';
+import UserDetails from '../views/user/details/UserDetails';
+import UserList from '../views/user/list/UserList';
 import useIngredientRoutes from './IngredientRoutes';
 import useDishRoutes from './DishRoutes';
 import useProductRoutes from './ProductRoutes';
 import useDistributorRoutes from './DistributorRoutes';
 import usePurchaseOptionRoutes from './PurchaseOptionRoutes';
-import { EmailVerificationRequired } from '../EmailVerificationRequired';
-import { VerifyEmail } from '../VerifyEmail';
+import { EmailVerificationRequired } from '../views/EmailVerificationRequired';
+import { VerifyEmail } from '../views/VerifyEmail';
 import useProjectRoutes from './ProjectRoutes';
 import useIngredientCategoryRoutes from './IngredientCategoryRoutes';
 import useIngredientGroupRoutes from './IngredientGroupRoutes';
@@ -23,6 +23,9 @@ import useDishGroupRoutes from './DishGroupRoutes';
 import useProductCategoryRoutes from './ProductCategoryRoutes';
 import useProductGroupRoutes from './ProductGroupRoutes';
 import useUnitRoutes from './UnitRoutes';
+import ForgotPassword from '../views/user/forms/ForgotPassword';
+import ResetPassword from '../views/user/forms/ResetPassword';
+import useUserRoutes from './UserRoutes';
 
 function AppRoutes() {
     const ingredientRoutes = useIngredientRoutes()
@@ -38,6 +41,7 @@ function AppRoutes() {
     const purchaseOptionRoutes = usePurchaseOptionRoutes()
     const unitRoutes = useUnitRoutes()
     const projectRoutes = useProjectRoutes()
+    const userRoutes = useUserRoutes()
 
     return (
         
@@ -57,6 +61,7 @@ function AppRoutes() {
         {purchaseOptionRoutes}
         {unitRoutes}
         {projectRoutes}
+        {userRoutes}
 
         <Route
             path='/home'
@@ -76,15 +81,21 @@ function AppRoutes() {
             }
             />
         <Route
-            path={'/profile'}
+            path={'/forgot-password'}
             element={ 
-                <UserDetails/>
+                <ForgotPassword/>
             }
             />
         <Route
-            path={'/users'}
+            path={'/password-reset/:resetToken'}
             element={ 
-                <UserList/>
+                <ResetPassword/>
+            }
+            />
+        <Route
+            path={'/profile'}
+            element={ 
+                <UserDetails/>
             }
             />
         <Route

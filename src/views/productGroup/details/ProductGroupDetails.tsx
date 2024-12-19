@@ -33,9 +33,7 @@ function ProductGroupDetails()
         
         setIsLoading(true)
         const productGroup = await getProductGroupWithProducts(parseInt(id??'0'))
-        
-        console.log(productGroup)
-        
+                
         if (productGroup === null)
             throw Error("Не удалось получить данные группы ингредиентов")
         

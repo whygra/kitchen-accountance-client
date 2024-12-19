@@ -28,12 +28,11 @@ function ProductsTableHeader({
     const [searchOpen, setSearchOpen] = useState(filtersOpen??false)
     return (
         <thead>
-                <tr className='text-center'>
+                <tr className='text-center fw-bold'>
                     {
                         (fieldsToExclude?.findIndex(o=>o==ProductField.Id)??-1)==-1
                         ?
-                        <th
-                            style={{width: '1%'}}>                    
+                        <td width='1%'>
                             <HeaderSortButton
                             header='Id'
                             field={ProductField.Id}
@@ -41,30 +40,28 @@ function ProductsTableHeader({
                             activeField={activeField}
                             sortIsDesc={sortIsDesc}
                         />
-                        </th>
+                        </td>
                         :<></>
                     }
                     {
                         (fieldsToExclude?.findIndex(o=>o==ProductField.Name)??-1)==-1
                         ?
-                        <th
-                            style={{width: '3%'}}>                    
-                        <HeaderSortButton
-                        header='Название'
-                        field={ProductField.Name}
-                        onClick={toggleSort}
-                        activeField={activeField}
-                        sortIsDesc={sortIsDesc}
-                        />
-                        </th>
+                        <td width='2%'>                  
+                            <HeaderSortButton
+                            header='Название'
+                            field={ProductField.Name}
+                            onClick={toggleSort}
+                            activeField={activeField}
+                            sortIsDesc={sortIsDesc}
+                            />
+                        </td>
                         :<></>
                     }
                     {
                         (fieldsToExclude?.findIndex(o=>o==ProductField.Category)??-1)==-1
                         ?
-                        <th
-                            className=''
-                            style={{width: '4%'}}>                    
+                        <td width='4%'>                  
+                
                             <HeaderSortButton
                             header='Категория'
                             field={ProductField.Category}
@@ -72,15 +69,14 @@ function ProductsTableHeader({
                             activeField={activeField}
                             sortIsDesc={sortIsDesc}
                             />
-                        </th>
+                        </td>
                         :<></>
                     }
                     {
                         (fieldsToExclude?.findIndex(o=>o==ProductField.Group)??-1)==-1
                         ?
-                        <th
-                            className=''
-                            style={{width: '4%'}}>                    
+                        <td width='4%'>                  
+                 
                             <HeaderSortButton
                             header='Группа'
                             field={ProductField.Group}
@@ -88,7 +84,7 @@ function ProductsTableHeader({
                             activeField={activeField}
                             sortIsDesc={sortIsDesc}
                             />
-                        </th>
+                        </td>
                         :<></>
                     }
                     <td style={{width: '0.1%'}}>
