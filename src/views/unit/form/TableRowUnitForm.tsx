@@ -1,5 +1,7 @@
 import {Form} from 'react-bootstrap'
 import { UnitDTO } from '../../../api/units'
+import UnitsTableItem from '../list/UnitsTableItem'
+import GridTableRow, { WindowSize } from '../../shared/GridTableRow'
 
 interface TableRowUnitFormProps {
   unit: UnitDTO
@@ -17,32 +19,40 @@ function TableRowUnitForm({unit, setUnit} : TableRowUnitFormProps) {
   }
 
   return (
-    <>
-      <td>{unit.id}</td>
-      <Form.Group as='td'>
-      <Form.Control
-        required
-        type="text"
-        placeholder="Краткое название"
-        value={unit.short}
-        onChange={e => setShort(e.target.value)} />
-      <Form.Control.Feedback type="invalid">
-        введите краткое название
-      </Form.Control.Feedback>
-      </Form.Group>
+    <GridTableRow cells={[
+      {
+        displayAt: WindowSize.Sm,
+        span: 1,
+        element:<Form.Group>
+        <Form.Control
+          required
+          type="text"
+          placeholder="Краткое название"
+          value={unit.short}
+          onChange={e => setShort(e.target.value)} />
+        <Form.Control.Feedback type="invalid">
+          введите краткое название
+        </Form.Control.Feedback>
+        </Form.Group>
+      },
+      {
+        span: 1,
+        element:<Form.Group>
+        <Form.Control
+          required
+          type="text"
+          placeholder="Полное название"
+          value={unit.long}
+          onChange={e => setLong(e.target.value)} />
+        <Form.Control.Feedback type="invalid">
+          введите полное название
+        </Form.Control.Feedback>
+        </Form.Group>
+      },
+    ]}/>
+      
 
-      <Form.Group as='td'>
-      <Form.Control
-        required
-        type="text"
-        placeholder="Полное название"
-        value={unit.long}
-        onChange={e => setLong(e.target.value)} />
-      <Form.Control.Feedback type="invalid">
-        введите полное название
-      </Form.Control.Feedback>
-      </Form.Group>
-    </>
+      
   )
 }
 

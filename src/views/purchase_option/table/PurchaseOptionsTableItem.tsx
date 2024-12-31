@@ -2,67 +2,66 @@ import { Link } from "react-router-dom"
 import { PurchaseOptionDTO } from "../../../api/purchaseOptions"
 import { PurchaseOptionField } from "../../../hooks/sort/useSortPurchaseOptions"
 import ExpansionBtn, { ExpansionBtnProps } from "../../shared/ExpansionBtn"
+import GridTableRow, { WindowSize } from "../../shared/GridTableRow"
 
 interface PurchaseOptionsTableItemProps {
     purchaseOption: PurchaseOptionDTO
     fieldsToExclude?: PurchaseOptionField[]
 }
 
-function PurchaseOptionsTableItem({purchaseOption: o, fieldsToExclude}:PurchaseOptionsTableItemProps) {
-    
+function PurchaseOptionsTableItem({purchaseOption, fieldsToExclude}:PurchaseOptionsTableItemProps) {
+    const cells = [
+        {   
+            displayAt: WindowSize.Lg,
+            field: PurchaseOptionField.Code,
+            element: 
+                <>{purchaseOption.code}</>,
+            span: 2
+        },
+        {   
+            field: PurchaseOptionField.Name,
+            element: 
+                <Link to={`/purchase-options/details/${purchaseOption.id}`}>{purchaseOption.name}</Link>,
+            span: 3
+        },
+        {   
+            displayAt: WindowSize.Sm,
+            field: PurchaseOptionField.Distributor,
+            element: 
+                <Link to={`/distributors/details/${purchaseOption.distributor?.id??0}`}>{purchaseOption.distributor?.name}</Link>,
+            span: 3
+        },
+        {   
+            displayAt: WindowSize.Lg,
+            field: PurchaseOptionField.Product,
+            element: 
+                purchaseOption.products&&(purchaseOption.products.length > 0)?<Link to={`/products/details/${purchaseOption.products[0].id}`}>{purchaseOption.products[0].name}</Link> : <>-нет-</>,
+            span: 3
+        },
+        {   
+            displayAt: WindowSize.Md,
+            field: PurchaseOptionField.NetWeight,
+            element: 
+                <>{purchaseOption.net_weight}</>,
+            span: 2
+        },
+        {   
+            displayAt: WindowSize.Sm,
+            field: PurchaseOptionField.Price,
+            element: 
+                <>{purchaseOption.price}</>,
+            span: 2
+        },
+        {   
+            displayAt: WindowSize.Lg,
+            field: PurchaseOptionField.Unit,
+            element: 
+                <>{purchaseOption.unit.short}</>,
+            span: 2
+        },
+    ]
     return(
-        <>
-            {
-                fieldsToExclude && fieldsToExclude?.find(o=>o==PurchaseOptionField.Distributor)
-                ? <></>
-                : <td
-                    className=' d-none d-md-table-cell'
-                    width={2}>{o.distributor?.name}</td>
-            }
-            {
-                fieldsToExclude && fieldsToExclude?.find(o=>o==PurchaseOptionField.Code)
-                ? <></>
-                : <td
-                    className='  d-none d-lg-table-cell'
-                    width={1}>{o.code}</td>
-            }
-            {
-                fieldsToExclude && fieldsToExclude?.find(o=>o==PurchaseOptionField.Name)
-                ? <></>
-                : <td
-                    className=' '
-                    width={2}><Link to={`/purchase-options/details/${o.id}`}>{o.name}</Link></td>
-            }
-            {
-                fieldsToExclude && fieldsToExclude?.find(o=>o==PurchaseOptionField.Product)
-                ? <></>
-                : <td
-                    className='  d-none d-md-table-cell'
-                    width={2}>{`${o.products&&o.products.length > 0 ?o.products[0].name :''}${(o.products?.length??0)>1?'...':''}`}</td>
-            }
-            {
-                fieldsToExclude && fieldsToExclude?.find(o=>o==PurchaseOptionField.Unit)
-                ? <></>
-                : <td
-                    className='  d-none d-lg-table-cell'
-                    width={1}>{o.unit.long}</td>
-            }
-            {
-                fieldsToExclude && fieldsToExclude?.find(o=>o==PurchaseOptionField.NetWeight)
-                ? <></>
-                : <td
-                    className='  d-none d-md-table-cell'
-                    width={2}>{o.net_weight} г.</td>
-            }
-            {
-                fieldsToExclude && fieldsToExclude?.find(o=>o==PurchaseOptionField.Price)
-                ? <></>
-                : <td
-                    className=' '
-                    width={2}>{o.price}₽</td>
-            }
-            
-        </>
+        <GridTableRow cells={cells} fieldsToExclude={fieldsToExclude}/>
     )
 }
 

@@ -69,7 +69,7 @@ function IngredientList()
         }
         </div>
         <hr/>
-        <p>{header}</p>
+        <p className='ps-3'>{header}</p>
         <Accordion>
             {filtered
                 .slice(sliceLimits.start, sliceLimits.end)

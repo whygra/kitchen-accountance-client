@@ -4,9 +4,9 @@ import { calcDishWeight, DishDTO } from "../../api/dishes"
 
 
 export enum DistributorField {
-    None,
-    Id,
-    Name,
+    None = 'DistributorNone',
+    Id = 'DistributorId',
+    Name = 'DistributorName',
 }
 
 class Comparers {

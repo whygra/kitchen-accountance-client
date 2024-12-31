@@ -51,26 +51,28 @@ function ProductGroupDetails()
         <>
 
             <Row className='mt-5'>
-            <div className='d-flex flex-row justify-content-between align-items-end'>
-                <div>
-                <Link className='text-secondary' to='/product-groups/all'>&lt; Все группы продуктов...</Link>
-                <h3>{productGroup.id}. {productGroup.name}</h3>
-                </div>
-                
-                <div>
+
+            <Row className='w-100 mx-0'>
+                <div className='mx-0 px-0 col col-12 col-sm-4 order-sm-2 justify-content-end'>
                     <CUDButtons
                         deleteFn={deleteFn}
                         entity={productGroup}
-                        path='product-group'
+                        path='product-groups'
                         requiredPermission={UserPermissions.CRUD_PRODUCTS}
-                    /> 
-                    <UpdatedAt entity={productGroup}/>
+                    />
                 </div>
-            </div>
+
+                <h3 className='col col-12 col-sm-8 order-sm-1 mt-3'>{`${productGroup.id}. ${productGroup.name}`}</h3>
+                </Row>
+                
+                <Col md={12}>
+                    <UpdatedAt entity={productGroup}/>
+                </Col>
             <Col md={12}>
                 
                 <Card className="p-3">
 
+                <h5 className='w-100 text-center'>Продукты</h5>
                 <ProductsTable products={productGroup.products??[]} fieldsToExclude={[ProductField.Group]}/>
                 </Card>
             </Col>

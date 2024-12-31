@@ -4,11 +4,11 @@ import { calcDishWeight, DishDTO } from "../../api/dishes"
 import { ProductDTO } from "../../api/products"
 
 export enum ProductField {
-    None,
-    Id,
-    Name,
-    Category,
-    Group,
+    None = 'ProductNone',
+    Id = 'ProductId',
+    Name = 'ProductName',
+    Category = 'ProductCategory',
+    Group = 'ProductGroup',
 }
 
 class Comparers {

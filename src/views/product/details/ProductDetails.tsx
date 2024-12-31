@@ -55,28 +55,39 @@ function ProductDetails()
            product===null ? (<>Не удалось получить продукт</>) : (
         <>
             <Row className='mt-5'>
-            <div className='d-flex flex-row justify-content-between align-items-end'>
-                <div className='d-flex flex-column'>
-                <h3>{`${product.id}. ${product.name}`}</h3>
-                    <span>Категория: "{product.category?.name ?? '-без категории-'}"</span>
-                    <span>Группа: "{product.group?.name ?? '-без группы-'}"</span>
-                </div>
                 
-                <div>
+            <Row className='w-100 mx-0'>
+                <div className='mx-0 px-0 col col-12 col-sm-4 order-sm-2 justify-content-end'>
                     <CUDButtons
-                        requiredPermission={UserPermissions.CRUD_PRODUCTS}
-                        path='products'
-                        deleteFn={deleteFn} 
+                        deleteFn={deleteFn}
                         entity={product}
+                        path='products'
+                        requiredPermission={UserPermissions.CRUD_PRODUCTS}
                     />
-                    <UpdatedAt entity={product}/>
                 </div>
-            </div>
+
+                <h3 className='col col-12 col-sm-8 order-sm-1 mt-3'>{`${product.id}. ${product.name}`}</h3>
+                </Row>
+                
+                <Col md={12}>
+                    <UpdatedAt entity={product}/>
+                </Col>
+
+                <ul className='list-group ps-2'>
+                    <li className='list-group-item'>
+                        Категория: "{product.category?.name 
+                            ? <Link to={`/product-categories/details/${product.category.id}`}>{product.category.name}</Link> 
+                            : '-без категории-'}"</li>
+                    <li className='list-group-item'>
+                        Группа: "{product.group?.name 
+                            ? <Link to={`/product-groups/details/${product.group.id}`}>{product.group.name}</Link> 
+                            : '-без группы-'}"</li>
+                </ul>
+                
             <Col md={12}>
                 <Card className="p-3">
                 <ProductPurchaseOptionsTable product={product}/>
                 <ProductGramCost product={product}/>
-
                 </Card>
             </Col>
             <Col md={12}>

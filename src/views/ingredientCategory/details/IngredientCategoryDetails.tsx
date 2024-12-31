@@ -51,25 +51,28 @@ function IngredientCategoryDetails()
         <>
 
             <Row className='mt-5'>
-                <div className='d-flex flex-row justify-content-between align-items-end'>
-                <div>
-                <Link className='text-secondary' to='/ingredient-categories/all'>&lt; Все категории ингредиентов...</Link>
-                <h3>{ingredientCategory.id}. {ingredientCategory.name}</h3>
+                <Row className='w-100 mx-0'>
+                <div className='mx-0 px-0 col col-12 col-sm-4 order-sm-2 justify-content-end'>
+                    <CUDButtons
+                        deleteFn={deleteFn}
+                        entity={ingredientCategory}
+                        path='ingredient-categories'
+                        requiredPermission={UserPermissions.CRUD_INGREDIENTS}
+                    />
                 </div>
+
+                <h3 className='col col-12 col-sm-8 order-sm-1 mt-3'>
+                    {`${ingredientCategory.id}. ${ingredientCategory.name}`}
+                </h3>
+                </Row>
                 
-                <div>
-                <CUDButtons
-                    deleteFn={deleteFn}
-                    entity={ingredientCategory}
-                    path='ingredient-categories'
-                    requiredPermission={UserPermissions.CRUD_DISHES}
-                    /> 
+                <Col md={12}>
                     <UpdatedAt entity={ingredientCategory}/>
-                </div>
-                </div>
+                </Col>
             <Col md={12}>
                 
                 <Card className="p-3">
+                <h5 className='w-100 text-center'>Ингредиенты</h5>
 
                 <IngredientsTable ingredients={ingredientCategory.ingredients??[]} fieldsToExclude={[IngredientField.Category]}/>
                 </Card>

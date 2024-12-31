@@ -10,6 +10,7 @@ import useIngredientsTableHeader from '../../../hooks/useIngredientsTableHeader'
 import { IngredientField } from '../../../hooks/sort/useSortIngredients';
 import IngredientsTableItem from '../../ingredient/list/IngredientsTableItem';
 import IngredientsTable from '../../ingredient/list/IngredientTable';
+import IngredientCategoriesTableItem from './IngredientCategoriesTableItem';
 
 interface IngredientCategoryListItemProps {
     ingredientCategory: IngredientCategoryDTO
@@ -35,13 +36,13 @@ function IngredientCategoryListItem({ingredientCategory, onDelete}: IngredientCa
         <>
         <Accordion.Item eventKey={`${ingredientCategory.id}`}>
         <Accordion.Header style={{userSelect: 'text'}}>
-            <Row className='w-100 text-center pe-3'>
-                <Col xs={4}>{ingredientCategory.id}</Col>
-                <Col xs={8}>{ingredientCategory.name}</Col>
-            </Row>
+            <div className='w-100 text-center'>
+                <IngredientCategoriesTableItem ingredientcategory={ingredientCategory}/>
+            </div>
         </Accordion.Header>
         <Accordion.Body>
             <small>
+                <h5 className='w-100 text-center'>Ингредиенты</h5>
                 <IngredientsTable ingredients={ingredientCategory.ingredients??[]} fieldsToExclude={[IngredientField.Category]}/>
             </small>
                 <div className='d-flex justify-content-between'>

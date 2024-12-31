@@ -3,26 +3,31 @@ import { PurchaseOptionDTO } from "../../../api/purchaseOptions"
 import ExpansionBtn, { ExpansionBtnProps } from "../../shared/ExpansionBtn"
 import { DishCategoryDTO } from "../../../api/dishCategories"
 import { DishCategoryField } from "../../../hooks/sort/useSortDishCategories"
+import GridTableRow from "../../shared/GridTableRow"
 
 interface DishCategoriesTableItemProps {
-    dishcategory: DishCategoryDTO
+    dishCategory: DishCategoryDTO
     fieldsToExclude?: DishCategoryField[]
 }
 
-function DishCategoriesTableItem({dishcategory: dishCategory, fieldsToExclude}:DishCategoriesTableItemProps) {
+function DishCategoriesTableItem({dishCategory, fieldsToExclude}:DishCategoriesTableItemProps) {
+    
+    const cells = [
+        {   
+            field: DishCategoryField.Id,
+            element: 
+                <>{dishCategory.id}</>,
+            span: 1
+        },
+        {   
+            field: DishCategoryField.Name,
+            element: 
+                <Link to={`/dish-categories/details/${dishCategory.id}`}>{dishCategory.name}</Link>,
+            span: 3
+        },
+    ]
     return(
-        <>
-            {
-                fieldsToExclude && fieldsToExclude?.find(o=>o==DishCategoryField.Id)
-                ? <></>
-                : <td style={{width:'1%'}}>{dishCategory.id}</td>
-            }
-            {
-                fieldsToExclude && fieldsToExclude?.find(o=>o==DishCategoryField.Name)
-                ? <></>
-                : <td style={{width:'2%'}}><Link to={`/dish-categories/details/${dishCategory.id}`}>{dishCategory.name}</Link></td>
-            }
-        </>
+        <GridTableRow cells={cells} fieldsToExclude={fieldsToExclude}/>
     )
 }
 

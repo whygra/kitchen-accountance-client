@@ -71,7 +71,7 @@ function PurchaseOptionList()
         }
         </div>
         <hr/>
-        <Table>{header}</Table>
+        <div className='ps-3'>{header}</div>
 
         <Accordion>
             {filtered

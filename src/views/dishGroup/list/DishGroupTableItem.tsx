@@ -3,6 +3,7 @@ import { PurchaseOptionDTO } from "../../../api/purchaseOptions"
 import ExpansionBtn, { ExpansionBtnProps } from "../../shared/ExpansionBtn"
 import { DishGroupDTO } from "../../../api/dishGroups"
 import { DishGroupField } from "../../../hooks/sort/useSortDishGroups"
+import GridTableRow from "../../shared/GridTableRow"
 
 interface DishGroupsTableItemProps {
     dishGroup: DishGroupDTO
@@ -10,19 +11,23 @@ interface DishGroupsTableItemProps {
 }
 
 function DishGroupsTableItem({dishGroup, fieldsToExclude}:DishGroupsTableItemProps) {
+    
+    const cells = [
+        {   
+            field: DishGroupField.Id,
+            element: 
+                <>{dishGroup.id}</>,
+            span: 1
+        },
+        {   
+            field: DishGroupField.Name,
+            element: 
+                <Link to={`/dish-groups/details/${dishGroup.id}`}>{dishGroup.name}</Link>,
+            span: 3
+        },
+    ]
     return(
-        <>
-            {
-                fieldsToExclude && fieldsToExclude?.find(o=>o==DishGroupField.Id)
-                ? <></>
-                : <td style={{width:'1%'}}>{dishGroup.id}</td>
-            }
-            {
-                fieldsToExclude && fieldsToExclude?.find(o=>o==DishGroupField.Name)
-                ? <></>
-                : <td style={{width:'2%'}}><Link to={`/dish-groups/details/${dishGroup.id}`}>{dishGroup.name}</Link></td>
-            }
-        </>
+        <GridTableRow cells={cells} fieldsToExclude={fieldsToExclude}/>
     )
 }
 

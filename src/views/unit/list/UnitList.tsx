@@ -9,6 +9,7 @@ import { DataAction, UserPermissions } from '../../../models';
 import usePagination from '../../../hooks/usePagination';
 import Loading from '../../shared/Loading';
 import { projectContext } from '../../../context/ProjectContextProvider';
+import UnitsTableHeader from './UnitsTableHeader';
 
 function UnitList() 
 {
@@ -51,9 +52,7 @@ function UnitList()
         <Table className='text-center'>
             <thead>
                 <tr>
-                    <th>Id</th>
-                    <th>Краткое наименование</th>
-                    <th>Полное наименование</th>
+                    <th><UnitsTableHeader/></th>
                     <th></th>
                 </tr>
             </thead>

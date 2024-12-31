@@ -4,6 +4,8 @@ import ExpansionBtn, { ExpansionBtnProps } from "../../shared/ExpansionBtn"
 import { calcDishWeight, DishDTO } from "../../../api/dishes"
 import { DishField } from "../../../hooks/sort/useSortDishes"
 import { Image } from "react-bootstrap"
+import { COLUMN_SPANS, useGridFrames } from "../../../hooks/useGridFrames"
+import GridTableRow, { WindowSize } from "../../shared/GridTableRow"
 
 interface DishesTableItemProps {
     dish: DishDTO
@@ -11,39 +13,51 @@ interface DishesTableItemProps {
 }
 
 function DishesTableItem({dish, fieldsToExclude}:DishesTableItemProps) {
+
+    const cells = [
+        {   
+            field: DishField.Image,
+            element: 
+                <Image style={{opacity:dish.image?.url?1:0.3}} width={40} src={`${(dish.image?.url??'')!='' ?dish.image?.url :'/icons/dish-image-placeholder.png'}`}/>,
+            span: 1
+        },
+        {   
+            displayAt: WindowSize.Lg,
+            field: DishField.Id,
+            element: 
+                <>{dish.id}</>,
+            span: 1
+        },
+        {   
+            field: DishField.Name,
+            element: 
+                <Link to={`/dishes/details/${dish.id}`}>{dish.name}</Link>,
+            span: 3
+        },
+        {   
+            displayAt: WindowSize.Md,
+            field: DishField.Category,
+            element:
+                <>{dish.category?.name?<Link to={`/dish-categories/details/${dish.category.id}`}>{dish.category.name}</Link>:'без категории'}</>,
+            span: 2
+        },
+        {   
+            displayAt: WindowSize.Md,
+            field: DishField.Group,
+            element:
+                <>{dish.group?.name?<Link to={`/dish-groups/details/${dish.group.id}`}>{dish.group.name}</Link>:'без группы'}</>,
+            span: 2
+        },
+        {   
+            displayAt: WindowSize.Lg,
+            field: DishField.Weight,
+            element:
+                <>{calcDishWeight(dish).toFixed(2)} г.</>,
+            span: 2
+        },
+    ]
     return(
-        <>
-            {
-                fieldsToExclude && fieldsToExclude?.find(o=>o==DishField.Image)
-                ? <></>
-                : <td style={{width:'5%'}}><Image width={40} src={`${(dish.image?.url??'')!='' ?dish.image?.url :'/icons/dish-image-placeholder.png'}`}/></td>
-            }
-            {
-                fieldsToExclude && fieldsToExclude?.find(o=>o==DishField.Id)
-                ? <></>
-                : <td style={{width:'5%'}}>{dish.id}</td>
-            }
-            {
-                fieldsToExclude && fieldsToExclude?.find(o=>o==DishField.Name)
-                ? <></>
-                : <td style={{width:'20%'}}><Link to={`/dishes/details/${dish.id}`}>{dish.name}</Link></td>
-            }
-            {
-                fieldsToExclude && fieldsToExclude?.find(o=>o==DishField.Category)
-                ? <></>
-                : <td style={{width:'20%'}}>{dish.category?.name??'без категории'}</td>
-            }
-            {
-                fieldsToExclude && fieldsToExclude?.find(o=>o==DishField.Group)
-                ? <></>
-                : <td style={{width:'20%'}}>{dish.group?.name??'без группы'}</td>
-            }
-            {
-                fieldsToExclude && fieldsToExclude?.find(o=>o==DishField.Weight)
-                ? <></>
-                : <td style={{width:'1%'}}>{calcDishWeight(dish).toFixed(2)}</td>
-            }
-        </>
+        <GridTableRow cells={cells} fieldsToExclude={fieldsToExclude}/>
     )
 }
 

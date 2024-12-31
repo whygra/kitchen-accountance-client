@@ -11,6 +11,7 @@ import { RoleDTO } from '../../../api/projects';
 import { getRoles } from '../../../api/roles';
 import { projectContext } from '../../../context/ProjectContextProvider';
 import { UserPermissions } from '../../../models';
+import UsersTableHeader from './UsersTableHeader';
 
 function UserList() 
 {
@@ -70,12 +71,7 @@ function UserList()
             }
             
         </div>
-        <Row className='ps-3 pe-5'>
-            <Col md={1} sm={1} className='text-end'><b>id</b></Col>
-            <Col md={4} sm={4} className='text-center'><b>Имя пользователя</b></Col>
-            <Col md={4} sm={4} className='text-center'><b>Email</b></Col>
-            <Col md={3} sm={3} className='text-center'><b>Роль</b></Col>
-        </Row>
+        <div className='w-100 ps-3 pe-4'><UsersTableHeader/></div>
         <Accordion>
             {users.map(u=>
                 <UserListItem user={u} roles={roles} loadData={loadData}/>

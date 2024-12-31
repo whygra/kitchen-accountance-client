@@ -3,14 +3,14 @@ import { PurchaseOptionDTO } from "../../api/purchaseOptions"
 
 
 export enum PurchaseOptionField {
-    None,
-    Distributor,
-    Code,
-    Name,
-    Unit,
-    Product,
-    NetWeight,
-    Price
+    None = 'PurchaseOptionNone',
+    Distributor = 'PurchaseOptionDistributor',
+    Code = 'PurchaseOptionCode',
+    Name = 'PurchaseOptionName',
+    Unit = 'PurchaseOptionUnit',
+    Product = 'PurchaseOptionProduct',
+    NetWeight = 'PurchaseOptionNetWeight',
+    Price = 'PurchaseOptionPrice'
 }
 
 class Comparers {

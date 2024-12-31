@@ -1,4 +1,4 @@
-import { Form, Table } from "react-bootstrap";
+import { Col, Form, Row, Table } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import { ProductDTO } from "../../../api/products";
 import { IngredientDTO } from "../../../api/ingredients";
@@ -29,14 +29,12 @@ function ProductGramCost({product}:ProductGramCostProps) {
         
     return(
         <>
-            <Table className="text-center">
-                <thead>
-                    <tr><th colSpan={3}>Стоимость 1 грамма</th></tr>
-                </thead>
-                <tbody>
-                    <tr><td>Средняя: {avgGramCost.toFixed(2)}</td><td>Максимальная: {maxGramCost.toFixed(2)}</td><td>Минимальная: {minGramCost.toFixed(2)}</td></tr>
-                </tbody>
-            </Table>
+            <p className="text-center"><b>Стоимость 1 грамма</b></p>
+            <Row>
+                <Col className="text-center" xs={12} sm={4}>Средняя: {avgGramCost.toFixed(2)}</Col>
+                <Col className="text-center" xs={12} sm={4}>Максимальная: {maxGramCost.toFixed(2)}</Col>
+                <Col className="text-center" xs={12} sm={4}>Минимальная: {minGramCost.toFixed(2)}</Col>
+            </Row>
         </>
     )
 }

@@ -6,6 +6,8 @@ import { useContext } from 'react';
 import { appContext } from '../../../context/AppContextProvider';
 import { UserPermissions } from '../../../models';
 import CUDButtons from '../../shared/CUDButtons';
+import DishesTableItem from './DishesTableItem';
+import { DishField } from '../../../hooks/sort/useSortDishes';
 
 interface DishListItemProps {
     dish: DishDTO
@@ -31,15 +33,7 @@ function DishListItem({dish, onDelete}: DishListItemProps)
         <>
         <Accordion.Item eventKey={`${dish.id}`}>
         <Accordion.Header style={{userSelect: 'text'}}>
-            <Row className='w-100 text-center pe-3'>
-                <Col xs={1}>
-                    <Image style={{width:40, height:40}} src={`${(dish.image?.url??'')!='' ?dish.image?.url :'/icons/dish-image-placeholder.png'}`}/>
-                </Col>
-                <Col xs={3}>{dish.id}. {dish.name}</Col>
-                <Col xs={3}>{dish.category?.name??'без категории'}</Col>
-                <Col xs={3}>{dish.group?.name??'без группы'}</Col>
-                <Col xs={2}>{calcDishWeight(dish).toFixed()} г.</Col>
-            </Row>
+            <DishesTableItem fieldsToExclude={[DishField.Id]} dish={dish}/>
         </Accordion.Header>
         <Accordion.Body>
             <small><DishIngredientsTable dish={dish}/></small>

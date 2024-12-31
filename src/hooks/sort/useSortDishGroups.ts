@@ -4,9 +4,9 @@ import { calcDishWeight, DishDTO } from "../../api/dishes"
 import { DishGroupDTO } from "../../api/dishGroups"
 
 export enum DishGroupField {
-    None,
-    Id,
-    Name,
+    None = 'DishGroupNone',
+    Id = 'DishGroupId',
+    Name = 'DishGroupName',
 }
 
 class Comparers {

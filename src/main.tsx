@@ -4,6 +4,7 @@ import App from './App.tsx'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import AppContextProvider from './context/AppContextProvider';
 import { BrowserRouter } from 'react-router-dom';
+import $ from 'jquery'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
@@ -14,3 +15,4 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     </BrowserRouter>
   </React.StrictMode>
 )
+

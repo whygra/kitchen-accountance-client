@@ -7,6 +7,7 @@ import { useContext } from 'react';
 import { appContext } from '../../../context/AppContextProvider';
 import { ErrorView } from '../../ErrorView';
 import ProductsTable from '../../product/list/ProductsTable';
+import PurchaseOptionsTableItem from '../table/PurchaseOptionsTableItem';
 
 
 interface PurchaseOptionListItemProps {
@@ -31,14 +32,9 @@ function PurchaseOptionListItem({onDelete, purchaseOption}: PurchaseOptionListIt
         <>
         <Accordion.Item eventKey={`${purchaseOption.id}`}>
         <Accordion.Header className='ms-0' style={{userSelect: 'text'}}>
-            <Row className='d-flex w-100 pe-4'>
-                <div style={{width:'18%'}} className='flex-fill text-center d-none d-md-block'>{purchaseOption.distributor?.name}</div>
-                <div style={{width:'11%'}} className='flex-fill text-center d-none d-lg-block'>{purchaseOption.code}</div>
-                <div style={{width:'22%'}} className='flex-fill text-center'>{purchaseOption.name}</div>
-                <div style={{width:'16%'}} className='flex-fill text-center d-none d-lg-block'>{purchaseOption.unit.short}</div>
-                <div style={{width:'16%'}} className='flex-fill text-center d-none d-md-block'>{purchaseOption.net_weight}</div>
-                <div style={{width:'11%'}} className='flex-fill text-center'>{purchaseOption.price}₽</div>
-            </Row>
+            <div className='d-flex w-100'>
+                <PurchaseOptionsTableItem purchaseOption={purchaseOption}/>
+            </div>
         </Accordion.Header>
         <Accordion.Body>
             <small><ProductsTable products={purchaseOption.products??[]} fieldsToExclude={[]}/></small>

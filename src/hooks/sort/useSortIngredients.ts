@@ -2,12 +2,12 @@ import { useState } from "react"
 import { IngredientDTO } from "../../api/ingredients"
 
 export enum IngredientField {
-    None,
-    Id,
-    Name,
-    Category,
-    Group,
-    Type,
+    None = 'IngredientNone',
+    Id = 'IngredientId',
+    Name = 'IngredientName',
+    Category = 'IngredientCategory',
+    Group = 'IngredientGroup',
+    Type = 'IngredientType',
 }
 
 class Comparers {

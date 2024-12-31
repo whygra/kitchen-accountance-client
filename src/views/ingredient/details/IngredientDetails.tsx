@@ -62,29 +62,40 @@ function IngredientDetails()
            ingredient===null ? (<>Не удалось получить данные ингредиента</>) : (
         <>
             <Row className='mt-5'>
-            <div className='d-flex flex-row justify-content-between align-items-end'>
-                <div className='d-flex flex-column'>
-                    <h3>{`${ingredient.id}. ${ingredient.name} ${ingredient.type?.name}`}</h3>
-                    <span>Тип: "{ingredient.type?.name}"</span>
-                    <span>Категория: "{ingredient.category?.name ?? '-без категории-'}"</span>
-                    <span>Группа: "{ingredient.group?.name ?? '-без группы-'}"</span>
-                    <span>Средний процент отхода: {calcAvgWastePercentage(ingredient).toFixed(2)}</span>
-                    {ingredient.is_item_measured
-                        ?<span>Вес 1шт: {ingredient.item_weight} г.</span>
-                        :<></>
-                    }
-                </div>
                 
-                <div>
+                <Row className='w-100 mx-0'>
+                <div className='mx-0 px-0 col col-12 col-sm-4 order-sm-2 justify-content-end'>
                     <CUDButtons
                         deleteFn={deleteFn}
                         entity={ingredient}
                         path='ingredients'
                         requiredPermission={UserPermissions.CRUD_INGREDIENTS}
-                    />   
-                    <UpdatedAt entity={ingredient}/>
+                    />
                 </div>
-            </div>
+
+                <h3 className='col col-12 col-sm-8 order-sm-1 mt-3'>{`${ingredient.id}. ${ingredient.name}`}</h3>
+                </Row>
+                
+                <Col md={12}>
+                    <UpdatedAt entity={ingredient}/>
+                </Col>
+                <ul className='list-group ps-2'>
+                    <li className='list-group-item'>Тип: "{ingredient.type?.name}"</li>                    
+                    <li className='list-group-item'>
+                        Категория: "{ingredient.category?.name 
+                            ? <Link to={`/ingredient-categories/details/${ingredient.category.id}`}>{ingredient.category.name}</Link> 
+                            : '-без категории-'}"</li>
+                    <li className='list-group-item'>
+                        Группа: "{ingredient.group?.name 
+                            ? <Link to={`/ingredient-groups/details/${ingredient.group.id}`}>{ingredient.group.name}</Link> 
+                            : '-без группы-'}"</li>
+                    <li className='list-group-item'>Средний процент отхода: {calcAvgWastePercentage(ingredient).toFixed(2)}</li>
+                    {ingredient.is_item_measured
+                        ?<li className='list-group-item'>Вес 1шт: {ingredient.item_weight} г.</li>
+                        :<></>
+                    }
+                </ul>
+                
                     
             <Col xl={6} lg={12} sm={12}>
                 <Card className="p-3">

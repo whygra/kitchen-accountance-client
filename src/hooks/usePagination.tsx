@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react"
 import { Button, Form, Pagination } from "react-bootstrap"
+import { useMediaQuery } from "react-responsive"
 
 export default function usePagination(totalLength: number, initPageLength?:number){
     const [currentPage, setCurrentPage] = useState(1)
     const [pageLength, setPageLength] = useState(initPageLength??10)
     const [navPages, setNavPages] = useState<number[]>([])
+    const isSm = useMediaQuery({maxWidth: 767})
     
     const numPages = totalLength <= 0 ?1 :Math.ceil(totalLength / pageLength);
     useEffect(()=>{
@@ -15,7 +17,7 @@ export default function usePagination(totalLength: number, initPageLength?:numbe
     function goToPage(pageNumber:number){
         const page = pageNumber > 0 ? pageNumber : numPages
         setCurrentPage(page)
-        setNavPages([...Array(7).keys()].map(i => i + page-3).filter(p=>p>=1&&p<=numPages))
+        setNavPages([...Array(isSm?3:5).keys()].map(i => i + page-(isSm?1:2)).filter(p=>p>=1&&p<=numPages))
         makeSlice(pageLength, page)
     }
 
@@ -27,8 +29,9 @@ export default function usePagination(totalLength: number, initPageLength?:numbe
     const nav = (pageLength >= totalLength)
     ? <></>
     : (
-        <Pagination className="justify-content-center">
+        <Pagination className="justify-content-center w-100">
             <Button
+                className="p-1"
                 variant='none'
                 onClick={()=>goToPage(1)}
             >Начало</Button>
@@ -45,11 +48,13 @@ export default function usePagination(totalLength: number, initPageLength?:numbe
 
                 </Form.Select>
                 : <Button
+                    className="px-3"
                     variant='none'
                     onClick={()=>goToPage(pageNumber)}
                 >{pageNumber}</Button>
             })}
             <Button
+                className="p-1"
                 variant='none'
                 onClick={()=>goToPage(numPages)}
             >Конец</Button>

@@ -44,6 +44,8 @@ function ProjectContextProvider({children}:ProjectContextProviderProps) {
   function getPermissions() {
 
     if(user == null){
+      setProject(null)
+      setCookie(C_PROJECT_PERMISSIONS,'', 0)
       return
     }
     
@@ -54,7 +56,10 @@ function ProjectContextProvider({children}:ProjectContextProviderProps) {
     }
     // if (parseInt(id) !== project?.id)
       getProject(parseInt(id))
-        .catch(e=>showModal(<div className='m-2'>{e.message}</div>, <b>{e.name}</b>))
+        .catch(e=>{
+          setCookie(C_SELECTED_PROJECT_ID,'', 0)
+          showModal(<div className='m-2'>{e.message}</div>, <b>{e.name}</b>)
+        })
         .then(res=>{
           setProject(res ? res : null)
           setCookie(C_PROJECT_PERMISSIONS,JSON.stringify(res?.role?.permissions.map(p=>p.name)??''), 1)

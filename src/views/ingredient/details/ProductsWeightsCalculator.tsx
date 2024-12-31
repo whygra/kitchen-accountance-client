@@ -23,7 +23,7 @@ function ProductsWeightsCalculator({ingredient}:ProductsWeightsCalculatorProps) 
     }
 
     function setProductState(state: ProductCostCalculatorModel){
-        setCostCalculator({...costCalculator, products:costCalculator.products.map(p=>p.id==state.id?state:p)})
+        setCostCalculator({...costCalculator, products:costCalculator.products?.map(p=>p.id==state.id?state:p)})
     }
 
     return(
@@ -58,8 +58,8 @@ function ProductsWeightsCalculator({ingredient}:ProductsWeightsCalculatorProps) 
                     <tr>
                         <th style={{width:'20%'}}>Продукт</th>
                         <th style={{width:'50%'}}>Позиция закупки</th>
-                        <th>Стоимость 1г.</th>
-                        <th>Требуемый вес</th>
+                        <th className="d-none d-md-table-cell">Стоимость 1г.</th>
+                        <th className="d-none d-sm-table-cell">Требуемый вес</th>
                         <th>Себестоимость</th>
                     </tr>
                     </thead>
@@ -70,8 +70,8 @@ function ProductsWeightsCalculator({ingredient}:ProductsWeightsCalculatorProps) 
                             <td>
                                 <ProductCostCalculator product={p} setProductState={setProductState}/>
                             </td>
-                            <td><u>{`${p.gramCost.toFixed(2)} ₽/г.`}</u></td>
-                            <td><u>{`${p.weight.toFixed(2)} г.`}</u></td>
+                            <td className="d-none d-md-table-cell"><u>{`${p.gramCost.toFixed(2)} ₽/г.`}</u></td>
+                            <td className="d-none d-sm-table-cell"><u>{`${p.weight.toFixed(2)} г.`}</u></td>
                             <td><u>{`${(p.weight*p.gramCost).toFixed(2)} ₽`}</u></td>
                         </tr>
                     )}

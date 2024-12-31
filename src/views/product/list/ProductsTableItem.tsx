@@ -1,5 +1,11 @@
+import { Link } from 'react-router-dom';
 import { ProductDTO } from '../../../api/products';
 import { ProductField } from '../../../hooks/sort/useSortProducts';
+import { Col } from 'react-bootstrap';
+import { useMediaQuery } from 'react-responsive';
+import { useEffect, useState } from 'react';
+import {COLUMN_SPANS, useGridFrames} from '../../../hooks/useGridFrames';
+import GridTableRow, { WindowSize } from '../../shared/GridTableRow';
 
 
 interface ProductsTableItemProps {
@@ -9,25 +15,37 @@ interface ProductsTableItemProps {
 
 function ProductsTableItem({product, fieldsToExclude}: ProductsTableItemProps) 
 {      
-    return (
-        <>
-            {fieldsToExclude && fieldsToExclude?.find(f=>f==ProductField.Id)
-                ? <></>
-                : <td width={1} className='text-center'>{product.id}</td>
-            }
-            {fieldsToExclude && fieldsToExclude?.find(f=>f==ProductField.Name)
-                ? <></>
-                : <td width={6} className='text-center'>{product.name}</td>
-            }
-            {fieldsToExclude && fieldsToExclude?.find(f=>f==ProductField.Category)
-                ? <></>
-                : <td width={5} className='text-center'>{product.category?.name ?? 'без категории'}</td>
-            }
-            {fieldsToExclude && fieldsToExclude?.find(f=>f==ProductField.Group)
-                ? <></>
-                : <td width={5} className='text-center'>{product.group?.name ?? 'без группы'}</td>
-            }
-        </>
+    const cells = [
+        {   
+            displayAt: WindowSize.Lg,
+            field: ProductField.Id,
+            element: 
+                <>{product.id}</>,
+            span: 1
+        },
+        {   
+            field: ProductField.Name,
+            element: 
+                <Link to={`/products/details/${product.id}`}>{product.name}</Link>,
+            span: 3
+        },
+        {   
+            displayAt: WindowSize.Sm,
+            field: ProductField.Category,
+            element: 
+                product.category?<Link to={`/product-categories/details/${product.category.id}`}>{product.name}</Link>:<>-без группы-</>,
+            span: 3
+        },
+        {   
+            displayAt: WindowSize.Sm,
+            field: ProductField.Group,
+            element: 
+                product.group?<Link to={`/product-groups/details/${product.group.id}`}>{product.name}</Link>:<>-без группы-</>,
+            span: 3
+        },
+    ]
+    return(
+        <GridTableRow cells={cells} fieldsToExclude={fieldsToExclude}/>
     )
 }
 

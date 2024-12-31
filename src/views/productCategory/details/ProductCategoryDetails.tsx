@@ -51,28 +51,29 @@ function ProductCategoryDetails()
         <>
 
             <Row className='mt-5'>
-            <div className='d-flex flex-row justify-content-between align-items-end'>
-                <div>
-                <Link className='text-secondary' to='/product-categories/all'>&lt; Все категории продуктов...</Link>
-                <h3>{productCategory.id}. {productCategory.name}</h3>
-                </div>
-                
-                <div>
+
+            <Row className='w-100 mx-0'>
+                <div className='mx-0 px-0 col col-12 col-sm-4 order-sm-2 justify-content-end'>
                     <CUDButtons
                         deleteFn={deleteFn}
                         entity={productCategory}
                         path='product-categories'
                         requiredPermission={UserPermissions.CRUD_PRODUCTS}
-                    /> 
-                    <UpdatedAt entity={productCategory}/>
+                    />
                 </div>
-            </div>
+
+                <h3 className='col col-12 col-sm-8 order-sm-1 mt-3'>{`${productCategory.id}. ${productCategory.name}`}</h3>
+                </Row>
+                
+                <Col md={12}>
+                    <UpdatedAt entity={productCategory}/>
+                </Col>
             <div className='d-flex flex-row justify-content-between'>
             </div>
             <Col md={12}>
                 
                 <Card className="p-3">
-
+                <h5 className='w-100 text-center'>Продукты</h5>
                 <ProductsTable products={productCategory.products??[]} fieldsToExclude={[ProductField.Category]}/>
                 </Card>
             </Col>

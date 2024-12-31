@@ -1,7 +1,7 @@
 import useFilterDishes from './filter/useFilterDishes';
 import useSortDishes, { DishField } from './sort/useSortDishes';
 import DishesTableHeader from '../views/dish/list/DishesTableHeader';
-import DishCategoriesTableHeader from '../views/dishCategory/list/DishCategoryTableHeader';
+import DishCategoriesTableHeader from '../views/dishCategory/list/DishCategoriesTableHeader';
 import useFilterDishCategories from './filter/useFilterDishCategories';
 import useSortDishCategories, { DishCategoryField } from './sort/useSortDishCategories';
 

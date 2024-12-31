@@ -9,6 +9,7 @@ import BtnAskConfirmation from '../../shared/BtnAskConfirmation';
 import { projectContext } from '../../../context/ProjectContextProvider';
 import { authContext } from '../../../context/AuthContextProvider';
 import { UserPermissions } from '../../../models';
+import UsersTableItem from './UsersTableItem';
 
 
 interface UserListItemProps {
@@ -54,12 +55,7 @@ function UserListItem({user, roles, loadData}: UserListItemProps)
         <>
         <Accordion.Item eventKey={`${user.id}`}>
         <Accordion.Header style={{userSelect: 'text'}}>
-            <Row className='w-100'>
-                <Col md={1} sm={1} className='text-end'>{user.id}</Col>
-                <Col md={4} sm={4} className='text-center'>{user.name}</Col>
-                <Col md={4} sm={4} className='text-center'>{user.email}</Col>
-                <Col md={3} sm={3} className='text-center'>{user.role?.name}</Col>
-            </Row>
+            <UsersTableItem user={user}/>
         </Accordion.Header>
         <Accordion.Body>
             {user.id == current?.id || (!hasPermission(UserPermissions.CRUD_USERS))

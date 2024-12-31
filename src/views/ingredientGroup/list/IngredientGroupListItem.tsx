@@ -10,6 +10,7 @@ import useIngredientsTableHeader from '../../../hooks/useIngredientsTableHeader'
 import { IngredientField } from '../../../hooks/sort/useSortIngredients';
 import IngredientsTableItem from '../../ingredient/list/IngredientsTableItem';
 import IngredientsTable from '../../ingredient/list/IngredientTable';
+import IngredientGroupsTableItem from './IngredientGroupTableItem';
 
 interface IngredientGroupListItemProps {
     ingredientGroup: IngredientGroupDTO
@@ -35,13 +36,13 @@ function IngredientGroupListItem({ingredientGroup, onDelete}: IngredientGroupLis
         <>
         <Accordion.Item eventKey={`${ingredientGroup.id}`}>
         <Accordion.Header style={{userSelect: 'text'}}>
-            <Row className='w-100 text-center pe-3'>
-                <Col xs={4}>{ingredientGroup.id}</Col>
-                <Col xs={8}>{ingredientGroup.name}</Col>
-            </Row>
+            <div className='w-100 text-center'>
+                <IngredientGroupsTableItem ingredientGroup={ingredientGroup}/>
+            </div>
         </Accordion.Header>
         <Accordion.Body>
             <small>
+                <h5 className='w-100 text-center'>Ингредиенты</h5>
                 <IngredientsTable ingredients={ingredientGroup.ingredients??[]} fieldsToExclude={[IngredientField.Group]}/>
             </small>
                 <div className='d-flex justify-content-between'>

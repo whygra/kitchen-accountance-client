@@ -54,20 +54,23 @@ function PurchaseOptionDetails()
     return isLoading ? (<Loading/>) : 
            purchaseOption===null ? (<>Не удалось получить данные позиции закупки</>) : (
         <>
-            <Row className='mt-5'>
-        <div className='d-flex flex-row justify-content-between align-items-end'>
-            <h3>{purchaseOption.id}. {purchaseOption.name}</h3>
-            
-            <div>
-                <CUDButtons
-                    deleteFn={deleteFn}
-                    entity={purchaseOption}
-                    path='purchase-options'
-                    requiredPermission={UserPermissions.CRUD_DISTRIBUTORS}
-                /> 
-                <UpdatedAt entity={purchaseOption}/>
-            </div>
-        </div>
+            <Row>
+            <Row className='w-100 mx-0'>
+                <div className='mx-0 px-0 col col-12 col-sm-4 order-sm-2 justify-content-end'>
+                    <CUDButtons
+                        deleteFn={deleteFn}
+                        entity={purchaseOption}
+                        path='purchase-options'
+                        requiredPermission={UserPermissions.CRUD_DISTRIBUTORS}
+                    />
+                </div>
+
+                <h3 className='col col-12 col-sm-8 order-sm-1 mt-3'>{`${purchaseOption.id}. ${purchaseOption.name}`}</h3>
+                </Row>
+                
+                <Col md={12}>
+                    <UpdatedAt entity={purchaseOption}/>
+                </Col>
             <Col lg={6} md={12}>
                 <Card className="p-3">
                     <Table>
@@ -84,7 +87,7 @@ function PurchaseOptionDetails()
             </Col>
             <Col lg={6} md={12}>
                 <Card className="p-3">
-
+                <h3 className='text-center'>Продукты</h3>
                 <ProductsTable products={purchaseOption.products??[]} fieldsToExclude={[]}/>
                 </Card>
             </Col>

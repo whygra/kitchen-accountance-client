@@ -7,6 +7,7 @@ import { Button, Form } from "react-bootstrap"
 import { authContext } from "../../../context/AuthContextProvider"
 import { UserPermissions } from "../../../models"
 import { projectContext } from "../../../context/ProjectContextProvider"
+import TooltipButton from "../../shared/TooltipButton"
 
 interface BtnShowFileUploadFormProps {
     distributorId: number
@@ -58,7 +59,13 @@ function BtnShowFileUploadForm({onSuccess, distributorId}:BtnShowFileUploadFormP
     }
 
     return (
-        <Button variant="warning" onClick={showFileInput}>Загрузить из файла</Button>
+        <TooltipButton 
+            variant="light" 
+            onClick={showFileInput}
+            tooltip="импорт прайс-листа (xlsx)"
+        >
+            <i className="bi bi-upload"/>
+        </TooltipButton>
     )
 }
 

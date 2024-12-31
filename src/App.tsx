@@ -21,7 +21,7 @@ function App() {
               <Navbar/>
             </div>
             <div className='flex-grow-1 w-100 overflow-y-scroll'>
-              <Container className='p-5'>
+              <Container className='pt-3 p-md-5'>
                 <ErrorBoundary key={location.pathname} FallbackComponent={ErrorFallbackScreen}>
                   <AppRoutes/>
                 </ErrorBoundary>

@@ -6,8 +6,9 @@ import { useContext } from 'react';
 import { appContext } from '../../../context/AppContextProvider';
 import { UserPermissions } from '../../../models';
 import CUDButtons from '../../shared/CUDButtons';
-import DishesTable from '../../dish/list/DishTable';
+import DishesTable from '../../dish/list/DishesTable';
 import { DishField } from '../../../hooks/sort/useSortDishes';
+import DishGroupsTableItem from './DishGroupTableItem';
 
 interface DishGroupListItemProps {
     dishGroup: DishGroupDTO
@@ -32,13 +33,15 @@ function DishGroupListItem({dishGroup, onDelete}: DishGroupListItemProps)
         <>
         <Accordion.Item eventKey={`${dishGroup.id}`}>
         <Accordion.Header style={{userSelect: 'text'}}>
-            <Row className='w-100 text-center pe-3'>
-                <Col xs={4}>{dishGroup.id}</Col>
-                <Col xs={8}>{dishGroup.name}</Col>
-            </Row>
+            <div className='w-100 text-center'>
+                <DishGroupsTableItem dishGroup={dishGroup} />
+            </div>
         </Accordion.Header>
         <Accordion.Body>
-            <small><DishesTable dishes={dishGroup.dishes??[]} fieldsToExclude={[DishField.Group]}/></small>
+            <small>
+                <h5 className='w-100 text-center'>Блюда</h5>
+                <DishesTable dishes={dishGroup.dishes??[]} fieldsToExclude={[DishField.Group]}/>
+            </small>
             <div className='d-flex justify-content-between'>
             <Link to={`/dish-groups/details/${dishGroup.id}`}><Button variant='info'>Подробнее</Button></Link>
                 <CUDButtons

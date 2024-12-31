@@ -2,6 +2,7 @@ import { Accordion, Col, Form, FormSelect, Row, Table } from "react-bootstrap";
 import { useContext, useEffect, useState } from "react";
 import { ProductCostCalculatorModel, selectPurchaseOptionId } from "../../../models/dish/DishCostCalculatorState";
 import { dishCostCalculatorContext } from "../../../context/dish/DishCostCalculatorContext";
+import GridTableRow, { WindowSize } from "../../shared/GridTableRow";
 
 
 interface IngredientCostCalculatorProps{
@@ -23,12 +24,26 @@ function ProductCostCalculator({product, ingredientId}:IngredientCostCalculatorP
 
     return(
         <Table className="text-center text-nowrap">
-            <thead><tr>
-                <th style={{width: '70%'}}>{product.id}. {product.name}</th>
-                <td style={{width: '10%'}} className="text-underline">{product.weight.toFixed(2)}г.</td>
-                <td style={{width: '10%'}} className="text-underline">{product.gramCost.toFixed(2)}₽/г.</td>
-                <td style={{width: '10%'}} className="text-underline">{(product.weight*product.gramCost).toFixed(2)}₽</td>
-            </tr></thead>
+            <GridTableRow cells={[
+                {
+                    element: <b className="text-wrap text-start bg-transparent">{product.id}. {product.name}</b>,
+                    span: 5
+                },
+                {
+                    displayAt: WindowSize.Sm,
+                    element: <>{product.weight.toFixed(2)}г.</>,
+                    span: 1,
+                },
+                {
+                    displayAt: WindowSize.Lg,
+                    element: <>{product.gramCost.toFixed(2)}₽/г.</>,
+                    span: 1,
+                },
+                {
+                    element: <>{(product.weight*product.gramCost).toFixed(2)}₽</>,
+                    span: 1,
+                },
+            ]}/>
             <tbody>
             <tr>
             <td colSpan={4}>

@@ -58,7 +58,11 @@ function ProjectList()
         </div>
         <hr/>
         <Table>
-            {header}
+            <thead>
+                <tr>
+                    <td colSpan={2}>{header}</td>
+                </tr>
+            </thead>
             <tbody>
             {filtered
                 .slice(sliceLimits.start, sliceLimits.end)

@@ -10,6 +10,7 @@ import useProductsTableHeader from '../../../hooks/useProductsTableHeader';
 import { ProductField } from '../../../hooks/sort/useSortProducts';
 import ProductsTableItem from '../../product/list/ProductsTableItem';
 import ProductsTable from '../../product/list/ProductsTable';
+import ProductGroupsTableItem from './ProductGroupTableItem';
 
 interface ProductGroupListItemProps {
     productGroup: ProductGroupDTO
@@ -35,13 +36,13 @@ function ProductGroupListItem({productGroup, onDelete}: ProductGroupListItemProp
         <>
         <Accordion.Item eventKey={`${productGroup.id}`}>
         <Accordion.Header style={{userSelect: 'text'}}>
-            <Row className='w-100 text-center pe-3'>
-                <Col xs={4}>{productGroup.id}</Col>
-                <Col xs={8}>{productGroup.name}</Col>
-            </Row>
+            <div className='w-100 text-center'>
+                <ProductGroupsTableItem productgroup={productGroup}/>
+            </div>
         </Accordion.Header>
         <Accordion.Body>
             <small>
+                <h5 className='w-100 text-center'>Продукты</h5>
                 <ProductsTable products={productGroup.products??[]} fieldsToExclude={[ProductField.Group]}/>
             </small>
                 <div className='d-flex justify-content-between'>

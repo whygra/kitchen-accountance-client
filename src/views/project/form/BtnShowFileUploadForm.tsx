@@ -45,7 +45,7 @@ function BtnShowFileUploadForm({onSuccess, projectId}:BtnShowFileUploadFormProps
         
         <TooltipButton
         onClick={showFileInput}
-        variant='warning'
+        variant='light'
         tooltip='импортировать данные'
         ><i className='bi bi-upload'/>
         </TooltipButton>

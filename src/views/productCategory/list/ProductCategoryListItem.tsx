@@ -10,6 +10,7 @@ import useProductsTableHeader from '../../../hooks/useProductsTableHeader';
 import { ProductField } from '../../../hooks/sort/useSortProducts';
 import ProductsTableItem from '../../product/list/ProductsTableItem';
 import ProductsTable from '../../product/list/ProductsTable';
+import ProductCategoriesTableItem from './ProductCategoriesTableItem';
 
 interface ProductCategoryListItemProps {
     productCategory: ProductCategoryDTO
@@ -35,13 +36,14 @@ function ProductCategoryListItem({productCategory, onDelete}: ProductCategoryLis
         <>
         <Accordion.Item eventKey={`${productCategory.id}`}>
         <Accordion.Header style={{userSelect: 'text'}}>
-            <Row className='w-100 text-center pe-3'>
-                <Col xs={4}>{productCategory.id}</Col>
-                <Col xs={8}>{productCategory.name}</Col>
-            </Row>
+            <div className='w-100 text-center'>
+                <ProductCategoriesTableItem productCategory={productCategory}/>
+            </div>
         </Accordion.Header>
         <Accordion.Body>
             <small>
+                <h5 className='w-100 text-center'>Продукты</h5>
+
                 <ProductsTable products={productCategory.products??[]} fieldsToExclude={[ProductField.Category]}/>
             </small>
                 <div className='d-flex justify-content-between'>

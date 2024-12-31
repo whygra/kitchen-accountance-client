@@ -37,23 +37,19 @@ function IngredientsTable({ingredients, fieldsToExclude}:IngredientTableProps)
 
     return (
         <>
-        <Table>
             {header}
-            <tbody>
             {   
                 filtered
                     ?.slice(sliceLimits.start, sliceLimits.end)
                     .map(i=>
-                        <tr>
+                        <div className='pe-5 border-bottom'>
                             <IngredientsTableItem 
                                 ingredient={i}
                                 fieldsToExclude={fieldsToExclude}
                             />
-                        </tr>
+                        </div>
                     )
             }
-            </tbody>
-        </Table>
         {nav}
         </>
     )

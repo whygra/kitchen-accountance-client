@@ -4,11 +4,11 @@ import { calcDishWeight, DishDTO } from "../../api/dishes"
 import { ProjectDTO } from "../../api/projects"
 
 export enum ProjectField {
-    None,
-    Logo,
-    Id,
-    Name,
-    Role,
+    None = 'ProjectNone',
+    Logo = 'ProjectLogo',
+    Id = 'ProjectId',
+    Name = 'ProjectName',
+    Role = 'ProjectRole',
 }
 
 class Comparers {

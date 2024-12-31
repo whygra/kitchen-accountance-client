@@ -2,11 +2,32 @@
   /* font-family:'Forum'; */
 }
 
+.dropdown-menu {
+  min-width: 50pt !important;
+  padding: 1pt 6pt 3pt 6pt !important;
+}
+
+.dropdown-menu li {
+  text-wrap: nowrap;
+}
+
+.accordion-header a {
+  color: currentColor;
+  pointer-events: none;
+  text-decoration: none;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+}
+
 .logo {
-  height: 6em;
-  padding: 1.5em;
+  image-resolution: 200dpi;
+  height: 7em;
+  width: min(8em, max(calc(8vw + 4em), 5em));
+  height: min(8em, max(calc(8vw + 4em), 5em));
   will-change: filter;
-  transition: filter 300ms;
 }
 
 .logo:hover {

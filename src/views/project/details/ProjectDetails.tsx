@@ -71,8 +71,8 @@ function ProjectDetails()
 
     return isLoading ? (<Loading/>) : 
            project===null ? (<>Не удалось получить данные проекта</>) : (
-        <div className='d-flex align-items-center justify-content-between flex-wrap'>
-            <div className='d-flex align-items-center justify-content-start'>
+        <div className='row'>
+            <div className='col col-12 col-sm-8 d-flex align-items-center justify-content-start'>
                 <div 
                     style={{height:'60px', width:'60px'}} 
                 >
@@ -88,7 +88,7 @@ function ProjectDetails()
                 </div>
                 <h3 className='ms-2 mt-2 text-center'>{`${project.id}. ${project.name}`}</h3>
             </div>
-            <div className='d-flex'>
+            <div className='col col-12 col-sm-4 d-flex flex-wrap justify-content-end align-items-start'>
             <BtnShowFileUploadForm onSuccess={()=>{loadProject()}} projectId={project.id}/>
 
             {hasPermission(UserPermissions.EDIT_PROJECT)
@@ -96,7 +96,7 @@ function ProjectDetails()
                 
                 <TooltipButton
                     onClick={download}
-                    variant='warning'
+                    variant='light'
                     tooltip='скачать таблицы сущностей (xslx)'
                     disabled={awaitingDownload}
                     >{awaitingDownload? <Loading width={20}/> : <i className='bi bi-download'/>}</TooltipButton>

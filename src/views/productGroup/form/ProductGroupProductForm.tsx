@@ -20,9 +20,9 @@ function ProductGroupProductForm({formState}: ProductGroupProductFormProps) {
       <Row>
         <Col md={5}>
           <div className="d-flex flex-column">
-            <b>Ингредиент</b>
+            <b>Продукт</b>
             <span>
-              {selected?.id}. {selected?.name} {selected?.type?.name}
+              {selected?.id}. {selected?.name}
             </span>
           </div>
         </Col>

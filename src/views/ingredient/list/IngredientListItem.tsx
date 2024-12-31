@@ -10,6 +10,7 @@ import { UserPermissions } from '../../../models';
 import BtnAskConfirmation from '../../shared/BtnAskConfirmation';
 import { authContext } from '../../../context/AuthContextProvider';
 import CUDButtons from '../../shared/CUDButtons';
+import IngredientsTableItem from './IngredientsTableItem';
 
 
 interface IngredientListItemProps {
@@ -35,13 +36,9 @@ function IngredientListItem({onDelete, ingredient}: IngredientListItemProps)
         <>
         <Accordion.Item eventKey={`${ingredient.id}`}>
         <Accordion.Header style={{userSelect: 'text'}}>
-            <Row className='text-center w-100 pe-4'>
-                <Col xs={1} className='text-center'>{ingredient.id}</Col>
-                <Col xs={3} className='text-center'>{ingredient.name}</Col>
-                <Col xs={2} className='text-center'>{ingredient.type?.name}</Col>
-                <Col xs={3} className='text-center'>{ingredient.category?.name??'без категории'}</Col>
-                <Col xs={3} className='text-center'>{ingredient.group?.name??'без группы'}</Col>
-            </Row>
+            <div className='w-100 pe-none'>
+                <IngredientsTableItem ingredient={ingredient}/>
+            </div>
         </Accordion.Header>
         <Accordion.Body>
             <small><IngredientProductsTable ingredient={ingredient}/></small>

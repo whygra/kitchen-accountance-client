@@ -26,23 +26,19 @@ function DishesTable({dishes, fieldsToExclude}:DishTableProps)
 
     return (
         <>
-        <Table className='text-center'>
             {header}
-            <tbody>
             {   
                 filtered
                     ?.slice(sliceLimits.start, sliceLimits.end)
                     .map(i=>
-                        <tr>
+                        <div className='pe-5 border-top'>
                             <DishesTableItem 
                                 dish={i}
                                 fieldsToExclude={fieldsToExclude}
-                            />
-                        </tr>
+                                />
+                        </div>
                     )
             }
-            </tbody>
-        </Table>
         {nav}
         </>
     )

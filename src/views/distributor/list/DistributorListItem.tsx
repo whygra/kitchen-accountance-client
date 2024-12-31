@@ -10,6 +10,8 @@ import { authContext } from '../../../context/AuthContextProvider';
 import { UserPermissions } from '../../../models';
 import CUDButtons from '../../shared/CUDButtons';
 import { PurchaseOptionField } from '../../../hooks/sort/useSortPurchaseOptions';
+import GridTableRow from '../../shared/GridTableRow';
+import DistributorsTableItem from './DistributorsTableItem';
 
 
 interface DistributorListItemProps {
@@ -32,21 +34,20 @@ function DistributorListItem({onDelete, distributor}: DistributorListItemProps)
     }
 
     return (
-        <>
         <Accordion.Item eventKey={`${distributor.id}`}>
             <Accordion.Header style={{userSelect: 'text'}}>
-                <Row className='w-100'>
-                    <Col xs={2} className='text-center'>{distributor.id}</Col>
-                    <Col xs={10} className='text-center'>{distributor.name}</Col>
-                </Row>
+                <div className='w-100'>
+                    <DistributorsTableItem distributor={distributor}/>
+                </div>
             </Accordion.Header>
             <Accordion.Body>
-
                 <small>
-                <PurchaseOptionsTable 
-                    purchaseOptions={distributor.purchase_options??[]}
-                    fieldsToExclude={[PurchaseOptionField.Distributor]}
-                /></small>
+                    <h5 className='w-100 text-center'>Позиции закупки</h5>
+                    <PurchaseOptionsTable
+                        purchaseOptions={distributor.purchase_options??[]}
+                        fieldsToExclude={[PurchaseOptionField.Distributor]}
+                    />
+                </small>
                 <div className='d-flex justify-content-between'>
                 <Link to={`/distributors/details/${distributor.id}`}><Button variant='info'>Подробнее</Button></Link>
                                 
@@ -60,7 +61,6 @@ function DistributorListItem({onDelete, distributor}: DistributorListItemProps)
 
             </Accordion.Body>
         </Accordion.Item>
-        </>
     )
 }
 

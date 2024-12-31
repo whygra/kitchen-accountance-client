@@ -3,26 +3,30 @@ import { PurchaseOptionDTO } from "../../../api/purchaseOptions"
 import ExpansionBtn, { ExpansionBtnProps } from "../../shared/ExpansionBtn"
 import { IngredientGroupDTO } from "../../../api/ingredientGroups"
 import { IngredientGroupField } from "../../../hooks/sort/useSortIngredientGroups"
+import GridTableRow from "../../shared/GridTableRow"
 
 interface IngredientGroupsTableItemProps {
-    ingredientgroup: IngredientGroupDTO
+    ingredientGroup: IngredientGroupDTO
     fieldsToExclude?: IngredientGroupField[]
 }
 
-function IngredientGroupsTableItem({ingredientgroup: ingredientGroup, fieldsToExclude}:IngredientGroupsTableItemProps) {
+function IngredientGroupsTableItem({ingredientGroup, fieldsToExclude}:IngredientGroupsTableItemProps) {
+    const cells = [
+        {   
+            field: IngredientGroupField.Id,
+            element: 
+                <>{ingredientGroup.id}</>,
+            span: 1
+        },
+        {   
+            field: IngredientGroupField.Name,
+            element: 
+                <Link to={`/ingredient-groups/details/${ingredientGroup.id}`}>{ingredientGroup.name}</Link>,
+            span: 3
+        },
+    ]
     return(
-        <>
-            {
-                fieldsToExclude && fieldsToExclude?.find(o=>o==IngredientGroupField.Id)
-                ? <></>
-                : <td style={{width:'1%'}}>{ingredientGroup.id}</td>
-            }
-            {
-                fieldsToExclude && fieldsToExclude?.find(o=>o==IngredientGroupField.Name)
-                ? <></>
-                : <td style={{width:'2%'}}><Link to={`/ingredient-groups/details/${ingredientGroup.id}`}>{ingredientGroup.name}</Link></td>
-            }
-        </>
+        <GridTableRow cells={cells} fieldsToExclude={fieldsToExclude}/>
     )
 }
 

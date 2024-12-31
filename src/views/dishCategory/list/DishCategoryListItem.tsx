@@ -9,7 +9,8 @@ import DishesTableHeader from '../../dish/list/DishesTableHeader';
 import useDishesTableHeader from '../../../hooks/useDishesTableHeader';
 import { DishField } from '../../../hooks/sort/useSortDishes';
 import DishesTableItem from '../../dish/list/DishesTableItem';
-import DishesTable from '../../dish/list/DishTable';
+import DishesTable from '../../dish/list/DishesTable';
+import DishCategoriesTableItem from './DishCategoriesTableItem';
 
 interface DishCategoryListItemProps {
     dishCategory: DishCategoryDTO
@@ -35,16 +36,14 @@ function DishCategoryListItem({dishCategory, onDelete}: DishCategoryListItemProp
         <>
         <Accordion.Item eventKey={`${dishCategory.id}`}>
         <Accordion.Header style={{userSelect: 'text'}}>
-            <Row className='w-100 text-center pe-3'>
-                <Col xs={4}>{dishCategory.id}</Col>
-                <Col xs={8}>{dishCategory.name}</Col>
-            </Row>
+            <DishCategoriesTableItem dishCategory={dishCategory}/>
         </Accordion.Header>
         <Accordion.Body>
             <small>
+                <h5 className='w-100 text-center'>Блюда</h5>
                 <DishesTable dishes={dishCategory.dishes??[]} fieldsToExclude={[DishField.Category]}/>
             </small>
-                <div className='d-flex justify-content-between'>
+                <div className='d-flex justify-content-between mt-2'>
                 <Link to={`/dish-categories/details/${dishCategory.id}`}><Button variant='info'>Подробнее</Button></Link>
                     <CUDButtons
                         deleteFn={deleteDishCategory}

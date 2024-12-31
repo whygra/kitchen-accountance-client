@@ -20,7 +20,7 @@ export interface ProductDTO {
   updated_at?: string
   
   ingredients?: IngredientDTO[]
-  purchase_options?: ProductPurchaseOptionDTO[]
+  purchase_options?: PurchaseOptionDTO[]
 
   waste_percentage?: number
   raw_content_percentage?: number

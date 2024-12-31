@@ -61,29 +61,31 @@ function DistributorDetails()
            distributor===null ? (<>Не удалось получить данные поставщика</>) : (
         <>
             <Row className='mt-5'>
-                <div className='d-flex justify-content-between align-items-end'>
-                    <h3 className='text-center'>{`${distributor.id}. ${distributor.name}`}</h3>
-                    <div>
+                <Row className='w-100 mx-0'>
+                <div className='mx-0 px-0 col col-12 col-sm-4 order-sm-2 d-flex flex-row flex-wrap align-items-center justify-content-end'>
+                    <BtnShowFileUploadForm onSuccess={loadDistributor} distributorId={distributor.id}/>
 
                     <CUDButtons
-                    deleteFn={deleteFn}
-                    entity={distributor}
-                    path='distributors'
-                    requiredPermission={UserPermissions.CRUD_DISTRIBUTORS}
-                    />   
-                    <UpdatedAt entity={distributor}/>
-                    </div>
+                        deleteFn={deleteFn}
+                        entity={distributor}
+                        path='distributors'
+                        requiredPermission={UserPermissions.CRUD_DISTRIBUTORS}
+                    />
                 </div>
+
+                <h3 className='col col-12 col-sm-8 order-sm-1 mt-3'>{`${distributor.id}. ${distributor.name}`}</h3>
+                </Row>
+                
+                <Col md={12}>
+                    <UpdatedAt entity={distributor}/>
+                </Col>
             
             
             <Col md={12}>
                 
                 <Card className="p-3">
                 
-                <div className="d-flex justify-content-between align-items-end">
                     <h4 className="text-center">Позиции закупки</h4>
-                    <BtnShowFileUploadForm onSuccess={loadDistributor} distributorId={distributor.id}/>
-                </div>
                 <PurchaseOptionsTable 
                     purchaseOptions={distributor?.purchase_options??[]} 
                     fieldsToExclude={[PurchaseOptionField.Distributor]}/>

@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { calcGramCost } from "../../../models/dish/DishCostCalculatorState";
 import usePagination from "../../../hooks/usePagination";
+import GridTableRow, { WindowSize } from "../../shared/GridTableRow";
 
 interface ProductPurchaseOptionsTableProps {
     product: ProductDTO
@@ -17,35 +18,85 @@ function ProductPurchaseOptionsTable({product}:ProductPurchaseOptionsTableProps)
     return(
         
         <><h4 className="text-center">Позиции закупки</h4>
-        <Table cellPadding={3} cellSpacing={3}>
-            <thead>
 
-                <tr className='text-center'>
-                    <th>Поставщик</th>
-                    <th>Код</th>
-                    <th>Наименование</th>
-                    <th>Цена</th>
-                    <th>Масса нетто</th>
-                    <th>Ед. изм.</th>
-                    <th>Стоимость 1г.</th>
-                </tr>
-            </thead>
-            <tbody>
 
+                <GridTableRow cells={[
+                    {
+                        displayAt: WindowSize.Md,
+                        span: 3,
+                        element: <b>Поставщик</b>
+                    },
+                    {
+                        displayAt: WindowSize.Md,
+                        span: 2,
+                        element: <b>Код</b>
+                    },
+                    {
+                        span: 4,
+                        element: <b>Наименование</b>
+                    },
+                    {
+                        displayAt: WindowSize.Sm,
+                        span: 2,
+                        element: <b>Цена</b>
+                    },
+                    {
+                        displayAt: WindowSize.Lg,
+                        span: 2,
+                        element: <b>Масса нетто</b>
+                    },
+                    {
+                        displayAt: WindowSize.Lg,
+                        span: 2,
+                        element: <b>Ед. изм.</b>
+                    },
+                    {
+                        span: 2,
+                        element: <b>Стоимость 1г.</b>
+                    },
+                ]}/>
+                    
                 {product.purchase_options
                     ?.slice(sliceLimits.start, sliceLimits.end)
-                    .map(p => <tr className='text-center'>
-                    <td>{p.distributor?.name}</td>
-                    <td>{p.code}</td>
-                    <td><Link to={`/purchase-options/details/${p.id}`}>{p.name}</Link></td>
-                    <td>{p.price}₽</td>
-                    <td>{p.net_weight}г.</td>
-                    <td>{p.unit?.short}</td>
-                    <td>{(p.price && p.net_weight) ? (p.price / p.net_weight).toFixed(2) : '?'} ₽/г.</td>
-                </tr>
-                )}
-            </tbody>
-        </Table>
+                    .map(p => 
+                        <GridTableRow cells={[
+                            {
+                                displayAt: WindowSize.Md,
+                                span: 3,
+                                element: <>{p.distributor?.name}</>
+                            },
+                            {
+                                displayAt: WindowSize.Md,
+                                span: 2,
+                                element: <>{p.code}</>
+                            },
+                            {
+                                span: 4,
+                                element: <><Link to={`/purchase-options/details/${p.id}`}>{p.name}</Link></>
+                            },
+                            {
+                                displayAt: WindowSize.Sm,
+                                span: 2,
+                                element: <>{p.price}₽</>
+                            },
+                            {
+                                displayAt: WindowSize.Lg,
+                                span: 2,
+                                element: <>{p.net_weight}г.</>
+                            },
+                            {
+                                displayAt: WindowSize.Lg,
+                                span: 2,
+                                element: <>{p.unit?.short}</>
+                            },
+                            {
+                                span: 2,
+                                element: <>{(p.price && p.net_weight) ? (p.price / p.net_weight).toFixed(2) : '?'} ₽/г.</>
+                            },
+                        ]}/>
+                    )
+                }
+                    
         {nav}
         </>
     )

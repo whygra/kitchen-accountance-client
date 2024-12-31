@@ -7,7 +7,7 @@ import { authContext } from '../../../context/AuthContextProvider';
 import CUDButtons from '../../shared/CUDButtons';
 import Loading from '../../shared/Loading';
 import { BASE_URL } from '../../../api/constants';
-import DishesTable from '../../dish/list/DishTable';
+import DishesTable from '../../dish/list/DishesTable';
 import { DishField } from '../../../hooks/sort/useSortDishes';
 import UpdatedAt from '../../shared/UpdatedAt';
 
@@ -51,24 +51,25 @@ function DishGroupDetails()
         <>
             <Row className='mt-5'>
             
-            <div className='d-flex flex-row justify-content-between align-items-end'>
-                <div>
-                <Link className='text-secondary' to='/dish-groups/all'>&lt; Все группы блюд...</Link>
-                <h3>{dishGroup.id}. {dishGroup.name}</h3>
+                <Row className='w-100 mx-0'>
+                <div className='mx-0 px-0 col col-12 col-sm-3 order-sm-2 justify-content-end'>
+                    <CUDButtons
+                        deleteFn={deleteFn}
+                        entity={dishGroup}
+                        path='dish-groups'
+                        requiredPermission={UserPermissions.CRUD_DISHES}
+                    />
                 </div>
+
+                <h3 className='col col-12 col-sm-9 order-sm-1 mt-3'>{`${dishGroup.id}. ${dishGroup.name}`}</h3>
+                </Row>
                 
-                <div>
-                <CUDButtons
-                    deleteFn={deleteFn}
-                    entity={dishGroup}
-                    path='dish-categories'
-                    requiredPermission={UserPermissions.CRUD_DISHES}
-                    /> 
+                <Col md={12}>
                     <UpdatedAt entity={dishGroup}/>
-                </div>
-            </div>
+                </Col>
             <Col lg={12}>
                 <Card className="p-3">
+                <h2 className='w-100 text-center'>Блюда</h2>
 
                 <DishesTable dishes={dishGroup.dishes??[]} fieldsToExclude={[DishField.Group]}/>
                 </Card>

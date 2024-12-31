@@ -26,25 +26,29 @@ function TagSearch({onItemsChanged, items, label, variant}: TagSearchProps) {
     
     return (
         <Row>
-            <Col className='ps-5 position-relative'>
-                <div className='pt-2 text-end'>{label}</div>
+            <Col sm={4} className='ps-4 position-relative'>
+                <div className='pt-2 text-start text-sm-end'>{label}</div>
             </Col>
-            <Col><Form.Group className='mt-1 position-relative'>
-                <div className='text-end position-absolute start-0 ps-1'>{items.map(i=>
-                    <Badge 
-                        className={`mt-2 ms-0 me-0 p-1 font-monospace ${variant? 'bg-'+variant : ''}`} 
-                        style={{fontSize:'1rem', fontWeight:'normal'}}>{i}
-                    </Badge>)}
-                </div>
+            <Col sm={8}>
+            <Form.Group className='mt-1 position-relative'>
+                
                 <Form.Control
-                    className='font-monospace text-white'
-                    maxLength={28}
+                    className='font-monospace'
                     onKeyDown={e=>onKeyDown(e)}
                     value={items.join(DELIMETER)}
                     onChange={(e)=>handleTextChange(e.target.value)}
                     />
 
-            </Form.Group></Col>
+            </Form.Group>
+            </Col>
+            <Col>
+                <div className='text-center ps-1'>{items.map(i=>
+                    <Badge 
+                        className={`mt-2 ms-0 me-0 p-1 font-monospace ${variant? 'bg-'+variant : ''}`} 
+                        style={{fontSize:'1rem', fontWeight:'normal'}}>{i.length>20 ? `${i.substring(0,17)}...` : i}
+                    </Badge>)}
+                </div>
+            </Col>
         </Row>
   );
 };

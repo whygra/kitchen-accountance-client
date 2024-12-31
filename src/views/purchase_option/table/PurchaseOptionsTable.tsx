@@ -5,6 +5,8 @@ import usePagination from "../../../hooks/usePagination";
 import usePurchaseOptionsTableHeader from "../../../hooks/usePurchaseOptionsTableHeader";
 import { PurchaseOptionDTO } from "../../../api/purchaseOptions";
 import PurchaseOptionsTableItem from "./PurchaseOptionsTableItem";
+import { useMediaQuery } from "react-responsive";
+import { WindowSize } from "../../shared/GridTableRow";
 
 interface PurchaseOptionsTableProps {
     purchaseOptions: PurchaseOptionDTO[]
@@ -23,9 +25,8 @@ function PurchaseOptionsTable({purchaseOptions, fieldsToExclude}:PurchaseOptions
     return(
         
         <>
-        <Table cellPadding={3} cellSpacing={3}>
             {header}
-            <tbody>
+                <div className="pe-5">
                 {filtered
                 ?.slice(sliceLimits.start, sliceLimits.end)
                 .map(o => 
@@ -33,8 +34,7 @@ function PurchaseOptionsTable({purchaseOptions, fieldsToExclude}:PurchaseOptions
                         <PurchaseOptionsTableItem fieldsToExclude={fieldsToExclude} purchaseOption={o}/>
                     </tr>
                 )}
-            </tbody>
-        </Table>
+                </div>
         {nav}
         </>
     )

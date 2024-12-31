@@ -1,5 +1,6 @@
 import {Form} from 'react-bootstrap'
 import { UnitDTO } from '../../../api/units';
+import UnitsTableItem from './UnitsTableItem';
 
 interface TableRowUnitElementProps {
   unit: UnitDTO
@@ -7,11 +8,7 @@ interface TableRowUnitElementProps {
 
 function TableRowUnitElement({unit} : TableRowUnitElementProps) {
   return (
-    <>
-      <td>{unit.id}</td>
-      <td>{unit.short}</td>
-      <td>{unit.long}</td>
-    </>
+    <UnitsTableItem unit={unit}/>
   )
 }
 

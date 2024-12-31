@@ -25,23 +25,22 @@ function ProductsTable({products, fieldsToExclude}:ProductTableProps)
 
     return (
         <>
-        <Table>
+        <div className='w-100'>
             {header}
-            <tbody>
+            <div>
             {   
                 filtered
                     ?.slice(sliceLimits.start, sliceLimits.end)
-                    .map(i=>
-                        <tr>
+                    .map(i=><div className='border-bottom'>
                             <ProductsTableItem 
                                 product={i}
                                 fieldsToExclude={fieldsToExclude}
                             />
-                        </tr>
+                            </div>
                     )
             }
-            </tbody>
-        </Table>
+            </div>
+        </div>
         {nav}
         </>
     )

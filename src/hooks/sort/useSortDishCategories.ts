@@ -2,9 +2,9 @@ import { useState } from "react"
 import { DishCategoryDTO } from "../../api/dishCategories"
 
 export enum DishCategoryField {
-    None,
-    Id,
-    Name,
+    None = 'DishCategoryNone',
+    Id = 'DishCategoryId',
+    Name = 'DishCategoryName',
 }
 
 class Comparers {

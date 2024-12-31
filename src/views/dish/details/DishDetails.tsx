@@ -47,31 +47,40 @@ function DishDetails()
         await deleteDish(id)
         navigate('/dishes/all')
     }
-    console.log(dish?.image)
 
     return isLoading ? (<Loading/>) : 
            dish===null ? (<>Не удалось получить блюдо</>) : (
         <>
             <Row className='mt-5'>
-            <div className='d-flex justify-content-between align-items-end'>
-                <div className='d-flex flex-column'>
-                    <h3>{`${dish.id}. ${dish.name}`}</h3>
-                    <span>Вес блюда: {calcDishWeight(dish).toFixed(2)} г.</span>
-                    <span>Категория: "{dish.category?.name ?? '-без категории-'}"</span>
-                    <span>Группа: "{dish.group?.name ?? '-без группы-'}"</span>
-                </div>
-                <div>
 
-                <CUDButtons
-                    deleteFn={deleteFn}
-                    entity={dish}
-                    path='dishes'
-                    requiredPermission={UserPermissions.CRUD_DISHES}
+                <Row className='w-100 mx-0'>
+                <div className='mx-0 px-0 col col-12 col-sm-4 order-sm-2 justify-content-end'>
+                    <CUDButtons
+                        deleteFn={deleteFn}
+                        entity={dish}
+                        path='dishes'
+                        requiredPermission={UserPermissions.CRUD_DISHES}
                     />
-                    <UpdatedAt entity={dish}/>
-
                 </div>
-            </div>
+
+                <h3 className='col col-12 col-sm-8 order-sm-1 mt-3'>{`${dish.id}. ${dish.name}`}</h3>
+                </Row>
+                
+                <Col md={12}>
+                    <UpdatedAt entity={dish}/>
+                </Col>
+
+                <ul className='list-group ps-2'>
+                    <li className='list-group-item'>Вес блюда: {calcDishWeight(dish).toFixed(2)} г.</li>
+                    <li className='list-group-item'>
+                        Категория: "{dish.category?.name 
+                            ? <Link to={`/dish-categories/details/${dish.category.id}`}>{dish.category.name}</Link> 
+                            : '-без категории-'}"</li>
+                    <li className='list-group-item'>
+                        Группа: "{dish.group?.name 
+                            ? <Link to={`/dish-groups/details/${dish.group.id}`}>{dish.group.name}</Link> 
+                            : '-без группы-'}"</li>
+                </ul>
             <Col md={12} lg={12}>
                 
                 <Card 

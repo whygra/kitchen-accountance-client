@@ -2,6 +2,7 @@ import { DataAction } from ".."
 import { ProductDTO } from "../../api/products"
 import { v4 as uuid } from "uuid";
 import { ProductPurchaseOptionDTO, PurchaseOptionDTO } from "../../api/purchaseOptions";
+import { UnitDTO } from "../../api/units";
 
 export interface ProductFormState {
     id: number
@@ -50,20 +51,32 @@ export interface PurchaseOptionFormState {
     key: string;
     id: number;
     productShare: number;
+    unitId: number
+    name: string
+    netWeight: number
+    price: number
 }
 
-export function constructProductPurchaseOptionForm(o?: ProductPurchaseOptionDTO): PurchaseOptionFormState{
+export function constructProductPurchaseOptionForm(o?: PurchaseOptionDTO): PurchaseOptionFormState{
 
     return {
         key: uuid(),
         id: o?.id ?? 0,
         productShare: o?.product_share ?? 100,
+        unitId: o?.unit.id ?? 0,
+        name: o?.name ?? '',
+        netWeight: o?.net_weight ?? 0,
+        price: o?.price ?? 0,
     }
 }
 
-export function purchaseOptionFormToDTO (state: PurchaseOptionFormState) : ProductPurchaseOptionDTO { 
+export function purchaseOptionFormToDTO (state: PurchaseOptionFormState) : PurchaseOptionDTO { 
     return {
         id: state.id,
         product_share: state.productShare,
+        unit: {id: state.unitId, long: '', short: ''},
+        name: state.name,
+        net_weight: state.netWeight,
+        price: state.price,
     }
 }

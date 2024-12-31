@@ -59,9 +59,9 @@ function ProductList()
         }
         </div>
         <hr/>
-        <Row className='ps-1'>
-            {header}
-        </Row>
+            <div className='ps-3'>
+                {header}
+            </div>
         <Accordion>
             {filtered
                 .slice(sliceLimits.start, sliceLimits.end)

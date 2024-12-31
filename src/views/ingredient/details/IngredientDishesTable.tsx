@@ -19,8 +19,8 @@ function IngredientDishesTable({ingredient}:IngredientDishesTableProps) {
             <thead>
 
                 <tr className='text-center'>
-                    <th>Id Блюда</th>
-                    <th>Наименование</th>
+                    <th className="d-none d-sm-table-cell">Id Блюда</th>
+                    <th>Название</th>
                     <th>{ingredient.is_item_measured?'Количество':'Вес'} ингредиента</th>
                     <th>Потери в весе</th>
                 </tr>
@@ -31,7 +31,7 @@ function IngredientDishesTable({ingredient}:IngredientDishesTableProps) {
                     ?.slice(sliceLimits.start, sliceLimits.end)
                     .map(d => 
                     <tr className='text-center'>
-                        <td>{d.id}</td>
+                        <td className="d-none d-sm-table-cell">{d.id}</td>
                         <td><Link to={`/dishes/details/${d.id}`}>{d.name}</Link></td>
                         <td>{d.ingredient_amount}</td>
                         <td>{d.waste_percentage}%</td>

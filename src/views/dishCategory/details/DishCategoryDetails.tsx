@@ -7,7 +7,7 @@ import { authContext } from '../../../context/AuthContextProvider';
 import CUDButtons from '../../shared/CUDButtons';
 import Loading from '../../shared/Loading';
 import { BASE_URL } from '../../../api/constants';
-import DishesTable from '../../dish/list/DishTable';
+import DishesTable from '../../dish/list/DishesTable';
 import { DishField } from '../../../hooks/sort/useSortDishes';
 import UpdatedAt from '../../shared/UpdatedAt';
 
@@ -51,27 +51,29 @@ function DishCategoryDetails()
         <>
 
             <Row className='mt-5'>
-            <div className='d-flex flex-row justify-content-between align-items-end'>
-                <div>
                 <Link className='text-secondary' to='/dish-categories/all'>&lt; Все категории блюд...</Link>
-                <h3>{dishCategory.id}. {dishCategory.name}</h3>
-                </div>
-                
-                <div>
-                <CUDButtons
-                    deleteFn={deleteFn}
-                    entity={dishCategory}
-                    path='dish-categories'
-                    requiredPermission={UserPermissions.CRUD_DISHES}
+
+                <Row className='w-100 mx-0'>
+                <div className='mx-0 px-0 col col-12 col-sm-3 order-sm-2 justify-content-end'>
+                    <CUDButtons
+                        deleteFn={deleteFn}
+                        entity={dishCategory}
+                        path='dish-categories'
+                        requiredPermission={UserPermissions.CRUD_DISHES}
                     /> 
-                    <UpdatedAt entity={dishCategory}/>
                 </div>
-            </div>
+
+                <h3 className='col col-12 col-sm-9 order-sm-1 mt-3'>{`${dishCategory.id}. ${dishCategory.name}`}</h3>
+                </Row>
+                
+                <Col md={12}>
+                    <UpdatedAt entity={dishCategory}/>
+                </Col>
             <Col md={12}>
                 
                 <Card className="p-3">
-
-                <DishesTable dishes={dishCategory.dishes??[]} fieldsToExclude={[DishField.Category]}/>
+                <h2 className='w-100 text-center'>Блюда</h2>
+                <DishesTable dishes={dishCategory.dishes??[]} fieldsToExclude={[DishField.Category, DishField.Id]}/>
                 </Card>
             </Col>
             </Row>

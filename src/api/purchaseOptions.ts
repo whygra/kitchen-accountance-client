@@ -17,6 +17,7 @@ export interface PurchaseOptionDTO {
   net_weight: number
   price: number
   products?: ProductDTO[]
+  product_share?: number
   updated_at?: string
 }
 
@@ -38,7 +39,7 @@ export interface ProductPurchaseOptionDTO {
   name?: string
   net_weight?: number
   price?: number
-  product_share: number
+  product_share?: number
 }
 
 export interface DistributorPurchaseOptionColumnIndexes {

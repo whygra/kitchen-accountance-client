@@ -8,6 +8,7 @@ import { ProductDTO } from '../../../api/products';
 import { UserPermissions } from '../../../models';
 import CUDButtons from '../../shared/CUDButtons';
 import { projectContext } from '../../../context/ProjectContextProvider';
+import ProductsTableItem from './ProductsTableItem';
 
 
 interface ProductListItemProps {
@@ -34,16 +35,10 @@ function ProductListItem({onDelete, product}: ProductListItemProps)
     return (
         <Accordion.Item eventKey={`${product.id}`}>
         <Accordion.Header style={{userSelect: 'text'}}>
-            <Row className='w-100 pe-3'>
-                <Col xs={1} className='text-end'>{product.id}</Col>
-                <Col xs={3} className='text-center'>{product.name}</Col>
-                <Col xs={4} className='text-center'>{product.category?.name ?? 'без категории'}</Col>
-                <Col xs={4} className='text-center'>{product.group?.name ?? 'без группы'}</Col>
-            </Row>
+            <ProductsTableItem product={product}/>
         </Accordion.Header>
         <Accordion.Body>
             <small><ProductPurchaseOptionsTable product={product}/></small>
-
                 <div className='d-flex justify-content-between'>
                     <Link to={`/products/details/${product.id}`}><Button variant='info'>Подробнее</Button></Link>
                     <CUDButtons

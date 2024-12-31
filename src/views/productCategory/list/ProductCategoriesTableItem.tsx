@@ -3,26 +3,30 @@ import { PurchaseOptionDTO } from "../../../api/purchaseOptions"
 import ExpansionBtn, { ExpansionBtnProps } from "../../shared/ExpansionBtn"
 import { ProductCategoryDTO } from "../../../api/productCategories"
 import { ProductCategoryField } from "../../../hooks/sort/useSortProductCategories"
+import GridTableRow from "../../shared/GridTableRow"
 
 interface ProductCategoriesTableItemProps {
-    productcategory: ProductCategoryDTO
+    productCategory: ProductCategoryDTO
     fieldsToExclude?: ProductCategoryField[]
 }
 
-function ProductCategoriesTableItem({productcategory: productCategory, fieldsToExclude}:ProductCategoriesTableItemProps) {
+function ProductCategoriesTableItem({productCategory, fieldsToExclude}:ProductCategoriesTableItemProps) {
+    const cells = [
+        {   
+            field: ProductCategoryField.Id,
+            element:
+                <>{productCategory.id}</>,
+            span: 1
+        },
+        {   
+            field: ProductCategoryField.Name,
+            element:
+                <Link to={`/product-categories/details/${productCategory.id}`}>{productCategory.name}</Link>,
+            span: 3
+        },
+    ]
     return(
-        <>
-            {
-                fieldsToExclude && fieldsToExclude?.find(o=>o==ProductCategoryField.Id)
-                ? <></>
-                : <td style={{width:'1%'}}>{productCategory.id}</td>
-            }
-            {
-                fieldsToExclude && fieldsToExclude?.find(o=>o==ProductCategoryField.Name)
-                ? <></>
-                : <td style={{width:'2%'}}><Link to={`/product-categories/details/${productCategory.id}`}>{productCategory.name}</Link></td>
-            }
-        </>
+        <GridTableRow cells={cells} fieldsToExclude={fieldsToExclude}/>
     )
 }
 

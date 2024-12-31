@@ -46,7 +46,7 @@ export default function useFilterDishes() {
             && (Number.isNaN(searchData.maxWeight) || dishWeight <= searchData.maxWeight)
             // products
             && (searchData.hasAnyProducts.length==0 || searchData.hasAnyProducts.some(s=>products.some(p=>p.name.toLocaleLowerCase().includes(s))))
-            && (searchData.excludesProducts.length==0 || searchData.excludesProducts.some(s=>products.some(p=>!(p.name.toLocaleLowerCase().includes(s)))))
+            && (searchData.excludesProducts.length==0 || !searchData.excludesProducts.some(s=>products.some(p=>(p.name.toLocaleLowerCase().includes(s)))))
             )
         }
     }
