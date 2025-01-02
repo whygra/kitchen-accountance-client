@@ -33,6 +33,10 @@ function AuthContextProvider({children}:AuthContextProviderProps) {
   const {showModal} = useContext(appContext)
   
   const location = useLocation()
+  useEffect(()=>{
+    if(user && (user.email_verified_at??'')=='')
+      showModal(<EmailVerificationRequired/>)
+  }, [])
   
   useEffect(()=>{
     updateUserData()
@@ -40,7 +44,7 @@ function AuthContextProvider({children}:AuthContextProviderProps) {
 
   async function updateUserData(){
 
-    if(getCookie(C_ACCESS_TOKEN)=='')
+    if(getCookie(C_ACCESS_TOKEN)==''||getCookie(C_IS_SIGNED_IN)=='')
       return
     
     const res = await getCurrent().catch(
@@ -51,8 +55,8 @@ function AuthContextProvider({children}:AuthContextProviderProps) {
 
     setCookie(C_IS_SIGNED_IN, res==null?'':'true', res==null?0:1)
 
-    if(res && (res.email_verified_at??'')=='')
-      showModal(<EmailVerificationRequired/>)
+    // if(res && (res.email_verified_at??'')=='')
+    //   showModal(<EmailVerificationRequired/>)
   }
 
   return (

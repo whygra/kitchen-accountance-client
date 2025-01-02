@@ -16,6 +16,11 @@
   pointer-events: none;
   text-decoration: none;
 }
+.links-disabled a {
+  color: currentColor;
+  pointer-events: none;
+  text-decoration: none;
+}
 
 .grid {
   display: grid;

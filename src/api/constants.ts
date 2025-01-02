@@ -1,4 +1,4 @@
-export const BASE_URL = 'http://www.kitchen-accountance.ru/api';
+export const BASE_URL = 'https://www.kitchen-accountance.ru/api';
 // export const BASE_URL = 'http://127.0.0.1:8000/api';
 export const PROJECT_PATH = 'project';
 export const C_ACCESS_TOKEN = 'access_token';

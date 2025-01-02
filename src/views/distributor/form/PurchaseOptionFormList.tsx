@@ -132,7 +132,10 @@ function PurchaseOptionFormList({goToInvalid}:PurchaseOptionFormListProps) {
         <Col md={12} lg={3} className='m-0 p-0'>
         <Card className='m-0 p-2'>
           <Form.Label>Упорядочить по</Form.Label>
-          <Form.Select value={filterData.sortField} onChange={e=>setFilterData({...filterData, sortField:parseInt(e.target.value)})}>
+          <Form.Select value={filterData.sortField} onChange={e=>setFilterData({
+              ...filterData, 
+              sortField:PurchaseOptionField[(e.target.value)as keyof typeof PurchaseOptionField]
+          })}>
             <option value={PurchaseOptionField.None}>по умолчанию</option>
             <option value={PurchaseOptionField.Code}>код</option>
             <option value={PurchaseOptionField.Name}>наименование</option>
@@ -187,6 +190,7 @@ function PurchaseOptionFormList({goToInvalid}:PurchaseOptionFormListProps) {
           <Form.Label>Масса нетто</Form.Label>
           <Form.Control
           className='mt-1'
+          required
           type='number'
           placeholder='от'
           min={0}
@@ -195,6 +199,7 @@ function PurchaseOptionFormList({goToInvalid}:PurchaseOptionFormListProps) {
           />
           <Form.Control
           className='mt-1'
+          required
           type='number'
           placeholder='до'
           min={0}
@@ -206,6 +211,7 @@ function PurchaseOptionFormList({goToInvalid}:PurchaseOptionFormListProps) {
           <Form.Label>Цена</Form.Label>
           <Form.Control
           className='mt-1'
+          required
           type='number'
           placeholder='от'
           min={0}
@@ -214,6 +220,7 @@ function PurchaseOptionFormList({goToInvalid}:PurchaseOptionFormListProps) {
           />
           <Form.Control
           className='mt-1'
+          required
           type='number'
           placeholder='до'
           min={0}

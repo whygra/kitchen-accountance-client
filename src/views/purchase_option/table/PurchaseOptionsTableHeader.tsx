@@ -122,7 +122,7 @@ function PurchaseOptionsTableHeader({
     const filterCells = [
         
         {
-            displayAt: WindowSize.Sm,
+            displayAt: WindowSize.Lg,
             field: PurchaseOptionField.Code,
             element: 
                 <Form.Control
@@ -194,7 +194,7 @@ function PurchaseOptionsTableHeader({
             span: 2
         },
         {
-            displayAt: WindowSize.Md,
+            displayAt: WindowSize.Sm,
             field: PurchaseOptionField.Price,
             element:
                 <>
@@ -218,7 +218,7 @@ function PurchaseOptionsTableHeader({
             span: 2
         },
         {
-            displayAt: WindowSize.Md,
+            displayAt: WindowSize.Lg,
             field: PurchaseOptionField.Unit,
             element: 
                 <Form.Control

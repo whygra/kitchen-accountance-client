@@ -84,7 +84,10 @@ function PurchaseOptionFormList() {
         ><i className='bi bi-x-lg'/></TooltipButton>
       </div>
     </Container>
+    <div className='links-disabled'>
     {modalSelect}
+    </div>
+
     </>
   )
 }

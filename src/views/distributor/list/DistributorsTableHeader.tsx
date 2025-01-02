@@ -60,6 +60,7 @@ function DistributorsTableHeader({
             field: DistributorField.Id,
             element: 
                 <Form.Control
+                    required
                     type="number"
                     min={1}
                     value={Number.isNaN(searchData.id)?'':searchData.id}

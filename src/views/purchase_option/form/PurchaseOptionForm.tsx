@@ -122,6 +122,7 @@ function PurchaseOptionForm()
         <Form.Group className='mb-3'>
         <Form.Label><b>Код</b></Form.Label>
         <Form.Control
+          required
           type="number"
           placeholder="Код"
           value={formState.code}
@@ -144,9 +145,9 @@ function PurchaseOptionForm()
         <Form.Group className='mb-3'>
         <Form.Label><b>Масса нетто</b></Form.Label>
         <Form.Control
+          required
           type="number"
           placeholder="Масса нетто"
-          required
           min={1}
           step={1}
           value={formState.netWeight}

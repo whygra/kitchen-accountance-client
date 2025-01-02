@@ -107,6 +107,7 @@ function DishIngredientForm({formState, openSelect}: DishesIngredientFormProps) 
             <Col as={Form.Group} md={3}>
             <Form.Label>{formState.isItemMeasured?'Количество':'Вес (грамм)'}</Form.Label>
               <Form.Control
+                required
                 type="number"
                 min={minAmt}
                 step={minAmt}
@@ -120,6 +121,7 @@ function DishIngredientForm({formState, openSelect}: DishesIngredientFormProps) 
             <Col as={Form.Group} md={3}>
             <Form.Label>Потери в весе (%)</Form.Label>
             <Form.Control
+                required
                 type="number"
                 min={0}
                 max={100}

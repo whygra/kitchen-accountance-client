@@ -70,6 +70,7 @@ function PurchaseOptionForm({formState, openSelect}: PurchaseOptionFormProps) {
             <Form.Group as={Col} lg={4} md={12} className='mb-2'>
               <Form.Label>Код</Form.Label>
               <Form.Control
+                required
                 type="number"
                 value={formState.code}
                 onChange={e=>setCode(parseInt(e.target.value))}
