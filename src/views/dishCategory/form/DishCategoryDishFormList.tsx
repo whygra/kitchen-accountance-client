@@ -7,6 +7,7 @@ import TooltipButton from '../../shared/TooltipButton'
 import useDisheselect from '../../../hooks/tableSelect/useDishSelect';
 import { dishCategoryFormContext } from '../../../context/dish/DishCategoryFormContext';
 import DishCategoryDishForm from './DishCategoryDishForm';
+import FormListButtons from '../../shared/FormListButtons';
 
 function DishCategoryDishFormList() {
 
@@ -50,9 +51,9 @@ function DishCategoryDishFormList() {
 
   return (
     <>
-    <Container>
+    <div>
       
-      <Form.Label><b>Ингредиенты:</b></Form.Label>
+      <Form.Label><b>Блюда:</b></Form.Label>
       {
         formState.dishCategoryDishForms
           .map(fs =>
@@ -61,23 +62,14 @@ function DishCategoryDishFormList() {
             </div>
           )
       }
-      <div className="d-flex flex-row-reverse mt-2">
-
-        <TooltipButton
-          tooltip='добавить ингредиент'
-          variant='success'
-          onClick={()=>openSelect(constructDishCategoryDishForm())}
-        ><i className='bi bi-plus-lg'/></TooltipButton>
-
-        <BtnAskConfirmation
-          tooltip='исключить все'
-          variant="danger"
-          onConfirm={deleteAll}
-          prompt='исключить все ингредиенты? несохраненные данные будут утеряны'
-        ><i className='bi bi-x-lg'/></BtnAskConfirmation>
-      </div>
-    </Container>
+      <FormListButtons
+        addFn={()=>openSelect(constructDishCategoryDishForm())}
+        deleteAllFn={deleteAll}
+      />
+    </div>
+    <div className='links-disabled'>
     {modalSelect}
+    </div>
     </>
   )
 }

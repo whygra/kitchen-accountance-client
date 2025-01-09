@@ -37,7 +37,7 @@ function SelectCreateGroup({
   },[])
 
   return (
-    <div>
+    <div className='mb-3'>
       <div className='d-flex justify-content-between'>
         <Form.Label>Единица измерения</Form.Label>
         <IsCreateSwitch

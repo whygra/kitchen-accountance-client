@@ -26,16 +26,14 @@ function PurchaseOptionsTable({purchaseOptions, fieldsToExclude}:PurchaseOptions
         
         <>
             {header}
-                <div className="pe-5">
+                <div className="pe-5 border-bottom">
                 {filtered
                 ?.slice(sliceLimits.start, sliceLimits.end)
                 .map(o => 
-                    <tr className="text-center">
                         <PurchaseOptionsTableItem fieldsToExclude={fieldsToExclude} purchaseOption={o}/>
-                    </tr>
                 )}
                 </div>
-        {nav}
+            {nav}
         </>
     )
 }

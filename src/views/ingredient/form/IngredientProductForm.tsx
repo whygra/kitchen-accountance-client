@@ -54,7 +54,7 @@ function IngredientProductForm({formState, openSelect}: IngredientsProductFormPr
         >
           <Row>
 
-          <Col md={12} lg={4}>
+          <Col className='mb-2' md={12} lg={4}>
               <div className="mb-2 d-flex flex-row justify-content-between">
               <b>Продукт</b>
                 <IsCreateSwitch
@@ -88,10 +88,10 @@ function IngredientProductForm({formState, openSelect}: IngredientsProductFormPr
                 </Form.Control.Feedback>
                 </Form.Group>
             }
-              </Col>
+          </Col>
             <Col md={6} lg={4} >
             <div className='d-flex'>
-              <Form.Group className='flex-grow-1'>
+              <Form.Group className='flex-grow-1 mb-2'>
                 <Form.Label>Вес (грамм)</Form.Label>
                 <div className='d-flex flex-row justify-content-between align-items-start'>
 
@@ -112,7 +112,7 @@ function IngredientProductForm({formState, openSelect}: IngredientsProductFormPr
               </Form.Group>
             </div>
             </Col>
-            <Form.Group as={Col} md={6} lg={4}>
+            <Form.Group className='mb-2' as={Col} md={6} lg={4}>
             <Form.Label>Потери в весе (%)</Form.Label>
             <Form.Control
                 type="number"

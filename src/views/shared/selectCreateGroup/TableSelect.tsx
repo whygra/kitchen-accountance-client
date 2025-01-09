@@ -22,11 +22,13 @@ function TableSelect<T extends NamedEntity>({constructRow, header, selectedId, s
   return(
     <div>
         <Table className="m-0 w-100" hover>
-            {header}
-            <tbody className='text-center'>
-              {items.slice(sliceLimits.start, sliceLimits.end)
-                .map(i=><tr className={`${i.id==selectedId?'table-active fw-bold':''}`} onClick={()=>setId(i.id)}>{constructRow(i)}</tr>)}
-            </tbody>
+          <thead>
+            <tr>{header}</tr>
+          </thead>
+          <tbody className='text-center'>
+            {items.slice(sliceLimits.start, sliceLimits.end)
+              .map(i=><tr className={`${i.id==selectedId?'table-active fw-bold':''} border-bottom`} onClick={()=>setId(i.id)}>{constructRow(i)}</tr>)}
+          </tbody>
         </Table>
         {nav}
     </div>

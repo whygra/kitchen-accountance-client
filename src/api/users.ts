@@ -1,6 +1,6 @@
-import { getCookie, setCookie } from "../cookies";
 import { UserPermissions } from "../models";
-import { C_ACCESS_TOKEN, BASE_URL, C_SELECTED_PROJECT_ID, PROJECT_PATH } from "./constants";
+import { BASE_URL, ServerImageData, getProjectPath } from "./constants"
+import { C_ACCESS_TOKEN, C_SELECTED_PROJECT_ID, getCookie } from "../cookies"
 import { ProjectDTO, RoleDTO } from "./projects";
 
 const ENTITY_PATH = "users"
@@ -16,7 +16,7 @@ export interface UserDTO {
 }
 
 export const getProjectUsers = async () : Promise<UserDTO[] | null> => {
-  const response = await fetch(`${BASE_URL}/${PROJECT_PATH}/${parseInt(getCookie(C_SELECTED_PROJECT_ID))}/${ENTITY_PATH}/all`, {
+  const response = await fetch(`${BASE_URL}/${getProjectPath()}/${getCookie(C_SELECTED_PROJECT_ID)}/${ENTITY_PATH}/all`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -35,7 +35,7 @@ export const getProjectUsers = async () : Promise<UserDTO[] | null> => {
 
 export const assignRole = async (userData: UserDTO): Promise<UserDTO | null> => {
   console.log(userData)
-  const response = await fetch(`${BASE_URL}/${PROJECT_PATH}/${parseInt(getCookie(C_SELECTED_PROJECT_ID))}/${ENTITY_PATH}/assign-role/${userData.id}`, {
+  const response = await fetch(`${BASE_URL}/${getProjectPath()}/${getCookie(C_SELECTED_PROJECT_ID)}/${ENTITY_PATH}/assign-role/${userData.id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -55,7 +55,7 @@ export const assignRole = async (userData: UserDTO): Promise<UserDTO | null> => 
 }
 
 export const inviteToProject = async (email: string): Promise<UserDTO | null> => {
-  const response = await fetch(`${BASE_URL}/${PROJECT_PATH}/${parseInt(getCookie(C_SELECTED_PROJECT_ID))}/${ENTITY_PATH}/invite`, {
+  const response = await fetch(`${BASE_URL}/${getProjectPath()}/${getCookie(C_SELECTED_PROJECT_ID)}/${ENTITY_PATH}/invite`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -74,7 +74,7 @@ export const inviteToProject = async (email: string): Promise<UserDTO | null> =>
 }
 
 export const removeFromProject = async (id: number): Promise<UserDTO | null> => {
-  const response = await fetch(`${BASE_URL}/${PROJECT_PATH}/${parseInt(getCookie(C_SELECTED_PROJECT_ID))}/${ENTITY_PATH}/remove/${id}`, {
+  const response = await fetch(`${BASE_URL}/${getProjectPath()}/${getCookie(C_SELECTED_PROJECT_ID)}/${ENTITY_PATH}/remove/${id}`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',

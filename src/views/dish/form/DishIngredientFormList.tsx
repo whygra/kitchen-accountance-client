@@ -19,6 +19,7 @@ import ModalWrapper from '../../shared/ModalWrapper';
 import useIngredientsTableHeader from '../../../hooks/useIngredientsTableHeader';
 import { IngredientProductFormState } from '../../../models/ingredient/IngredientFormState';
 import useIngredientSelect from '../../../hooks/tableSelect/useIngredientSelect';
+import FormListButtons from '../../shared/FormListButtons';
 
 function DishIngredientFormList() {
 
@@ -36,16 +37,6 @@ function DishIngredientFormList() {
   function deleteAll(){
     removeAllDishIngredientForms()
     hideModal()
-  }
-
-  function confirmDeleteAll(){
-    showModal(
-      <ConfirmationDialog 
-        prompt='удалить все позиции закупки? несохраненные данные будут утеряны'
-        onCancel={hideModal} 
-        onConfirm={deleteAll}
-      />
-    )
   }
 
   // выбор ингредиентов
@@ -80,22 +71,13 @@ function DishIngredientFormList() {
             </div>
           )
       }
-      <div className="d-flex flex-row-reverse mt-2">
-
-        <TooltipButton
-          tooltip='добавить ингредиент'
-          variant='success'
-          onClick={addDishIngredientForm}
-        ><i className='bi bi-plus-lg'/></TooltipButton>
-
-        <BtnAskConfirmation
-          tooltip='удалить все'
-          variant="danger"
-          onConfirm={confirmDeleteAll}
-          prompt='удалить все ингредиенты? несохраненные данные будут потеряны'
-        ><i className='bi bi-x-lg'/></BtnAskConfirmation>
+      <FormListButtons
+        addFn={addDishIngredientForm}
+        deleteAllFn={deleteAll}
+      />
+      <div className='links-disabled'>
+      {modalSelect}
       </div>
-    {modalSelect}
     </>
   )
 }

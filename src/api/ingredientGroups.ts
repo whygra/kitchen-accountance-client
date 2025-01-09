@@ -1,5 +1,5 @@
-import { getCookie } from "../cookies";
-import { C_ACCESS_TOKEN, BASE_URL, C_SELECTED_PROJECT_ID, PROJECT_PATH } from "./constants";
+import { BASE_URL, ServerImageData, getProjectPath } from "./constants"
+import { C_ACCESS_TOKEN, C_SELECTED_PROJECT_ID, getCookie } from "../cookies"
 import { IngredientDTO } from "./ingredients";
 import { UserDTO } from "./users";
 
@@ -15,7 +15,7 @@ export interface IngredientGroupDTO {
 }
 
 export const getIngredientGroups = async () : Promise<IngredientGroupDTO[] | null> => {
-  const response = await fetch(`${BASE_URL}/${PROJECT_PATH}/${parseInt(getCookie(C_SELECTED_PROJECT_ID))}/${ENTITY_PATH}/all`,{
+  const response = await fetch(`${BASE_URL}/${getProjectPath()}/${getCookie(C_SELECTED_PROJECT_ID)}/${ENTITY_PATH}/all`,{
     headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer '+getCookie(C_ACCESS_TOKEN)
@@ -32,7 +32,7 @@ export const getIngredientGroups = async () : Promise<IngredientGroupDTO[] | nul
 }
 
 export const getIngredientGroupsWithIngredients = async () : Promise<IngredientGroupDTO[] | null> => {
-  const response = await fetch(`${BASE_URL}/${PROJECT_PATH}/${parseInt(getCookie(C_SELECTED_PROJECT_ID))}/${ENTITY_PATH}/${WITH_INGREDIENTS}/all`,{
+  const response = await fetch(`${BASE_URL}/${getProjectPath()}/${getCookie(C_SELECTED_PROJECT_ID)}/${ENTITY_PATH}/${WITH_INGREDIENTS}/all`,{
     headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer '+getCookie(C_ACCESS_TOKEN)
@@ -49,7 +49,7 @@ export const getIngredientGroupsWithIngredients = async () : Promise<IngredientG
 }
 
 export const getIngredientGroupWithIngredients = async (id: number) : Promise<IngredientGroupDTO | null> => {
-  const response = await fetch(`${BASE_URL}/${PROJECT_PATH}/${parseInt(getCookie(C_SELECTED_PROJECT_ID))}/${ENTITY_PATH}/${WITH_INGREDIENTS}/${id}`,{
+  const response = await fetch(`${BASE_URL}/${getProjectPath()}/${getCookie(C_SELECTED_PROJECT_ID)}/${ENTITY_PATH}/${WITH_INGREDIENTS}/${id}`,{
     headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer '+getCookie(C_ACCESS_TOKEN)
@@ -66,7 +66,7 @@ export const getIngredientGroupWithIngredients = async (id: number) : Promise<In
 }
 
 export const postIngredientGroup = async (createData: IngredientGroupDTO): Promise<IngredientGroupDTO | null> => {
-  const response = await fetch(`${BASE_URL}/${PROJECT_PATH}/${parseInt(getCookie(C_SELECTED_PROJECT_ID))}/${ENTITY_PATH}/create`, {
+  const response = await fetch(`${BASE_URL}/${getProjectPath()}/${getCookie(C_SELECTED_PROJECT_ID)}/${ENTITY_PATH}/create`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -87,7 +87,7 @@ export const postIngredientGroup = async (createData: IngredientGroupDTO): Promi
 
 export const postIngredientGroupWithIngredients = async (createData: IngredientGroupDTO): Promise<IngredientGroupDTO | null> => {
   console.log(createData)
-  const response = await fetch(`${BASE_URL}/${PROJECT_PATH}/${parseInt(getCookie(C_SELECTED_PROJECT_ID))}/${ENTITY_PATH}/${WITH_INGREDIENTS}/create`, {
+  const response = await fetch(`${BASE_URL}/${getProjectPath()}/${getCookie(C_SELECTED_PROJECT_ID)}/${ENTITY_PATH}/${WITH_INGREDIENTS}/create`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -107,7 +107,7 @@ export const postIngredientGroupWithIngredients = async (createData: IngredientG
 }
 
 export const putIngredientGroup = async (ingredientСategoryData: IngredientGroupDTO): Promise<IngredientGroupDTO | null> => {
-  const response = await fetch(`${BASE_URL}/${PROJECT_PATH}/${parseInt(getCookie(C_SELECTED_PROJECT_ID))}/${ENTITY_PATH}/update/${ingredientСategoryData.id}`, {
+  const response = await fetch(`${BASE_URL}/${getProjectPath()}/${getCookie(C_SELECTED_PROJECT_ID)}/${ENTITY_PATH}/update/${ingredientСategoryData.id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -128,7 +128,7 @@ export const putIngredientGroup = async (ingredientСategoryData: IngredientGrou
 
 export const putIngredientGroupWithIngredients = async (ingredientСategoryData: IngredientGroupDTO): Promise<IngredientGroupDTO | null> => {
   console.log(ingredientСategoryData)
-  const response = await fetch(`${BASE_URL}/${PROJECT_PATH}/${parseInt(getCookie(C_SELECTED_PROJECT_ID))}/${ENTITY_PATH}/${WITH_INGREDIENTS}/update/${ingredientСategoryData.id}`, {
+  const response = await fetch(`${BASE_URL}/${getProjectPath()}/${getCookie(C_SELECTED_PROJECT_ID)}/${ENTITY_PATH}/${WITH_INGREDIENTS}/update/${ingredientСategoryData.id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -148,7 +148,7 @@ export const putIngredientGroupWithIngredients = async (ingredientСategoryData:
 }
 
 export const deleteIngredientGroup = async (id: number): Promise<Object | null> => {
-  const response = await fetch(`${BASE_URL}/${PROJECT_PATH}/${parseInt(getCookie(C_SELECTED_PROJECT_ID))}/${ENTITY_PATH}/delete/${id}`, {
+  const response = await fetch(`${BASE_URL}/${getProjectPath()}/${getCookie(C_SELECTED_PROJECT_ID)}/${ENTITY_PATH}/delete/${id}`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',

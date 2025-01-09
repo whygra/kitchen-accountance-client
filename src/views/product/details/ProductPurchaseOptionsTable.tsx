@@ -17,7 +17,7 @@ function ProductPurchaseOptionsTable({product}:ProductPurchaseOptionsTableProps)
 
     return(
         
-        <><h4 className="text-center">Позиции закупки</h4>
+        <div className="mb-3"><h4 className="text-center">Позиции закупки</h4>
 
 
                 <GridTableRow cells={[
@@ -59,6 +59,8 @@ function ProductPurchaseOptionsTable({product}:ProductPurchaseOptionsTableProps)
                 {product.purchase_options
                     ?.slice(sliceLimits.start, sliceLimits.end)
                     .map(p => 
+                        <div className='border-bottom'>
+
                         <GridTableRow cells={[
                             {
                                 displayAt: WindowSize.Md,
@@ -94,11 +96,12 @@ function ProductPurchaseOptionsTable({product}:ProductPurchaseOptionsTableProps)
                                 element: <>{(p.price && p.net_weight) ? (p.price / p.net_weight).toFixed(2) : '?'} ₽/г.</>
                             },
                         ]}/>
+                        </div>
                     )
                 }
                     
         {nav}
-        </>
+        </div>
     )
 }
 

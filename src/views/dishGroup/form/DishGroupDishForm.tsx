@@ -25,7 +25,7 @@ function DishGroupDishForm({formState}: DishGroupDishFormProps) {
         
       <Col md={5}>
           <div className="d-flex flex-column">
-            <b>Ингредиент</b>
+            <b>Блюдо</b>
             <span>
               {selected?.id}. {selected?.name}
             </span>

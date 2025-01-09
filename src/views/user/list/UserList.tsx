@@ -12,6 +12,7 @@ import { getRoles } from '../../../api/roles';
 import { projectContext } from '../../../context/ProjectContextProvider';
 import { UserPermissions } from '../../../models';
 import UsersTableHeader from './UsersTableHeader';
+import TooltipButton from '../../shared/TooltipButton';
 
 function UserList() 
 {
@@ -66,7 +67,13 @@ function UserList()
         <div className='d-flex justify-content-between'>
             <h2>Пользователи</h2>
             {hasPermission(UserPermissions.CRUD_USERS)
-                ? <Link to='/users/invite'><Button variant='success'>Пригласить</Button></Link>
+                ? <Link to='/users/invite'>
+                    <TooltipButton 
+                        tooltip='Пригласить'
+                        variant='success'>
+                        <i className='bi bi-person-plus'/>
+                    </TooltipButton>
+                </Link>
                 : <></>
             }
             

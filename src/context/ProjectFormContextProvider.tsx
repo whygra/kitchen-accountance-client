@@ -6,12 +6,12 @@ import { Container, Modal } from 'react-bootstrap';
 import { act, createContext, ReactElement, ReactNode, useContext, useEffect, useState } from 'react';
 import {  UserDTO } from '../api/users';
 import { getCookie, setCookie } from '../cookies';
-import { C_ACCESS_TOKEN, C_IS_SIGNED_IN, ServerImageData } from '../api/constants';
 import { getProject, postProject, ProjectDTO, putProject, uploadProjectBackdrop, uploadProjectLogo } from '../api/projects';
 import { constructProjectForm, ProjectFormState, projectFormToDTO } from '../models/product/ProjectFormState';
 import { constructProductForm } from '../models/product/ProductFormState';
 import { projectContext } from './ProjectContextProvider';
-import { DataAction } from '../models';
+import { DataAction, UserPermissions } from '../models';
+import { ServerImageData } from '../api/constants';
 
 
   // контекст приложения
@@ -51,8 +51,8 @@ interface ProjectFormContextProviderProps {
 }
 
 function ProjectFormContextProvider({children, action}:ProjectFormContextProviderProps) {
-  const {project, selectProject: setProject} = useContext(projectContext)
-  const [formState, setFormState] = useState(constructProjectForm())
+  const {project, loadProject: loadProjectState, hasPermission} = useContext(projectContext)
+  const [formState, setFormState] = useState(constructProjectForm(project??undefined))
   const historyLength = 10
   const [formStateHistory, setFormStateHistory] = useState<ProjectFormState[]>([])
   const [isLoading, setIsLoading] = useState(false) 
@@ -79,7 +79,7 @@ function ProjectFormContextProvider({children, action}:ProjectFormContextProvide
       loadProject()
     else
       setFormState(constructProjectForm())
-
+    
     setFormStateHistory([])
     
     setIsLoading(false)
@@ -89,12 +89,14 @@ function ProjectFormContextProvider({children, action}:ProjectFormContextProvide
     if (id === undefined)
       throw Error("Ошибка загрузки данных: отсутствует id проекта")
 
-    const project = await getProject(parseInt(id))
-
+    const project = await loadProjectState(parseInt(id))
+    
     if (project === null)
       throw Error("Не удалось получить данные проекта")
 
-    setProject(project)
+    if(!(action==DataAction.Create || hasPermission(UserPermissions.EDIT_PROJECT)))
+      throw {name:'403', message:'Нет прав доступа'}
+
     setFormState(constructProjectForm(project))
     setInitLogoData(project.logo)
     setInitBackdropData(project.backdrop)

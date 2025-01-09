@@ -63,9 +63,7 @@ function DishList()
         }
         </div>
         <hr/>
-        <div className='ps-3'>
-            {header}
-        </div>
+        {header}
 
         <Accordion>
             {filtered

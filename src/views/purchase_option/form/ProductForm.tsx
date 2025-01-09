@@ -38,10 +38,9 @@ function ProductForm({formState, openSelect}: ProductFormProps) {
           style={formState.dataAction==DataAction.Delete ? {pointerEvents: "none", opacity: "0.4"} : {}}
           >
             <Row>
-  
               <Col sm={6} className='mb-2'>
                 <div className="d-flex flex-row justify-content-between">
-                <b>Продукт</b>
+                <Form.Label>Продукт</Form.Label>
                   <IsCreateSwitch
                     dataAction={formState.dataAction}
                     setDataAction={setAction}

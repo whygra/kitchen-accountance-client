@@ -1,3 +1,11 @@
+
+
+export const C_ACCESS_TOKEN = 'access_token';
+export const C_IS_SIGNED_IN = 'is_signed_in';
+export const C_USER_DATA = 'user_data';
+export const C_SELECTED_PROJECT_ID = 'selected_project_id';
+export const C_PROJECT_DATA = 'project_data';
+
 export function setCookie(cname: string, cvalue: string, exdays: number) {
     const d = new Date();
     d.setTime(d.getTime() + (exdays*24*60*60*1000));

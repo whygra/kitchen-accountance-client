@@ -11,6 +11,7 @@ import useSortPurchaseOptions, { PurchaseOptionField } from '../../../hooks/sort
 import useProductSelect from '../../../hooks/tableSelect/useProductSelect';
 import { DataAction } from '../../../models';
 import { PurchaseOptionDTO } from '../../../api/purchaseOptions';
+import FormListButtons from '../../shared/FormListButtons';
 
 interface PurchaseOptionFormListProps {
   goToInvalid?: boolean
@@ -262,23 +263,13 @@ function PurchaseOptionFormList({goToInvalid}:PurchaseOptionFormListProps) {
       }
 
       {nav}
-      <div className="d-flex flex-row-reverse mt-2">
-
-        <TooltipButton
-          tooltip='Добавить позицию'
-          variant='success'
-          onClick={handleAdd}
-        ><i className='bi bi-plus-lg'/></TooltipButton>
-
-        <BtnAskConfirmation
-          tooltip='удалить все'
-          variant="danger"
-          onConfirm={removeAllPurchaseOptionForms}
-          prompt='удалить все позиции закупки? несохраненные данные будут утеряны'
-        ><i className='bi bi-x-lg'/></BtnAskConfirmation>
-      </div>
-
+      <FormListButtons
+        addFn={handleAdd}
+        deleteAllFn={removeAllPurchaseOptionForms}
+      />
+      <div className='links-disabled'>
       {modalSelect}
+      </div>
 
     </div>
   )

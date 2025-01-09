@@ -36,7 +36,7 @@ function IngredientsTable({ingredients, fieldsToExclude}:IngredientTableProps)
     const {sliceLimits, nav} = usePagination(filtered.length);
 
     return (
-        <>
+        <div className='mb-3'>
             {header}
             {   
                 filtered
@@ -51,7 +51,7 @@ function IngredientsTable({ingredients, fieldsToExclude}:IngredientTableProps)
                     )
             }
         {nav}
-        </>
+        </div>
     )
 }
 

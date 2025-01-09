@@ -66,9 +66,7 @@ function DistributorList()
         }
         </div>
         <hr/>
-        <Row className='ps-1'>
             {header}
-        </Row>
         <Accordion>
             {filtered.slice(sliceLimits.start, sliceLimits.end).map(d=>
                 <DistributorListItem onDelete={async()=>{await loadDistributors()}} distributor={d}/>

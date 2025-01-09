@@ -1,5 +1,5 @@
-import { getCookie } from "../cookies";
-import { C_ACCESS_TOKEN, BASE_URL, C_SELECTED_PROJECT_ID, PROJECT_PATH } from "./constants";
+import { BASE_URL, ServerImageData, getProjectPath } from "./constants"
+import { C_ACCESS_TOKEN, C_SELECTED_PROJECT_ID, getCookie } from "../cookies"
 import { ProductDTO } from "./products";
 import { UserDTO } from "./users";
 
@@ -15,7 +15,7 @@ export interface ProductCategoryDTO {
 }
 
 export const getProductCategories = async () : Promise<ProductCategoryDTO[] | null> => {
-  const response = await fetch(`${BASE_URL}/${PROJECT_PATH}/${parseInt(getCookie(C_SELECTED_PROJECT_ID))}/${ENTITY_PATH}/all`,{
+  const response = await fetch(`${BASE_URL}/${getProjectPath()}/${getCookie(C_SELECTED_PROJECT_ID)}/${ENTITY_PATH}/all`,{
     headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer '+getCookie(C_ACCESS_TOKEN)
@@ -32,7 +32,7 @@ export const getProductCategories = async () : Promise<ProductCategoryDTO[] | nu
 }
 
 export const getProductCategoriesWithProducts = async () : Promise<ProductCategoryDTO[] | null> => {
-  const response = await fetch(`${BASE_URL}/${PROJECT_PATH}/${parseInt(getCookie(C_SELECTED_PROJECT_ID))}/${ENTITY_PATH}/${WITH_PRODUCTS}/all`,{
+  const response = await fetch(`${BASE_URL}/${getProjectPath()}/${getCookie(C_SELECTED_PROJECT_ID)}/${ENTITY_PATH}/${WITH_PRODUCTS}/all`,{
     headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer '+getCookie(C_ACCESS_TOKEN)
@@ -49,7 +49,7 @@ export const getProductCategoriesWithProducts = async () : Promise<ProductCatego
 }
 
 export const getProductCategoryWithProducts = async (id: number) : Promise<ProductCategoryDTO | null> => {
-  const response = await fetch(`${BASE_URL}/${PROJECT_PATH}/${parseInt(getCookie(C_SELECTED_PROJECT_ID))}/${ENTITY_PATH}/${WITH_PRODUCTS}/${id}`,{
+  const response = await fetch(`${BASE_URL}/${getProjectPath()}/${getCookie(C_SELECTED_PROJECT_ID)}/${ENTITY_PATH}/${WITH_PRODUCTS}/${id}`,{
     headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer '+getCookie(C_ACCESS_TOKEN)
@@ -66,7 +66,7 @@ export const getProductCategoryWithProducts = async (id: number) : Promise<Produ
 }
 
 export const postProductCategory = async (createData: ProductCategoryDTO): Promise<ProductCategoryDTO | null> => {
-  const response = await fetch(`${BASE_URL}/${PROJECT_PATH}/${parseInt(getCookie(C_SELECTED_PROJECT_ID))}/${ENTITY_PATH}/create`, {
+  const response = await fetch(`${BASE_URL}/${getProjectPath()}/${getCookie(C_SELECTED_PROJECT_ID)}/${ENTITY_PATH}/create`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -86,7 +86,7 @@ export const postProductCategory = async (createData: ProductCategoryDTO): Promi
 }
 
 export const postProductCategoryWithProducts = async (createData: ProductCategoryDTO): Promise<ProductCategoryDTO | null> => {
-  const response = await fetch(`${BASE_URL}/${PROJECT_PATH}/${parseInt(getCookie(C_SELECTED_PROJECT_ID))}/${ENTITY_PATH}/${WITH_PRODUCTS}/create`, {
+  const response = await fetch(`${BASE_URL}/${getProjectPath()}/${getCookie(C_SELECTED_PROJECT_ID)}/${ENTITY_PATH}/${WITH_PRODUCTS}/create`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -106,7 +106,7 @@ export const postProductCategoryWithProducts = async (createData: ProductCategor
 }
 
 export const putProductCategory = async (productСategoryData: ProductCategoryDTO): Promise<ProductCategoryDTO | null> => {
-  const response = await fetch(`${BASE_URL}/${PROJECT_PATH}/${parseInt(getCookie(C_SELECTED_PROJECT_ID))}/${ENTITY_PATH}/update/${productСategoryData.id}`, {
+  const response = await fetch(`${BASE_URL}/${getProjectPath()}/${getCookie(C_SELECTED_PROJECT_ID)}/${ENTITY_PATH}/update/${productСategoryData.id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -126,7 +126,7 @@ export const putProductCategory = async (productСategoryData: ProductCategoryDT
 }
 
 export const putProductCategoryWithProducts = async (productСategoryData: ProductCategoryDTO): Promise<ProductCategoryDTO | null> => {
-  const response = await fetch(`${BASE_URL}/${PROJECT_PATH}/${parseInt(getCookie(C_SELECTED_PROJECT_ID))}/${ENTITY_PATH}/${WITH_PRODUCTS}/update/${productСategoryData.id}`, {
+  const response = await fetch(`${BASE_URL}/${getProjectPath()}/${getCookie(C_SELECTED_PROJECT_ID)}/${ENTITY_PATH}/${WITH_PRODUCTS}/update/${productСategoryData.id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -146,7 +146,7 @@ export const putProductCategoryWithProducts = async (productСategoryData: Produ
 }
 
 export const deleteProductCategory = async (id: number): Promise<Object | null> => {
-  const response = await fetch(`${BASE_URL}/${PROJECT_PATH}/${parseInt(getCookie(C_SELECTED_PROJECT_ID))}/${ENTITY_PATH}/${WITH_PRODUCTS}/delete/${id}`, {
+  const response = await fetch(`${BASE_URL}/${getProjectPath()}/${getCookie(C_SELECTED_PROJECT_ID)}/${ENTITY_PATH}/${WITH_PRODUCTS}/delete/${id}`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',

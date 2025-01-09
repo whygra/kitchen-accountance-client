@@ -59,9 +59,7 @@ function ProductList()
         }
         </div>
         <hr/>
-            <div className='ps-3'>
                 {header}
-            </div>
         <Accordion>
             {filtered
                 .slice(sliceLimits.start, sliceLimits.end)

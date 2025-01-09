@@ -1,6 +1,6 @@
-import { getCookie } from "../cookies";
 import { DataAction } from "../models";
-import { C_ACCESS_TOKEN, BASE_URL, C_SELECTED_PROJECT_ID, PROJECT_PATH } from "./constants";
+import { BASE_URL, ServerImageData, getProjectPath } from "./constants"
+import { C_ACCESS_TOKEN, C_SELECTED_PROJECT_ID, getCookie } from "../cookies"
 import { DishDTO } from "./dishes";
 import { IngredientCategoryDTO } from "./ingredientCategories";
 import { IngredientGroupDTO } from "./ingredientGroups";
@@ -37,7 +37,7 @@ export interface IngredientTypeDTO {
 
 
 export const getIngredients = async () : Promise<IngredientDTO[] | null> => {
-  const response = await fetch(`${BASE_URL}/${PROJECT_PATH}/${parseInt(getCookie(C_SELECTED_PROJECT_ID))}/${ENTITY_PATH}/all`,{
+  const response = await fetch(`${BASE_URL}/${getProjectPath()}/${getCookie(C_SELECTED_PROJECT_ID)}/${ENTITY_PATH}/all`,{
     headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer '+getCookie(C_ACCESS_TOKEN)
@@ -54,7 +54,7 @@ export const getIngredients = async () : Promise<IngredientDTO[] | null> => {
 }
 
 export const postIngredient = async (createData: IngredientDTO): Promise<IngredientDTO | null> => {
-  const response = await fetch(`${BASE_URL}/${PROJECT_PATH}/${parseInt(getCookie(C_SELECTED_PROJECT_ID))}/${ENTITY_PATH}/create`, {
+  const response = await fetch(`${BASE_URL}/${getProjectPath()}/${getCookie(C_SELECTED_PROJECT_ID)}/${ENTITY_PATH}/create`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -74,7 +74,7 @@ export const postIngredient = async (createData: IngredientDTO): Promise<Ingredi
 }
 
 export const putIngredient = async (ingredientData: IngredientDTO): Promise<IngredientDTO | null> => {
-  const response = await fetch(`${BASE_URL}/${PROJECT_PATH}/${parseInt(getCookie(C_SELECTED_PROJECT_ID))}/${ENTITY_PATH}/${ingredientData.id}`, {
+  const response = await fetch(`${BASE_URL}/${getProjectPath()}/${getCookie(C_SELECTED_PROJECT_ID)}/${ENTITY_PATH}/${ingredientData.id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -96,7 +96,7 @@ export const putIngredient = async (ingredientData: IngredientDTO): Promise<Ingr
 
 export const putIngredientWithProducts = async (updateData: IngredientDTO): Promise<IngredientDTO | null> => {
   console.log(updateData)
-  const response = await fetch(`${BASE_URL}/${PROJECT_PATH}/${parseInt(getCookie(C_SELECTED_PROJECT_ID))}/${ENTITY_PATH}/${WITH_PRODUCTS}/update/${updateData.id}`, {
+  const response = await fetch(`${BASE_URL}/${getProjectPath()}/${getCookie(C_SELECTED_PROJECT_ID)}/${ENTITY_PATH}/${WITH_PRODUCTS}/update/${updateData.id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -117,7 +117,7 @@ export const putIngredientWithProducts = async (updateData: IngredientDTO): Prom
 
 export const postIngredientWithProducts = async (createData: IngredientDTO): Promise<IngredientDTO | null> => {
   console.log(createData);
-  const response = await fetch(`${BASE_URL}/${PROJECT_PATH}/${parseInt(getCookie(C_SELECTED_PROJECT_ID))}/${ENTITY_PATH}/${WITH_PRODUCTS}/create`, {
+  const response = await fetch(`${BASE_URL}/${getProjectPath()}/${getCookie(C_SELECTED_PROJECT_ID)}/${ENTITY_PATH}/${WITH_PRODUCTS}/create`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -137,7 +137,7 @@ export const postIngredientWithProducts = async (createData: IngredientDTO): Pro
 }
 
 export const getIngredientsWithProducts = async () : Promise<IngredientDTO[] | null> => {
-  const response = await fetch(`${BASE_URL}/${PROJECT_PATH}/${parseInt(getCookie(C_SELECTED_PROJECT_ID))}/${ENTITY_PATH}/${WITH_PRODUCTS}/all`,{
+  const response = await fetch(`${BASE_URL}/${getProjectPath()}/${getCookie(C_SELECTED_PROJECT_ID)}/${ENTITY_PATH}/${WITH_PRODUCTS}/all`,{
     headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer '+getCookie(C_ACCESS_TOKEN)
@@ -154,7 +154,7 @@ export const getIngredientsWithProducts = async () : Promise<IngredientDTO[] | n
 }
 
 export const getIngredientWithProducts = async (id: number) : Promise<IngredientDTO | null> => {
-  const response = await fetch(`${BASE_URL}/${PROJECT_PATH}/${parseInt(getCookie(C_SELECTED_PROJECT_ID))}/${ENTITY_PATH}/${WITH_PRODUCTS}/${id}`,{
+  const response = await fetch(`${BASE_URL}/${getProjectPath()}/${getCookie(C_SELECTED_PROJECT_ID)}/${ENTITY_PATH}/${WITH_PRODUCTS}/${id}`,{
     headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer '+getCookie(C_ACCESS_TOKEN)
@@ -171,7 +171,7 @@ export const getIngredientWithProducts = async (id: number) : Promise<Ingredient
 }
 
 export const getIngredientWithPurchaseOptions = async (id: number) : Promise<IngredientDTO | null> => {
-  const response = await fetch(`${BASE_URL}/${PROJECT_PATH}/${parseInt(getCookie(C_SELECTED_PROJECT_ID))}/${ENTITY_PATH}/${WITH_PURCHASE_OPTIONS}/${id}`,{
+  const response = await fetch(`${BASE_URL}/${getProjectPath()}/${getCookie(C_SELECTED_PROJECT_ID)}/${ENTITY_PATH}/${WITH_PURCHASE_OPTIONS}/${id}`,{
     headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer '+getCookie(C_ACCESS_TOKEN)
@@ -188,7 +188,7 @@ export const getIngredientWithPurchaseOptions = async (id: number) : Promise<Ing
 }
 
 export const deleteIngredient = async (id: number): Promise<IngredientDTO | null> => {
-  const response = await fetch(`${BASE_URL}/${PROJECT_PATH}/${parseInt(getCookie(C_SELECTED_PROJECT_ID))}/${ENTITY_PATH}/delete/${id}`, {
+  const response = await fetch(`${BASE_URL}/${getProjectPath()}/${getCookie(C_SELECTED_PROJECT_ID)}/${ENTITY_PATH}/delete/${id}`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',

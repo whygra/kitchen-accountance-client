@@ -19,7 +19,7 @@ interface ProjectListItemProps {
 
 function ProjectListItem({project, onDeleted}: ProjectListItemProps) 
 {   
-    const {project: selectedProject, selectProject: setProject, hasPermission} = useContext(projectContext)
+    const {project: selectedProject, loadProject, hasPermission} = useContext(projectContext)
     const {user} = useContext(authContext)
     const {showModal, hideModal} = useContext(appContext)
 
@@ -29,25 +29,26 @@ function ProjectListItem({project, onDeleted}: ProjectListItemProps)
             .catch()
             .then(()=>{
                 if(selectedProject?.id==project.id)
-                    setProject(null)
+                    loadProject()
                 onDeleted()
                 hideModal()
             })
     }
 
     const selectProject = () => {
-        setProject(project)
+        loadProject(project.id)
     }
 
     return (
-        <div className={`w-100 text-center ${
+        <div 
+            style={{minHeight: '70pt'}}
+            className={`w-100 text-center ${
             selectedProject?.id==project.id 
                 ? 'table-primary'
                 : ''
         }`}>
             <div className='position-relative w-100 pe-5'>
                 <GridTableRow cells={[
-                
                     {
                         span: 6,
                         element:
@@ -55,11 +56,11 @@ function ProjectListItem({project, onDeleted}: ProjectListItemProps)
                     }
                 ]}
                 />
-                <div className='position-absolute end-0 top-0 mt-1 me-2 d-flex flex-column'>
+                <div className='position-absolute h-100 end-0 top-0 my-1 me-2 d-flex flex-column justify-content-center gap-1'>
                     {selectedProject?.id==project.id
                     ?
                     <TooltipButton
-                        onClick={()=>setProject(null)}
+                        onClick={()=>loadProject()}
                         tooltip='отменить выбор'
                         variant='secondary'
                     >

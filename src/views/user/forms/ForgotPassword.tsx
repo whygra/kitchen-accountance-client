@@ -1,5 +1,5 @@
 import { Button, Container, Form } from 'react-bootstrap';
-import { useContext, useState } from 'react';
+import { FormEvent, useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import SelectCreateCategoryGroup from '../../shared/selectCreateGroup/SelectCreateGroup';
 import { DataAction } from '../../../models';
@@ -38,6 +38,21 @@ function ForgotPassword()
   function cancel() {
     navigate(-1)
   }
+     
+  const [validated, setValidated] = useState(false);
+
+  const handleSubmit = (event:FormEvent) => {
+    event.preventDefault();
+    
+    const form = event.currentTarget as any;
+    if (form.checkValidity() === false) {
+      event.stopPropagation();      
+      setValidated(true);
+      return
+    }
+
+    commit()
+  };
 
   return (
       <Container className='pt-5'>

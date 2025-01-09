@@ -78,11 +78,11 @@ function DistributorForm()
   };
 
   return (<>
-        <HistoryNav
+        <HistoryNav 
           history={history}
           reloadFn={reloadState}
         />
-        <Form aria-disabled={disabled} noValidate validated={validated} onSubmit={handleSubmit}>
+        <Form className='pb-5' aria-disabled={disabled} noValidate validated={validated} onSubmit={handleSubmit}>
 
         <Form.Group className='mb-3'>
         <Form.Label><b>Название организации</b></Form.Label>

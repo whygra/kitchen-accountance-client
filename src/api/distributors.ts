@@ -1,6 +1,6 @@
-import { getCookie } from "../cookies"
+import { C_ACCESS_TOKEN, C_SELECTED_PROJECT_ID, getCookie } from "../cookies"
 import { DataAction } from "../models"
-import { C_ACCESS_TOKEN, BASE_URL, C_SELECTED_PROJECT_ID, PROJECT_PATH } from "./constants"
+import { BASE_URL, getProjectPath } from "./constants"
 import { ProductDTO } from "./products"
 import { DistributorPurchaseOptionColumnIndexes, DistributorPurchaseOptionDTO, PurchaseOptionDTO } from "./purchaseOptions"
 import { UnitDTO } from "./units"
@@ -24,8 +24,7 @@ export interface InsertDistributorPurchaseOptionsFromXLSX {
 } 
 
 export const putDistributorWithPurchaseOptions = async (updateData: DistributorDTO): Promise<DistributorDTO | null> => {
-  console.log(updateData)
-  const response = await fetch(`${BASE_URL}/${PROJECT_PATH}/${parseInt(getCookie(C_SELECTED_PROJECT_ID))}/${ENTITY_PATH}/${WITH_PURCHASE_OPTIONS}/update/${updateData.id}`, {
+  const response = await fetch(`${BASE_URL}/${getProjectPath()}/${getCookie(C_SELECTED_PROJECT_ID)}/${ENTITY_PATH}/${WITH_PURCHASE_OPTIONS}/update/${updateData.id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -51,8 +50,7 @@ export const uploadDistributorPurchaseOptionsSpreadsheet = async (insertData: In
   formData.append('id', `${insertData.id}`)
   formData.append('column_indexes', JSON.stringify(insertData.column_indexes))
   formData.append('file', insertData.file)
-  console.log(formData.values)
-  const response = await fetch(`${BASE_URL}/${PROJECT_PATH}/${parseInt(getCookie(C_SELECTED_PROJECT_ID))}/${ENTITY_PATH}/${WITH_PURCHASE_OPTIONS}/${insertData.id}/upload-options-file`, {
+  const response = await fetch(`${BASE_URL}/${getProjectPath()}/${getCookie(C_SELECTED_PROJECT_ID)}/${ENTITY_PATH}/${WITH_PURCHASE_OPTIONS}/${insertData.id}/upload-options-file`, {
     method: 'POST',
     headers: {
       'Authorization': 'Bearer '+getCookie(C_ACCESS_TOKEN)
@@ -72,7 +70,7 @@ export const uploadDistributorPurchaseOptionsSpreadsheet = async (insertData: In
 
 export const postDistributorWithPurchaseOptions = async (createData: DistributorDTO): Promise<DistributorDTO | null> => {
   console.log(createData);
-  const response = await fetch(`${BASE_URL}/${PROJECT_PATH}/${parseInt(getCookie(C_SELECTED_PROJECT_ID))}/${ENTITY_PATH}/${WITH_PURCHASE_OPTIONS}/create`, {
+  const response = await fetch(`${BASE_URL}/${getProjectPath()}/${getCookie(C_SELECTED_PROJECT_ID)}/${ENTITY_PATH}/${WITH_PURCHASE_OPTIONS}/create`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -93,7 +91,7 @@ export const postDistributorWithPurchaseOptions = async (createData: Distributor
 }
 
 export const getDistributors = async () : Promise<DistributorDTO[] | null> => {
-  const response = await fetch(`${BASE_URL}/${PROJECT_PATH}/${parseInt(getCookie(C_SELECTED_PROJECT_ID))}/${ENTITY_PATH}/all`,{
+  const response = await fetch(`${BASE_URL}/${getProjectPath()}/${getCookie(C_SELECTED_PROJECT_ID)}/${ENTITY_PATH}/all`,{
     headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer '+getCookie(C_ACCESS_TOKEN)
@@ -110,7 +108,7 @@ export const getDistributors = async () : Promise<DistributorDTO[] | null> => {
 }
 
 export const getDistributorsWithPurchaseOptions = async () : Promise<DistributorDTO[] | null> => {
-  const response = await fetch(`${BASE_URL}/${PROJECT_PATH}/${parseInt(getCookie(C_SELECTED_PROJECT_ID))}/${ENTITY_PATH}/${WITH_PURCHASE_OPTIONS}/all`, {
+  const response = await fetch(`${BASE_URL}/${getProjectPath()}/${getCookie(C_SELECTED_PROJECT_ID)}/${ENTITY_PATH}/${WITH_PURCHASE_OPTIONS}/all`, {
     headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer '+getCookie(C_ACCESS_TOKEN)
@@ -127,7 +125,7 @@ export const getDistributorsWithPurchaseOptions = async () : Promise<Distributor
 }
 
 export const getDistributorWithPurchaseOptions = async (id: number) : Promise<DistributorDTO | null> => {
-  const response = await fetch(`${BASE_URL}/${PROJECT_PATH}/${parseInt(getCookie(C_SELECTED_PROJECT_ID))}/${ENTITY_PATH}/${WITH_PURCHASE_OPTIONS}/${id}`,{
+  const response = await fetch(`${BASE_URL}/${getProjectPath()}/${getCookie(C_SELECTED_PROJECT_ID)}/${ENTITY_PATH}/${WITH_PURCHASE_OPTIONS}/${id}`,{
     headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer '+getCookie(C_ACCESS_TOKEN)
@@ -145,7 +143,7 @@ export const getDistributorWithPurchaseOptions = async (id: number) : Promise<Di
 }
 
 export const deleteDistributor = async (id: number): Promise<DistributorDTO | null> => {
-  const response = await fetch(`${BASE_URL}/${PROJECT_PATH}/${parseInt(getCookie(C_SELECTED_PROJECT_ID))}/${ENTITY_PATH}/delete/${id}`, {
+  const response = await fetch(`${BASE_URL}/${getProjectPath()}/${getCookie(C_SELECTED_PROJECT_ID)}/${ENTITY_PATH}/delete/${id}`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',

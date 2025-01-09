@@ -22,7 +22,7 @@ function PurchaseOptionsTableItem({purchaseOption, fieldsToExclude}:PurchaseOpti
             field: PurchaseOptionField.Name,
             element: 
                 <Link to={`/purchase-options/details/${purchaseOption.id}`}>{purchaseOption.name}</Link>,
-            span: 3
+            span: 5
         },
         {   
             displayAt: WindowSize.Sm,

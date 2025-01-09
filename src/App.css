@@ -11,21 +11,37 @@
   text-wrap: nowrap;
 }
 
+.buttons-disabled .accordion-button::after {
+  background-image: unset !important;
+}
+
 .accordion-header a {
   color: currentColor;
   pointer-events: none;
   text-decoration: none;
 }
+
+.accordion-header button {
+  padding-left: 1pt;
+}
+
 .links-disabled a {
   color: currentColor;
   pointer-events: none;
   text-decoration: none;
+}
+.buttons-disabled button {
+  pointer-events: none !important;
 }
 
 .grid {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
 }
+
+/* .logo-text {
+  font-size: 75pt -;
+} */
 
 .logo {
   image-resolution: 200dpi;
@@ -38,6 +54,7 @@
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
 }
+
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
 }

@@ -47,7 +47,7 @@ function PurchaseOptionList()
     , [purchaseOptions])
 
     
-    const {getComparer, getPredicate, header} = usePurchaseOptionsTableHeader(false, [PurchaseOptionField.Product])
+    const {getComparer, getPredicate, header} = usePurchaseOptionsTableHeader(false)
     
     const filtered = purchaseOptions
     ?.filter(getPredicate())
@@ -71,7 +71,7 @@ function PurchaseOptionList()
         }
         </div>
         <hr/>
-        <div className='ps-3'>{header}</div>
+        {header}
 
         <Accordion>
             {filtered

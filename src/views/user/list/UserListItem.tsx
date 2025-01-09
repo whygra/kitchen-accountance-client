@@ -54,7 +54,7 @@ function UserListItem({user, roles, loadData}: UserListItemProps)
     return (
         <>
         <Accordion.Item eventKey={`${user.id}`}>
-        <Accordion.Header style={{userSelect: 'text'}}>
+        <Accordion.Header className={`${hasPermission(UserPermissions.CRUD_USERS)&&user.id != current?.id?'':'buttons-disabled'}`} style={{userSelect: 'text'}}>
             <UsersTableItem user={user}/>
         </Accordion.Header>
         <Accordion.Body>

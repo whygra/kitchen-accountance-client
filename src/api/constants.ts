@@ -1,10 +1,13 @@
-export const BASE_URL = 'https://www.kitchen-accountance.ru/api';
-// export const BASE_URL = 'http://127.0.0.1:8000/api';
+import { C_IS_SIGNED_IN, getCookie } from "../cookies";
+
+// export const BASE_URL = 'https://www.kitchen-accountance.ru/api';
+export const BASE_URL = 'http://127.0.0.1:8000/api';
 export const PROJECT_PATH = 'project';
-export const C_ACCESS_TOKEN = 'access_token';
-export const C_IS_SIGNED_IN = 'is_signed_in';
-export const C_SELECTED_PROJECT_ID = 'selected_project_id';
-export const C_PROJECT_PERMISSIONS = 'project_permissions';
+
+export const getProjectPath = () => {
+    const isSignedIn = getCookie(C_IS_SIGNED_IN) != ''
+    return `${isSignedIn ? '' : 'public/'}${PROJECT_PATH}`
+}
 
 export const parseJsonOrNull = (text: string)=>{
     try{

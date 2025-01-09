@@ -1,7 +1,6 @@
-import { getCookie, setCookie } from "../cookies";
-import { UserPermissions } from "../models";
-import { C_ACCESS_TOKEN, BASE_URL, C_IS_SIGNED_IN, C_SELECTED_PROJECT_ID, C_PROJECT_PERMISSIONS } from "./constants";
-import { ProjectDTO, RoleDTO } from "./projects";
+import { C_PROJECT_DATA, C_USER_DATA, getCookie, setCookie } from "../cookies";
+import { C_ACCESS_TOKEN, C_IS_SIGNED_IN } from "../cookies";
+import { BASE_URL } from "./constants";
 import { UserDTO } from "./users";
 
 const ENTITY_PATH = "auth"
@@ -21,14 +20,12 @@ export const getCurrent = async () : Promise<UserDTO | null> => {
   })
   const data = await response.json().catch(e=>{throw e})
   if (!response.ok) {
-    setCookie(C_IS_SIGNED_IN, '', 0)
     throw {
       message: `Не удалось получить данные пользователя ${data?.message}`,
       name: `${response.status} ${response.statusText}`,
       errors: data?.errors,
     }
   }
-  setCookie(C_IS_SIGNED_IN, 'true', 300)
   return data
 }
 
@@ -40,8 +37,7 @@ export const signUp = async (createData: UserDTO): Promise<AuthResponse | null> 
     },
     body: JSON.stringify(createData)
   })
-  console.log(createData)
-  const data = await response.json().catch(e=>{throw e})
+  const data = await response.json()
   if (!response.ok) 
     throw {
       message: `Не удалось создать учетную запись ${data?.message}`,
@@ -90,7 +86,6 @@ export const forgotPassword = async (email: string): Promise<{message:string}|nu
 }
 
 export const resetPassword = async (body: {email: string, password: string, token: string}): Promise<{message:string}|null> => {
-  console.log(body)
   const response = await fetch(`${BASE_URL}/${ENTITY_PATH}/reset-password`, {
     method: 'POST',
     headers: {
@@ -121,14 +116,12 @@ export const signIn = async (userData: UserDTO, remember = true): Promise<AuthRe
   })
   const data = await response.json().catch(e=>null)
   if (!response.ok) {
-    console.log(data)
     throw {
       message: `Не удалось выполнить вход ${data?.message}`,
       name: `${response.status} ${response.statusText}`,
       errors: data?.errors,
     }
   }
-  console.log(data)
   setCookie(C_ACCESS_TOKEN, data.access_token, 300)
   setCookie(C_IS_SIGNED_IN, 'true', 300)
 
@@ -150,11 +143,7 @@ export const signOut = async (): Promise<AuthResponse | null> => {
     errors: data?.errors,
   }
   
-  setCookie(C_SELECTED_PROJECT_ID, '', 0)
-  setCookie(C_PROJECT_PERMISSIONS, '', 0)
-
-  setCookie(C_ACCESS_TOKEN, '', 0)
-  setCookie(C_IS_SIGNED_IN, '', 0)
+  
   return data
 }
 

@@ -1,6 +1,6 @@
-import { C_ACCESS_TOKEN, BASE_URL, ServerImageData, C_SELECTED_PROJECT_ID, PROJECT_PATH } from "./constants"
+import { BASE_URL, ServerImageData, getProjectPath } from "./constants"
+import { C_ACCESS_TOKEN, C_SELECTED_PROJECT_ID, getCookie } from "../cookies"
 import { DishCategoryDTO } from "./dishCategories"
-import { getCookie } from "../cookies"
 import { IngredientDTO } from "./ingredients"
 import { InsertDistributorPurchaseOptionsFromXLSX } from "./distributors"
 import { DishGroupDTO } from "./dishGroups"
@@ -42,8 +42,7 @@ export const calcDishWeight = (dish: DishDTO) =>
   ?? 0
 
 export const putDishWithIngredients = async (updateData: DishDTO): Promise<DishDTO | null> => {
-  console.log(updateData)
-  const response = await fetch(`${BASE_URL}/${PROJECT_PATH}/${parseInt(getCookie(C_SELECTED_PROJECT_ID))}/${ENTITY_PATH}/${WITH_INGREDIENTS}/update/${updateData.id}`, {
+  const response = await fetch(`${BASE_URL}/${getProjectPath()}/${getCookie(C_SELECTED_PROJECT_ID)}/${ENTITY_PATH}/${WITH_INGREDIENTS}/update/${updateData.id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -58,13 +57,11 @@ export const putDishWithIngredients = async (updateData: DishDTO): Promise<DishD
       name: `${response.status} ${response.statusText}`
     }
   
-    console.log(data)
   return data
 }
 
 export const postDishWithIngredients = async (createData: DishDTO): Promise<DishDTO | null> => {
-  console.log(createData);
-  const response = await fetch(`${BASE_URL}/${PROJECT_PATH}/${parseInt(getCookie(C_SELECTED_PROJECT_ID))}/${ENTITY_PATH}/${WITH_INGREDIENTS}/create`, {
+  const response = await fetch(`${BASE_URL}/${getProjectPath()}/${getCookie(C_SELECTED_PROJECT_ID)}/${ENTITY_PATH}/${WITH_INGREDIENTS}/create`, {
     method: 'POST',    
     headers: {
       'Content-Type': 'application/json',
@@ -89,7 +86,7 @@ export const uploadDishImage = async (id: number, file: File): Promise<ServerIma
   let formData = new FormData(); 
   formData.append('file', file)
   
-  const response = await fetch(`${BASE_URL}/${PROJECT_PATH}/${parseInt(getCookie(C_SELECTED_PROJECT_ID))}/${ENTITY_PATH}/${id}/upload-image`, {
+  const response = await fetch(`${BASE_URL}/${getProjectPath()}/${getCookie(C_SELECTED_PROJECT_ID)}/${ENTITY_PATH}/${id}/upload-image`, {
     method: 'POST',
     headers: {
       'Authorization': 'Bearer '+getCookie(C_ACCESS_TOKEN)
@@ -107,7 +104,7 @@ export const uploadDishImage = async (id: number, file: File): Promise<ServerIma
 }
 
 export const getDishesWithIngredients = async () : Promise<DishDTO[] | null> => {
-  const response = await fetch(`${BASE_URL}/${PROJECT_PATH}/${parseInt(getCookie(C_SELECTED_PROJECT_ID))}/${ENTITY_PATH}/${WITH_INGREDIENTS}/all`,{
+  const response = await fetch(`${BASE_URL}/${getProjectPath()}/${getCookie(C_SELECTED_PROJECT_ID)}/${ENTITY_PATH}/${WITH_INGREDIENTS}/all`,{
     headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer '+getCookie(C_ACCESS_TOKEN)
@@ -125,7 +122,7 @@ export const getDishesWithIngredients = async () : Promise<DishDTO[] | null> => 
 }
 
 export const getDishWithIngredients = async (id: number) : Promise<DishDTO | null> => {
-  const response = await fetch(`${BASE_URL}/${PROJECT_PATH}/${parseInt(getCookie(C_SELECTED_PROJECT_ID))}/${ENTITY_PATH}/${WITH_INGREDIENTS}/${id}`,{
+  const response = await fetch(`${BASE_URL}/${getProjectPath()}/${getCookie(C_SELECTED_PROJECT_ID)}/${ENTITY_PATH}/${WITH_INGREDIENTS}/${id}`,{
     headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer '+getCookie(C_ACCESS_TOKEN)
@@ -139,13 +136,11 @@ export const getDishWithIngredients = async (id: number) : Promise<DishDTO | nul
       name: `${response.status} ${response.statusText}`
     }
   
-  console.log(data)
-
   return data
 }
 
 export const getDishesWithPurchaseOptions = async () : Promise<DishDTO[] | null> => {
-  const response = await fetch(`${BASE_URL}/${PROJECT_PATH}/${parseInt(getCookie(C_SELECTED_PROJECT_ID))}/${ENTITY_PATH}/${WITH_PURCHASE_OPTIONS}/all`, {
+  const response = await fetch(`${BASE_URL}/${getProjectPath()}/${getCookie(C_SELECTED_PROJECT_ID)}/${ENTITY_PATH}/${WITH_PURCHASE_OPTIONS}/all`, {
     headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer '+getCookie(C_ACCESS_TOKEN)
@@ -165,7 +160,7 @@ export const getDishesWithPurchaseOptions = async () : Promise<DishDTO[] | null>
 }
 
 export const getDishWithPurchaseOptions = async (id: number) : Promise<DishDTO | null> => {
-  const response = await fetch(`${BASE_URL}/${PROJECT_PATH}/${parseInt(getCookie(C_SELECTED_PROJECT_ID))}/${ENTITY_PATH}/${WITH_PURCHASE_OPTIONS}/${id}`, {
+  const response = await fetch(`${BASE_URL}/${getProjectPath()}/${getCookie(C_SELECTED_PROJECT_ID)}/${ENTITY_PATH}/${WITH_PURCHASE_OPTIONS}/${id}`, {
     headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer '+getCookie(C_ACCESS_TOKEN)
@@ -185,7 +180,7 @@ export const getDishWithPurchaseOptions = async (id: number) : Promise<DishDTO |
 }
 
 export const deleteDish = async (id: number): Promise<DishDTO | null> => {
-  const response = await fetch(`${BASE_URL}/${PROJECT_PATH}/${parseInt(getCookie(C_SELECTED_PROJECT_ID))}/${ENTITY_PATH}/delete/${id}`, {
+  const response = await fetch(`${BASE_URL}/${getProjectPath()}/${getCookie(C_SELECTED_PROJECT_ID)}/${ENTITY_PATH}/delete/${id}`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',

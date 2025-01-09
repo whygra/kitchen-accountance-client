@@ -96,13 +96,12 @@ function PurchaseOptionForm()
           history={history}
           reloadFn={reloadState}
         />
-        <Form aria-disabled={disabled} noValidate validated={validated} onSubmit={handleSubmit}>
+        <Form className='pb-5' aria-disabled={disabled} noValidate validated={validated} onSubmit={handleSubmit}>
         {action == DataAction.Update
           ?
           <Form.Group>
             <p><b>Поставщик</b></p>
             <p>{distributors.find(d=>d.id==formState.distributorId)?.name??''}</p>           
-
           </Form.Group>
           :
           <Form.Group>

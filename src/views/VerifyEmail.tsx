@@ -9,11 +9,12 @@ import { appContext } from "../context/AppContextProvider";
 import { ErrorView } from "./ErrorView";
 import Loading from "./shared/Loading";
 import { useSearchParams } from "react-router-dom";
-import { getCookie } from "../cookies";
-import { C_ACCESS_TOKEN } from "../api/constants";
+import { C_ACCESS_TOKEN, getCookie } from "../cookies";
+import { authContext } from "../context/AuthContextProvider";
 
   
   export function VerifyEmail() {
+    const {updateUserData} = useContext(authContext)
     const [awaitingResponse, setAwaitingResponse] = useState(false)
 
     const [params] = useSearchParams()
@@ -42,8 +43,10 @@ import { C_ACCESS_TOKEN } from "../api/constants";
         setResData({
           message: `Не удалось подтвердить почту: ${data?.message}`,
         })
-      else
+      else{
         setResData(data)
+        updateUserData()
+      }
       
       setAwaitingResponse(false)
 

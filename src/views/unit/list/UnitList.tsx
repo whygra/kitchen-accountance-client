@@ -47,12 +47,17 @@ function UnitList()
 
             <h2>Единицы измерения</h2>
         </div>
-        <Card>
+        <Card className='p-1'>
 
         <Table className='text-center'>
             <thead>
                 <tr>
-                    <th><UnitsTableHeader/></th>
+                    <th colSpan={2}>Наименование</th>
+                    <th></th>
+                </tr>
+                <tr>
+                    <th>Полное</th>
+                    <th>Краткое</th>
                     <th></th>
                 </tr>
             </thead>

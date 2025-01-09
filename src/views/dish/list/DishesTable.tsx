@@ -25,13 +25,13 @@ function DishesTable({dishes, fieldsToExclude}:DishTableProps)
     const {sliceLimits, nav} = usePagination(filtered.length);
 
     return (
-        <>
+        <div className='mb-3'>
             {header}
             {   
                 filtered
                     ?.slice(sliceLimits.start, sliceLimits.end)
                     .map(i=>
-                        <div className='pe-5 border-top'>
+                        <div className='pe-5 border-bottom'>
                             <DishesTableItem 
                                 dish={i}
                                 fieldsToExclude={fieldsToExclude}
@@ -40,7 +40,7 @@ function DishesTable({dishes, fieldsToExclude}:DishTableProps)
                     )
             }
         {nav}
-        </>
+        </div>
     )
 }
 

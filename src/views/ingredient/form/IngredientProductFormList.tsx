@@ -9,6 +9,7 @@ import { appContext } from '../../../context/AppContextProvider'
 import TooltipButton from '../../shared/TooltipButton'
 import BtnAskConfirmation from '../../shared/BtnAskConfirmation'
 import useProductSelect from '../../../hooks/tableSelect/useProductSelect';
+import FormListButtons from '../../shared/FormListButtons';
 
 function IngredientProductFormList() {
 
@@ -46,23 +47,13 @@ function IngredientProductFormList() {
           </div>)
       }
       
-      <div className="d-flex flex-row-reverse mt-2">
-
-        <TooltipButton
-          tooltip='добавить продукт'
-          variant='success'
-          onClick={addIngredientProductForm}
-        ><i className='bi bi-plus-lg'/></TooltipButton>
-
-        <BtnAskConfirmation
-          tooltip='удалить все'
-          variant="danger"
-          onConfirm={removeAllIngredientProductForms}
-          prompt='удалить все продукты?'
-        ><i className='bi bi-x-lg'/></BtnAskConfirmation>
-      </div>
-
+      <FormListButtons
+        addFn={addIngredientProductForm}
+        deleteAllFn={removeAllIngredientProductForms}
+      />
+      <div className='links-disabled'>
       {modalSelect}
+      </div>
     </div>
   )
 }

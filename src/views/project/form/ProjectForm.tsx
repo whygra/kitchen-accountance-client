@@ -18,7 +18,6 @@ function ProjectForm()
   const logoInputRef = useRef<HTMLInputElement>(null)
   const backdropInputRef = useRef<HTMLInputElement>(null)
 
-  
   const navigate = useNavigate()
   
   const [disabled, setDisabled] = useState(false)
@@ -31,10 +30,6 @@ function ProjectForm()
     history, reloadState, action
   } = useContext(projectFormContext);
   
-  useEffect(()=>{
-    if(!(action==DataAction.Create || hasPermission(UserPermissions.EDIT_PROJECT)))
-      throw {name:'403', message:'Нет прав доступа'}
-  }, [])
 
   async function commit() {
 
@@ -110,7 +105,7 @@ function ProjectForm()
           history={history}
           reloadFn={reloadState}
         />
-        <Form aria-disabled={disabled} noValidate validated={validated} onSubmit={handleSubmit}>
+        <Form className='pb-5' aria-disabled={disabled} noValidate validated={validated} onSubmit={handleSubmit}>
         <Form.Group className='mb-3'>
           <Form.Label><b>Название</b></Form.Label>
           <Form.Control

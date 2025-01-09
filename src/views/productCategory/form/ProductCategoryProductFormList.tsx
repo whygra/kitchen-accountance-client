@@ -8,6 +8,7 @@ import useProductSelect from '../../../hooks/tableSelect/useProductSelect';
 import { productCategoryFormContext } from '../../../context/product/ProductCategoryFormContext';
 import ProductCategoryProductForm from './ProductCategoryProductForm';
 import { ProductField } from '../../../hooks/sort/useSortProducts';
+import FormListButtons from '../../shared/FormListButtons';
 
 function ProductCategoryProductFormList() {
 
@@ -51,9 +52,9 @@ function ProductCategoryProductFormList() {
 
   return (
     <>
-    <Container>
+    <div>
       
-      <Form.Label><b>Ингредиенты:</b></Form.Label>
+      <Form.Label><b>Продукты:</b></Form.Label>
       {
         formState.productCategoryProductForms
           .map(fs =>
@@ -62,23 +63,14 @@ function ProductCategoryProductFormList() {
             </div>
           )
       }
-      <div className="d-flex flex-row-reverse mt-2">
-
-        <TooltipButton
-          tooltip='добавить ингредиент'
-          variant='success'
-          onClick={()=>openSelect(constructProductCategoryProductForm())}
-        ><i className='bi bi-plus-lg'/></TooltipButton>
-
-        <BtnAskConfirmation
-          tooltip='исключить все'
-          variant="danger"
-          onConfirm={deleteAll}
-          prompt='исключить все ингредиенты? несохраненные данные будут утеряны'
-        ><i className='bi bi-x-lg'/></BtnAskConfirmation>
+      <FormListButtons
+        addFn={()=>openSelect(constructProductCategoryProductForm())}
+        deleteAllFn={deleteAll}
+      />
+    </div>
+      <div className='links-disabled'>
+      {modalSelect}
       </div>
-    </Container>
-    {modalSelect}
     </>
   )
 }

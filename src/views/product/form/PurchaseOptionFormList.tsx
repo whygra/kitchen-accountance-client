@@ -7,6 +7,7 @@ import { productFormContext } from '../../../context/product/ProductFormContext'
 import TooltipButton from '../../shared/TooltipButton';
 import { constructProductPurchaseOptionForm, PurchaseOptionFormState } from '../../../models/product/ProductFormState';
 import usePurchaseOptionSelect from '../../../hooks/tableSelect/usePurchaseOptionSelect';
+import FormListButtons from '../../shared/FormListButtons';
 
 function PurchaseOptionFormList() {
 
@@ -60,7 +61,7 @@ function PurchaseOptionFormList() {
 
   return (
     <>
-    <Container> 
+    <div> 
       <Form.Label><b>Позиции закупки:</b></Form.Label>
       {
         formState.purchaseOptionForms.map(formState => 
@@ -71,19 +72,11 @@ function PurchaseOptionFormList() {
           </div>)
       }
 
-      <div className="d-flex flex-row-reverse mt-2">
-        <TooltipButton
-          tooltip='Добавить позицию'
-          variant="success"
-          onClick={()=>openSelect(constructProductPurchaseOptionForm())}
-        ><i className='bi bi-plus-lg'/></TooltipButton>
-        <TooltipButton
-          tooltip='Удалить все'
-          variant="danger" 
-          onClick={confirmDeleteAll}
-        ><i className='bi bi-x-lg'/></TooltipButton>
-      </div>
-    </Container>
+      <FormListButtons
+        addFn={()=>openSelect(constructProductPurchaseOptionForm())}
+        deleteAllFn={deleteAll}
+      />
+    </div>
     <div className='links-disabled'>
     {modalSelect}
     </div>

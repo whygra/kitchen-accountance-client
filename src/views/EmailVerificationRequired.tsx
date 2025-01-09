@@ -1,4 +1,4 @@
-import { Button, Image } from "react-bootstrap";
+import { Button, Container, Image } from "react-bootstrap";
 import {
     ErrorBoundary,
     FallbackProps,
@@ -24,8 +24,7 @@ import { ErrorView } from "./ErrorView";
     }
 
     return (
-      <>
-      <h4>Требуется подтверждение email</h4>
+      <Container>
       <h5>
         <Button 
           disabled={awaitingResponse} 
@@ -38,6 +37,6 @@ import { ErrorView } from "./ErrorView";
           </Button>
         </h5>
 
-      </>
+      </Container>
     );
   }

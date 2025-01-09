@@ -6,7 +6,6 @@ import { PurchaseOptionField } from "../../../hooks/sort/useSortPurchaseOptions"
 import { EMPTY_SEARCH_PARAMS, SearchParams } from "../../../hooks/filter/useFilterDishes"
 import { DishField } from "../../../hooks/sort/useSortDishes"
 import TagSearch from "../../shared/TagSearch"
-import { COLUMN_SPANS, useGridFrames } from "../../../hooks/useGridFrames"
 import GridTableRow, { WindowSize } from "../../shared/GridTableRow"
 
 interface DishesTableHeaderProps {
@@ -223,7 +222,7 @@ function DishesTableHeader({
             </div>
             {searchOpen
             ?
-            <div className='fw-bold w-100 position-relative bg-light rounded-2 pe-5'>
+            <div className='fw-bold w-100 position-relative bg-light rounded-2 ps-2 pe-5'>
                 <GridTableRow cells={filterCells} fieldsToExclude={fieldsToExclude}/>
                 <GridTableRow cells={productsFilterCells} fieldsToExclude={fieldsToExclude}/>
                 <div className="position-absolute end-0 top-0 me-1 mt-2">

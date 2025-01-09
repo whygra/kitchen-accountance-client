@@ -30,7 +30,8 @@ export default function useProductSelect(
     .sort(selectFilter.getComparer())
 
     const modalSelect = <ModalWrapper show={displaySelect} onHide={()=>setDisplaySelect(false)}>
-    <TableSelect
+      <div className="disable-links">
+      <TableSelect
       header={selectFilter.header}
       constructRow={(p)=><ProductsTableItem fieldsToExclude={fieldsToExclude} product={p}/>}
       selectedId={selectedId}
@@ -38,7 +39,7 @@ export default function useProductSelect(
       items={filteredItems}
 
     />
-      
+      </div>
   </ModalWrapper>
 
   return {modalSelect, showSelect}

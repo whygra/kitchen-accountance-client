@@ -1,12 +1,12 @@
-import { getCookie, setCookie } from "../cookies";
+import { C_ACCESS_TOKEN, C_SELECTED_PROJECT_ID, getCookie, setCookie } from "../cookies";
 import { UserPermissions } from "../models";
-import { C_ACCESS_TOKEN, BASE_URL, C_IS_SIGNED_IN, C_SELECTED_PROJECT_ID, PROJECT_PATH } from "./constants";
+import { BASE_URL, getProjectPath } from "./constants";
 import { ProjectDTO, RoleDTO } from "./projects";
 
 const ENTITY_PATH = "roles"
 
 export const getRoles = async (): Promise<RoleDTO[] | null> => {
-  const response = await fetch(`${BASE_URL}/${PROJECT_PATH}/${parseInt(getCookie(C_SELECTED_PROJECT_ID))}/${ENTITY_PATH}/all`, {
+  const response = await fetch(`${BASE_URL}/${getProjectPath()}/${getCookie(C_SELECTED_PROJECT_ID)}/${ENTITY_PATH}/all`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',

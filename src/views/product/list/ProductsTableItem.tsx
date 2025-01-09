@@ -4,7 +4,6 @@ import { ProductField } from '../../../hooks/sort/useSortProducts';
 import { Col } from 'react-bootstrap';
 import { useMediaQuery } from 'react-responsive';
 import { useEffect, useState } from 'react';
-import {COLUMN_SPANS, useGridFrames} from '../../../hooks/useGridFrames';
 import GridTableRow, { WindowSize } from '../../shared/GridTableRow';
 
 

@@ -66,7 +66,7 @@ function DishCategoryForm()
       history={history}
       reloadFn={reloadState}
     />
-    <Form aria-disabled={disabled} noValidate validated={validated} onSubmit={handleSubmit}>
+    <Form className='pb-5' aria-disabled={disabled} noValidate validated={validated} onSubmit={handleSubmit}>
 
     <Row>
     <Col sm={12} md={6} lg={7}>

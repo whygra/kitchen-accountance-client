@@ -25,17 +25,19 @@ export default function useProductSelect(
 
     const selectFilter = useProductsTableHeader()
     const filteredItems = items
-    .filter(selectFilter.getPredicate())
-    .sort(selectFilter.getComparer())
+      .filter(selectFilter.getPredicate())
+      .sort(selectFilter.getComparer())
 
     const modalSelect = <ModalWrapper show={displaySelect} onHide={()=>setDisplaySelect(false)}>
-    <TableSelect
+      <div className="disable-links">
+      <TableSelect
       header={selectFilter.header}
       constructRow={(p)=><ProductsTableItem product={p}/>}
       selectedId={selectedId}
       setId={selectId}
       items={filteredItems}
-    />
+      />
+      </div>
       
   </ModalWrapper>
 

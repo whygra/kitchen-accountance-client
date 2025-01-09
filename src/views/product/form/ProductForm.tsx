@@ -80,7 +80,7 @@ function ProductForm()
           history={history}
           reloadFn={reloadState}
         />
-        <Form aria-disabled={disabled} noValidate validated={validated} onSubmit={handleSubmit}>
+        <Form className='pb-5' aria-disabled={disabled} noValidate validated={validated} onSubmit={handleSubmit}>
 
         <Form.Group className='mb-3'>
         <Form.Label><b>Наименование продукта</b></Form.Label>
@@ -106,6 +106,8 @@ function ProductForm()
           setId={setCategoryId}
           items={categories}
         />
+        </Form.Group>
+        <Form.Group className='mb-3'>
         <SelectCreateGroup
           label='Группа'
           selectedId={formState.groupId}

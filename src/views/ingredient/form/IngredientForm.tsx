@@ -92,7 +92,7 @@ function IngredientForm()
           history={history}
           reloadFn={reloadState}
         />
-        <Form aria-disabled={disabled} noValidate validated={validated} onSubmit={handleSubmit}>
+        <Form className='pb-5' aria-disabled={disabled} noValidate validated={validated} onSubmit={handleSubmit}>
 
         <Form.Group className='mb-4'>
           <Form.Label><b>Название ингредиента</b></Form.Label>

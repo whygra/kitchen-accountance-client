@@ -1,5 +1,5 @@
 import { Button, Container, Form } from 'react-bootstrap';
-import { useContext, useState } from 'react';
+import { FormEvent, useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import SelectCreateCategoryGroup from '../../shared/selectCreateGroup/SelectCreateGroup';
 import { DataAction } from '../../../models';
@@ -41,7 +41,6 @@ function SignUp()
     }
     catch (error: Error | any) {
       showModal(<div className='p-2 text-center'><ErrorView error={error}/></div>, <b>{error.name}</b>)
-      setDisabled(false)
     }
   }
 
@@ -52,9 +51,24 @@ function SignUp()
   function cancel() {
     navigate(-1)
   }
+    
+  const [validated, setValidated] = useState(false);
+  
+  const handleSubmit = (event:FormEvent) => {
+    event.preventDefault();
+    
+    const form = event.currentTarget as any;
+    if (form.checkValidity() === false) {
+      event.stopPropagation();      
+      setValidated(true);
+      return
+    }
+
+    commit()
+  };
 
   return (
-      <Container className='pt-5'>
+    <Form className='pb-5' aria-disabled={disabled} noValidate validated={validated} onSubmit={handleSubmit}>
         <Form.Group className='mb-4'>
             <Form.Label><b>Имя пользователя</b></Form.Label>
             <Form.Control
@@ -92,10 +106,10 @@ function SignUp()
         </Form.Group>
 
         <div className='d-flex'>
-          <Button disabled={disabled} className='me-2' onClick={commit}>Подтвердить</Button>
+          <Button disabled={disabled} className='me-2' type='submit'>Подтвердить</Button>
           <Button disabled={disabled} className='me-2' variant='secondary' onClick={cancel}>Отмена</Button>
         </div>
-      </Container>)
+      </Form>)
 }
 
 export default SignUp

@@ -123,7 +123,7 @@ function DishForm()
           history={history}
           reloadFn={reloadState}
         />
-        <Form aria-disabled={disabled} noValidate validated={validated} onSubmit={handleSubmit}>
+        <Form className='pb-5' aria-disabled={disabled} noValidate validated={validated} onSubmit={handleSubmit}>
 
         <Row>
         <Col sm={12} md={6} lg={7}>
@@ -164,7 +164,7 @@ function DishForm()
             />
         </Form.Group>
         </Col>
-        <Col className='text-center' sm={12} md={6} lg={5}>
+        <Col className='text-center pb-3' sm={12} md={6} lg={5}>
           <p className='text-start'><b>Фото</b></p>
           <p className='w-100 bg-light position-relative'>
             {(formState.image?.url??'') != ''
@@ -209,7 +209,7 @@ function DishForm()
         </Col>
         </Row>
         <DishIngredientFormList/>
-        <div className='d-flex'>
+        <div className='d-flex pt-2'>
           <Button disabled={disabled} className='me-2' type='submit'>Подтвердить</Button>
           <Button disabled={disabled} className='me-2' variant='secondary' onClick={cancel}>Отмена</Button>
         </div>

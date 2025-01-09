@@ -8,7 +8,10 @@ interface TableRowUnitElementProps {
 
 function TableRowUnitElement({unit} : TableRowUnitElementProps) {
   return (
-    <UnitsTableItem unit={unit}/>
+    <>
+      <td>{unit.long}</td>
+      <td>{unit.short}</td>
+    </>
   )
 }
 

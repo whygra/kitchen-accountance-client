@@ -18,15 +18,15 @@ function DishCategoryDishForm({formState}: DishCategoryDishFormProps) {
   return ( 
     <Card className='w-100 p-3'>
       <Row>
-        <Col md={5}>
+        <Col sm={5}>
           <div className="d-flex flex-column">
-            <b>Ингредиент</b>
+            <b>Блюдо</b>
             <span>
               {selected?.id}. {selected?.name}
             </span>
           </div>
         </Col>
-        <Col md={3}>
+        <Col sm={3}>
           <div className="d-flex flex-column">
             <b>Категория</b>
             <span className={`${categoryFormState.id==selected?.category?.id ? 'text-secondary' : 'text-danger'}`}>
@@ -34,7 +34,7 @@ function DishCategoryDishForm({formState}: DishCategoryDishFormProps) {
             </span>
           </div>
         </Col>
-        <Col md={3}>
+        <Col sm={3}>
           <div className="d-flex flex-column">
             <b>Группа</b>
             <span>
@@ -42,7 +42,7 @@ function DishCategoryDishForm({formState}: DishCategoryDishFormProps) {
             </span>
           </div>
         </Col>
-        <Col md={1} className='d-flex justify-content-end'>
+        <Col sm={1} className='d-flex justify-content-end'>
           <TooltipButton
             tooltip='удалить'
             variant='danger'

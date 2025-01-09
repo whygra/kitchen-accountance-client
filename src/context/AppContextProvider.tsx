@@ -6,7 +6,6 @@ import { Container, Modal } from 'react-bootstrap';
 import { createContext, ReactElement, ReactNode, useEffect, useState } from 'react';
 import { UserDTO } from '../api/users';
 import { getCookie, setCookie } from '../cookies';
-import { C_ACCESS_TOKEN, C_IS_SIGNED_IN } from '../api/constants';
 
 
   // контекст приложения

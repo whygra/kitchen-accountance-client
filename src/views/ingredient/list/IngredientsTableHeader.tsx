@@ -127,9 +127,10 @@ function IngredientsTableHeader({
             element: 
                 <Form.Select
                     value={searchData.type}
-                    onChange={(e)=>setSearchData({...searchData, type: e.target.value.toLocaleLowerCase()})}
+                    onChange={(e)=>setSearchData({...searchData, type: e.target.value})}
                 >
-                    {ingredientTypes.map(t=><option value={t.name}/>)}
+                    {ingredientTypes.map(t=><option value={t.name}>{t.name}</option>)}
+                    <option value=''>-/-</option>
                 </Form.Select>,
             span: 1
         },
@@ -175,9 +176,9 @@ function IngredientsTableHeader({
             </div>
             {searchOpen
             ?
-            <div className='fw-bold w-100 position-relative bg-light rounded-2 pe-5'>
+            <div className='fw-bold w-100 position-relative bg-light rounded-2 ps-2 pe-5'>
                 <GridTableRow cells={filterCells} fieldsToExclude={fieldsToExclude}/>
-                <div className="position-absolute end-0 top-0 me-1 mt-2">
+                <div className="position-absolute translate-middle-y end-0 top-50 me-1">
                     <TooltipButton
                         tooltip='сбросить фильтры'
                         onClick={()=>setSearchData(EMPTY_SEARCH_PARAMS)}

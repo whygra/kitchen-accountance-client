@@ -1,5 +1,5 @@
 import { Button, Container, Form } from 'react-bootstrap';
-import { useContext, useState } from 'react';
+import { FormEvent, useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import SelectCreateCategoryGroup from '../../shared/selectCreateGroup/SelectCreateGroup';
 import { DataAction } from '../../../models';
@@ -45,10 +45,25 @@ function SignIn()
 
   function cancel() {
     navigate(-1)
-  }
+  }  
+  
+  const [validated, setValidated] = useState(false);
+  
+  const handleSubmit = (event:FormEvent) => {
+    event.preventDefault();
+    
+    const form = event.currentTarget as any;
+    if (form.checkValidity() === false) {
+      event.stopPropagation();      
+      setValidated(true);
+      return
+    }
+
+    commit()
+  };
 
   return (
-      <Container className='pt-5'>
+      <Form className='pt-5' aria-disabled={disabled} noValidate validated={validated} onSubmit={handleSubmit}>
         <h3 className='text-center'>Вход</h3>
         <Link to='/signup'>Нет учетной записи? создать</Link>
         <Form.Group className='mb-4'>
@@ -70,11 +85,11 @@ function SignIn()
         </Form.Group>
 
         <div className='d-flex'>
-          <Button disabled={disabled} className='me-2' onClick={commit}>Подтвердить</Button>
+          <Button disabled={disabled} className='me-2' type='submit'>Подтвердить</Button>
           <Button disabled={disabled} className='me-2' variant='secondary' onClick={cancel}>Отмена</Button>
         </div>
         <Link to='/forgot-password'>Забыли пароль?</Link>
-      </Container>)
+      </Form>)
 }
 
 export default SignIn

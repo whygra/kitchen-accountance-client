@@ -32,13 +32,15 @@ export default function useDisheselect(
     .sort(selectFilter.getComparer())
 
     const modalSelect = <ModalWrapper show={displaySelect} onHide={()=>setDisplaySelect(false)}>
-    <TableSelect
+      <div className="disable-links">
+      <TableSelect
       header={selectFilter.header}
       constructRow={(p)=><DishesTableItem dish={p}/>}
       selectedId={selectedId}
       setId={selectId}
       items={filteredItems}
     />
+    </div>
       
   </ModalWrapper>
 

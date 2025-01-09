@@ -1,5 +1,5 @@
-import { getCookie } from "../cookies";
-import { C_ACCESS_TOKEN, BASE_URL, ServerImageData } from "./constants";
+import { C_ACCESS_TOKEN, getCookie } from "../cookies";
+import { BASE_URL, ServerImageData } from "./constants";
 import { UserDTO } from "./users";
 
 const ENTITY_PATH = "projects"
@@ -18,6 +18,7 @@ export interface RoleDTO {
 export interface ProjectDTO {
   id: number
   name: string
+  is_public?: boolean
   role?: RoleDTO
   logo? : ServerImageData
   backdrop? : ServerImageData
@@ -64,8 +65,8 @@ export const getProjects = async () : Promise<ProjectDTO[] | null> => {
   return data
 }
 
-export const getProject = async (id:number) : Promise<ProjectDTO | null> => {
-  const response = await fetch(`${BASE_URL}/${ENTITY_PATH}/${id}`,{
+export const getPublicProjects = async () : Promise<ProjectDTO[] | null> => {
+  const response = await fetch(`${BASE_URL}/${ENTITY_PATH}/public/all`,{
     method:'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -75,7 +76,76 @@ export const getProject = async (id:number) : Promise<ProjectDTO | null> => {
   const data = await response.json().catch(e=>null)
   if (!response.ok) 
     throw {
+      message: `Не удалось получить данные проектов ${data?.message}`,
+      name: `${response.status} ${response.statusText}`
+    }
+  return data
+}
+
+export const getProject = async (id:number) : Promise<ProjectDTO | null> => {
+  const response = await fetch(`${BASE_URL}/${ENTITY_PATH}/${id}`,{
+    method:'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer '+getCookie(C_ACCESS_TOKEN)
+    },
+  })
+  const data = await response.json().catch(e=>console.log(e))
+  
+  if (!response.ok) 
+    throw {
       message: `Не удалось получить данные проекта ${data?.message}`,
+      name: `${response.status} ${response.statusText}`
+    }
+  return data
+}
+
+export const getPublicProject = async (id:number) : Promise<ProjectDTO | null> => {
+  const response = await fetch(`${BASE_URL}/${ENTITY_PATH}/public/${id}`,{
+    method:'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer '+getCookie(C_ACCESS_TOKEN)
+    },
+  })
+  const data = await response.json().catch(e=>console.log(e))
+  if (!response.ok) 
+    throw {
+      message: `Не удалось получить данные проекта ${data?.message}`,
+      name: `${response.status} ${response.statusText}`
+    }
+  return data
+}
+
+export const publishProject = async (id:number) : Promise<ProjectDTO | null> => {
+  console.log(`${BASE_URL}/${ENTITY_PATH}/${id}/publish`)
+  const response = await fetch(`${BASE_URL}/${ENTITY_PATH}/${id}/publish`,{
+    method:'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer '+getCookie(C_ACCESS_TOKEN)
+    },
+  })
+  const data = await response.json().catch(e=>null)
+  if (!response.ok) 
+    throw {
+      message: `Не удалось опубликовать проект ${data?.message}`,
+      name: `${response.status} ${response.statusText}`
+    }
+  return data
+}
+export const unpublishProject = async (id:number) : Promise<ProjectDTO | null> => {
+  const response = await fetch(`${BASE_URL}/${ENTITY_PATH}/${id}/unpublish`,{
+    method:'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer '+getCookie(C_ACCESS_TOKEN)
+    },
+  })
+  const data = await response.json().catch(e=>null)
+  if (!response.ok) 
+    throw {
+      message: `Не удалось скрыть проект ${data?.message}`,
       name: `${response.status} ${response.statusText}`
     }
   return data

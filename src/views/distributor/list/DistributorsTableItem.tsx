@@ -4,7 +4,6 @@ import ExpansionBtn, { ExpansionBtnProps } from "../../shared/ExpansionBtn"
 import { DistributorDTO } from "../../../api/distributors"
 import { DistributorField } from "../../../hooks/sort/useSortDistributors"
 import { Image } from "react-bootstrap"
-import { COLUMN_SPANS, useGridFrames } from "../../../hooks/useGridFrames"
 import GridTableRow, { WindowSize } from "../../shared/GridTableRow"
 
 interface DistributorsTableItemProps {

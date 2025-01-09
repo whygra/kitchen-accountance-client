@@ -56,8 +56,8 @@ function DishIngredientForm({formState, openSelect}: DishesIngredientFormProps) 
         style={formState.ingredientDataAction==DataAction.Delete ? {pointerEvents: "none", opacity: "0.4"} : {}}
         >
           <Row>
-            <Col md={6}>
-            <div className="d-flex flex-row justify-content-between">
+            <Col className='mb-2' md={6}>
+            <div className="d-flex flex-row justify-content-between mb-2">
               <b>Ингредиент</b>
               
               <IsCreateSwitch
@@ -65,6 +65,7 @@ function DishIngredientForm({formState, openSelect}: DishesIngredientFormProps) 
                 setDataAction={setIngredientAction}
               />
             </div>
+
             {formState.ingredientDataAction == DataAction.Create 
               ? 
               <Row>
@@ -103,8 +104,9 @@ function DishIngredientForm({formState, openSelect}: DishesIngredientFormProps) 
                 </Form.Control.Feedback>
                 </Form.Group>
             }
+
             </Col>
-            <Col as={Form.Group} md={3}>
+            <Col className='mb-2' as={Form.Group} md={3}>
             <Form.Label>{formState.isItemMeasured?'Количество':'Вес (грамм)'}</Form.Label>
               <Form.Control
                 required
@@ -118,7 +120,7 @@ function DishIngredientForm({formState, openSelect}: DishesIngredientFormProps) 
                 введите допустимое значение ( .. ≥ {minAmt} )
               </Form.Control.Feedback>
             </Col>
-            <Col as={Form.Group} md={3}>
+            <Col className='mb-2' as={Form.Group} md={3}>
             <Form.Label>Потери в весе (%)</Form.Label>
             <Form.Control
                 required

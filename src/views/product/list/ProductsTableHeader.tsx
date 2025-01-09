@@ -5,7 +5,6 @@ import { Form } from "react-bootstrap"
 import { PurchaseOptionField } from "../../../hooks/sort/useSortPurchaseOptions"
 import { EMPTY_SEARCH_PARAMS, SearchParams } from "../../../hooks/filter/useFilterProducts"
 import { ProductField } from "../../../hooks/sort/useSortProducts"
-import {COLUMN_SPANS, useGridFrames} from "../../../hooks/useGridFrames"
 import GridTableRow, { WindowSize } from "../../shared/GridTableRow"
 
 interface ProductsTableHeaderProps {
@@ -150,9 +149,9 @@ function ProductsTableHeader({
             </div>
             {searchOpen
             ?
-            <div className='fw-bold w-100 position-relative bg-light rounded-2 pe-5'>
+            <div className='fw-bold w-100 position-relative bg-light rounded-2 ps-2 pe-5'>
                 <GridTableRow cells={filterCells} fieldsToExclude={fieldsToExclude}/>
-                <div className="position-absolute end-0 top-0 me-1 mt-2">
+                <div className="position-absolute translate-middle-y end-0 top-50 me-1">
                     <TooltipButton
                         tooltip='сбросить фильтры'
                         onClick={()=>setSearchData(EMPTY_SEARCH_PARAMS)}

@@ -50,7 +50,7 @@ function PurchaseOptionsTableHeader({
                     activeField={activeField}
                     sortIsDesc={sortIsDesc}
                     />,
-            span: 3
+            span: 5
         },
         {   
             displayAt: WindowSize.Sm,
@@ -66,7 +66,7 @@ function PurchaseOptionsTableHeader({
             span: 3
         },
         {   
-            displayAt: WindowSize.Md,
+            displayAt: WindowSize.Lg,
             field: PurchaseOptionField.Product,
             element: 
                 <HeaderSortButton
@@ -143,7 +143,7 @@ function PurchaseOptionsTableHeader({
                         placeholder='наименование'
                         onChange={(e)=>setSearchData({...searchData, name: e.target.value.toLocaleLowerCase()})}
                     />,
-            span: 3
+            span: 5
         },
         {
             displayAt: WindowSize.Sm,
@@ -158,7 +158,7 @@ function PurchaseOptionsTableHeader({
             span: 3
         },
         {
-            displayAt: WindowSize.Md,
+            displayAt: WindowSize.Lg,
             field: PurchaseOptionField.Product,
             element: 
                 <Form.Control
@@ -247,9 +247,9 @@ function PurchaseOptionsTableHeader({
             </div>
             {searchOpen
             ?
-            <div className='fw-bold w-100 position-relative bg-light rounded-2 pe-5'>
+            <div className='fw-bold w-100 position-relative bg-light rounded-2 ps-2 pe-5'>
                 <GridTableRow cells={filterCells} fieldsToExclude={fieldsToExclude}/>
-                <div className="position-absolute end-0 top-0 me-1 mt-2">
+                <div className="position-absolute translate-middle-y end-0 top-50 me-1">
                     <TooltipButton
                         tooltip='сбросить фильтры'
                         onClick={()=>setSearchData(EMPTY_SEARCH_PARAMS)}

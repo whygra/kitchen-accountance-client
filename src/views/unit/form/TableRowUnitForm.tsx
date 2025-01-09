@@ -19,11 +19,10 @@ function TableRowUnitForm({unit, setUnit} : TableRowUnitFormProps) {
   }
 
   return (
-    <GridTableRow cells={[
-      {
-        displayAt: WindowSize.Sm,
-        span: 1,
-        element:<Form.Group>
+    <>
+      <td>
+
+      <Form.Group>
         <Form.Control
           required
           type="text"
@@ -34,25 +33,21 @@ function TableRowUnitForm({unit, setUnit} : TableRowUnitFormProps) {
           введите краткое название
         </Form.Control.Feedback>
         </Form.Group>
-      },
-      {
-        span: 1,
-        element:<Form.Group>
-        <Form.Control
-          required
-          type="text"
-          placeholder="Полное название"
-          value={unit.long}
-          onChange={e => setLong(e.target.value)} />
-        <Form.Control.Feedback type="invalid">
-          введите полное название
-        </Form.Control.Feedback>
+      </td>
+      <td>
+        <Form.Group>
+          <Form.Control
+            required
+            type="text"
+            placeholder="Полное название"
+            value={unit.long}
+            onChange={e => setLong(e.target.value)} />
+          <Form.Control.Feedback type="invalid">
+            введите полное название
+          </Form.Control.Feedback>
         </Form.Group>
-      },
-    ]}/>
-      
-
-      
+      </td>
+    </>      
   )
 }
 

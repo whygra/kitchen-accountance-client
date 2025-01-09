@@ -1,26 +1,27 @@
-import { Accordion, Button, Card, Col, Form, Image, Row, Table } from 'react-bootstrap';
+import { Accordion, Button, Card, Col, Form, Image, OverlayTrigger, Row, Table, Tooltip } from 'react-bootstrap';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
-import { deleteProject, downloadTables, getProject, ProjectDTO } from '../../../api/projects';
+import { deleteProject, downloadTables, getProject, getPublicProject, ProjectDTO, publishProject, unpublishProject } from '../../../api/projects';
 import { UserPermissions } from '../../../models';
 import { authContext } from '../../../context/AuthContextProvider';
 import CUDButtons from '../../shared/CUDButtons';
 import Loading from '../../shared/Loading';
-import { BASE_URL } from '../../../api/constants';
 import { projectContext } from '../../../context/ProjectContextProvider';
 import UpdatedAt from '../../shared/UpdatedAt';
 import TooltipButton from '../../shared/TooltipButton';
 import { appContext } from '../../../context/AppContextProvider';
 import { ErrorView } from '../../ErrorView';
 import BtnShowFileUploadForm from '../form/BtnShowFileUploadForm';
+import BtnAskConfirmation from '../../shared/BtnAskConfirmation';
 
 
 function ProjectDetails() 
 {   
     const [isLoading, setIsLoading] = useState(false)
     const [awaitingDownload, setAwaitingDownload] = useState(false)
-    const {project, selectProject, hasPermission} = useContext(projectContext)
+    const {project, loadProject: loadProjectState, hasPermission} = useContext(projectContext)
     const {showModal} = useContext(appContext)
+    const {user} = useContext(authContext)
     
     const {id} = useParams()
 
@@ -37,13 +38,13 @@ function ProjectDetails()
             throw Error("Ошибка загрузки данных: отсутствует id проекта")
         
         setIsLoading(true)
-        const project = await getProject(parseInt(id??'0'))
-        
-        if (project === null)
-            throw Error("Не удалось получить данные проекта")
-        
-        selectProject(project)
-        setIsLoading(false)
+        try{
+            loadProjectState(parseInt(id))
+        } catch(e:any){
+            showModal(<div className='m-2'>{e.message}</div>, <b>{e.name}</b>)
+        } finally{
+            setIsLoading(false)
+        }
     }
 
     async function deleteFn(id: number) {
@@ -53,7 +54,6 @@ function ProjectDetails()
 
     async function download() {
         try{
-
             setAwaitingDownload(true)
             const url = await downloadTables(project!.id);
             const link = document.createElement("a");
@@ -86,20 +86,36 @@ function ProjectDetails()
                         <Image style={{maxHeight:'100%', maxWidth:'100%'}} src={`${project.logo?.url}`}/>
                 }
                 </div>
-                <h3 className='ms-2 mt-2 text-center'>{`${project.id}. ${project.name}`}</h3>
+                <h3 className='ms-2 mt-2 text-center position-relative'>{`${project.id}. ${project.name}`}
+                    <OverlayTrigger
+                        overlay={<Tooltip>{project.is_public ? 'общедоступный проект' : 'частный проект'}</Tooltip>}
+                    >
+                        <i style={{fontSize: 15}} className={`position-absolute translate-middle top-50 start-100 ms-3 text-secondary bi ${project.is_public ? 'bi-unlock-fill' : 'bi-lock-fill'}`}/>
+                    </OverlayTrigger>
+                </h3>
             </div>
             <div className='col col-12 col-sm-4 d-flex flex-wrap justify-content-end align-items-start'>
             <BtnShowFileUploadForm onSuccess={()=>{loadProject()}} projectId={project.id}/>
 
             {hasPermission(UserPermissions.EDIT_PROJECT)
                 ? 
-                
+                <>
                 <TooltipButton
                     onClick={download}
                     variant='light'
                     tooltip='скачать таблицы сущностей (xslx)'
                     disabled={awaitingDownload}
                     >{awaitingDownload? <Loading width={20}/> : <i className='bi bi-download'/>}</TooltipButton>
+                <BtnAskConfirmation
+                    variant='info'
+                    prompt={project.is_public 
+                        ? 'Вы уверены, что хотите скрыть проект? Просматривать скрытые проекты могут только его участники'
+                        : 'Вы уверены, что хотите опубликовать проект? Просматривать опубликованные проекты могут все пользователи сайта'
+                    }
+                    onConfirm={()=>{(project.is_public ? unpublishProject(project.id): publishProject(project.id)).then(res=>loadProject())}}
+                    tooltip={project.is_public?'скрыть проект':'опубликовать проект'}
+                ><i className={`bi ${project.is_public ? 'bi-lock' : 'bi-unlock'}`}/></BtnAskConfirmation>
+                </>
                 :
                 <></>
             }

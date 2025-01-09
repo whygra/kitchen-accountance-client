@@ -7,6 +7,7 @@ import TooltipButton from '../../shared/TooltipButton'
 import useIngredientSelect from '../../../hooks/tableSelect/useIngredientSelect';
 import { ingredientGroupFormContext } from '../../../context/ingredient/IngredientGroupFormContext';
 import IngredientGroupIngredientForm from './IngredientGroupIngredientForm';
+import FormListButtons from '../../shared/FormListButtons';
 
 function IngredientGroupIngredientFormList() {
 
@@ -50,7 +51,7 @@ function IngredientGroupIngredientFormList() {
 
   return (
     <>
-    <Container>
+    <div>
       
       <Form.Label><b>Ингредиенты:</b></Form.Label>
       {
@@ -61,23 +62,14 @@ function IngredientGroupIngredientFormList() {
             </div>
           )
       }
-      <div className="d-flex flex-row-reverse mt-2">
-
-        <TooltipButton
-          tooltip='добавить ингредиент'
-          variant='success'
-          onClick={()=>openSelect(constructIngredientGroupIngredientForm())}
-        ><i className='bi bi-plus-lg'/></TooltipButton>
-
-        <BtnAskConfirmation
-          tooltip='исключить все'
-          variant="danger"
-          onConfirm={deleteAll}
-          prompt='исключить все ингредиенты? несохраненные данные будут утеряны'
-        ><i className='bi bi-x-lg'/></BtnAskConfirmation>
+      <FormListButtons
+        addFn={()=>openSelect(constructIngredientGroupIngredientForm())}
+        deleteAllFn={deleteAll}
+      />
+    </div>
+      <div className='links-disabled'>
+      {modalSelect}
       </div>
-    </Container>
-    {modalSelect}
     </>
   )
 }

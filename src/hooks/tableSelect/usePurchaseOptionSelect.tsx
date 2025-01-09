@@ -31,15 +31,17 @@ export default function usePurchaseOptionSelect(
       .sort(selectFilter.getComparer())
 
     const modalSelect = <ModalWrapper show={displaySelect} onHide={()=>setDisplaySelect(false)}>
-    <TableSelect
-      header={selectFilter.header}
-      constructRow={(o)=><PurchaseOptionsTableItem fieldsToExclude={fieldsToExclude} purchaseOption={o}/>}
-      selectedId={selectedId}
-      setId={selectId}
-      items={filteredItems}
-    />
-      
-  </ModalWrapper>
+      <div className="disable-links">
+      <TableSelect
+        header={selectFilter.header}
+        constructRow={(o)=><PurchaseOptionsTableItem fieldsToExclude={fieldsToExclude} purchaseOption={o}/>}
+        selectedId={selectedId}
+        setId={selectId}
+        items={filteredItems}
+        />
+      </div>
+        
+    </ModalWrapper>
 
   return {modalSelect, showSelect}
 }

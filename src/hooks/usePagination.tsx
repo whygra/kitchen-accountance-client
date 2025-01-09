@@ -29,15 +29,17 @@ export default function usePagination(totalLength: number, initPageLength?:numbe
     const nav = (pageLength >= totalLength)
     ? <></>
     : (
-        <Pagination className="justify-content-center w-100">
+        <Pagination className="pt-3 justify-content-center w-100">
             <Button
-                className="p-1"
+                className="px-1"
                 variant='none'
                 onClick={()=>goToPage(1)}
             >Начало</Button>
             {navPages.map(pageNumber=>{
                 return pageNumber==currentPage 
-                ? <Form.Select style={{width: '5em'}}
+                ? <Form.Select 
+                    className='pe-2'
+                    style={{width: '3.7em'}}
                     onChange={(e)=>goToPage(parseInt(e.target.value))}
                 >
                     {[...Array(numPages).keys()].map(p=>p+1)
@@ -54,7 +56,7 @@ export default function usePagination(totalLength: number, initPageLength?:numbe
                 >{pageNumber}</Button>
             })}
             <Button
-                className="p-1"
+                className="px-1"
                 variant='none'
                 onClick={()=>goToPage(numPages)}
             >Конец</Button>

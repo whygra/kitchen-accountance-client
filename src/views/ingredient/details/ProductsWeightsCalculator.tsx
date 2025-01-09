@@ -40,6 +40,7 @@ function ProductsWeightsCalculator({ingredient}:ProductsWeightsCalculatorProps) 
                     <tr>
                         <td>
                             <Form.Control
+                                required
                                 type='number'
                                 min={ingredient.is_item_measured ? 1 : 50}
                                 step={1}

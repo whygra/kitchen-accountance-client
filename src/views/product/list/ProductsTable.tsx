@@ -24,14 +24,12 @@ function ProductsTable({products, fieldsToExclude}:ProductTableProps)
     const {sliceLimits, nav} = usePagination(filtered.length);
 
     return (
-        <>
-        <div className='w-100'>
+        <div className='mb-3'>
             {header}
-            <div>
             {   
                 filtered
                     ?.slice(sliceLimits.start, sliceLimits.end)
-                    .map(i=><div className='border-bottom'>
+                    .map(i=><div className='border-bottom pe-5'>
                             <ProductsTableItem 
                                 product={i}
                                 fieldsToExclude={fieldsToExclude}
@@ -39,10 +37,8 @@ function ProductsTable({products, fieldsToExclude}:ProductTableProps)
                             </div>
                     )
             }
-            </div>
-        </div>
         {nav}
-        </>
+        </div>
     )
 }
 

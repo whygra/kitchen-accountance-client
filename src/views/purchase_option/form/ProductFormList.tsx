@@ -12,6 +12,7 @@ import BtnAskConfirmation from '../../shared/BtnAskConfirmation';
 import usePagination from '../../../hooks/usePagination';
 import { constructProductForm, ProductFormState } from '../../../models/PurchaseOptionFormState';
 import useProductSelect from '../../../hooks/tableSelect/useProductSelect';
+import FormListButtons from '../../shared/FormListButtons';
 
 function ProductFormList() {
 
@@ -54,7 +55,7 @@ function ProductFormList() {
   }
 
   return (
-    <Container> 
+    <div> 
       <Form.Label><b>Продукты:</b></Form.Label>
       {
         formState.productForms.slice(sliceLimits.start, sliceLimits.end).map(formState => 
@@ -64,27 +65,14 @@ function ProductFormList() {
       }
 
       {nav}
-      <div className="d-flex flex-row-reverse mt-2">
-
-        <TooltipButton
-          tooltip='Добавить продукт'
-          variant='success'
-          onClick={addForm}
-        >
-          <i className='bi bi-plus-lg'/>
-        </TooltipButton>
-
-        <BtnAskConfirmation
-          onConfirm={deleteAll}
-          prompt='удалить все связи с продуктами? несохраненные данные будут утеряны'
-          tooltip='Удалить все'
-          variant='danger'
-        >
-          <i className='bi bi-x-lg'/>
-        </BtnAskConfirmation>
-      </div>
+      <FormListButtons
+        addFn={addForm}
+        deleteAllFn={deleteAll}
+      />
+      <div className='links-disabled'>
       {modalSelect}
-    </Container>
+      </div>
+    </div>
   )
 }
 

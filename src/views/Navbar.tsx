@@ -4,22 +4,21 @@ import { signOut as requestSignOut } from '../api/auth'
 import { appContext } from '../context/AppContextProvider'
 import ConfirmationDialog from './shared/ConfirmationDialog'
 import { getCookie } from '../cookies'
-import { C_IS_SIGNED_IN } from '../api/constants'
 import { Link, useNavigate } from 'react-router-dom'
 import { authContext } from '../context/AuthContextProvider'
 import { UserPermissions } from '../models'
 import { VerifyEmail } from './VerifyEmail'
 import { EmailVerificationRequired } from './EmailVerificationRequired'
 import { projectContext } from '../context/ProjectContextProvider'
-import $ from 'jquery'
 import { useMediaQuery } from 'react-responsive'
 
 
 function Navbar() {
   const{ showModal, hideModal} = useContext(appContext)
-  const {user, updateUserData} = useContext(authContext)
+  const {user, updateUserData, logout} = useContext(authContext)
+  const {loadProject} = useContext(projectContext)
   const {hasPermission, project} = useContext(projectContext)
-  const isSignedIn = getCookie(C_IS_SIGNED_IN)
+  const isSignedIn = user != null
   const navigate = useNavigate()
 
   const isAboveMd = useMediaQuery({ minWidth: 768 });
@@ -29,26 +28,21 @@ function Navbar() {
     <ConfirmationDialog 
       prompt={'Вы действительно хотите выйти?'}
       onCancel={hideModal}
-      onConfirm={async ()=>{
-        await requestSignOut()
-        .catch(e=>{
-          hideModal()
-          showModal(<div className='p-2'>{e.message}</div>, <b>{e.name}</b>)
-        })
-        await updateUserData()
-        hideModal()
-        navigate('/home')
+      onConfirm={()=>{
+        logout()
+        loadProject()
       }}
     />)
   }
   return (
-    <BSNavbar expand="md" 
-    style={{overflowY: 'auto', overflowX: 'clip'}}
-
+    <BSNavbar 
+      expand="md" 
+      style={isAboveMd ? {overflowY: 'auto', overflowX: 'visible'}:{}}
       className="p-0 fixed-left bg-light text-center d-flex flex-row flex-nowrap flex-md-column h-100 justify-content-between align-items-start align-items-md-center pb-0">
       <div 
-
         className='p-0 m-0 d-flex justify-content-start'>
+          <div 
+          className={`logo dropdown p-0 mt-0 btn-group d-flex flex-row justify-content-between`}>
         <Link 
           to="/home" className="logo d-block p-3 link-dark text-decoration-none" title="Главная" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Icon-only">
           <Image 
@@ -58,11 +52,20 @@ function Navbar() {
             className='p-0 m-0' width='100%' src='/icons/kitchen-accountance-logo.svg'
           />
         </Link>
+        <Link 
+          to={'#'}
+          className="link-dark position-absolute top-0 end-0 text-decoration-none dropdown-toggle dropdown-toggle-split" 
+          data-bs-toggle="dropdown" 
+          aria-expanded="false"
+        ></Link>
+        <ul className="dropdown-menu position-absolute translate-middle top-50 start-50 text-small">
+          <li><Link className="text-wrap nav-link" to='/projects/all'>Выбрать проект</Link></li>
+        </ul>
+        </div>
         {project 
         ?
         <div 
           className={`logo dropdown p-0 mt-0 position-absolute btn-group d-flex flex-row justify-content-between`}>
-          
           <Link 
             className='flex-grow-1 link-dark text-decoration-none'
             title={project.name} data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Icon-only"
@@ -75,7 +78,7 @@ function Navbar() {
                   src={project.logo?.url} 
                   alt={project.name}
                 />
-              : <span className='text-decoration-underline h2'>{project.name}</span>
+              : <span style={{fontSize: `calc(calc(160pt + 10vw) / ${Math.max(...project.name.split(' ').map(s=>s.length))*1.8})`}} className='text-decoration-underline h2'>{project.name}</span>
             }
             </div>
           </Link>
@@ -86,7 +89,7 @@ function Navbar() {
           aria-expanded="false"
         ></Link>
         <ul className="dropdown-menu position-absolute translate-middle top-50 start-50 text-small">
-          <li><Link className="nav-link" to='/projects/all'>Сменить проект</Link></li>
+          <li><Link className="text-wrap nav-link" to='/projects/all'>Сменить проект</Link></li>
         </ul>
         </div>
         :
@@ -94,6 +97,7 @@ function Navbar() {
       }
       </div>
 
+      {project ? 
       <div
 
        className="mb-auto h-100 bg-light text-center d-flex flex-wrap flex-row flex-md-column justify-content-center align-items-center p-0">
@@ -161,9 +165,10 @@ function Navbar() {
               data-bs-toggle="dropdown" 
               aria-expanded="false"
             ></Link>
-            <ul className="dropdown-menu text-small shadow text-wrap">
-              <li><Link className="nav-link" to="/purchase-options/all">Позиции закупки</Link></li>
-              <li><Link className="nav-link" to='/units/all'>Ед. измерения</Link></li>
+            <ul
+            style={{zIndex: 10}} className="dropdown-menu text-small shadow text-wrap">
+              <li><Link className="text-wrap nav-link" to="/purchase-options/all">Позиции закупки</Link></li>
+              <li><Link className="text-wrap nav-link" to='/units/all'>Единицы измерения</Link></li>
             </ul>
           </div>
           : <></>
@@ -179,10 +184,20 @@ function Navbar() {
         </div>
 
           </div>
+          :
+
+            <div className="h-100">
+            
+          <div className="py-3 px-1 pe-0 border-bottom">
+            <Link className="link-dark text-decoration-none" to="/projects/all">Проекты</Link>
+            </div>
+            </div>      
+           
+      }
     
     <div 
       
-    className={`${isAboveMd ? 'dropup' : 'dropdown'} py-3 px-2 d-flex align-items-center align-items-md-end text-center btn-group`}>
+    className={`${isAboveMd ? 'dropup' : 'dropdown'} position-relative py-3 px-2 d-flex align-items-center align-items-md-end text-center btn-group`}>
 
     <Link className="link-dark text-decoration-none" to={isSignedIn ? '/profile' : '/signin'}>
       Профиль
@@ -194,9 +209,9 @@ function Navbar() {
       aria-expanded="false"
     ></Link>
 
-    <ul className={` dropdown-menu ${isAboveMd?'dropdown-menu-start':'dropdown-menu-end'} text-small shadow`}>
+    <ul x-placement='top' className={`position-absolute dropdown-menu ${isAboveMd?'dropdown-menu-start':'dropdown-menu-end'} text-small shadow`}>
       {
-        isSignedIn == 'true'
+        isSignedIn
         ? <>
             {user?.email_verified_at
               ? <></>

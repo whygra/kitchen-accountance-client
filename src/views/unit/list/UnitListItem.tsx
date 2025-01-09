@@ -58,7 +58,7 @@ function UnitListItem({unit, onSubmited}: UnitListItemProps)
         <tr>
             { canEdit && displayForm
                 // форма
-                ? <><td><TableRowUnitForm unit={formUnit} setUnit={setFormUnit}/> </td>
+                ? <><TableRowUnitForm unit={formUnit} setUnit={setFormUnit}/>
                     <td>
                         <TooltipButton
                             disabled={disabled}
@@ -82,7 +82,7 @@ function UnitListItem({unit, onSubmited}: UnitListItemProps)
                 // представление
                 : <>
                     {unit
-                        ? <><td><TableRowUnitElement unit={formUnit}/></td>
+                        ? <><TableRowUnitElement unit={formUnit}/>
                         {canEdit 
                             ?
                                 <td>
@@ -106,7 +106,7 @@ function UnitListItem({unit, onSubmited}: UnitListItemProps)
                             : <td></td>
                         }</>
                         :
-                            <td colSpan={2}>
+                            <td colSpan={3}>
                                 <TooltipButton
                                     tooltip='создать'
                                     variant='success'

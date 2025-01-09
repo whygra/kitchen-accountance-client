@@ -20,7 +20,7 @@ function ProductCategoryProductForm({formState}: ProductCategoryProductFormProps
       <Row>
         <Col md={5}>
           <div className="d-flex flex-column">
-            <b>Ингредиент</b>
+            <b>Продукт</b>
             <span>
               {selected?.id}. {selected?.name}
             </span>

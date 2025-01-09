@@ -34,14 +34,15 @@ export default function useIngredientSelect(
     .sort(selectFilter.getComparer())
 
     const modalSelect = <ModalWrapper show={displaySelect} onHide={()=>setDisplaySelect(false)}>
-    <TableSelect
+      <div className="disable-links">
+      <TableSelect
       header={selectFilter.header}
       constructRow={(p)=><IngredientsTableItem ingredient={p}/>}
       selectedId={selectedId}
       setId={selectId}
       items={filteredItems}
     />
-      
+      </div>
   </ModalWrapper>
 
   return {modalSelect, showSelect}

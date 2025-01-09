@@ -4,7 +4,6 @@ import ExpansionBtn, { ExpansionBtnProps } from "../../shared/ExpansionBtn"
 import { calcDishWeight, DishDTO } from "../../../api/dishes"
 import { DishField } from "../../../hooks/sort/useSortDishes"
 import { Image } from "react-bootstrap"
-import { COLUMN_SPANS, useGridFrames } from "../../../hooks/useGridFrames"
 import GridTableRow, { WindowSize } from "../../shared/GridTableRow"
 
 interface DishesTableItemProps {

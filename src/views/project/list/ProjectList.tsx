@@ -7,13 +7,15 @@ import { authContext } from '../../../context/AuthContextProvider';
 import { UserPermissions } from '../../../models';
 import usePagination from '../../../hooks/usePagination';
 import Loading from '../../shared/Loading';
-import { getProjects, ProjectDTO } from '../../../api/projects';
+import { getProjects, getPublicProjects, ProjectDTO } from '../../../api/projects';
 import useProjectsTableHeader from '../../../hooks/useProjectsTableHeader';
 import { projectContext } from '../../../context/ProjectContextProvider';
+import { getCookie } from '../../../cookies';
 
 function ProjectList() 
 {
-  
+    const {user} = useContext(authContext)
+    const [isPublic, setIsPublic] = useState(user==null)
     const [projects, setProjects] = useState(new Array<ProjectDTO>)
     const [isLoading, setIsLoading] = useState(false)
 
@@ -22,13 +24,13 @@ function ProjectList()
     const {hasPermission} = useContext(projectContext)
 
     useEffect(()=>{
-        document.title = "Блюда"}
+        document.title = "Проекты"}
     , [projects])
   
     async function loadProjects() {
         setIsLoading(true)    
         try{
-          const res = await getProjects()
+          const res = await (isPublic ? getPublicProjects() : getProjects())
           setProjects(res ?? [])
         }
         catch (error: Error | any) {
@@ -39,7 +41,7 @@ function ProjectList()
         }
     }
 
-    useEffect(()=>{loadProjects()},[])
+    useEffect(()=>{loadProjects()},[isPublic])
 
     // заголовок и фильтры
     const {getComparer, getPredicate, header} = useProjectsTableHeader()
@@ -50,12 +52,23 @@ function ProjectList()
 
     const {sliceLimits, nav} = usePagination(filtered.length)
 
+    function toggleIsPublic() {
+        setIsPublic(!isPublic)       
+    }
+
     return isLoading ? (<Loading/>) : (
         <>
         <div className='d-flex justify-content-between'>
-            <h2>Мои проекты</h2>
-        <Link to={'/projects/create'}><Button variant='success'>Создать</Button></Link>
+            <h2>{isPublic ? 'Общедоступные проекты' : 'Мои проекты'}</h2>
+            {isPublic 
+                ? <></> 
+                : <Link to={'/projects/create'}><Button variant='success'>Создать</Button></Link>
+            }
         </div>
+        {user != null
+           ? <Link to='' onClick={toggleIsPublic}>{isPublic ? 'Мои проекты' : 'Общедоступные проекты'}</Link>
+           : <></>
+        }
         <hr/>
         <Table>
             <thead>

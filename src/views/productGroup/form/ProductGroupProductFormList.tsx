@@ -8,6 +8,7 @@ import useProductSelect from '../../../hooks/tableSelect/useProductSelect';
 import { productGroupFormContext } from '../../../context/product/ProductGroupFormContext';
 import ProductGroupProductForm from './ProductGroupProductForm';
 import { ProductField } from '../../../hooks/sort/useSortProducts';
+import FormListButtons from '../../shared/FormListButtons';
 
 function ProductGroupProductFormList() {
 
@@ -51,9 +52,9 @@ function ProductGroupProductFormList() {
 
   return (
     <>
-    <Container>
+    <div>
       
-      <Form.Label><b>Ингредиенты:</b></Form.Label>
+      <Form.Label><b>Продукты:</b></Form.Label>
       {
         formState.productGroupProductForms
           .map(fs =>
@@ -62,22 +63,11 @@ function ProductGroupProductFormList() {
             </div>
           )
       }
-      <div className="d-flex flex-row-reverse mt-2">
-
-        <TooltipButton
-          tooltip='добавить ингредиент'
-          variant='success'
-          onClick={()=>openSelect(constructProductGroupProductForm())}
-        ><i className='bi bi-plus-lg'/></TooltipButton>
-
-        <BtnAskConfirmation
-          tooltip='исключить все'
-          variant="danger"
-          onConfirm={deleteAll}
-          prompt='исключить все ингредиенты? несохраненные данные будут утеряны'
-        ><i className='bi bi-x-lg'/></BtnAskConfirmation>
-      </div>
-    </Container>
+      <FormListButtons
+        addFn={()=>openSelect(constructProductGroupProductForm())}
+        deleteAllFn={deleteAll}
+      />
+    </div>
     {modalSelect}
     </>
   )
