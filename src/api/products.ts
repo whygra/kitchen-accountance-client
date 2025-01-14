@@ -104,7 +104,6 @@ export const postProduct = async (createData: ProductDTO): Promise<ProductDTO | 
 }
 
 export const postProductWithPurchaseOptions = async (createData: ProductDTO): Promise<ProductDTO | null> => {
-  console.log(createData)
   const response = await fetch(`${BASE_URL}/${getProjectPath()}/${getCookie(C_SELECTED_PROJECT_ID)}/${ENTITY_PATH}/${WITH_PURCHASE_OPTIONS}/create`, {
     method: 'POST',
     headers: {
@@ -145,7 +144,6 @@ export const putProduct = async (productData: ProductDTO): Promise<ProductDTO | 
 }
 
 export const putProductWithPurchaseOptions = async (productData: ProductDTO): Promise<ProductDTO | null> => {
-  console.log(productData)
   const response = await fetch(`${BASE_URL}/${getProjectPath()}/${getCookie(C_SELECTED_PROJECT_ID)}/${ENTITY_PATH}/${WITH_PURCHASE_OPTIONS}/update/${productData.id}`, {
     method: 'PUT',
     headers: {

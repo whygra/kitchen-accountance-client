@@ -86,7 +86,6 @@ export const postIngredientGroup = async (createData: IngredientGroupDTO): Promi
 }
 
 export const postIngredientGroupWithIngredients = async (createData: IngredientGroupDTO): Promise<IngredientGroupDTO | null> => {
-  console.log(createData)
   const response = await fetch(`${BASE_URL}/${getProjectPath()}/${getCookie(C_SELECTED_PROJECT_ID)}/${ENTITY_PATH}/${WITH_INGREDIENTS}/create`, {
     method: 'POST',
     headers: {
@@ -127,7 +126,6 @@ export const putIngredientGroup = async (ingredientСategoryData: IngredientGrou
 }
 
 export const putIngredientGroupWithIngredients = async (ingredientСategoryData: IngredientGroupDTO): Promise<IngredientGroupDTO | null> => {
-  console.log(ingredientСategoryData)
   const response = await fetch(`${BASE_URL}/${getProjectPath()}/${getCookie(C_SELECTED_PROJECT_ID)}/${ENTITY_PATH}/${WITH_INGREDIENTS}/update/${ingredientСategoryData.id}`, {
     method: 'PUT',
     headers: {

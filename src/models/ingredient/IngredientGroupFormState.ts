@@ -37,7 +37,6 @@ export interface IngredientGroupIngredientFormState {
 }
 
 export function constructIngredientGroupIngredientForm(dto?: IngredientDTO) : IngredientGroupIngredientFormState{
-    console.log(dto)
     
     return {
         ingredientDataAction: DataAction.None,

@@ -41,7 +41,6 @@ export const getProjectUsers = async () : Promise<UserDTO[] | null> => {
 }
 
 export const assignRole = async (userData: UserDTO): Promise<UserDTO | null> => {
-  console.log(userData)
   const response = await fetch(`${BASE_URL}/${getProjectPath()}/${getCookie(C_SELECTED_PROJECT_ID)}/${ENTITY_PATH}/assign-role/${userData.id}`, {
     method: 'PUT',
     headers: {
@@ -51,7 +50,6 @@ export const assignRole = async (userData: UserDTO): Promise<UserDTO | null> => 
     body: JSON.stringify(userData)
   })
   const data = await response.json().catch(e=>null)
-  console.log(data)
   if (!response.ok) 
     throw {
       message: `Не удалось назначить роль пользователя\n ${data?.message}`,

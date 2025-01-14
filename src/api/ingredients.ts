@@ -100,7 +100,6 @@ export const putIngredient = async (ingredientData: IngredientDTO): Promise<Ingr
 
 
 export const putIngredientWithProducts = async (updateData: IngredientDTO): Promise<IngredientDTO | null> => {
-  console.log(updateData)
   const response = await fetch(`${BASE_URL}/${getProjectPath()}/${getCookie(C_SELECTED_PROJECT_ID)}/${ENTITY_PATH}/${WITH_PRODUCTS}/update/${updateData.id}`, {
     method: 'PUT',
     headers: {
@@ -121,7 +120,6 @@ export const putIngredientWithProducts = async (updateData: IngredientDTO): Prom
 }
 
 export const postIngredientWithProducts = async (createData: IngredientDTO): Promise<IngredientDTO | null> => {
-  console.log(createData);
   const response = await fetch(`${BASE_URL}/${getProjectPath()}/${getCookie(C_SELECTED_PROJECT_ID)}/${ENTITY_PATH}/${WITH_PRODUCTS}/create`, {
     method: 'POST',
     headers: {

@@ -86,7 +86,6 @@ export const postIngredientCategory = async (createData: IngredientCategoryDTO):
 }
 
 export const postIngredientCategoryWithIngredients = async (createData: IngredientCategoryDTO): Promise<IngredientCategoryDTO | null> => {
-  console.log(createData)
   const response = await fetch(`${BASE_URL}/${getProjectPath()}/${getCookie(C_SELECTED_PROJECT_ID)}/${ENTITY_PATH}/${WITH_INGREDIENTS}/create`, {
     method: 'POST',
     headers: {
@@ -127,7 +126,6 @@ export const putIngredientCategory = async (ingredientСategoryData: IngredientC
 }
 
 export const putIngredientCategoryWithIngredients = async (ingredientСategoryData: IngredientCategoryDTO): Promise<IngredientCategoryDTO | null> => {
-  console.log(ingredientСategoryData)
   const response = await fetch(`${BASE_URL}/${getProjectPath()}/${getCookie(C_SELECTED_PROJECT_ID)}/${ENTITY_PATH}/${WITH_INGREDIENTS}/update/${ingredientСategoryData.id}`, {
     method: 'PUT',
     headers: {

@@ -38,7 +38,6 @@ export interface IngredientCategoryIngredientFormState {
 }
 
 export function constructIngredientCategoryIngredientForm(dto?: IngredientDTO) : IngredientCategoryIngredientFormState{
-    console.log(dto)
     return {
         ingredientDataAction: DataAction.None,
         key: uuid(),

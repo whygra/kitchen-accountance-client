@@ -110,7 +110,6 @@ function ProjectFormContextProvider({children, action}:ProjectFormContextProvide
 
   function setName(name: string) {
     saveToHistory()
-    console.log(formState)
     setFormState({...formState, name:name})
   }
 
@@ -142,13 +141,11 @@ function ProjectFormContextProvider({children, action}:ProjectFormContextProvide
 
   async function update() {
     let dto = projectFormToDTO(formState)
-    console.log(dto)
     const project = await putProject(dto)
     if(project?.id && logoFile){
       const imageData = await uploadProjectLogo(project.id, logoFile)
       if (imageData)
         dto.logo = imageData
-      console.log(imageData)
     }
     if(project?.id && backdropFile){
       const imageData = await uploadProjectBackdrop(project.id, backdropFile)

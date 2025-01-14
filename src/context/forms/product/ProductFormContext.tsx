@@ -147,7 +147,6 @@ function ProductFormContextProvider({action, children}:ProductFormContextProvide
   }
 
   function setCategoryName(name:string) {
-    console.log(name)
     saveToHistory()
     setFormState({
       ...formState, 
@@ -189,7 +188,6 @@ function ProductFormContextProvider({action, children}:ProductFormContextProvide
 
   function addPurchaseOptionForm(purchaseOptionForm?: PurchaseOptionFormState) {
     saveToHistory()
-      console.log(purchaseOptionForm)
     setFormState({
       ...formState, 
       purchaseOptionForms:

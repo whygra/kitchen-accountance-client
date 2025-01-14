@@ -69,7 +69,6 @@ export const uploadDistributorPurchaseOptionsSpreadsheet = async (insertData: In
 }
 
 export const postDistributorWithPurchaseOptions = async (createData: DistributorDTO): Promise<DistributorDTO | null> => {
-  console.log(createData);
   const response = await fetch(`${BASE_URL}/${getProjectPath()}/${getCookie(C_SELECTED_PROJECT_ID)}/${ENTITY_PATH}/${WITH_PURCHASE_OPTIONS}/create`, {
     method: 'POST',
     headers: {
@@ -138,7 +137,6 @@ export const getDistributorWithPurchaseOptions = async (id: number) : Promise<Di
       message: `Не удалось получить данные поставщика ${data?.message}`,
       name: `${response.status} ${response.statusText}`
     }
-    console.log(data)
   return data
 }
 

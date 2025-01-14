@@ -37,7 +37,6 @@ export interface DishCategoryDishFormState {
 }
 
 export function constructDishCategoryDishForm(dto?: DishDTO) : DishCategoryDishFormState{
-    console.log(dto)
     return {
         dishDataAction: DataAction.None,
         key: uuid(),
