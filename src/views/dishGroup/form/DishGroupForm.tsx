@@ -6,7 +6,7 @@ import { appContext } from '../../../context/AppContextProvider';
 import { UserPermissions } from '../../../models';
 import HistoryNav from '../../shared/HistoryNav';
 import { projectContext } from '../../../context/ProjectContextProvider';
-import { dishGroupFormContext } from '../../../context/dish/DishGroupFormContext';
+import { dishGroupFormContext } from '../../../context/forms/dish/DishGroupFormContext';
 
 function DishGroupForm() 
 {  

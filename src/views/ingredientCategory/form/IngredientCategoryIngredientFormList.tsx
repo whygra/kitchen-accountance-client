@@ -1,11 +1,9 @@
-import {Button, Container, Form, Modal, OverlayTrigger, Tooltip} from 'react-bootstrap'
+import { Form } from 'react-bootstrap'
 import { constructIngredientCategoryIngredientForm, IngredientCategoryIngredientFormState } from '../../../models/ingredient/IngredientCategoryFormState'
 import { useContext, useState } from 'react'
 import { appContext } from '../../../context/AppContextProvider';
-import BtnAskConfirmation from '../../shared/BtnAskConfirmation';
-import TooltipButton from '../../shared/TooltipButton'
 import useIngredientSelect from '../../../hooks/tableSelect/useIngredientSelect';
-import { ingredientCategoryFormContext } from '../../../context/ingredient/IngredientCategoryFormContext';
+import { ingredientCategoryFormContext } from '../../../context/forms/ingredient/IngredientCategoryFormContext';
 import IngredientCategoryIngredientForm from './IngredientCategoryIngredientForm';
 import FormListButtons from '../../shared/FormListButtons';
 
@@ -19,7 +17,7 @@ function IngredientCategoryIngredientFormList() {
     ingredients,
   } = useContext(ingredientCategoryFormContext);
 
-  const {showModal, hideModal} = useContext(appContext)
+  const { hideModal} = useContext(appContext)
 
   function deleteAll(){
     removeAllIngredientCategoryIngredientForms()

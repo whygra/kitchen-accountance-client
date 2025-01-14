@@ -67,7 +67,7 @@ export function calcIngredientCost(ingredient: IngredientCostCalculatorModel):In
     const cost = ingredient.products?.reduce(
         (total, current)=>{
             return total+current.gramCost*current.weight
-        },0
+        }, 0
     ) ?? 0
     return {...ingredient, cost}
 }
@@ -113,11 +113,5 @@ export function calcGramCost(product: ProductDTO, optionId?: number){
 }
 
 export function calcIngredientSourceWeight(ingredient: IngredientDTO){
-    const avgWastePercentage = (ingredient.products?.reduce(
-        (result, current)=>{
-            return result + (current.waste_percentage&&current.raw_content_percentage ? current.waste_percentage*current.raw_content_percentage : 0)
-        }, 0
-    )??0)/100;
-
-    return (ingredient?.item_weight??1)*(ingredient.ingredient_amount??1) / (100 - avgWastePercentage) * 100
+    return (ingredient?.item_weight??1)*(ingredient.ingredient_amount??1) / (100 - (ingredient.avg_waste_percentage??0)) * 100
 }

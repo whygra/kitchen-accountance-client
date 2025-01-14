@@ -1,17 +1,17 @@
-import { getIngredientsWithProducts, IngredientDTO } from '../../api/ingredients';
-import { DataAction } from '../../models';
+import { getIngredientsWithProducts, IngredientDTO } from '../../../api/ingredients';
+import { DataAction } from '../../../models';
 import { useParams } from 'react-router-dom';
 import { v4 as uuid } from "uuid";
 import { createContext, ReactElement, useEffect, useState } from 'react';
-import { DishIngredientFormState, DishFormState, constructDishForm, constructDishIngredientForm, dishFormToDTO } from '../../models/dish/DishFormState';
-import { DishDTO, getDishWithIngredients, postDishWithIngredients, putDishWithIngredients, uploadDishImage } from '../../api/dishes';
-import { IngredientTypeDTO, getIngredientTypes } from '../../api/ingredientTypes';
-import DishForm from '../../views/dish/form/DishForm';
-import { DishCategoryDTO, getDishCategories } from '../../api/dishCategories';
+import { DishIngredientFormState, DishFormState, constructDishForm, constructDishIngredientForm, dishFormToDTO } from '../../../models/dish/DishFormState';
+import { DishDTO, getDishWithIngredients, postDishWithIngredients, putDishWithIngredients, uploadDishImage } from '../../../api/dishes';
+import { IngredientTypeDTO, getIngredientTypes } from '../../../api/ingredientTypes';
+import DishForm from '../../../views/dish/form/DishForm';
+import { DishCategoryDTO, getDishCategories } from '../../../api/dishCategories';
 import { Image } from 'react-bootstrap';
-import Loading from '../../views/shared/Loading';
-import { ServerImageData } from '../../api/constants';
-import { DishGroupDTO, getDishGroups } from '../../api/dishGroups';
+import Loading from '../../../views/shared/Loading';
+import { ServerImageData } from '../../../api/constants';
+import { DishGroupDTO, getDishGroups } from '../../../api/dishGroups';
 
 
 // контекст формы блюда
@@ -89,7 +89,7 @@ function DishFormContextProvider({action, children}:DishFormContextProviderProps
   useEffect(()=>{
     document.title = action==DataAction.Create
       ?'Создание блюда'
-      :`Редактирование блюда "${formState.id}. ${formState.name}"`
+      :`Редактирование блюда "${formState.name}"`
   }, [formState])
   
   useEffect(()=>{initialize()}, [])

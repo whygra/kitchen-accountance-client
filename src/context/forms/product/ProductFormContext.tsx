@@ -1,28 +1,28 @@
-import ProductForm from '../../views/product/form/ProductForm';
-import { ProductDTO, getProductWithPurchaseOptions, postProductWithPurchaseOptions, putProductWithPurchaseOptions } from '../../api/products';
+import ProductForm from '../../../views/product/form/ProductForm';
+import { ProductDTO, getProductWithPurchaseOptions, postProductWithPurchaseOptions, putProductWithPurchaseOptions } from '../../../api/products';
 import { 
   constructProductForm, 
   constructProductPurchaseOptionForm, 
   ProductFormState, 
   productFormToDTO, 
   PurchaseOptionFormState 
-} from '../../models/product/ProductFormState';
-import { DataAction } from '../../models';
+} from '../../../models/product/ProductFormState';
+import { DataAction } from '../../../models';
 import { useParams } from 'react-router-dom';
 import { v4 as uuid } from "uuid";
 import { createContext, ReactElement, useEffect, useState } from 'react';
-import { UnitDTO, getUnits } from '../../api/units';
-import { getPurchaseOptions, getPurchaseOptionsWithProducts, PurchaseOptionDTO } from '../../api/purchaseOptions';
-import { getProductCategories, ProductCategoryDTO } from '../../api/productCategories';
-import TableSelect from '../../views/shared/selectCreateGroup/TableSelect';
+import { UnitDTO, getUnits } from '../../../api/units';
+import { getPurchaseOptions, getPurchaseOptionsWithProducts, PurchaseOptionDTO } from '../../../api/purchaseOptions';
+import { getProductCategories, ProductCategoryDTO } from '../../../api/productCategories';
+import TableSelect from '../../../views/shared/selectCreateGroup/TableSelect';
 import { Image, Modal } from 'react-bootstrap';
-import useSortPurchaseOptions, { PurchaseOptionField } from '../../hooks/sort/useSortPurchaseOptions';
-import useFilterPurchaseOptions from '../../hooks/filter/useFilterPurchaseOptions';
-import PurchaseOptionsTableItem from '../../views/purchase_option/table/PurchaseOptionsTableItem';
-import PurchaseOptionsTableHeader from '../../views/purchase_option/table/PurchaseOptionsTableHeader';
-import usePurchaseOptionsTableHeader from '../../hooks/usePurchaseOptionsTableHeader';
-import Loading from '../../views/shared/Loading';
-import { getProductGroups, ProductGroupDTO } from '../../api/productGroups';
+import useSortPurchaseOptions, { PurchaseOptionField } from '../../../hooks/sort/useSortPurchaseOptions';
+import useFilterPurchaseOptions from '../../../hooks/filter/useFilterPurchaseOptions';
+import PurchaseOptionsTableItem from '../../../views/purchase_option/table/PurchaseOptionsTableItem';
+import PurchaseOptionsTableHeader from '../../../views/purchase_option/table/PurchaseOptionsTableHeader';
+import usePurchaseOptionsTableHeader from '../../../hooks/usePurchaseOptionsTableHeader';
+import Loading from '../../../views/shared/Loading';
+import { getProductGroups, ProductGroupDTO } from '../../../api/productGroups';
 
   
 interface ProductFormContext {
@@ -87,7 +87,7 @@ function ProductFormContextProvider({action, children}:ProductFormContextProvide
   useEffect(()=>{
     document.title = action==DataAction.Create
       ?'Создание продукта'
-      :`Редактирование продукта "${formState.id}. ${formState.name}"`
+      :`Редактирование продукта "${formState.name}"`
   }, [formState])
 
   useEffect(()=>{initialize()}, [])

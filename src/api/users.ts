@@ -15,6 +15,13 @@ export interface UserDTO {
   role?: RoleDTO
 }
 
+export interface SignUpData {
+  name: string
+  email: string
+  password: string
+  cPassword: string
+}
+
 export const getProjectUsers = async () : Promise<UserDTO[] | null> => {
   const response = await fetch(`${BASE_URL}/${getProjectPath()}/${getCookie(C_SELECTED_PROJECT_ID)}/${ENTITY_PATH}/all`, {
     method: 'GET',

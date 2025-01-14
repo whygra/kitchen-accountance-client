@@ -22,7 +22,7 @@ function DishCategoryDetails()
     const navigate = useNavigate()
 
     useEffect(()=>{
-        document.title = `Категория блюд "${dishCategory?.id}. ${dishCategory?.name}"`}
+        document.title = `Категория блюд "${dishCategory?.name}"`}
     , [dishCategory])
 
     useEffect(()=>{loadDishCategory()}, [])
@@ -63,7 +63,7 @@ function DishCategoryDetails()
                     /> 
                 </div>
 
-                <h3 className='col col-12 col-sm-9 order-sm-1 mt-3'>{`${dishCategory.id}. ${dishCategory.name}`}</h3>
+                <h3 className='col col-12 col-sm-9 order-sm-1 mt-3'>{`${dishCategory.name}`}</h3>
                 </Row>
                 
                 <Col md={12}>

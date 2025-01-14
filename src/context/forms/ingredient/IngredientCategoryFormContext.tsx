@@ -1,13 +1,13 @@
-import { getIngredientsWithProducts, IngredientDTO } from '../../api/ingredients';
-import { DataAction } from '../../models';
+import { getIngredientsWithProducts, IngredientDTO } from '../../../api/ingredients';
+import { DataAction } from '../../../models';
 import { useParams } from 'react-router-dom';
 import { v4 as uuid } from "uuid";
 import { createContext, ReactElement, useEffect, useState } from 'react';
-import { IngredientCategoryIngredientFormState, IngredientCategoryFormState, constructIngredientCategoryForm, constructIngredientCategoryIngredientForm, ingredientCategoryFormToDTO } from '../../models/ingredient/IngredientCategoryFormState';
-import { IngredientTypeDTO, getIngredientTypes } from '../../api/ingredientTypes';
-import { IngredientCategoryDTO, getIngredientCategories, postIngredientCategory, putIngredientCategory, deleteIngredientCategory, getIngredientCategoryWithIngredients, putIngredientCategoryWithIngredients, postIngredientCategoryWithIngredients } from '../../api/ingredientCategories';
-import Loading from '../../views/shared/Loading';
-import { ServerImageData } from '../../api/constants';
+import { IngredientCategoryIngredientFormState, IngredientCategoryFormState, constructIngredientCategoryForm, constructIngredientCategoryIngredientForm, ingredientCategoryFormToDTO } from '../../../models/ingredient/IngredientCategoryFormState';
+import { IngredientTypeDTO, getIngredientTypes } from '../../../api/ingredientTypes';
+import { IngredientCategoryDTO, getIngredientCategories, postIngredientCategory, putIngredientCategory, deleteIngredientCategory, getIngredientCategoryWithIngredients, putIngredientCategoryWithIngredients, postIngredientCategoryWithIngredients } from '../../../api/ingredientCategories';
+import Loading from '../../../views/shared/Loading';
+import { ServerImageData } from '../../../api/constants';
 
 
 // контекст формы блюда
@@ -55,7 +55,7 @@ function IngredientCategoryFormContextProvider({action, children}:IngredientCate
   useEffect(()=>{
     document.title = action==DataAction.Create
       ?'Создание категории ингредиентов'
-      :`Редактирование категории ингредиентов "${formState.id}. ${formState.name}"`
+      :`Редактирование категории ингредиентов "${formState.name}"`
   }, [formState])
   
   useEffect(()=>{initialize()}, [])

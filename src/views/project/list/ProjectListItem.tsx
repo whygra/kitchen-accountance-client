@@ -11,6 +11,7 @@ import { projectContext } from '../../../context/ProjectContextProvider';
 import { authContext } from '../../../context/AuthContextProvider';
 import ProjectsTableItem from './ProjectsTableItem';
 import GridTableRow from '../../shared/GridTableRow';
+import { ProjectField } from '../../../hooks/sort/useSortProjects';
 
 interface ProjectListItemProps {
     project: ProjectDTO
@@ -20,7 +21,7 @@ interface ProjectListItemProps {
 function ProjectListItem({project, onDeleted}: ProjectListItemProps) 
 {   
     const {project: selectedProject, loadProject, hasPermission} = useContext(projectContext)
-    const {user} = useContext(authContext)
+    const {user, isSignedIn} = useContext(authContext)
     const {showModal, hideModal} = useContext(appContext)
 
     const deleteProject = () => {
@@ -29,7 +30,7 @@ function ProjectListItem({project, onDeleted}: ProjectListItemProps)
             .catch()
             .then(()=>{
                 if(selectedProject?.id==project.id)
-                    loadProject()
+                    loadProject(null)
                 onDeleted()
                 hideModal()
             })
@@ -52,7 +53,7 @@ function ProjectListItem({project, onDeleted}: ProjectListItemProps)
                     {
                         span: 6,
                         element:
-                            <ProjectsTableItem project={project}/>                        
+                            <ProjectsTableItem project={project} fieldsToExclude={isSignedIn()?undefined:[ProjectField.Role]}/>                        
                     }
                 ]}
                 />
@@ -60,7 +61,7 @@ function ProjectListItem({project, onDeleted}: ProjectListItemProps)
                     {selectedProject?.id==project.id
                     ?
                     <TooltipButton
-                        onClick={()=>loadProject()}
+                        onClick={()=>loadProject(null)}
                         tooltip='отменить выбор'
                         variant='secondary'
                     >

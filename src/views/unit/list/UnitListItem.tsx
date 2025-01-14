@@ -95,7 +95,7 @@ function UnitListItem({unit, onSubmited}: UnitListItemProps)
                                     </TooltipButton>
                                     
                                     <BtnAskConfirmation
-                                        prompt={`Вы действительно хотите удалить единицу измерения "${unit.id}. ${unit.long}"?`}
+                                        prompt={`Вы действительно хотите удалить единицу измерения "${unit.long}"?`}
                                         tooltip='удалить'
                                         variant='danger'
                                         onConfirm={()=>deleteUnit(unit.id)}

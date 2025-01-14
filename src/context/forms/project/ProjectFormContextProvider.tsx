@@ -1,17 +1,14 @@
-import { RouterProvider, useParams } from 'react-router-dom'
-import { Provider } from 'react-redux';
+import {  useParams } from 'react-router-dom'
 import 'bootstrap';
 import 'react-bootstrap';
-import { Container, Modal } from 'react-bootstrap';
-import { act, createContext, ReactElement, ReactNode, useContext, useEffect, useState } from 'react';
-import {  UserDTO } from '../api/users';
-import { getCookie, setCookie } from '../cookies';
-import { getProject, postProject, ProjectDTO, putProject, uploadProjectBackdrop, uploadProjectLogo } from '../api/projects';
-import { constructProjectForm, ProjectFormState, projectFormToDTO } from '../models/product/ProjectFormState';
-import { constructProductForm } from '../models/product/ProductFormState';
-import { projectContext } from './ProjectContextProvider';
-import { DataAction, UserPermissions } from '../models';
-import { ServerImageData } from '../api/constants';
+import { createContext, ReactElement, useContext, useEffect, useState } from 'react';
+import { postProject, ProjectDTO, putProject, uploadProjectBackdrop, uploadProjectLogo } from '../../../api/projects';
+import { constructProjectForm, ProjectFormState, projectFormToDTO } from '../../../models/product/ProjectFormState';
+import { constructProductForm } from '../../../models/product/ProductFormState';
+import { projectContext } from '../../ProjectContextProvider';
+import { DataAction, UserPermissions } from '../../../models';
+import { ServerImageData } from '../../../api/constants';
+import Loading from '../../../views/shared/Loading';
 
 
   // контекст приложения
@@ -51,8 +48,8 @@ interface ProjectFormContextProviderProps {
 }
 
 function ProjectFormContextProvider({children, action}:ProjectFormContextProviderProps) {
-  const {project, loadProject: loadProjectState, hasPermission} = useContext(projectContext)
-  const [formState, setFormState] = useState(constructProjectForm(project??undefined))
+  const {getProject, loadProject: loadProjectState, hasPermission} = useContext(projectContext)
+  const [formState, setFormState] = useState(constructProjectForm(getProject()??undefined))
   const historyLength = 10
   const [formStateHistory, setFormStateHistory] = useState<ProjectFormState[]>([])
   const [isLoading, setIsLoading] = useState(false) 
@@ -68,7 +65,7 @@ function ProjectFormContextProvider({children, action}:ProjectFormContextProvide
   useEffect(()=>{
     document.title = action==DataAction.Create
       ?'Создание блюда'
-      :`Редактирование блюда "${formState.id}. ${formState.name}"`
+      :`Редактирование блюда "${formState.name}"`
   }, [formState])
   
   useEffect(()=>{initialize()}, [])
@@ -76,7 +73,7 @@ function ProjectFormContextProvider({children, action}:ProjectFormContextProvide
   async function initialize() {
     setIsLoading(true)
     if(id!==undefined || action==DataAction.Update) 
-      loadProject()
+      await loadProject()
     else
       setFormState(constructProjectForm())
     
@@ -196,7 +193,7 @@ function ProjectFormContextProvider({children, action}:ProjectFormContextProvide
           setBackdrop: setBackdrop,
         }}
         >
-          {children}
+          {isLoading ? <Loading/> : children}
       </projectFormContext.Provider>
     </>
   )

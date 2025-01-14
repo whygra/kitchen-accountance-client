@@ -17,7 +17,7 @@ function UnitSelect({unitId, units, setUnitId} : UnitSelectProps) {
       value={unitId}
       onChange={e=>setUnitId(parseInt(e.target.value))}
     >
-      {units?.map(unit => <option value={unit.id}>{`${unit.id}. ${unit.long}`}</option>)} 
+      {units?.map(unit => <option value={unit.id}>{unit.long}</option>)} 
     </Form.Select>
   )
 }

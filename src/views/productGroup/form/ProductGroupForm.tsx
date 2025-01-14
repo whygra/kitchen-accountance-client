@@ -2,7 +2,7 @@ import ProductGroupProductFormList from './ProductGroupProductFormList';
 import { Button, Col, Form, Image, Row } from 'react-bootstrap';
 import { FormEvent, useContext, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { productGroupFormContext } from '../../../context/product/ProductGroupFormContext';
+import { productGroupFormContext } from '../../../context/forms/product/ProductGroupFormContext';
 import { appContext } from '../../../context/AppContextProvider';
 import { UserPermissions } from '../../../models';
 import HistoryNav from '../../shared/HistoryNav';

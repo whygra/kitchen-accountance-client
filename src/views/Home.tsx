@@ -4,11 +4,9 @@ import { Carousel, CarouselItem, Image } from 'react-bootstrap'
 function Home() {
   useEffect(()=>{document.title='KitchenAccountance - главная'},[])
   return (
-    <div className='m-0 p-0 d-flex flex-column justify-content-start align-items-center'>
+    <div className='h-100 m-0 p-0 d-flex flex-column justify-content-between align-items-center'>
       <h1 className='app-title'>KitchenAccountance</h1>
-      {/* <h3 className='app-desc'>
-        электронный офис для профессиональной кухни
-      </h3> */}
+
       <Carousel className='mt-4' style={{maxWidth:'calc(100vw - 2em)'}}>
         <CarouselItem>
           <Image className='carousel-image' src='/images/kitchen-1.jpg'/>
@@ -32,6 +30,9 @@ function Home() {
         </Carousel.Caption>
         </CarouselItem>
       </Carousel>
+      <div className='w-100 border-top pt-4 mt-5 text-center bottom-0'>
+        <h6>kitchen-accountance@yandex.ru</h6>
+      </div>
     </div>
   )
 }

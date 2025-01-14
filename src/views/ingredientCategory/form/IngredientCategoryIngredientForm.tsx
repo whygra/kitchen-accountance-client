@@ -2,7 +2,7 @@ import {Button, Card, Col, Container, Form, Row, Table} from 'react-bootstrap'
 import { IngredientCategoryIngredientFormState } from '../../../models/ingredient/IngredientCategoryFormState'
 import 'bootstrap'
 import { useContext } from 'react'
-import { ingredientCategoryFormContext } from '../../../context/ingredient/IngredientCategoryFormContext'
+import { ingredientCategoryFormContext } from '../../../context/forms/ingredient/IngredientCategoryFormContext'
 import TooltipButton from '../../shared/TooltipButton'
 
 interface IngredientCategoryIngredientFormProps {
@@ -22,7 +22,7 @@ function IngredientCategoryIngredientForm({formState}: IngredientCategoryIngredi
           <div className="d-flex flex-column">
             <b>Ингредиент</b>
             <span>
-              {selected?.id}. {selected?.name} {selected?.type?.name}
+              {selected?.name} {selected?.type?.name}
             </span>
           </div>
         </Col>

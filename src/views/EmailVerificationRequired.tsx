@@ -1,9 +1,5 @@
 import { Button, Container, Image } from "react-bootstrap";
-import {
-    ErrorBoundary,
-    FallbackProps,
-    useErrorBoundary,
-  } from "react-error-boundary";
+
 import { resendVerificationEmail } from "../api/auth";
 import { useContext, useState } from "react";
 import { appContext } from "../context/AppContextProvider";

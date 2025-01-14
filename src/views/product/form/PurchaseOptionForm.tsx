@@ -1,7 +1,7 @@
 import { ReactElement, useContext, useState } from "react"
 import { PurchaseOptionFormState } from "../../../models/product/ProductFormState"
 import { Button, Card, Col, Form, Modal, Row } from "react-bootstrap"
-import { productFormContext } from "../../../context/product/ProductFormContext"
+import { productFormContext } from "../../../context/forms/product/ProductFormContext"
 import TooltipButton from "../../shared/TooltipButton"
 import { PurchaseOptionDTO } from "../../../api/purchaseOptions"
 import { PurchaseOptionField } from "../../../hooks/sort/useSortPurchaseOptions"
@@ -41,7 +41,7 @@ function PurchaseOptionForm({formState, openSelect}: PurchaseOptionFormProps) {
                   placeholder='--не выбран--'
                   onClick={()=>openSelect(formState)} 
                   required
-                  value={selectedPO ? `${selectedPO.id}. ${selectedPO.name}` : ''} 
+                  value={selectedPO ? selectedPO.name : ''} 
                 />
         
                 <Form.Control.Feedback type="invalid">

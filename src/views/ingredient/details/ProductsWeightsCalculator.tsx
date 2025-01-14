@@ -1,8 +1,6 @@
 import { Form, FormSelect, Table } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import { IngredientDTO } from "../../../api/ingredients";
-import IngredientDetails from "./IngredientDetails";
-import { constructIngredientProductsWeightsCalculator, getProductsWeights } from "../../../models/ingredient/IngredientProductsWeightsCalculatorState";
 import { calcIngredientCost, constructIngredientCostCalculator, constructProductCostCalculator, ProductCostCalculatorModel, setAmount } from "../../../models/dish/DishCostCalculatorState";
 import ProductCostCalculator from "./ProductCostCalculator";
 import { Link } from "react-router-dom";
@@ -67,7 +65,7 @@ function ProductsWeightsCalculator({ingredient}:ProductsWeightsCalculatorProps) 
                     <tbody>
                     {costCalculator.products?.map(p=>
                         <tr>
-                            <td><Link to={`/products/details/${p.id}`}>{p.id}. {p.name}</Link></td>
+                            <td><Link to={`/products/details/${p.id}`}>{p.name}</Link></td>
                             <td>
                                 <ProductCostCalculator product={p} setProductState={setProductState}/>
                             </td>

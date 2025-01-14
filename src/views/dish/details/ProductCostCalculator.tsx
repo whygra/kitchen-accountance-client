@@ -1,7 +1,7 @@
-import { Accordion, Col, Form, FormSelect, Row, Table } from "react-bootstrap";
+import { FormSelect, Row, Table } from "react-bootstrap";
 import { useContext, useEffect, useState } from "react";
 import { ProductCostCalculatorModel, selectPurchaseOptionId } from "../../../models/dish/DishCostCalculatorState";
-import { dishCostCalculatorContext } from "../../../context/dish/DishCostCalculatorContext";
+import { dishCostCalculatorContext } from "../../../context/DishCostCalculatorContext";
 import GridTableRow, { WindowSize } from "../../shared/GridTableRow";
 
 
@@ -26,7 +26,7 @@ function ProductCostCalculator({product, ingredientId}:IngredientCostCalculatorP
         <Table className="text-center text-nowrap">
             <GridTableRow cells={[
                 {
-                    element: <b className="text-wrap text-start bg-transparent">{product.id}. {product.name}</b>,
+                    element: <b className="text-wrap text-start bg-transparent">{product.name}</b>,
                     span: 5
                 },
                 {

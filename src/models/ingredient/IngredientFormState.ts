@@ -79,8 +79,8 @@ export function constructIngredientProductForm(dto?: ProductDTO): IngredientProd
         id: dto?.id ?? 0,
         name: dto?.name ?? '',
         productDataAction: DataAction.None,
-        weight: dto?.raw_content_percentage ?? 1,
-        weightPercentage: dto?.raw_content_percentage ?? 1,
+        weight: dto?.raw_product_weight ?? 1,
+        weightPercentage: dto?.raw_product_weight ?? 1,
         wastePercentage: dto?.waste_percentage ?? 0,
     }
 }
@@ -89,7 +89,7 @@ export function ingredientProductToDTO(formState: IngredientProductFormState): P
     return {
         id: formState.productDataAction == DataAction.Create ? 0 : formState.id,
         name: formState.name,
-        raw_content_percentage: formState.weightPercentage,
+        raw_product_weight: formState.weight,
         waste_percentage: formState.wastePercentage,
     }
 }

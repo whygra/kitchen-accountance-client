@@ -1,7 +1,7 @@
 import { useContext } from "react"
 import { DataAction } from "../../../models"
 import { Button, Card, Col, Form, Row } from "react-bootstrap"
-import { purchaseOptionFormContext } from "../../../context/PurchaseOptionFormContext"
+import { purchaseOptionFormContext } from "../../../context/forms/distributor/PurchaseOptionFormContext"
 import { ProductFormState } from "../../../models/PurchaseOptionFormState"
 import SelectCreateGroup from "../../shared/selectCreateGroup/SelectCreateGroup"
 import TooltipButton from "../../shared/TooltipButton"
@@ -68,7 +68,7 @@ function ProductForm({formState, openSelect}: ProductFormProps) {
                     placeholder='--не выбран--'
                     onClick={()=>openSelect(formState)} 
                     required
-                    value={selectedProduct ? `${selectedProduct.id}. ${selectedProduct.name}` : ''} 
+                    value={selectedProduct ? selectedProduct.name : ''} 
                   />
                   <Form.Control.Feedback type="invalid">
                     выберите продукт

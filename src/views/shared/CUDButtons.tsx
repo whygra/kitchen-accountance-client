@@ -40,7 +40,7 @@ function CUDButtons({entity, requiredPermission, path, deleteFn}:CUDButtonsProps
                     tooltip='Удалить'
                     variant='danger'
                     onConfirm={()=>deleteFn(entity.id)}
-                    prompt={`Вы уверены, что хотите удалить данные "${entity.id}. ${entity.name}" и все связи?`}
+                    prompt={`Вы уверены, что хотите удалить данные "${entity.name}" и все связи?`}
                 >
                     <i className="bi bi-x-lg"/>
 

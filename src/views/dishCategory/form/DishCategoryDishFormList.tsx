@@ -5,7 +5,7 @@ import { appContext } from '../../../context/AppContextProvider';
 import BtnAskConfirmation from '../../shared/BtnAskConfirmation';
 import TooltipButton from '../../shared/TooltipButton'
 import useDisheselect from '../../../hooks/tableSelect/useDishSelect';
-import { dishCategoryFormContext } from '../../../context/dish/DishCategoryFormContext';
+import { dishCategoryFormContext } from '../../../context/forms/dish/DishCategoryFormContext';
 import DishCategoryDishForm from './DishCategoryDishForm';
 import FormListButtons from '../../shared/FormListButtons';
 

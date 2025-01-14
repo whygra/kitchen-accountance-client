@@ -1,14 +1,14 @@
-import { getIngredientsWithProducts, IngredientDTO } from '../../api/ingredients';
-import { DataAction } from '../../models';
+import { getIngredientsWithProducts, IngredientDTO } from '../api/ingredients';
+import { DataAction } from '../models';
 import { useParams } from 'react-router-dom';
 import { v4 as uuid } from "uuid";
 import { createContext, ReactElement, useContext, useEffect, useState } from 'react';
-import { setCalcDishCost, calcIngredientCost, constructIngredientCostCalculator, DishCostCalculatorState, IngredientCostCalculatorModel, ProductCostCalculatorModel } from '../../models/dish/DishCostCalculatorState';
-import { getDishWithIngredients, getDishWithPurchaseOptions, postDishWithIngredients, putDishWithIngredients } from '../../api/dishes';
-import { constructDishCostCalculator } from '../../models/dish/DishCostCalculatorState';
-import DishCostCalculator from '../../views/dish/details/DishCostCalculator';
-import { appContext } from '../AppContextProvider';
-import Loading from '../../views/shared/Loading';
+import { setCalcDishCost, calcIngredientCost, constructIngredientCostCalculator, DishCostCalculatorState, IngredientCostCalculatorModel, ProductCostCalculatorModel } from '../models/dish/DishCostCalculatorState';
+import { getDishWithIngredients, getDishWithPurchaseOptions, postDishWithIngredients, putDishWithIngredients } from '../api/dishes';
+import { constructDishCostCalculator } from '../models/dish/DishCostCalculatorState';
+import DishCostCalculator from '../views/dish/details/DishCostCalculator';
+import { appContext } from './AppContextProvider';
+import Loading from '../views/shared/Loading';
 
   // контекст ккалькулятора стоимости блюда
   interface DishCostCalculator {

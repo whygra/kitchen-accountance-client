@@ -1,11 +1,11 @@
-import { getProductsWithPurchaseOptions, ProductDTO } from '../../api/products';
-import { DataAction } from '../../models';
+import { getProductsWithPurchaseOptions, ProductDTO } from '../../../api/products';
+import { DataAction } from '../../../models';
 import { useParams } from 'react-router-dom';
 import { v4 as uuid } from "uuid";
 import { createContext, ReactElement, useEffect, useState } from 'react';
-import { ProductGroupProductFormState, ProductGroupFormState, constructProductGroupForm, constructProductGroupProductForm, productGroupFormToDTO } from '../../models/product/ProductGroupFormState';
-import { ProductGroupDTO, getProductGroups, postProductGroup, putProductGroup, deleteProductGroup, getProductGroupWithProducts, putProductGroupWithProducts, postProductGroupWithProducts } from '../../api/productGroups';
-import Loading from '../../views/shared/Loading';
+import { ProductGroupProductFormState, ProductGroupFormState, constructProductGroupForm, constructProductGroupProductForm, productGroupFormToDTO } from '../../../models/product/ProductGroupFormState';
+import { ProductGroupDTO, getProductGroups, postProductGroup, putProductGroup, deleteProductGroup, getProductGroupWithProducts, putProductGroupWithProducts, postProductGroupWithProducts } from '../../../api/productGroups';
+import Loading from '../../../views/shared/Loading';
 
 
 // контекст формы блюда
@@ -53,7 +53,7 @@ function ProductGroupFormContextProvider({action, children}:ProductGroupFormCont
   useEffect(()=>{
     document.title = action==DataAction.Create
       ?'Создание группы продуктов'
-      :`Редактирование группы продуктов "${formState.id}. ${formState.name}"`
+      :`Редактирование группы продуктов "${formState.name}"`
   }, [formState])
   
   useEffect(()=>{initialize()}, [])

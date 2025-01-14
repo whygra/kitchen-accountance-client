@@ -2,12 +2,12 @@ import {Button, Card, Col, Container, Form, Row, Table} from 'react-bootstrap'
 import { DataAction } from '../../../models'
 import 'bootstrap'
 import { ReactElement, useContext, useEffect, useState } from 'react'
-import { dishFormContext } from '../../../context/dish/DishFormContext'
+import { dishFormContext } from '../../../context/forms/dish/DishFormContext'
 import TooltipButton from '../../shared/TooltipButton'
 import { DishDTO } from '../../../api/dishes'
 import TableSelect from '../../shared/selectCreateGroup/TableSelect'
 import { DishGroupDishFormState } from '../../../models/dish/DishGroupFormState'
-import { dishGroupFormContext } from '../../../context/dish/DishGroupFormContext'
+import { dishGroupFormContext } from '../../../context/forms/dish/DishGroupFormContext'
 
 interface DishGroupDishFormProps {
   formState: DishGroupDishFormState,
@@ -27,7 +27,7 @@ function DishGroupDishForm({formState}: DishGroupDishFormProps) {
           <div className="d-flex flex-column">
             <b>Блюдо</b>
             <span>
-              {selected?.id}. {selected?.name}
+              {selected?.name}
             </span>
           </div>
         </Col>

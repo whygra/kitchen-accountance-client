@@ -54,7 +54,7 @@ function IngredientsWeightsCalculator({dish}:IngredientsWeightsCalculatorProps) 
                     <tbody>
                     {ingredientsCalcData?.map(c=>
                         <tr>
-                            <td className="text-nowrap">{`${c.ingredient.id}. ${c.ingredient.name} ${c.ingredient.type?.name}`}</td>
+                            <td className="text-nowrap">{`${c.ingredient.name} ${c.ingredient.type?.name}`}</td>
                             <td className='text-end'><u>{isNaN(c.amount)?"-/-":`${c.amount} ${c.ingredient.is_item_measured?'шт.':'г.'}`}</u></td>
                         </tr>
                     )}

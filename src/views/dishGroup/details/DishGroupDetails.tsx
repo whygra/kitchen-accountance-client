@@ -22,7 +22,7 @@ function DishGroupDetails()
     const navigate = useNavigate()
 
     useEffect(()=>{
-        document.title = `Блюдо "${dishGroup?.id}. ${dishGroup?.name}"`}
+        document.title = `Блюдо "${dishGroup?.name}"`}
     , [dishGroup])
 
     useEffect(()=>{loadDishGroup()}, [])
@@ -61,7 +61,7 @@ function DishGroupDetails()
                     />
                 </div>
 
-                <h3 className='col col-12 col-sm-9 order-sm-1 mt-3'>{`${dishGroup.id}. ${dishGroup.name}`}</h3>
+                <h3 className='col col-12 col-sm-9 order-sm-1 mt-3'>{dishGroup.name}</h3>
                 </Row>
                 
                 <Col md={12}>

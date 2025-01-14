@@ -2,7 +2,7 @@ import {Button, Card, Col, Container, Form, Row, Table} from 'react-bootstrap'
 import { ProductCategoryProductFormState } from '../../../models/product/ProductCategoryFormState'
 import 'bootstrap'
 import { useContext } from 'react'
-import { productCategoryFormContext } from '../../../context/product/ProductCategoryFormContext'
+import { productCategoryFormContext } from '../../../context/forms/product/ProductCategoryFormContext'
 import TooltipButton from '../../shared/TooltipButton'
 
 interface ProductCategoryProductFormProps {
@@ -22,7 +22,7 @@ function ProductCategoryProductForm({formState}: ProductCategoryProductFormProps
           <div className="d-flex flex-column">
             <b>Продукт</b>
             <span>
-              {selected?.id}. {selected?.name}
+              {selected?.name}
             </span>
           </div>
         </Col>

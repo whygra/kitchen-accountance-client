@@ -4,7 +4,7 @@ import { FormEvent, useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { DishDTO } from '../../../api/dishes';
 import PurchaseOptionFormList from './PurchaseOptionFormList';
-import { distributorFormContext } from '../../../context/DistributorFormContext';
+import { distributorFormContext } from '../../../context/forms/distributor/DistributorFormContext';
 import { appContext } from '../../../context/AppContextProvider';
 import SpreadsheetUploadForm from './SpreasheetUploadForm';
 import { uploadDistributorPurchaseOptionsSpreadsheet as uploadDistributorPurchaseOptionsFile } from '../../../api/distributors';

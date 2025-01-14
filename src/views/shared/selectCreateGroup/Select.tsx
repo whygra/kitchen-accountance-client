@@ -28,7 +28,7 @@ function Select<T extends NamedEntity>({selectedId, items, setId} : SelectProps<
         value={selectedId}
         onChange={e=>setId(parseInt(e.target.value))}
       >
-        {items?.map(item => <option value={item.id}>{`${item.id}. ${item.name}`}</option>)} 
+        {items?.map(item => <option value={item.id}>{item.name}</option>)} 
       </Form.Select>
       <Form.Control.Feedback type="invalid">
             выберите элемент

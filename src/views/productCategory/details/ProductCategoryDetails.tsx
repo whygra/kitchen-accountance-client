@@ -22,7 +22,7 @@ function ProductCategoryDetails()
     const navigate = useNavigate()
 
     useEffect(()=>{
-        document.title = `Категория ингредиентов "${productCategory?.id}. ${productCategory?.name}"`}
+        document.title = `Категория ингредиентов "${productCategory?.name}"`}
     , [productCategory])
 
     useEffect(()=>{loadProductCategory()}, [])
@@ -62,7 +62,7 @@ function ProductCategoryDetails()
                     />
                 </div>
 
-                <h3 className='col col-12 col-sm-8 order-sm-1 mt-3'>{`${productCategory.id}. ${productCategory.name}`}</h3>
+                <h3 className='col col-12 col-sm-8 order-sm-1 mt-3'>{productCategory.name}</h3>
                 </Row>
                 
                 <Col md={12}>

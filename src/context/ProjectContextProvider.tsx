@@ -1,69 +1,86 @@
-import { RouterProvider, useLocation } from 'react-router-dom'
-import { Provider } from 'react-redux';
 import 'bootstrap';
 import 'react-bootstrap';
-import { Container, Modal } from 'react-bootstrap';
 import { createContext, ReactElement, ReactNode, useContext, useEffect, useState } from 'react';
-import { UserDTO } from '../api/users';
 import { C_PROJECT_DATA, getCookie, setCookie } from '../cookies';
 import { C_SELECTED_PROJECT_ID } from '../cookies';
 import { getProject, getPublicProject, ProjectDTO } from '../api/projects';
 import { UserPermissions } from '../models';
-import { appContext } from './AppContextProvider';
-import { ErrorView } from '../views/ErrorView';
 import { authContext } from './AuthContextProvider';
 import { parseJsonOrNull } from '../api/constants';
-import { constructProjectForm, projectFormToDTO } from '../models/product/ProjectFormState';
 
 
-  // контекст проекта
-  interface ProjectContext {
-    project: ProjectDTO|null
-    loadProject: (id?: number) => Promise<ProjectDTO|null>
-    hasPermission: (permission:UserPermissions)=>boolean
-  }
-  
-  export const projectContext = createContext<ProjectContext>({
-    project: null,
-    loadProject: async (id?: number) => null,
-    hasPermission: (permission:UserPermissions)=>false,
-  });
+// контекст проекта
+interface ProjectContext {
+  getProject: () => ProjectDTO|null
+  project: ProjectDTO|null
+  loadProject: (id: number|null) => Promise<ProjectDTO|null>
+  hasPermission: (permission:UserPermissions)=>boolean
+}
+
+export const projectContext = createContext<ProjectContext>({
+  getProject: () => null,
+  project: null,
+  loadProject: async (id: number|null) => null,
+  hasPermission: (permission:UserPermissions)=>false,
+});
 
 interface ProjectContextProviderProps {
-    children: ReactElement
+  children: ReactElement
 }
 
 function ProjectContextProvider({children}:ProjectContextProviderProps) {
-  const [project, setProject] = useState<ProjectDTO|null>(parseJsonOrNull(getCookie(C_PROJECT_DATA)))
-  const {showModal} = useContext(appContext)
+
+  const [project, setProject] = useState<ProjectDTO|null>(parseProjectCookie())
   const {user} = useContext(authContext)
 
-  const location = useLocation()
   useEffect(()=>{
-    setProject(parseJsonOrNull(getCookie(C_PROJECT_DATA)))
-  }, [])
+    // отслеживать изменение пользователя:
+    // если пользователь пустой (выполнен выход) - сбросить проект
+    loadProject(user?parseIdCookie():null)
+  }, [user])
 
-  async function loadProject(id?: number) {
-
+  // парсинг проекта из куки
+  function parseProjectCookie(): ProjectDTO|null {
+    return parseJsonOrNull(getCookie(C_PROJECT_DATA))
+  }
+  // парсинг id проекта из куки
+  function parseIdCookie(): number|null {
+    return parseInt(getCookie(C_SELECTED_PROJECT_ID))
+  }
+  // записать id в куки
+  function setIdCookie(id: number|null){
     setCookie(C_SELECTED_PROJECT_ID, `${id ?? ''}`, id?10:0)
-    if (id === undefined) {
-      setProject(null)
-      return null
+  }
+  // записать данные проекта в куки
+  function setProjectDataCookie(project: ProjectDTO|null){
+    setCookie(C_PROJECT_DATA,project?JSON.stringify(project):'', project?300:0)
+  }
+
+  const getProjectFn = () => user?getProject:getPublicProject
+  
+  // загрузка проекта по id - возвращает проект|null
+  async function loadProject(id: number|null) {
+    
+    // переменная с результатом
+    var res: ProjectDTO|null = null
+    
+    try{
+      // если есть id - отправить api запрос
+      if (id) res = await getProjectFn()(id)
+    } catch(e:any){
+      // обработка-выброс исключения
+      throw e
+    } finally {
+      // записать|очистить данные
+      setProject(res)
+      setIdCookie(id)
+      setProjectDataCookie(res)
     }
     
-    var res: ProjectDTO|null = null
-    try{
-      res = await (user?getProject:getPublicProject)(id)
-      setProject(res ? res : null)
-      setCookie(C_PROJECT_DATA,res?JSON.stringify(res):'', res?300:0)
-    } catch(e:any){
-      setCookie(C_SELECTED_PROJECT_ID,'', 0)
-      setCookie(C_PROJECT_DATA, '', 0)
-      showModal(<div className='m-2'>{e.message}</div>, <b>{e.name}</b>)
-    }
     return res
   }
 
+  // получить разрешения - из данных куки (куки обновляются быстрее чем состояние)
   const hasPermission = (permission:UserPermissions) => {
     
     const project: ProjectDTO|null = parseJsonOrNull(getCookie(C_PROJECT_DATA))
@@ -78,6 +95,7 @@ function ProjectContextProvider({children}:ProjectContextProviderProps) {
     <>
       <projectContext.Provider
         value={{
+          getProject: parseProjectCookie,
           project: project,
           hasPermission: hasPermission,
           loadProject: loadProject,

@@ -1,12 +1,12 @@
-import { getDishesWithIngredients, DishDTO } from '../../api/dishes';
-import { DataAction } from '../../models';
+import { getDishesWithIngredients, DishDTO } from '../../../api/dishes';
+import { DataAction } from '../../../models';
 import { useParams } from 'react-router-dom';
 import { v4 as uuid } from "uuid";
 import { createContext, ReactElement, useEffect, useState } from 'react';
-import { DishCategoryDishFormState, DishCategoryFormState, constructDishCategoryForm, constructDishCategoryDishForm, dishCategoryFormToDTO } from '../../models/dish/DishCategoryFormState';
-import { DishCategoryDTO, getDishCategories, postDishCategory, putDishCategory, deleteDishCategory, getDishCategoryWithDishes, putDishCategoryWithDishes, postDishCategoryWithDishes } from '../../api/dishCategories';
-import Loading from '../../views/shared/Loading';
-import { ServerImageData } from '../../api/constants';
+import { DishCategoryDishFormState, DishCategoryFormState, constructDishCategoryForm, constructDishCategoryDishForm, dishCategoryFormToDTO } from '../../../models/dish/DishCategoryFormState';
+import { DishCategoryDTO, getDishCategories, postDishCategory, putDishCategory, deleteDishCategory, getDishCategoryWithDishes, putDishCategoryWithDishes, postDishCategoryWithDishes } from '../../../api/dishCategories';
+import Loading from '../../../views/shared/Loading';
+import { ServerImageData } from '../../../api/constants';
 
 
 // контекст формы блюда
@@ -54,7 +54,7 @@ function DishCategoryFormContextProvider({action, children}:DishCategoryFormCont
   useEffect(()=>{
     document.title = action==DataAction.Create
       ?'Создание категори блюд'
-      :`Редактирование категории блюд "${formState.id}. ${formState.name}"`
+      :`Редактирование категории блюд "${formState.name}"`
   }, [formState])
   
   useEffect(()=>{initialize()}, [])

@@ -28,7 +28,7 @@ function DistributorDetails()
     const {showModal} = useContext(appContext)
 
     useEffect(()=>{
-        document.title = `Поставщик "${distributor?.id}. ${distributor?.name}"`}
+        document.title = `Поставщик "${distributor?.name}"`}
     , [distributor])
 
     useEffect(()=>{loadDistributor()}, [])
@@ -73,7 +73,7 @@ function DistributorDetails()
                     />
                 </div>
 
-                <h3 className='col col-12 col-sm-8 order-sm-1 mt-3'>{`${distributor.id}. ${distributor.name}`}</h3>
+                <h3 className='col col-12 col-sm-8 order-sm-1 mt-3'>{distributor.name}</h3>
                 </Row>
                 
                 <Col md={12}>

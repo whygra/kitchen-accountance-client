@@ -1,6 +1,6 @@
 import { Route } from "react-router-dom";
 import { DataAction } from "../models";
-import DishFormContextProvider from "../context/dish/DishFormContext";
+import DishFormContextProvider from "../context/forms/dish/DishFormContext";
 import DishForm from "../views/dish/form/DishForm";
 import DishDetails from "../views/dish/details/DishDetails";
 import DishList from "../views/dish/list/DishList";

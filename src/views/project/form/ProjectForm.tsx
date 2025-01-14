@@ -1,19 +1,15 @@
 import { Button, Col, Form, Image, Row } from 'react-bootstrap';
 import { FormEvent, useContext, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ProjectDTO } from '../../../api/projects';
 import { appContext } from '../../../context/AppContextProvider';
-import { authContext } from '../../../context/AuthContextProvider';
-import { DataAction, UserPermissions } from '../../../models';
+import { UserPermissions } from '../../../models';
 import HistoryNav from '../../shared/HistoryNav';
 import SmallTooltipButton from '../../shared/SmallTooltipButton';
-import { projectFormContext } from '../../../context/ProjectFormContextProvider';
+import { projectFormContext } from '../../../context/forms/project/ProjectFormContextProvider';
 import { projectContext } from '../../../context/ProjectContextProvider';
-import BtnShowFileUploadForm from './BtnShowFileUploadForm';
 
 function ProjectForm() 
-{  
-  const {hasPermission} = useContext(projectContext)
+{ 
 
   const logoInputRef = useRef<HTMLInputElement>(null)
   const backdropInputRef = useRef<HTMLInputElement>(null)
@@ -27,7 +23,7 @@ function ProjectForm()
   const {
     setBackdrop, setLogo, resetBackdrop, resetLogo,
     formState, requestFn, setName,
-    history, reloadState, action
+    history, reloadState
   } = useContext(projectFormContext);
   
 

@@ -2,7 +2,7 @@ import {Button, Card, Col, Container, Form, Row, Table} from 'react-bootstrap'
 import { ProductGroupProductFormState } from '../../../models/product/ProductGroupFormState'
 import 'bootstrap'
 import { useContext } from 'react'
-import { productGroupFormContext } from '../../../context/product/ProductGroupFormContext'
+import { productGroupFormContext } from '../../../context/forms/product/ProductGroupFormContext'
 import TooltipButton from '../../shared/TooltipButton'
 
 interface ProductGroupProductFormProps {
@@ -22,7 +22,7 @@ function ProductGroupProductForm({formState}: ProductGroupProductFormProps) {
           <div className="d-flex flex-column">
             <b>Продукт</b>
             <span>
-              {selected?.id}. {selected?.name}
+              {selected?.name}
             </span>
           </div>
         </Col>

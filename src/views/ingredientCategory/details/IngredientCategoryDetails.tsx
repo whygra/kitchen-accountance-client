@@ -22,7 +22,7 @@ function IngredientCategoryDetails()
     const navigate = useNavigate()
 
     useEffect(()=>{
-        document.title = `Категория ингредиентов "${ingredientCategory?.id}. ${ingredientCategory?.name}"`}
+        document.title = `Категория ингредиентов "${ingredientCategory?.name}"`}
     , [ingredientCategory])
 
     useEffect(()=>{loadIngredientCategory()}, [])
@@ -62,7 +62,7 @@ function IngredientCategoryDetails()
                 </div>
 
                 <h3 className='col col-12 col-sm-8 order-sm-1 mt-3'>
-                    {`${ingredientCategory.id}. ${ingredientCategory.name}`}
+                    {ingredientCategory.name}
                 </h3>
                 </Row>
                 

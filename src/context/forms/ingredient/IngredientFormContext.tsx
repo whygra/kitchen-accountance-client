@@ -1,15 +1,15 @@
-import { getIngredientWithProducts, IngredientDTO, postIngredientWithProducts, putIngredientWithProducts } from '../../api/ingredients';
-import { constructIngredientForm, constructIngredientProductForm, IngredientFormState, ingredientFormToDTO, IngredientProductFormState } from '../../models/ingredient/IngredientFormState';
-import { DataAction } from '../../models';
+import { getIngredientWithProducts, IngredientDTO, postIngredientWithProducts, putIngredientWithProducts } from '../../../api/ingredients';
+import { constructIngredientForm, constructIngredientProductForm, IngredientFormState, ingredientFormToDTO, IngredientProductFormState } from '../../../models/ingredient/IngredientFormState';
+import { DataAction } from '../../../models';
 import { useParams } from 'react-router-dom';
 import { createContext, ReactElement, useEffect, useState } from 'react';
-import { IngredientTypeDTO, getIngredientTypes } from '../../api/ingredientTypes';
-import { ProductDTO, getProducts } from '../../api/products';
-import { IngredientCategoryDTO, getIngredientCategories } from '../../api/ingredientCategories';
+import { IngredientTypeDTO, getIngredientTypes } from '../../../api/ingredientTypes';
+import { ProductDTO, getProducts } from '../../../api/products';
+import { IngredientCategoryDTO, getIngredientCategories } from '../../../api/ingredientCategories';
 import { useErrorBoundary } from 'react-error-boundary';
 import { Image } from 'react-bootstrap';
-import Loading from '../../views/shared/Loading';
-import { getIngredientGroups, IngredientGroupDTO } from '../../api/ingredientGroups';
+import Loading from '../../../views/shared/Loading';
+import { getIngredientGroups, IngredientGroupDTO } from '../../../api/ingredientGroups';
 
 // контекст формы ингредиента
 interface IngredientFormContext {
@@ -89,7 +89,7 @@ function IngredientFormContextProvider({action, children}:IngredientFormContextP
   useEffect(()=>{
     document.title = action==DataAction.Create
       ?'Создание ингредиента'
-      :`Редактирование ингредиента "${formState.id}. ${formState.name}"`
+      :`Редактирование ингредиента "${formState.name}"`
   }, [formState])
 
   useEffect(()=>{initialize()}, [])

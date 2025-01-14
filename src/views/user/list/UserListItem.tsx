@@ -77,7 +77,7 @@ function UserListItem({user, roles, loadData}: UserListItemProps)
                     <BtnAskConfirmation 
                         tooltip='назначить роль'
                         disabled={disabled} variant='warning'
-                        prompt={`Вы уверены, что хотите переназначить роль пользователя "${user.id}. ${user.name}"?`}
+                        prompt={`Вы уверены, что хотите переназначить роль пользователя "${user.name}"?`}
                         onConfirm={assign}
                         >
                         <i className='bi bi-check2'/>

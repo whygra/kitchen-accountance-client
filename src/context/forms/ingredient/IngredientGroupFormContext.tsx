@@ -1,12 +1,12 @@
-import { getIngredientsWithProducts, IngredientDTO } from '../../api/ingredients';
-import { DataAction } from '../../models';
+import { getIngredientsWithProducts, IngredientDTO } from '../../../api/ingredients';
+import { DataAction } from '../../../models';
 import { useParams } from 'react-router-dom';
 import { v4 as uuid } from "uuid";
 import { createContext, ReactElement, useEffect, useState } from 'react';
-import { IngredientGroupIngredientFormState, IngredientGroupFormState, constructIngredientGroupForm, constructIngredientGroupIngredientForm, ingredientGroupFormToDTO } from '../../models/ingredient/IngredientGroupFormState';
-import { IngredientTypeDTO, getIngredientTypes } from '../../api/ingredientTypes';
-import { IngredientGroupDTO, getIngredientGroups, postIngredientGroup, putIngredientGroup, deleteIngredientGroup, getIngredientGroupWithIngredients, putIngredientGroupWithIngredients, postIngredientGroupWithIngredients } from '../../api/ingredientGroups';
-import Loading from '../../views/shared/Loading';
+import { IngredientGroupIngredientFormState, IngredientGroupFormState, constructIngredientGroupForm, constructIngredientGroupIngredientForm, ingredientGroupFormToDTO } from '../../../models/ingredient/IngredientGroupFormState';
+import { IngredientTypeDTO, getIngredientTypes } from '../../../api/ingredientTypes';
+import { IngredientGroupDTO, getIngredientGroups, postIngredientGroup, putIngredientGroup, deleteIngredientGroup, getIngredientGroupWithIngredients, putIngredientGroupWithIngredients, postIngredientGroupWithIngredients } from '../../../api/ingredientGroups';
+import Loading from '../../../views/shared/Loading';
 
 
 // контекст формы блюда
@@ -54,7 +54,7 @@ function IngredientGroupFormContextProvider({action, children}:IngredientGroupFo
   useEffect(()=>{
     document.title = action==DataAction.Create
       ?'Создание группы ингредиентов'
-      :`Редактирование группы ингредиентов "${formState.id}. ${formState.name}"`
+      :`Редактирование группы ингредиентов "${formState.name}"`
   }, [formState])
   
   useEffect(()=>{initialize()}, [])

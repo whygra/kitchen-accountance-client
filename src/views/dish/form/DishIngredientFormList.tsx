@@ -5,7 +5,7 @@ import DishIngredientForm from './DishIngredientForm'
 import { v4 as uuid } from "uuid";
 import { DishIngredientFormState } from '../../../models/dish/DishFormState'
 import { useContext, useState } from 'react'
-import { dishFormContext } from '../../../context/dish/DishFormContext'
+import { dishFormContext } from '../../../context/forms/dish/DishFormContext'
 import { appContext } from '../../../context/AppContextProvider';
 import ConfirmationDialog from '../../shared/ConfirmationDialog';
 import BtnAskConfirmation from '../../shared/BtnAskConfirmation';

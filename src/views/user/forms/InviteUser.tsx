@@ -1,13 +1,7 @@
 import { Button, Container, Form } from 'react-bootstrap';
 import { useContext, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import SelectCreateCategoryGroup from '../../shared/selectCreateGroup/SelectCreateGroup';
-import { DataAction } from '../../../models';
+import { useNavigate } from 'react-router-dom';
 import { appContext } from '../../../context/AppContextProvider';
-import { ingredientContext } from '../../../context/ingredient/IngredientFormContext';
-import { forgotPassword, signIn, signUp } from '../../../api/auth';
-import { setCookie } from '../../../cookies';
-import { authContext } from '../../../context/AuthContextProvider';
 import { inviteToProject } from '../../../api/users';
 import { projectContext } from '../../../context/ProjectContextProvider';
 

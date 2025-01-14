@@ -1,11 +1,9 @@
 import {Button, Container, Form, Modal, OverlayTrigger, Tooltip} from 'react-bootstrap'
 import { constructIngredientGroupIngredientForm, IngredientGroupIngredientFormState } from '../../../models/ingredient/IngredientGroupFormState'
 import { useContext, useState } from 'react'
-import { appContext } from '../../../context/AppContextProvider';
-import BtnAskConfirmation from '../../shared/BtnAskConfirmation';
-import TooltipButton from '../../shared/TooltipButton'
+import { appContext } from '../../../context/AppContextProvider'
 import useIngredientSelect from '../../../hooks/tableSelect/useIngredientSelect';
-import { ingredientGroupFormContext } from '../../../context/ingredient/IngredientGroupFormContext';
+import { ingredientGroupFormContext } from '../../../context/forms/ingredient/IngredientGroupFormContext';
 import IngredientGroupIngredientForm from './IngredientGroupIngredientForm';
 import FormListButtons from '../../shared/FormListButtons';
 

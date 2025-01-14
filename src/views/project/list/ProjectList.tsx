@@ -11,10 +11,11 @@ import { getProjects, getPublicProjects, ProjectDTO } from '../../../api/project
 import useProjectsTableHeader from '../../../hooks/useProjectsTableHeader';
 import { projectContext } from '../../../context/ProjectContextProvider';
 import { getCookie } from '../../../cookies';
+import { ProjectField } from '../../../hooks/sort/useSortProjects';
 
 function ProjectList() 
 {
-    const {user} = useContext(authContext)
+    const {user, isSignedIn} = useContext(authContext)
     const [isPublic, setIsPublic] = useState(user==null)
     const [projects, setProjects] = useState(new Array<ProjectDTO>)
     const [isLoading, setIsLoading] = useState(false)
@@ -44,7 +45,7 @@ function ProjectList()
     useEffect(()=>{loadProjects()},[isPublic])
 
     // заголовок и фильтры
-    const {getComparer, getPredicate, header} = useProjectsTableHeader()
+    const {getComparer, getPredicate, header} = useProjectsTableHeader(isSignedIn()?undefined:[ProjectField.Role])
 
     const filtered = projects
         .filter(getPredicate())
@@ -66,7 +67,7 @@ function ProjectList()
             }
         </div>
         {user != null
-           ? <Link to='' onClick={toggleIsPublic}>{isPublic ? 'Мои проекты' : 'Общедоступные проекты'}</Link>
+           ? <Link to='#' onClick={toggleIsPublic}>{isPublic ? 'Мои проекты' : 'Общедоступные проекты'}</Link>
            : <></>
         }
         <hr/>

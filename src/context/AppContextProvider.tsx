@@ -12,6 +12,7 @@ import { getCookie, setCookie } from '../cookies';
   interface AppContext {
     // отображение модального элемента с требуемым содержанием
     showModal: (component: ReactElement, title?: ReactElement)=>void
+    showErrorModal: (e: Error|any)=>void
     hideModal: ()=>void
     // TODO: отображение оповещений
 
@@ -20,6 +21,7 @@ import { getCookie, setCookie } from '../cookies';
   
   export const appContext = createContext<AppContext>({
     showModal: (component: ReactElement, title?: ReactElement)=>{},
+    showErrorModal: (e: Error|any)=>{},
     hideModal: ()=>{},
   });
 
@@ -42,11 +44,29 @@ function AppContextProvider({children}:AppContextProviderProps) {
     setComponent(component)
     setShowModal(true);
   }
+  const showErrorModal = (e: Error|any) => {
+    const errors = e?.errors
+      ? Object.keys(e?.errors).map((key) => {return {key:key, value:e?.errors[key]}})
+      : []
+
+    setTitle(<h4>{e?.status}. {e?.name}</h4>)
+    setComponent(
+      <Container>
+        <h5>{e?.message}</h5>
+        <ul>
+          {errors?.map((e)=>{return(<li>{e.key} - {e.value}</li>)})}
+        </ul>
+      </Container>
+    )
+    
+    setShowModal(true);
+  }
 
   return (
     <>
       <appContext.Provider
         value={{
+          showErrorModal: showErrorModal,
           showModal: displayModal,
           hideModal: hideModal,
         }}

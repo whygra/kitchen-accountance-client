@@ -10,12 +10,12 @@ import { UserPermissions } from '../../../models';
 import ConfirmationDialog from '../../shared/ConfirmationDialog';
 import BtnAskConfirmation from '../../shared/BtnAskConfirmation';
 import CUDButtons from '../../shared/CUDButtons';
-import { calcAvgWastePercentage } from '../../../models/ingredient/IngredientProductsWeightsCalculatorState';
 import IngredientDishesTable from './IngredientDishesTable';
 import { constructIngredientCostCalculator } from '../../../models/dish/DishCostCalculatorState';
 import IngredientCostCalculator from '../../dish/details/IngredientCostCalculator';
 import Loading from '../../shared/Loading';
 import UpdatedAt from '../../shared/UpdatedAt';
+import Markdown from 'react-markdown';
 
 
 function IngredientDetails() 
@@ -28,7 +28,7 @@ function IngredientDetails()
     const navigate = useNavigate()
     
     useEffect(()=>{
-        document.title = `Ингредиент "${ingredient?.id}. ${ingredient?.name}"`}
+        document.title = `Ингредиент "${ingredient?.name}"`}
     , [ingredient])
 
     useEffect(()=>{loadIngredient()}, [])
@@ -73,7 +73,7 @@ function IngredientDetails()
                     />
                 </div>
 
-                <h3 className='col col-12 col-sm-8 order-sm-1 mt-3'>{`${ingredient.id}. ${ingredient.name}`}</h3>
+                <h3 className='col col-12 col-sm-8 order-sm-1 mt-3'>{ingredient.name}</h3>
                 </Row>
                 
                 <Col md={12}>
@@ -89,7 +89,7 @@ function IngredientDetails()
                         Группа: "{ingredient.group?.name 
                             ? <Link to={`/ingredient-groups/details/${ingredient.group.id}`}>{ingredient.group.name}</Link> 
                             : '-без группы-'}"</li>
-                    <li className='list-group-item'>Средний процент отхода: {calcAvgWastePercentage(ingredient).toFixed(2)}</li>
+                    <li className='list-group-item'>Средний процент отхода: {ingredient?.avg_waste_percentage?.toFixed(2)}</li>
                     {ingredient.is_item_measured
                         ?<li className='list-group-item'>Вес 1шт: {ingredient.item_weight} г.</li>
                         :<></>
@@ -99,10 +99,20 @@ function IngredientDetails()
                     
             <Col xl={6} lg={12} sm={12}>
                 <Card className="p-3">
-
                 <IngredientProductsTable ingredient={ingredient}/>
+                {ingredient.description
+                    ?
+                    <p className='border-y bg-light p-3'>
+                        <h5>Описание</h5>
+                        <Markdown>
+                            {ingredient.description}
+                        </Markdown>
+                    </p>
+                    : <></>
+                }
                 </Card>
             </Col>
+
             <Col xl={6} lg={12} sm={12}>
                 <Card className="p-3">
 

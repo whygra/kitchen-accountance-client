@@ -79,7 +79,7 @@ function UserList()
             
         </div>
         <div className='w-100 ps-3 pe-4'><UsersTableHeader/></div>
-        <Accordion>
+        <Accordion className='accordion-button-ps-1pt'>
             {users.map(u=>
                 <UserListItem user={u} roles={roles} loadData={loadData}/>
             )}

@@ -1,19 +1,19 @@
-import { ProductDTO, getProducts } from '../api/products';
+import { ProductDTO, getProducts } from '../../../api/products';
 import { 
   constructProductForm, 
   constructPurchaseOptionForm, 
   ProductFormState, 
   PurchaseOptionFormState, 
   purchaseOptionFormToDTO
-} from '../models/PurchaseOptionFormState';
-import { DataAction } from '../models';
+} from '../../../models/PurchaseOptionFormState';
+import { DataAction } from '../../../models';
 import { useParams } from 'react-router-dom';
 import { act, createContext, ReactElement, useEffect, useState } from 'react';
-import { getPurchaseOptionWithProducts, postPurchaseOptionWithProducts, PurchaseOptionDTO, putPurchaseOptionWithProducts } from '../api/purchaseOptions';
-import { DistributorDTO, getDistributors } from '../api/distributors';
-import { getUnits, UnitDTO } from '../api/units';
+import { getPurchaseOptionWithProducts, postPurchaseOptionWithProducts, PurchaseOptionDTO, putPurchaseOptionWithProducts } from '../../../api/purchaseOptions';
+import { DistributorDTO, getDistributors } from '../../../api/distributors';
+import { getUnits, UnitDTO } from '../../../api/units';
 import { Image } from 'react-bootstrap';
-import Loading from '../views/shared/Loading';
+import Loading from '../../../views/shared/Loading';
 
   
 interface PurchaseOptionFormContext {
@@ -84,7 +84,7 @@ function PurchaseOptionFormContextProvider({action, children}:PurchaseOptionForm
   useEffect(()=>{
     document.title = action==DataAction.Create
       ?'Создание позиции закупки'
-      :`Редактирование позиции закупки "${formState.id}. ${formState.name}"`
+      :`Редактирование позиции закупки "${formState.name}"`
   }, [formState])
 
   useEffect(()=>{initialize()}, [])

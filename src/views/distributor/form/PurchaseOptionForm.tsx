@@ -1,5 +1,5 @@
 import { useContext, useEffect } from "react"
-import { distributorFormContext } from "../../../context/DistributorFormContext"
+import { distributorFormContext } from "../../../context/forms/distributor/DistributorFormContext"
 import { PurchaseOptionFormState } from "../../../models/DistributorFormState"
 import { DataAction } from "../../../models"
 import { Button, Card, Col, Form, FormControl, Row } from "react-bootstrap"
@@ -149,7 +149,7 @@ function PurchaseOptionForm({formState, openSelect}: PurchaseOptionFormProps) {
                 role="button"
                 placeholder='--не выбран--'
                 onClick={()=>openSelect(formState)} 
-                value={selectedProduct ? `${selectedProduct.id}. ${selectedProduct.name}` : ''}
+                value={selectedProduct ? selectedProduct.name : ''}
                 />
               </Form.Group>
               :

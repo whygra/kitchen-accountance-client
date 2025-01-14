@@ -24,10 +24,12 @@ export interface IngredientDTO {
   dishes?: DishDTO[]
   updated_by_user?: UserDTO
   updated_at?: string
+  avg_waste_percentage?: number
+  source_weight?: number
   
   waste_percentage?: number
   ingredient_amount?: number
-  raw_content_percentage?: number
+  raw_product_weight?: number
 }
 
 export interface IngredientTypeDTO {
@@ -35,6 +37,9 @@ export interface IngredientTypeDTO {
   name: string
 }
 
+export function calcIngredientSourceWeight(ingredient: IngredientDTO){
+  return (ingredient?.item_weight??1)*(ingredient.ingredient_amount??1) / (100 - (ingredient.avg_waste_percentage??0)) * 100
+}
 
 export const getIngredients = async () : Promise<IngredientDTO[] | null> => {
   const response = await fetch(`${BASE_URL}/${getProjectPath()}/${getCookie(C_SELECTED_PROJECT_ID)}/${ENTITY_PATH}/all`,{

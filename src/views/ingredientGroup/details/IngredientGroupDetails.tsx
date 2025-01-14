@@ -22,7 +22,7 @@ function IngredientGroupDetails()
     const navigate = useNavigate()
 
     useEffect(()=>{
-        document.title = `Группа ингредиентов "${ingredientGroup?.id}. ${ingredientGroup?.name}"`}
+        document.title = `Группа ингредиентов "${ingredientGroup?.name}"`}
     , [ingredientGroup])
 
     useEffect(()=>{loadIngredientGroup()}, [])
@@ -62,7 +62,7 @@ function IngredientGroupDetails()
                     />
                 </div>
 
-                <h3 className='col col-12 col-sm-8 order-sm-1 mt-3'>{`${ingredientGroup.id}. ${ingredientGroup.name}`}</h3>
+                <h3 className='col col-12 col-sm-8 order-sm-1 mt-3'>{ingredientGroup.name}</h3>
                 </Row>
                 
                 <Col md={12}>

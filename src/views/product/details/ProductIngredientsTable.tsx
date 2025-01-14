@@ -26,11 +26,14 @@ function ProductIngredientsTable({product}:IngredientProductsTableProps) {
 
                 {product.ingredients
                     ?.slice(sliceLimits.start, sliceLimits.end)
-                    .map(p => 
+                    .map(i => 
                     <tr className='text-center'>
-                        <td><Link to={`/ingredients/details/${p.id}`}>{p.id}.{p.name} {p.type?.name}</Link></td>
-                        <td>{p.raw_content_percentage}%</td>
-                        <td>{p.waste_percentage}%</td>
+                        <td><Link to={`/ingredients/details/${i.id}`}>{i.id}.{i.name} {i.type?.name}</Link></td>
+                        <td>{(i.raw_product_weight&&i.source_weight)
+                            ?i.raw_product_weight/i.source_weight*100
+                            :'NaN'
+                        }%</td>
+                        <td>{i.waste_percentage}%</td>
                     </tr>
                 )}
             </tbody>

@@ -3,8 +3,8 @@ import 'bootstrap';
 import 'react-bootstrap';
 import Home from '../views/Home';
 import DistributorDetails from '../views/distributor/details/DistributorDetails';
-import SignIn from '../views/user/forms/SignIn';
-import SignUp from '../views/user/forms/SignUp';
+import SignIn from '../views/auth/SignIn';
+import SignUp from '../views/auth/SignUp';
 import NotFound from '../views/NotFound';
 import UserDetails from '../views/user/details/UserDetails';
 import UserList from '../views/user/list/UserList';
@@ -23,8 +23,8 @@ import useDishGroupRoutes from './DishGroupRoutes';
 import useProductCategoryRoutes from './ProductCategoryRoutes';
 import useProductGroupRoutes from './ProductGroupRoutes';
 import useUnitRoutes from './UnitRoutes';
-import ForgotPassword from '../views/user/forms/ForgotPassword';
-import ResetPassword from '../views/user/forms/ResetPassword';
+import ForgotPassword from '../views/auth/ForgotPassword';
+import ResetPassword from '../views/auth/ResetPassword';
 import useUserRoutes from './UserRoutes';
 
 function AppRoutes() {

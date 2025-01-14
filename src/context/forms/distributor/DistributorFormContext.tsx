@@ -1,14 +1,14 @@
-import DistributorForm from '../views/distributor/form/DistributorForm';
-import { DistributorDTO, getDistributorWithPurchaseOptions, postDistributorWithPurchaseOptions, putDistributorWithPurchaseOptions } from '../api/distributors';
-import { constructDistributorForm, constructDistributorPurchaseOptionForm, DistributorFormState, distributorFormToDTO, PurchaseOptionFormState } from '../models/DistributorFormState';
-import { DataAction } from '../models';
+import DistributorForm from '../../../views/distributor/form/DistributorForm';
+import { DistributorDTO, getDistributorWithPurchaseOptions, postDistributorWithPurchaseOptions, putDistributorWithPurchaseOptions } from '../../../api/distributors';
+import { constructDistributorForm, constructDistributorPurchaseOptionForm, DistributorFormState, distributorFormToDTO, PurchaseOptionFormState } from '../../../models/DistributorFormState';
+import { DataAction } from '../../../models';
 import { useParams } from 'react-router-dom';
 import { v4 as uuid } from "uuid";
 import { createContext, ReactElement, useEffect, useState } from 'react';
-import { UnitDTO, getUnits } from '../api/units';
-import { ProductDTO, getProducts } from '../api/products';
+import { UnitDTO, getUnits } from '../../../api/units';
+import { ProductDTO, getProducts } from '../../../api/products';
 import { Image } from 'react-bootstrap';
-import Loading from '../views/shared/Loading';
+import Loading from '../../../views/shared/Loading';
 
   
 interface DistributorFormContext {
@@ -58,7 +58,7 @@ function DistributorFormContextProvider({action, children}:DistributorFormContex
   useEffect(()=>{
     document.title = action==DataAction.Create
       ?'Создание данных поставщика'
-      :`Редактирование данных поставщика "${formState.id}. ${formState.name}"`
+      :`Редактирование данных поставщика "${formState.name}"`
   }, [formState])
 
   useEffect(()=>{initialize()}, [])

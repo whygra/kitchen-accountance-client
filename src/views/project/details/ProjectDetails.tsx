@@ -39,7 +39,7 @@ function ProjectDetails()
         
         setIsLoading(true)
         try{
-            loadProjectState(parseInt(id))
+            await loadProjectState(parseInt(id))
         } catch(e:any){
             showModal(<div className='m-2'>{e.message}</div>, <b>{e.name}</b>)
         } finally{
@@ -86,7 +86,7 @@ function ProjectDetails()
                         <Image style={{maxHeight:'100%', maxWidth:'100%'}} src={`${project.logo?.url}`}/>
                 }
                 </div>
-                <h3 className='ms-2 mt-2 text-center position-relative'>{`${project.id}. ${project.name}`}
+                <h3 className='ms-2 mt-2 text-center position-relative'>{project.name}
                     <OverlayTrigger
                         overlay={<Tooltip>{project.is_public ? 'общедоступный проект' : 'частный проект'}</Tooltip>}
                     >
@@ -103,7 +103,7 @@ function ProjectDetails()
                 <TooltipButton
                     onClick={download}
                     variant='light'
-                    tooltip='скачать таблицы сущностей (xslx)'
+                    tooltip='скачать таблицы сущностей (xlsx)'
                     disabled={awaitingDownload}
                     >{awaitingDownload? <Loading width={20}/> : <i className='bi bi-download'/>}</TooltipButton>
                 <BtnAskConfirmation

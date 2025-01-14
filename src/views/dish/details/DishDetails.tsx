@@ -1,17 +1,18 @@
-import { Accordion, Button, Card, Col, Form, Image, Row, Table } from 'react-bootstrap';
+import { Card, Col, Form, Image, Row, Table } from 'react-bootstrap';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
 import { calcDishWeight, deleteDish, DishDTO, getDishWithIngredients, getDishWithPurchaseOptions } from '../../../api/dishes';
 import DishIngredientsTable from './DishIngredientsTable';
 import IngredientsWeightsCalculator from './IngredientsWeightsCalculator';
 import DishCostCalculator from './DishCostCalculator';
-import DishCostCalculatorContextProvider from '../../../context/dish/DishCostCalculatorContext';
+import DishCostCalculatorContextProvider from '../../../context/DishCostCalculatorContext';
 import { UserPermissions } from '../../../models';
 import { authContext } from '../../../context/AuthContextProvider';
 import CUDButtons from '../../shared/CUDButtons';
 import Loading from '../../shared/Loading';
 import { BASE_URL } from '../../../api/constants';
 import UpdatedAt from '../../shared/UpdatedAt';
+import Markdown from 'react-markdown';
 
 
 function DishDetails() 
@@ -24,7 +25,7 @@ function DishDetails()
     const navigate = useNavigate()
 
     useEffect(()=>{
-        document.title = `Блюдо "${dish?.id}. ${dish?.name}"`}
+        document.title = `Блюдо "${dish?.name}"`}
     , [dish])
 
     useEffect(()=>{loadDish()}, [])
@@ -63,7 +64,7 @@ function DishDetails()
                     />
                 </div>
 
-                <h3 className='col col-12 col-sm-8 order-sm-1 mt-3'>{`${dish.id}. ${dish.name}`}</h3>
+                <h3 className='col col-12 col-sm-8 order-sm-1 mt-3'>{dish.name}</h3>
                 </Row>
                 
                 <Col md={12}>
@@ -108,6 +109,16 @@ function DishDetails()
                 <Card className="p-3">
 
                 <DishIngredientsTable dish={dish}/>
+                {dish.description
+                    ?
+                    <p className='border-y bg-light p-3'>
+                        <h5>Описание</h5>
+                        <Markdown>
+                            {dish.description}
+                        </Markdown>
+                    </p>
+                    : <></>
+                }
                 </Card>
             </Col>
             <Col md={12} lg={6}>
@@ -116,7 +127,7 @@ function DishDetails()
                 <IngredientsWeightsCalculator dish={dish}/>
                 </Card>
             </Col>
-            <Col lg={12} xl={6}>
+            <Col lg={12}>
                 <Card className="p-3">
                 <DishCostCalculatorContextProvider id={dish.id}>
                     <DishCostCalculator/>

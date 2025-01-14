@@ -1,11 +1,11 @@
-import { getProductsWithPurchaseOptions, ProductDTO } from '../../api/products';
-import { DataAction } from '../../models';
+import { getProductsWithPurchaseOptions, ProductDTO } from '../../../api/products';
+import { DataAction } from '../../../models';
 import { useParams } from 'react-router-dom';
 import { v4 as uuid } from "uuid";
 import { createContext, ReactElement, useEffect, useState } from 'react';
-import { ProductCategoryProductFormState, ProductCategoryFormState, constructProductCategoryForm, constructProductCategoryProductForm, productCategoryFormToDTO } from '../../models/product/ProductCategoryFormState';
-import { ProductCategoryDTO, getProductCategoryWithProducts, putProductCategoryWithProducts, postProductCategoryWithProducts } from '../../api/productCategories';
-import Loading from '../../views/shared/Loading';
+import { ProductCategoryProductFormState, ProductCategoryFormState, constructProductCategoryForm, constructProductCategoryProductForm, productCategoryFormToDTO } from '../../../models/product/ProductCategoryFormState';
+import { ProductCategoryDTO, getProductCategoryWithProducts, putProductCategoryWithProducts, postProductCategoryWithProducts } from '../../../api/productCategories';
+import Loading from '../../../views/shared/Loading';
 
 
 // контекст формы блюда
@@ -53,7 +53,7 @@ function ProductCategoryFormContextProvider({action, children}:ProductCategoryFo
   useEffect(()=>{
     document.title = action==DataAction.Create
       ?'Создание категории продуктов'
-      :`Редактирование категории продуктов "${formState.id}. ${formState.name}"`
+      :`Редактирование категории продуктов "${formState.name}"`
   }, [formState])
   
   useEffect(()=>{initialize()}, [])

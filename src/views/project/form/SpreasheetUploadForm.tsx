@@ -2,7 +2,7 @@ import { Button, Container, Form, Row } from 'react-bootstrap';
 import { FormEvent, useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { DishDTO } from '../../../api/dishes';
-import { distributorFormContext } from '../../../context/DistributorFormContext';
+import { distributorFormContext } from '../../../context/forms/distributor/DistributorFormContext';
 import { appContext } from '../../../context/AppContextProvider';
 import { DistributorPurchaseOptionColumnIndexes } from '../../../api/purchaseOptions';
 

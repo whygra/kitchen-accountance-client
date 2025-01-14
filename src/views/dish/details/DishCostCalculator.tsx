@@ -1,7 +1,7 @@
 import { Accordion, Form, Table } from "react-bootstrap";
 import { useContext, useEffect, useState } from "react";
 import IngredientCostCalculator from "./IngredientCostCalculator";
-import { dishCostCalculatorContext } from "../../../context/dish/DishCostCalculatorContext";
+import { dishCostCalculatorContext } from "../../../context/DishCostCalculatorContext";
 
 
 function DishCostCalculator() {

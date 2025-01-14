@@ -143,6 +143,8 @@ export const signOut = async (): Promise<AuthResponse | null> => {
     errors: data?.errors,
   }
   
+  setCookie(C_ACCESS_TOKEN, '', 0)
+  setCookie(C_IS_SIGNED_IN, '', 0)
   
   return data
 }

@@ -22,7 +22,7 @@ function ProductGroupDetails()
     const navigate = useNavigate()
 
     useEffect(()=>{
-        document.title = `Группа ингредиентов "${productGroup?.id}. ${productGroup?.name}"`}
+        document.title = `Группа ингредиентов "${productGroup?.name}"`}
     , [productGroup])
 
     useEffect(()=>{loadProductGroup()}, [])
@@ -62,7 +62,7 @@ function ProductGroupDetails()
                     />
                 </div>
 
-                <h3 className='col col-12 col-sm-8 order-sm-1 mt-3'>{`${productGroup.id}. ${productGroup.name}`}</h3>
+                <h3 className='col col-12 col-sm-8 order-sm-1 mt-3'>{productGroup.name}</h3>
                 </Row>
                 
                 <Col md={12}>

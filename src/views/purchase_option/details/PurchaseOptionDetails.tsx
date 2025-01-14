@@ -20,7 +20,7 @@ function PurchaseOptionDetails()
     const {id} = useParams()
 
     useEffect(()=>{
-        document.title = `Позиция закупки "${purchaseOption?.id}. ${purchaseOption?.name}"`}
+        document.title = `Позиция закупки "${purchaseOption?.name}"`}
     , [purchaseOption])
 
     useEffect(()=>{loadProduct()}, [])
@@ -65,7 +65,7 @@ function PurchaseOptionDetails()
                     />
                 </div>
 
-                <h3 className='col col-12 col-sm-8 order-sm-1 mt-3'>{`${purchaseOption.id}. ${purchaseOption.name}`}</h3>
+                <h3 className='col col-12 col-sm-8 order-sm-1 mt-3'>{purchaseOption.name}</h3>
                 </Row>
                 
                 <Col md={12}>

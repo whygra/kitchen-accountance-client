@@ -31,8 +31,8 @@ function IngredientProductsTable({ingredient}:IngredientProductsTableProps) {
                     <tr className='text-center'>
                         <td className="d-none d-sm-table-cell">{p.id}</td>
                         <td><Link to={`/products/details/${p.id}`}>{p.name}</Link></td>
-                        <td>{p.raw_content_percentage}%</td>
-                        <td>{p.waste_percentage}%</td>
+                        <td>{p.raw_content_percentage?.toFixed(2)}%</td>
+                        <td>{p.waste_percentage?.toFixed(2)}%</td>
                     </tr>
                 )}
             </tbody>

@@ -3,14 +3,14 @@ import { FormEvent, useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { DishDTO } from '../../../api/dishes';
 import ProductFormList from './ProductFormList';
-import { distributorFormContext } from '../../../context/DistributorFormContext';
+import { distributorFormContext } from '../../../context/forms/distributor/DistributorFormContext';
 import { appContext } from '../../../context/AppContextProvider';
 import { uploadDistributorPurchaseOptionsSpreadsheet as uploadDistributorPurchaseOptionsFile } from '../../../api/distributors';
 import { DistributorPurchaseOptionColumnIndexes } from '../../../api/purchaseOptions';
 import { authContext } from '../../../context/AuthContextProvider';
 import { DataAction, UserPermissions } from '../../../models';
-import { productFormContext } from '../../../context/product/ProductFormContext';
-import { purchaseOptionFormContext } from '../../../context/PurchaseOptionFormContext';
+import { productFormContext } from '../../../context/forms/product/ProductFormContext';
+import { purchaseOptionFormContext } from '../../../context/forms/distributor/PurchaseOptionFormContext';
 import SelectCreateGroup from '../../unit/form/SelectCreateGroup';
 import Select from '../../shared/selectCreateGroup/Select';
 import HistoryNav from '../../shared/HistoryNav';
@@ -20,6 +20,7 @@ import { projectContext } from '../../../context/ProjectContextProvider';
 function PurchaseOptionForm() 
 {  
   const {hasPermission} = useContext(projectContext)
+  
   useEffect(()=>{
     if(!hasPermission(UserPermissions.CRUD_DISTRIBUTORS))
       throw {name:'403', message:'Нет прав доступа'}

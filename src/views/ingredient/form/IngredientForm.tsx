@@ -1,15 +1,13 @@
 import IngredientProductFormList from './IngredientProductFormList';
-import NameInput from './IngredientNameInput';
 import IngredientTypeSelect from './IngredientTypeSelect';
 import { Button, Container, Form } from 'react-bootstrap';
 import { FormEvent, useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import SelectCreateGroup from '../../shared/selectCreateGroup/SelectCreateGroup';
-import { DataAction, UserPermissions } from '../../../models';
+import { UserPermissions } from '../../../models';
 import ItemWeightInput from './ItemWeightInput';
 import { appContext } from '../../../context/AppContextProvider';
-import { ingredientContext } from '../../../context/ingredient/IngredientFormContext';
-import { authContext } from '../../../context/AuthContextProvider';
+import { ingredientContext } from '../../../context/forms/ingredient/IngredientFormContext';
 import HistoryNav from '../../shared/HistoryNav';
 import { projectContext } from '../../../context/ProjectContextProvider';
 
@@ -147,6 +145,7 @@ function IngredientForm()
         <Form.Group className='mb-3'>
           <Form.Label><b>Описание</b></Form.Label>
           <textarea
+            maxLength={1000}
             className='form-control border-1'
             onKeyDown={e=>preventSubmit(e)}
             value={formState.description}

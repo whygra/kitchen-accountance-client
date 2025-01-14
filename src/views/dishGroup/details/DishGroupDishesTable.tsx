@@ -20,7 +20,7 @@ function DishGroupDishesTable({dishGroup}:DishGroupDishesTableProps) {
             <tbody>
 
                 {dishGroup.dishes?.map(c => <tr className='text-center'>
-                    <td><Link to={`/dishes/details/${c.id}`}>{c.id}. {c.name}</Link></td>
+                    <td><Link to={`/dishes/details/${c.id}`}>{c.name}</Link></td>
                 </tr>
                 )}
             </tbody>

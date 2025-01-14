@@ -1,7 +1,7 @@
 import {Button, Card, Col, Collapse, Container, Dropdown, DropdownButton, Form, OverlayTrigger, Row, Tooltip} from 'react-bootstrap'
 import PurchaseOptionForm from './PurchaseOptionForm'
 import { useContext, useEffect, useRef, useState } from 'react'
-import { distributorFormContext } from '../../../context/DistributorFormContext'
+import { distributorFormContext } from '../../../context/forms/distributor/DistributorFormContext'
 import { isInvalid, PurchaseOptionFormState, purchaseOptionFormToDTO } from '../../../models/DistributorFormState';
 import TooltipButton from '../../shared/TooltipButton';
 import BtnAskConfirmation from '../../shared/BtnAskConfirmation';

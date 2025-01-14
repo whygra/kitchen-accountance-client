@@ -1,7 +1,7 @@
 import { Accordion, Col, Form, FormSelect, Row, Table } from "react-bootstrap";
 import { useContext, useEffect, useState } from "react";
 import { ProductCostCalculatorModel, selectPurchaseOptionId } from "../../../models/dish/DishCostCalculatorState";
-import { dishCostCalculatorContext } from "../../../context/dish/DishCostCalculatorContext";
+import { dishCostCalculatorContext } from "../../../context/DishCostCalculatorContext";
 
 
 interface IngredientCostCalculatorProps{

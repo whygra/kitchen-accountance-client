@@ -3,8 +3,8 @@ import SelectCreateGroup from '../../shared/selectCreateGroup/SelectCreateGroup'
 import { DataAction } from '../../../models'
 import { IngredientProductFormState } from '../../../models/ingredient/IngredientFormState'
 import 'bootstrap'
-import { useContext, useEffect } from 'react'
-import { ingredientContext } from '../../../context/ingredient/IngredientFormContext'
+import { useContext } from 'react'
+import { ingredientContext } from '../../../context/forms/ingredient/IngredientFormContext'
 import TooltipButton from '../../shared/TooltipButton'
 import IsCreateSwitch from '../../shared/selectCreateGroup/IsCreateSwitch'
 
@@ -81,7 +81,7 @@ function IngredientProductForm({formState, openSelect}: IngredientsProductFormPr
                   placeholder='--не выбран--'
                   onClick={()=>openSelect(formState)} 
                   required 
-                  value={selectedProduct ? `${selectedProduct.id}. ${selectedProduct.name}` : ''} 
+                  value={selectedProduct ? selectedProduct.name : ''} 
                   />
                 <Form.Control.Feedback type="invalid">
                   выберите элемент

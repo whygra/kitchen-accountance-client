@@ -1,27 +1,29 @@
-import { RouterProvider, useLocation, useNavigate } from 'react-router-dom'
-import { Provider } from 'react-redux';
+import {  useNavigate } from 'react-router-dom'
 import 'bootstrap';
 import 'react-bootstrap';
-import { Container, Modal } from 'react-bootstrap';
-import { createContext, ReactElement, ReactNode, useContext, useEffect, useState } from 'react';
-import { UserDTO } from '../api/users';
-import { C_ACCESS_TOKEN, C_IS_SIGNED_IN, C_PROJECT_DATA, C_SELECTED_PROJECT_ID, C_USER_DATA, getCookie, setCookie } from '../cookies';
+import { createContext, ReactElement, useContext, useEffect, useState } from 'react';
+import { SignUpData, UserDTO } from '../api/users';
+import { C_ACCESS_TOKEN, C_USER_DATA, getCookie, setCookie } from '../cookies';
 import { parseJsonOrNull } from '../api/constants';
-import { UserPermissions } from '../models';
 import { appContext } from './AppContextProvider';
-import { EmailVerificationRequired } from '../views/EmailVerificationRequired';
-import { getCurrent, signOut } from '../api/auth';
+import { getCurrent, signIn, signOut, signUp } from '../api/auth';
 
 
   interface AuthContext {
     user: UserDTO|null
+    isSignedIn: ()=>boolean
     logout: ()=>Promise<void>
+    login: (user:UserDTO)=>Promise<void>
+    signup: (data:SignUpData)=>Promise<void>
     updateUserData: ()=>void,
   }
   
   export const authContext = createContext<AuthContext>({
     user: null,
+    isSignedIn: ()=>false,
     logout: async ()=>{},
+    signup: async (data:SignUpData)=>{},
+    login: async (user:UserDTO)=>{},
     updateUserData: ()=>{},
   });
 
@@ -30,58 +32,87 @@ interface AuthContextProviderProps {
 }
 
 function AuthContextProvider({children}:AuthContextProviderProps) {
-  const [user, setUser] = useState<UserDTO|null>(parseJsonOrNull(getCookie(C_USER_DATA)))
+  const [user, setUser] = useState<UserDTO|null>(parseUserDataCookie())
 
-  const {showModal, hideModal} = useContext(appContext)
+  const {showModal} = useContext(appContext)
   
   const navigate = useNavigate()
 
   useEffect(()=>{
-    setUser(parseJsonOrNull(getCookie(C_USER_DATA)))
+    setUser(parseUserDataCookie())
   }, [])
 
+  function parseUserDataCookie(): UserDTO|null {
+    return parseJsonOrNull(getCookie(C_USER_DATA))
+  }
+
+  function isSignedIn(): boolean {
+    return getCookie(C_ACCESS_TOKEN) != ''
+  }
+
+  function setUserDataCookies(user:UserDTO|null) {
+    setCookie(C_USER_DATA, user?JSON.stringify(user):'', user?300:0)
+  } 
+
   async function logout() {
-      await signOut()
-      .catch(e=>{
-        showModal(<div className='p-2'>{e.message}</div>, <b>{e.name}</b>)
-      })
+    if(!isSignedIn()) return
+    await signOut()
+    await updateUserData()
+    navigate('/home')
+  }
 
-      setCookie(C_ACCESS_TOKEN, '', 0)
-      setCookie(C_IS_SIGNED_IN, '', 0)
-      setCookie(C_USER_DATA, '', 0)
+  async function login(data: UserDTO) {
+    const res = await signIn(data)
+    await updateUserData()
+    navigate('/home')
+  }
 
-      await updateUserData()
-      hideModal()
-      navigate('/home')
+  async function signup(data:SignUpData){
+    if(data.password.localeCompare(data.cPassword)!=0)
+      throw new Error('Пароли не совпадают')
+    const res = await signUp({
+      id:0,
+      name:data.name,
+      email:data.email,
+      password:data.password,
+    })
+    
+    navigate('/')
+    showModal(<>{res?.message}</>)
   }
   
   async function updateUserData(){
-    if(getCookie(C_ACCESS_TOKEN)==''){
-      setUser(null)
-      return
+
+    // переменная с результатом
+    var res: UserDTO|null = null
+    
+    try{
+      // если есть id - отправить api запрос
+      if (isSignedIn()) res = await getCurrent()
+    } catch(e:any){
+      // обработка-выброс исключения
+      throw e
+    } finally {
+      // записать|очистить данные
+      setUser(res)
+      setUserDataCookies(res)
     }
     
-    const res = await getCurrent().catch(
-      e=>showModal(<div>{e.message}</div>, <b>{e.name}</b>)
-    ).then(res=>res??null)
-
-    setUser(res)
-    setCookie(C_IS_SIGNED_IN, res?'true':'', res?300:0)
-    setCookie(C_USER_DATA, res?JSON.stringify(res):'', res?10:0)
   }
 
   return (
-    <>
       <authContext.Provider
           value={{
+            isSignedIn: isSignedIn,
+            signup: signup,
             logout: logout,
+            login: login,
             user: user,
             updateUserData:updateUserData,
           }}
           >
             {children}
       </authContext.Provider>
-    </>
   )
 }
 

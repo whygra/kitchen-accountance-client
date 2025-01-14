@@ -1,12 +1,12 @@
-import { getDishesWithIngredients, DishDTO } from '../../api/dishes';
-import { DataAction } from '../../models';
+import { getDishesWithIngredients, DishDTO } from '../../../api/dishes';
+import { DataAction } from '../../../models';
 import { useParams } from 'react-router-dom';
 import { v4 as uuid } from "uuid";
 import { createContext, ReactElement, useEffect, useState } from 'react';
-import { DishGroupDishFormState, DishGroupFormState, constructDishGroupForm, constructDishGroupDishForm, dishGroupFormToDTO } from '../../models/dish/DishGroupFormState';
-import { DishGroupDTO, deleteDishGroup, getDishGroupWithDishes, putDishGroupWithDishes, postDishGroupWithDishes } from '../../api/dishGroups';
-import Loading from '../../views/shared/Loading';
-import { ServerImageData } from '../../api/constants';
+import { DishGroupDishFormState, DishGroupFormState, constructDishGroupForm, constructDishGroupDishForm, dishGroupFormToDTO } from '../../../models/dish/DishGroupFormState';
+import { DishGroupDTO, deleteDishGroup, getDishGroupWithDishes, putDishGroupWithDishes, postDishGroupWithDishes } from '../../../api/dishGroups';
+import Loading from '../../../views/shared/Loading';
+import { ServerImageData } from '../../../api/constants';
 
 
 // контекст формы блюда
@@ -54,7 +54,7 @@ function DishGroupFormContextProvider({action, children}:DishGroupFormContextPro
   useEffect(()=>{
     document.title = action==DataAction.Create
       ?'Создание группы блюд'
-      :`Редактирование группы блюд "${formState.id}. ${formState.name}"`
+      :`Редактирование группы блюд "${formState.name}"`
   }, [formState])
   
   useEffect(()=>{initialize()}, [])

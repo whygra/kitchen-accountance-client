@@ -5,8 +5,8 @@ import { FormEvent, useContext, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { DishDTO } from '../../../api/dishes';
 import SelectCreateGroup from '../../shared/selectCreateGroup/SelectCreateGroup';
-import { dishCostCalculatorContext } from '../../../context/dish/DishCostCalculatorContext';
-import { dishFormContext } from '../../../context/dish/DishFormContext';
+import { dishCostCalculatorContext } from '../../../context/DishCostCalculatorContext';
+import { dishFormContext } from '../../../context/forms/dish/DishFormContext';
 import { appContext } from '../../../context/AppContextProvider';
 import { authContext } from '../../../context/AuthContextProvider';
 import { UserPermissions } from '../../../models';
@@ -85,11 +85,7 @@ function DishForm()
 
   function preventSubmit(e: any) {
     if (
-      e.code == 'Enter' ||
-      e.keyCode == 13 ||
-      e.key == " " ||
-      e.code == "Space" ||      
-      e.keyCode == 32
+      e.key == 13
     ) {
       e.preventDefault();
     }
@@ -200,6 +196,7 @@ function DishForm()
         <Form.Group className='mb-3'>
           <Form.Label><b>Описание</b></Form.Label>
           <textarea
+            maxLength={1000}
             className='form-control border-1'
             onKeyDown={e=>preventSubmit(e)}
             value={formState.description}

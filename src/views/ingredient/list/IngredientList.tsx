@@ -70,7 +70,7 @@ function IngredientList()
         </div>
         <hr/>
         {header}
-        <Accordion>
+        <Accordion className='accordion-button-ps-1pt'>
             {filtered
                 .slice(sliceLimits.start, sliceLimits.end)
                 .map(c=>

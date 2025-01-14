@@ -21,7 +21,7 @@
   text-decoration: none;
 }
 
-.accordion-header button {
+.accordion-button-ps-1pt .accordion-item .accordion-header button {
   padding-left: 1pt;
 }
 

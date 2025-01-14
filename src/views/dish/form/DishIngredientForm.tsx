@@ -3,7 +3,7 @@ import { DataAction } from '../../../models'
 import { DishIngredientFormState, dishIngredientToDTO } from '../../../models/dish/DishFormState'
 import 'bootstrap'
 import { ReactElement, useContext, useEffect, useState } from 'react'
-import { dishFormContext } from '../../../context/dish/DishFormContext'
+import { dishFormContext } from '../../../context/forms/dish/DishFormContext'
 import TooltipButton from '../../shared/TooltipButton'
 import { IngredientDTO } from '../../../api/ingredients'
 import TableSelect from '../../shared/selectCreateGroup/TableSelect'
@@ -96,7 +96,7 @@ function DishIngredientForm({formState, openSelect}: DishesIngredientFormProps) 
                   placeholder='--не выбран--'
                   onClick={()=>openSelect(formState)} 
                   required
-                  value={selected ? `${selected.id}. ${selected.name} ${selected.type?.name}` : ''} 
+                  value={selected ? `${selected.name} ${selected.type?.name}` : ''} 
                 />
         
                 <Form.Control.Feedback type="invalid">

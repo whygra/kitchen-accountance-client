@@ -1,14 +1,9 @@
 import { Button, Container, Form } from 'react-bootstrap';
 import { FormEvent, useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import SelectCreateCategoryGroup from '../../shared/selectCreateGroup/SelectCreateGroup';
-import { DataAction } from '../../../models';
-import { appContext } from '../../../context/AppContextProvider';
-import { ingredientContext } from '../../../context/ingredient/IngredientFormContext';
-import { forgotPassword, signIn, signUp } from '../../../api/auth';
-import { setCookie } from '../../../cookies';
-import { authContext } from '../../../context/AuthContextProvider';
-import { ErrorView } from '../../ErrorView';
+import { appContext } from '../../context/AppContextProvider';
+import { forgotPassword } from '../../api/auth';
+import { ErrorView } from '../ErrorView';
 
 
 function ForgotPassword() 
@@ -46,7 +41,7 @@ function ForgotPassword()
     
     const form = event.currentTarget as any;
     if (form.checkValidity() === false) {
-      event.stopPropagation();      
+      event.stopPropagation();
       setValidated(true);
       return
     }

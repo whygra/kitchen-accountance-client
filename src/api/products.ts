@@ -24,6 +24,7 @@ export interface ProductDTO {
 
   waste_percentage?: number
   raw_content_percentage?: number
+  raw_product_weight?: number
   description?: string
   product_share?: number
 }

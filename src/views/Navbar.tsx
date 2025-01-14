@@ -1,6 +1,5 @@
 import { useContext, useEffect, useState } from 'react'
 import { Container, Navbar as BSNavbar, Nav, NavbarBrand, Row, Col, Image, Button, NavbarCollapse, NavbarToggle, OverlayTrigger, Tooltip } from 'react-bootstrap'
-import { signOut as requestSignOut } from '../api/auth'
 import { appContext } from '../context/AppContextProvider'
 import ConfirmationDialog from './shared/ConfirmationDialog'
 import { getCookie } from '../cookies'
@@ -11,15 +10,15 @@ import { VerifyEmail } from './VerifyEmail'
 import { EmailVerificationRequired } from './EmailVerificationRequired'
 import { projectContext } from '../context/ProjectContextProvider'
 import { useMediaQuery } from 'react-responsive'
+import { ErrorView } from './ErrorView'
 
 
 function Navbar() {
-  const{ showModal, hideModal} = useContext(appContext)
-  const {user, updateUserData, logout} = useContext(authContext)
-  const {loadProject} = useContext(projectContext)
+
+  const{ showErrorModal, showModal, hideModal} = useContext(appContext)
+  const {user, logout} = useContext(authContext)
   const {hasPermission, project} = useContext(projectContext)
   const isSignedIn = user != null
-  const navigate = useNavigate()
 
   const isAboveMd = useMediaQuery({ minWidth: 768 });
 
@@ -30,7 +29,8 @@ function Navbar() {
       onCancel={hideModal}
       onConfirm={()=>{
         logout()
-        loadProject()
+        .catch(e=>showErrorModal(e))
+        .then(res=>hideModal())
       }}
     />)
   }
@@ -215,10 +215,10 @@ function Navbar() {
         ? <>
             {user?.email_verified_at
               ? <></>
-              : <li><Link to='' onClick={()=>showModal(<EmailVerificationRequired/>)} className="nav-link text-success">Подтвердить email</Link></li>
+              : <li><Link to='#' onClick={()=>showModal(<EmailVerificationRequired/>)} className="nav-link text-success">Подтвердить email</Link></li>
             }
           <li><Link className="nav-link" to='/projects/all'>Мои проекты</Link></li>
-          <li><Link className="nav-link" to='' onClick={signOut}>Выйти</Link></li>
+          <li><Link className="nav-link" to='#' onClick={signOut}>Выйти</Link></li>
           </>
         : <>
             <li><Link className="nav-link" to='/signin'>Вход</Link></li>

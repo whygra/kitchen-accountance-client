@@ -1,5 +1,3 @@
-import { useContext, useEffect, useState } from 'react';
-import { Accordion, Col, Image, Row, Table } from 'react-bootstrap';
 import { DishDTO, getDishesWithIngredients } from '../../../api/dishes';
 import useDishesTableHeader from '../../../hooks/useDishesTableHeader';
 import usePagination from '../../../hooks/usePagination';

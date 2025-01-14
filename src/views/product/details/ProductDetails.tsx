@@ -22,7 +22,7 @@ function ProductDetails()
     const navigate = useNavigate()    
     
     useEffect(()=>{
-        document.title = `Продукт "${product?.id}. ${product?.name}"`}
+        document.title = `Продукт "${product?.name}"`}
     , [product])
 
     useEffect(()=>{loadProduct()}, [])
@@ -66,7 +66,7 @@ function ProductDetails()
                     />
                 </div>
 
-                <h3 className='col col-12 col-sm-8 order-sm-1 mt-3'>{`${product.id}. ${product.name}`}</h3>
+                <h3 className='col col-12 col-sm-8 order-sm-1 mt-3'>{product.name}</h3>
                 </Row>
                 
                 <Col md={12}>

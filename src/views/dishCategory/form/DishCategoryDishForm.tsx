@@ -2,7 +2,7 @@ import {Button, Card, Col, Container, Form, Row, Table} from 'react-bootstrap'
 import { DishCategoryDishFormState } from '../../../models/dish/DishCategoryFormState'
 import 'bootstrap'
 import { useContext } from 'react'
-import { dishCategoryFormContext } from '../../../context/dish/DishCategoryFormContext'
+import { dishCategoryFormContext } from '../../../context/forms/dish/DishCategoryFormContext'
 import TooltipButton from '../../shared/TooltipButton'
 
 interface DishCategoryDishFormProps {
@@ -22,7 +22,7 @@ function DishCategoryDishForm({formState}: DishCategoryDishFormProps) {
           <div className="d-flex flex-column">
             <b>Блюдо</b>
             <span>
-              {selected?.id}. {selected?.name}
+              {selected?.name}
             </span>
           </div>
         </Col>

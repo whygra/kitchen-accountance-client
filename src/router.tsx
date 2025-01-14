@@ -3,22 +3,19 @@ import Home from "./views/Home";
 import IngredientForm from "./views/ingredient/form/IngredientForm";
 import IngredientList from "./views/ingredient/list/IngredientList";
 import NotFound from "./views/NotFound";
-import IngredientFormController from "./context/ingredient/IngredientFormContext";
 import { DataAction } from "./models";
 import IngredientDetails from "./views/ingredient/details/IngredientDetails";
-import DishFormController from "./context/dish/DishFormContext";
 import DishDetails from "./views/dish/details/DishDetails";
 import DishList from "./views/dish/list/DishList";
-import DistributorFormController from "./context/DistributorFormContext";
 import DistributorDetails from "./views/distributor/details/DistributorDetails";
 import DistributorList from "./views/distributor/list/DistributorList";
-import IngredientFormContextProvider from "./context/ingredient/IngredientFormContext";
-import DishFormContextProvider from "./context/dish/DishFormContext";
+import IngredientFormContextProvider from "./context/forms/ingredient/IngredientFormContext";
+import DishFormContextProvider from "./context/forms/dish/DishFormContext";
 import DishForm from "./views/dish/form/DishForm";
-import DistributorFormContextProvider from "./context/DistributorFormContext";
+import DistributorFormContextProvider from "./context/forms/distributor/DistributorFormContext";
 import DistributorForm from "./views/distributor/form/DistributorForm";
-import SignUp from "./views/user/forms/SignUp";
-import SignIn from "./views/user/forms/SignIn";
+import SignUp from "./views/auth/SignUp";
+import SignIn from "./views/auth/SignIn";
 
 const router = createBrowserRouter([
     {

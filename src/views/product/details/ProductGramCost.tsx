@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { ProductDTO } from "../../../api/products";
 import { IngredientDTO } from "../../../api/ingredients";
 import ProductDetails from "./ProductDetails";
-import { constructIngredientProductsWeightsCalculator, getProductsWeights } from "../../../models/ingredient/IngredientProductsWeightsCalculatorState";
 
 
 
