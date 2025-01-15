@@ -39,7 +39,8 @@ function AuthContextProvider({children}:AuthContextProviderProps) {
   const navigate = useNavigate()
 
   useEffect(()=>{
-    setUser(parseUserDataCookie())
+    updateUserData()
+    // setUser(parseUserDataCookie())
   }, [])
 
   function parseUserDataCookie(): UserDTO|null {

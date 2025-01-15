@@ -77,8 +77,9 @@ function IngredientForm()
   };
 
   function preventSubmit(e: any) {
-    var key = e.keyCode || 0;     
-    if (key == 13) {
+    if (
+      e.key == 13
+    ) {
       e.preventDefault();
     }
   }

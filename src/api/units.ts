@@ -29,7 +29,6 @@ export const getUnits = async () : Promise<UnitDTO[] | null> => {
 }
 
 export const postUnit = async (createData: UnitDTO): Promise<UnitDTO | null> => {
-  console.log(createData)
   const response = await fetch(`${BASE_URL}/${getProjectPath()}/${getCookie(C_SELECTED_PROJECT_ID)}/${ENTITY_PATH}/create`, {
     method: 'POST',
     headers: {

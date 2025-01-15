@@ -118,7 +118,6 @@ export const getPublicProject = async (id:number) : Promise<ProjectDTO | null> =
 }
 
 export const publishProject = async (id:number) : Promise<ProjectDTO | null> => {
-  console.log(`${BASE_URL}/${ENTITY_PATH}/${id}/publish`)
   const response = await fetch(`${BASE_URL}/${ENTITY_PATH}/${id}/publish`,{
     method:'POST',
     headers: {
@@ -166,9 +165,7 @@ export const downloadTables = async (id:number) : Promise<string> => {
       message: `Не удалось скачать данные проекта`,
       name: `${response.status} ${response.statusText}`
     }
-    console.log(blob)
     const blobUrl = URL.createObjectURL(blob);
-    console.log(blobUrl)
   return blobUrl
 }
 
@@ -177,7 +174,6 @@ export const getDownloadTablesLink = (id:number) : string => {
 }
 
 export const postProject = async (createData: ProjectDTO): Promise<ProjectDTO | null> => {
-  console.log(createData)
   const response = await fetch(`${BASE_URL}/${ENTITY_PATH}/create`, {
     method: 'POST',
     headers: {
