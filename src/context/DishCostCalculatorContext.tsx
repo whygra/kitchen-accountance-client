@@ -33,8 +33,6 @@ function DishCostCalculatorContextProvider({id, children} : DishCostCalculatorCo
   const [model, setModel] = useState<DishCostCalculatorState>(constructDishCostCalculator())
   const [isLoading, setIsLoading] = useState(false)
 
-  const {showModal} = useContext(appContext)
-
   useEffect(()=>{loadDish()}, [])
 
   async function loadDish() {

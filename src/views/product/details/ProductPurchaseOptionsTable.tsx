@@ -19,7 +19,6 @@ function ProductPurchaseOptionsTable({product}:ProductPurchaseOptionsTableProps)
         
         <div className="mb-3"><h4 className="text-center">Позиции закупки</h4>
 
-
                 <GridTableRow cells={[
                     {
                         displayAt: WindowSize.Md,

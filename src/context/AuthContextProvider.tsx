@@ -91,6 +91,7 @@ function AuthContextProvider({children}:AuthContextProviderProps) {
       // если есть id - отправить api запрос
       if (isSignedIn()) res = await getCurrent()
     } catch(e:any){
+      setCookie(C_ACCESS_TOKEN, '', 0)
       // обработка-выброс исключения
       throw e
     } finally {

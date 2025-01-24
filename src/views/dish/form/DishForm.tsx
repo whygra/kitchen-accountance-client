@@ -13,10 +13,12 @@ import { UserPermissions } from '../../../models';
 import HistoryNav from '../../shared/HistoryNav';
 import SmallTooltipButton from '../../shared/SmallTooltipButton';
 import { projectContext } from '../../../context/ProjectContextProvider';
+import { useHotkeys } from 'react-hotkeys-hook';
 
 
 function DishForm() 
 {  
+
   const {hasPermission} = useContext(projectContext)
 
   const imageInputRef = useRef<HTMLInputElement>(null)
@@ -41,7 +43,8 @@ function DishForm()
     setGroupDataAction, setGroupName,
     history, reloadState
   } = useContext(dishFormContext);
-  
+
+
   function hasIngredients() : boolean {
     // есть хотя бы один ингредиент
     return formState.dishIngredientForms.length > 0
@@ -83,7 +86,7 @@ function DishForm()
   }
 
 
-  function preventSubmit(e: any) {
+  function handleKeyDown(e: any) {
     if (
       e.key == 13
     ) {
@@ -99,7 +102,6 @@ function DishForm()
     const files = (e.target as HTMLInputElement).files
     
     setImage(files ? files[0] : undefined)
-
   }
 
   function removeImage(){
@@ -198,7 +200,7 @@ function DishForm()
           <textarea
             maxLength={1000}
             className='form-control border-1'
-            onKeyDown={e=>preventSubmit(e)}
+            onKeyDown={e=>handleKeyDown(e)}
             value={formState.description}
             onChange={(e)=>setDescription(e.target.value)}
           />

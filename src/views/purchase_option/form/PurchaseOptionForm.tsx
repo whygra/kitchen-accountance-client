@@ -122,7 +122,6 @@ function PurchaseOptionForm()
         <Form.Group className='mb-3'>
         <Form.Label><b>Код</b></Form.Label>
         <Form.Control
-          required
           type="number"
           placeholder="Код"
           value={formState.code}

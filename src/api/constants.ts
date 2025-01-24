@@ -1,7 +1,7 @@
 import { C_IS_SIGNED_IN, getCookie } from "../cookies";
 
-export const BASE_URL = 'https://www.kitchen-accountance.ru/api';
-// export const BASE_URL = 'http://127.0.0.1:8000/api';
+// export const BASE_URL = 'https://www.kitchen-accountance.ru/api';
+export const BASE_URL = 'http://127.0.0.1:8000/api';
 export const PROJECT_PATH = 'project';
 
 export const getProjectPath = () => {

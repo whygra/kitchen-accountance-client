@@ -203,7 +203,7 @@ function PurchaseOptionsTableHeader({
                         type='number'
                         placeholder='от'
                         min={0}
-                        value={searchData.minNetWeight ?? ''}
+                        value={searchData.minPrice ?? ''}
                         onChange={(e)=>setSearchData({...searchData, minPrice: parseInt(e.target.value)})}
                         />
                     <Form.Control
@@ -211,7 +211,7 @@ function PurchaseOptionsTableHeader({
                         type='number'
                         placeholder='до'
                         min={0}
-                        value={searchData.maxNetWeight ?? ''}
+                        value={searchData.maxPrice ?? ''}
                         onChange={(e)=>setSearchData({...searchData, maxPrice: parseInt(e.target.value)})}
                     />
                 </>,

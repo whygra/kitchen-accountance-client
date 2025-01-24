@@ -33,7 +33,7 @@ function SelectCreateGroup({
   const isCreateUnit = dataAction === DataAction.Create
 
   useEffect(()=>{
-    setUnitId(units[0]?.id)
+    setUnitId(unitId==0?units[0]?.id:unitId)
   },[])
 
   return (

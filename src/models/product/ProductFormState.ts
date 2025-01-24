@@ -63,7 +63,7 @@ export function constructProductPurchaseOptionForm(o?: PurchaseOptionDTO): Purch
         key: uuid(),
         id: o?.id ?? 0,
         productShare: o?.product_share ?? 100,
-        unitId: o?.unit.id ?? 0,
+        unitId: o?.unit?.id ?? 0,
         name: o?.name ?? '',
         netWeight: o?.net_weight ?? 0,
         price: o?.price ?? 0,

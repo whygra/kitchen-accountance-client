@@ -42,6 +42,7 @@ export interface IngredientCostCalculatorModel {
     group?: IngredientGroupDTO
     is_item_measured?: boolean
     products?: ProductCostCalculatorModel[]
+    avg_waste_percentage?: number
     waste_percentage: number
     ingredient_amount: number
     // стоимость
@@ -54,10 +55,11 @@ export function constructIngredientCostCalculator(ingredient : IngredientDTO) : 
 }
 
 export function setAmount(ingredient: IngredientCostCalculatorModel, amount: number): IngredientCostCalculatorModel{
+    const srcW = calcIngredientSourceWeight({...ingredient, ingredient_amount:amount})
     return {
         ...ingredient, ingredient_amount: amount, 
         products: ingredient.products?.map(p=>{return{
-            ...p, weight: calcIngredientSourceWeight({...ingredient, ingredient_amount:amount})*p.raw_content_percentage/100
+            ...p, weight: srcW*p.raw_content_percentage/100
         }}) ?? []
     }
 }
@@ -113,5 +115,5 @@ export function calcGramCost(product: ProductDTO, optionId?: number){
 }
 
 export function calcIngredientSourceWeight(ingredient: IngredientDTO){
-    return (ingredient?.item_weight??1)*(ingredient.ingredient_amount??1) / (100 - (ingredient.avg_waste_percentage??0)) * 100
+    return (ingredient.item_weight??1)*(ingredient.ingredient_amount??1) / (100 - (ingredient.avg_waste_percentage??0)) * 100
 }

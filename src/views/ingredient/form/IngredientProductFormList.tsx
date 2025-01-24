@@ -5,6 +5,7 @@ import { useContext, useState } from 'react'
 import { ingredientContext } from '../../../context/forms/ingredient/IngredientFormContext'
 import useProductSelect from '../../../hooks/tableSelect/useProductSelect';
 import FormListButtons from '../../shared/FormListButtons';
+import useFormHotkeys from '../../../hooks/useFormHotkeys'
 
 function IngredientProductFormList() {
 
@@ -12,6 +13,7 @@ function IngredientProductFormList() {
     addIngredientProductForm, 
     removeAllIngredientProductForms,
     setIngredientProductFormState,
+    removeIngredientProductForm,
     formState,
     products
   } = useContext(ingredientContext);
@@ -29,6 +31,13 @@ function IngredientProductFormList() {
     setActiveForm(form)
     showSelect()
   }
+  
+  useFormHotkeys(
+    ()=>addIngredientProductForm(),
+    ()=>removeIngredientProductForm(
+      formState.ingredientProductForms[formState.ingredientProductForms.length-1].key
+    )
+  )
 
   return (
     <div>

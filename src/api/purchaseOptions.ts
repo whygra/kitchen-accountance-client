@@ -11,7 +11,7 @@ const WITH_PRODUCTS = "with-products"
 export interface PurchaseOptionDTO {
   id: number
   distributor?: DistributorDTO
-  unit: UnitDTO
+  unit?: UnitDTO
   code?: number
   name: string
   net_weight: number
@@ -23,7 +23,7 @@ export interface PurchaseOptionDTO {
 
 export interface DistributorPurchaseOptionDTO {
   id: number
-  unit: UnitDTO
+  unit?: UnitDTO
   code?: number
   name: string
   net_weight: number
@@ -133,7 +133,7 @@ export const postPurchaseOptionWithProducts = async (createData: PurchaseOptionD
       ...createData,
     })
   })
-  const data = await response.json().catch(e=>null)
+  const data = await response.json()//.catch(e=>console.log(e))
   if (!response.ok) 
     throw {
       message: `Не удалось добавить данные позиции закупки ${data?.message}`,

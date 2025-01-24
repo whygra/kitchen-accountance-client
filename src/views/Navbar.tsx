@@ -16,9 +16,8 @@ import { ErrorView } from './ErrorView'
 function Navbar() {
 
   const{ showErrorModal, showModal, hideModal} = useContext(appContext)
-  const {user, logout} = useContext(authContext)
+  const {user, logout, isSignedIn} = useContext(authContext)
   const {hasPermission, project} = useContext(projectContext)
-  const isSignedIn = user != null
 
   const isAboveMd = useMediaQuery({ minWidth: 768 });
 
@@ -199,7 +198,7 @@ function Navbar() {
       
     className={`${isAboveMd ? 'dropup' : 'dropdown'} position-relative py-3 px-2 d-flex align-items-center align-items-md-end text-center btn-group`}>
 
-    <Link className="link-dark text-decoration-none" to={isSignedIn ? '/profile' : '/signin'}>
+    <Link className="link-dark text-decoration-none" to={isSignedIn() ? '/profile' : '/signin'}>
       Профиль
     </Link>
     <Link 
@@ -211,7 +210,7 @@ function Navbar() {
 
     <ul x-placement='top' className={`position-absolute dropdown-menu ${isAboveMd?'dropdown-menu-start':'dropdown-menu-end'} text-small shadow`}>
       {
-        isSignedIn
+        isSignedIn()
         ? <>
             {user?.email_verified_at
               ? <></>

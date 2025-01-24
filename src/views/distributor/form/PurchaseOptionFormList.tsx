@@ -4,25 +4,23 @@ import { useContext, useEffect, useRef, useState } from 'react'
 import { distributorFormContext } from '../../../context/forms/distributor/DistributorFormContext'
 import { isInvalid, PurchaseOptionFormState, purchaseOptionFormToDTO } from '../../../models/DistributorFormState';
 import TooltipButton from '../../shared/TooltipButton';
-import BtnAskConfirmation from '../../shared/BtnAskConfirmation';
 import usePagination from '../../../hooks/usePagination';
 import useFilterPurchaseOptions, { EMPTY_SEARCH_PARAMS } from '../../../hooks/filter/useFilterPurchaseOptions';
 import useSortPurchaseOptions, { PurchaseOptionField } from '../../../hooks/sort/useSortPurchaseOptions';
 import useProductSelect from '../../../hooks/tableSelect/useProductSelect';
-import { DataAction } from '../../../models';
-import { PurchaseOptionDTO } from '../../../api/purchaseOptions';
 import FormListButtons from '../../shared/FormListButtons';
+import useFormHotkeys from '../../../hooks/useFormHotkeys';
 
 interface PurchaseOptionFormListProps {
   goToInvalid?: boolean
 }
 
 function PurchaseOptionFormList({goToInvalid}:PurchaseOptionFormListProps) {
-
   const {
     addPurchaseOptionForm,
     removeAllPurchaseOptionForms,
     setPurchaseOptionFormState,
+    removePurchaseOptionForm,
     formState,
     products
   } = useContext(distributorFormContext);
@@ -104,7 +102,7 @@ function PurchaseOptionFormList({goToInvalid}:PurchaseOptionFormListProps) {
         goToElement(index)
       
   },[
-    currentPage
+    currentPage, goToInvalid
   ])
 
   function scrollIntoInvalid() {
@@ -114,6 +112,13 @@ function PurchaseOptionFormList({goToInvalid}:PurchaseOptionFormListProps) {
   useEffect(()=>{
     scrollIntoInvalid()
   },[invalidRef.current])
+
+  useFormHotkeys(
+    ()=>addPurchaseOptionForm(),
+    ()=>removePurchaseOptionForm(
+      formState.purchaseOptionForms[formState.purchaseOptionForms.length-1].key
+    )
+  )
   
   return (
     <div>
@@ -191,7 +196,6 @@ function PurchaseOptionFormList({goToInvalid}:PurchaseOptionFormListProps) {
           <Form.Label>Масса нетто</Form.Label>
           <Form.Control
           className='mt-1'
-          required
           type='number'
           placeholder='от'
           min={0}
@@ -200,7 +204,6 @@ function PurchaseOptionFormList({goToInvalid}:PurchaseOptionFormListProps) {
           />
           <Form.Control
           className='mt-1'
-          required
           type='number'
           placeholder='до'
           min={0}
@@ -212,7 +215,6 @@ function PurchaseOptionFormList({goToInvalid}:PurchaseOptionFormListProps) {
           <Form.Label>Цена</Form.Label>
           <Form.Control
           className='mt-1'
-          required
           type='number'
           placeholder='от'
           min={0}
@@ -221,7 +223,6 @@ function PurchaseOptionFormList({goToInvalid}:PurchaseOptionFormListProps) {
           />
           <Form.Control
           className='mt-1'
-          required
           type='number'
           placeholder='до'
           min={0}

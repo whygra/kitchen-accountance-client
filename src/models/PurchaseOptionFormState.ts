@@ -28,9 +28,9 @@ export function constructPurchaseOptionForm(o?: PurchaseOptionDTO): PurchaseOpti
         price: o?.price ?? 0,
         distributorId: o?.distributor?.id ?? 0,
         unitAction: DataAction.None,
-        unitId: o?.unit.id ?? 1,
-        unitShort: o?.unit.short ?? '',
-        unitLong: o?.unit.long ?? '',
+        unitId: o?.unit?.id ?? 0,
+        unitShort: o?.unit?.short ?? '',
+        unitLong: o?.unit?.long ?? '',
         netWeight: o?.net_weight ?? 1000,
         productForms: o?.products?.map(p=>constructProductForm(p)) ?? []
     }
@@ -43,7 +43,7 @@ export function purchaseOptionFormToDTO (state: PurchaseOptionFormState) : Purch
         code: state.code,
         price: state.price,
         distributor: {id:state.distributorId, name:''},
-        unit: {id:state.unitId, long:state.unitLong, short:state.unitShort},
+        unit: {id:state.unitAction==DataAction.Create?0:state.unitId, long:state.unitLong, short:state.unitShort},
         net_weight: state.netWeight,
         products: state.productForms
             .map(p=>productFormToDTO(p))

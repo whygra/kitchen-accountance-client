@@ -6,6 +6,8 @@ import useIngredientSelect from '../../../hooks/tableSelect/useIngredientSelect'
 import { ingredientCategoryFormContext } from '../../../context/forms/ingredient/IngredientCategoryFormContext';
 import IngredientCategoryIngredientForm from './IngredientCategoryIngredientForm';
 import FormListButtons from '../../shared/FormListButtons';
+import { useHotkeys } from 'react-hotkeys-hook';
+import useFormHotkeys from '../../../hooks/useFormHotkeys';
 
 function IngredientCategoryIngredientFormList() {
 
@@ -13,6 +15,7 @@ function IngredientCategoryIngredientFormList() {
     addIngredientCategoryIngredientForm, 
     removeAllIngredientCategoryIngredientForms,
     setIngredientCategoryIngredientFormState,
+    removeIngredientCategoryIngredientForm,
     formState,
     ingredients,
   } = useContext(ingredientCategoryFormContext);
@@ -46,6 +49,13 @@ function IngredientCategoryIngredientFormList() {
     setActiveForm(form)
     showSelect()
   }
+  
+  useFormHotkeys(
+    ()=>openSelect(constructIngredientCategoryIngredientForm()),
+    ()=>removeIngredientCategoryIngredientForm(
+      formState.ingredientCategoryIngredientForms[formState.ingredientCategoryIngredientForms.length-1].key
+    )
+  )
 
   return (
     <>

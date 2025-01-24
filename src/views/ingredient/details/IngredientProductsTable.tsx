@@ -17,7 +17,6 @@ function IngredientProductsTable({ingredient}:IngredientProductsTableProps) {
             <thead>
 
                 <tr className='text-center'>
-                    <th className="d-none d-sm-table-cell">Id Продукта</th>
                     <th>Продукт</th>
                     <th>Доля содержания</th>
                     <th>Процент отхода</th>
@@ -29,7 +28,6 @@ function IngredientProductsTable({ingredient}:IngredientProductsTableProps) {
                     ?.slice(sliceLimits.start, sliceLimits.end)
                     .map(p => 
                     <tr className='text-center'>
-                        <td className="d-none d-sm-table-cell">{p.id}</td>
                         <td><Link to={`/products/details/${p.id}`}>{p.name}</Link></td>
                         <td>{p.raw_content_percentage?.toFixed(2)}%</td>
                         <td>{p.waste_percentage?.toFixed(2)}%</td>

@@ -2,15 +2,21 @@ import { Button, Col, Form, Image, Row } from 'react-bootstrap';
 import { FormEvent, useContext, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { appContext } from '../../../context/AppContextProvider';
-import { UserPermissions } from '../../../models';
 import HistoryNav from '../../shared/HistoryNav';
 import SmallTooltipButton from '../../shared/SmallTooltipButton';
 import { projectFormContext } from '../../../context/forms/project/ProjectFormContextProvider';
-import { projectContext } from '../../../context/ProjectContextProvider';
+import { authContext } from '../../../context/AuthContextProvider';
+import { AuthenticationRequired } from '../../AuthenticationRequired';
 
 function ProjectForm() 
 { 
 
+  const {isSignedIn} = useContext(authContext)
+  if(!isSignedIn()){
+    return (<AuthenticationRequired/>)
+  }
+  
+  const {showModal} = useContext(appContext)
   const logoInputRef = useRef<HTMLInputElement>(null)
   const backdropInputRef = useRef<HTMLInputElement>(null)
 
@@ -18,7 +24,6 @@ function ProjectForm()
   
   const [disabled, setDisabled] = useState(false)
   
-  const {showModal} = useContext(appContext)
   
   const {
     setBackdrop, setLogo, resetBackdrop, resetLogo,

@@ -1,10 +1,11 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import IngredientsTableItem from "../../views/ingredient/list/IngredientsTableItem"
 import ModalWrapper from "../../views/shared/ModalWrapper"
 import TableSelect from "../../views/shared/selectCreateGroup/TableSelect"
 import useIngredientsTableHeader from "../useIngredientsTableHeader"
-import { IngredientDTO } from "../../api/ingredients"
+import { IngredientDTO, IngredientTypeDTO } from "../../api/ingredients"
 import { IngredientField } from "../sort/useSortIngredients"
+import { getIngredientTypes } from "../../api/ingredientTypes"
 
 
 export default function useIngredientSelect(
@@ -14,19 +15,22 @@ export default function useIngredientSelect(
   fieldsToExclude?: IngredientField[],
 ){
 
+  const [types, setTypes] = useState<IngredientTypeDTO[]>()
+  useEffect(()=>{loadTypes()},[])
     const [displaySelect, setDisplaySelect] = useState(false)
     
     function showSelect() {
         setDisplaySelect(true)
     }
 
+    async function loadTypes(){
+      setTypes(await getIngredientTypes()??undefined)
+    }
+
     function selectId(id: number){
         setId(id)
         setDisplaySelect(false)
     }
-
-    // уникальные типы из коллекции ингредиентов
-    const types = items.map(i=>i.type!).filter((t, i, arr)=>arr.indexOf(t)==i)
     
     const selectFilter = useIngredientsTableHeader(types, true, fieldsToExclude)
     const filteredItems = items
@@ -34,7 +38,7 @@ export default function useIngredientSelect(
     .sort(selectFilter.getComparer())
 
     const modalSelect = <ModalWrapper show={displaySelect} onHide={()=>setDisplaySelect(false)}>
-      <div className="disable-links">
+      <div className="links-disabled">
       <TableSelect
       header={selectFilter.header}
       constructRow={(p)=><IngredientsTableItem ingredient={p}/>}

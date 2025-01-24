@@ -56,7 +56,7 @@ function PurchaseOptionsTableItem({purchaseOption, fieldsToExclude}:PurchaseOpti
             displayAt: WindowSize.Lg,
             field: PurchaseOptionField.Unit,
             element: 
-                <>{purchaseOption.unit.short}</>,
+                <>{purchaseOption.unit?.short}</>,
             span: 2
         },
     ]

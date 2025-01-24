@@ -6,6 +6,7 @@ import useIngredientSelect from '../../../hooks/tableSelect/useIngredientSelect'
 import { ingredientGroupFormContext } from '../../../context/forms/ingredient/IngredientGroupFormContext';
 import IngredientGroupIngredientForm from './IngredientGroupIngredientForm';
 import FormListButtons from '../../shared/FormListButtons';
+import useFormHotkeys from '../../../hooks/useFormHotkeys';
 
 function IngredientGroupIngredientFormList() {
 
@@ -13,6 +14,7 @@ function IngredientGroupIngredientFormList() {
     addIngredientGroupIngredientForm, 
     removeAllIngredientGroupIngredientForms,
     setIngredientGroupIngredientFormState,
+    removeIngredientGroupIngredientForm,
     formState,
     ingredients,
   } = useContext(ingredientGroupFormContext);
@@ -46,6 +48,13 @@ function IngredientGroupIngredientFormList() {
     setActiveForm(form)
     showSelect()
   }
+
+  useFormHotkeys(
+    ()=>openSelect(constructIngredientGroupIngredientForm()),
+    ()=>removeIngredientGroupIngredientForm(
+      formState.ingredientGroupIngredientForms[formState.ingredientGroupIngredientForms.length-1].key
+    )
+  )
 
   return (
     <>

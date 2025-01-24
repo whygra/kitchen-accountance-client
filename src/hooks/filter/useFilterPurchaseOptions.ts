@@ -37,7 +37,10 @@ export default function useFilterPurchaseOptions() {
                 || (p.products != undefined && searchData.product.split(' ').every(s=>p.products?.findIndex(p=>p.name.toLocaleLowerCase().includes(s))!=-1)
                 )
             )
-            && (searchData.unit.length==0 || p.unit.short.toLocaleLowerCase().includes(searchData.unit)||p.unit.long.toLocaleLowerCase().includes(searchData.unit))
+            && (searchData.unit.length==0 
+                || (p.unit?.short.toLocaleLowerCase().includes(searchData.unit)??false)
+                || (p.unit?.long.toLocaleLowerCase().includes(searchData.unit)??false)
+            )
             && (Number.isNaN(searchData.minNetWeight) || p.net_weight >= searchData.minNetWeight)
             && (Number.isNaN(searchData.maxNetWeight) || p.net_weight <= searchData.maxNetWeight)
             && (Number.isNaN(searchData.minPrice) || p.price >= searchData.minPrice)

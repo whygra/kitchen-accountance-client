@@ -8,6 +8,7 @@ import TooltipButton from '../../shared/TooltipButton';
 import { constructProductPurchaseOptionForm, PurchaseOptionFormState } from '../../../models/product/ProductFormState';
 import usePurchaseOptionSelect from '../../../hooks/tableSelect/usePurchaseOptionSelect';
 import FormListButtons from '../../shared/FormListButtons';
+import useFormHotkeys from '../../../hooks/useFormHotkeys';
 
 function PurchaseOptionFormList() {
 
@@ -15,6 +16,7 @@ function PurchaseOptionFormList() {
     addPurchaseOptionForm,
     setPurchaseOptionFormState,
     removeAllPurchaseOptionForms: removeAllForms,
+    removePurchaseOptionForm,
     purchaseOptions,
     formState
   } = useContext(productFormContext);
@@ -58,6 +60,13 @@ function PurchaseOptionFormList() {
     setActiveForm(form)
     showSelect()
   }
+  
+  useFormHotkeys(
+    ()=>openSelect(constructProductPurchaseOptionForm()),
+    ()=>removePurchaseOptionForm(
+      formState.purchaseOptionForms[formState.purchaseOptionForms.length-1].key
+    )
+  )
 
   return (
     <>

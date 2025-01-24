@@ -9,6 +9,8 @@ import useDishSelect from '../../../hooks/tableSelect/useDishSelect';
 import { dishGroupFormContext } from '../../../context/forms/dish/DishGroupFormContext'
 import DishGroupDishForm from './DishGroupDishForm';
 import FormListButtons from '../../shared/FormListButtons';
+import { useHotkeys } from 'react-hotkeys-hook';
+import useFormHotkeys from '../../../hooks/useFormHotkeys';
 
 function DishGroupDishFormList() {
 
@@ -16,6 +18,7 @@ function DishGroupDishFormList() {
     addDishGroupDishForm, 
     removeAllDishGroupDishForms,
     setDishGroupDishFormState,
+    removeDishGroupDishForm,
     formState,
     dishes,
   } = useContext(dishGroupFormContext);
@@ -48,7 +51,14 @@ function DishGroupDishFormList() {
   function openSelect(form:DishGroupDishFormState){
     setActiveForm(form)
     showSelect()
-  }  
+  }    
+  
+  useFormHotkeys(
+    ()=>openSelect(constructDishGroupDishForm()),
+    ()=>removeDishGroupDishForm(
+      formState.dishGroupDishForms[formState.dishGroupDishForms.length-1].key
+    )
+  )
 
   return (
     <>

@@ -79,7 +79,7 @@ function PurchaseOptionDetails()
                         <tr><th className='text-start'>Поставщик</th><td className='text-end'><Link to={`/distributors/details/${purchaseOption.distributor?.id}`}>{purchaseOption.distributor?.name}</Link></td></tr>
                         <tr><th className='text-start'>Масса нетто</th><td className='text-end'>{purchaseOption.net_weight}</td></tr>
                         <tr><th className='text-start'>Цена</th><td className='text-end'>{purchaseOption.price} ₽</td></tr>
-                        <tr><th className='text-start'>Единица измерения</th><td className='text-end'>{purchaseOption.unit.long}</td></tr>
+                        <tr><th className='text-start'>Единица измерения</th><td className='text-end'>{purchaseOption.unit?.long??''}</td></tr>
                         <tr><th className='text-start'>Стоимость 1 грамма</th><td className='text-end'><PurchaseOptionGramCost purchaseOption={purchaseOption}/> ₽</td></tr>
                         </tbody>
                     </Table>

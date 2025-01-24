@@ -146,7 +146,7 @@ export const putDishGroupWithDishes = async (dishGroupData: DishGroupDTO): Promi
 }
 
 export const deleteDishGroup = async (id: number): Promise<Object | null> => {
-  const response = await fetch(`${BASE_URL}/${getProjectPath()}/${getCookie(C_SELECTED_PROJECT_ID)}/${ENTITY_PATH}/${WITH_DISHES}/delete/${id}`, {
+  const response = await fetch(`${BASE_URL}/${getProjectPath()}/${getCookie(C_SELECTED_PROJECT_ID)}/${ENTITY_PATH}/delete/${id}`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',

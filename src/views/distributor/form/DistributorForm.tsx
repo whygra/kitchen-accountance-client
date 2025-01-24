@@ -68,8 +68,8 @@ function DistributorForm()
 
     const form = event.currentTarget as any;
     if (form.checkValidity() === false) {
-      event.stopPropagation();      
-      setValidated(true);
+    event.stopPropagation()
+      setValidated(true)
       setIsValidating(false)
       return
     }

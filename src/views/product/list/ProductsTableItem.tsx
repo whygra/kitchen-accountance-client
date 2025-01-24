@@ -16,7 +16,7 @@ function ProductsTableItem({product, fieldsToExclude}: ProductsTableItemProps)
 {      
     const cells = [
         {   
-            displayAt: WindowSize.Lg,
+            displayAt: WindowSize.Xl,
             field: ProductField.Id,
             element: 
                 <>{product.id}</>,
@@ -32,7 +32,7 @@ function ProductsTableItem({product, fieldsToExclude}: ProductsTableItemProps)
             displayAt: WindowSize.Sm,
             field: ProductField.Category,
             element: 
-                product.category?<Link to={`/product-categories/details/${product.category.id}`}>{product.name}</Link>:<>-без группы-</>,
+                product.category?<Link to={`/product-categories/details/${product.category.id}`}>{product.name}</Link>:<>-без категории-</>,
             span: 3
         },
         {   

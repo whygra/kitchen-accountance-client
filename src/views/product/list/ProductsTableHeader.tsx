@@ -29,7 +29,7 @@ function ProductsTableHeader({
     const [searchOpen, setSearchOpen] = useState(filtersOpen??false)
     const sortCells = [
         {   
-            displayAt: WindowSize.Lg,
+            displayAt: WindowSize.Xl,
             field: ProductField.Id,
             element: 
                 <HeaderSortButton
@@ -84,7 +84,7 @@ function ProductsTableHeader({
     const filterCells = [
         
         {
-            displayAt: WindowSize.Lg,
+            displayAt: WindowSize.Xl,
             field: ProductField.Id,
             element: 
                 <Form.Control

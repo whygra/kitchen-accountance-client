@@ -9,6 +9,7 @@ import { productGroupFormContext } from '../../../context/forms/product/ProductG
 import ProductGroupProductForm from './ProductGroupProductForm';
 import { ProductField } from '../../../hooks/sort/useSortProducts';
 import FormListButtons from '../../shared/FormListButtons';
+import useFormHotkeys from '../../../hooks/useFormHotkeys';
 
 function ProductGroupProductFormList() {
 
@@ -16,15 +17,14 @@ function ProductGroupProductFormList() {
     addProductGroupProductForm, 
     removeAllProductGroupProductForms,
     setProductGroupProductFormState,
+    removeProductGroupProductForm,
     formState,
     products,
   } = useContext(productGroupFormContext);
 
-  const {showModal, hideModal} = useContext(appContext)
 
   function deleteAll(){
     removeAllProductGroupProductForms()
-    hideModal()
   }
 
   // выбор ингредиентов
@@ -49,6 +49,13 @@ function ProductGroupProductFormList() {
     setActiveForm(form)
     showSelect()
   }
+
+  useFormHotkeys(
+    ()=>openSelect(constructProductGroupProductForm()),
+    ()=>removeProductGroupProductForm(
+      formState.productGroupProductForms[formState.productGroupProductForms.length-1].key
+    )
+  )
 
   return (
     <>

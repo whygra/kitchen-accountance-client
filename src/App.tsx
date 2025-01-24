@@ -10,12 +10,14 @@ import AppRoutes from './routes';
 import AuthContextProvider from './context/AuthContextProvider';
 import Navbar from './views/Navbar';
 import ProjectContextProvider from './context/ProjectContextProvider';
+import { HotkeysProvider } from 'react-hotkeys-hook';
 
 function App() {
   const location = useLocation();
     return (
       <AuthContextProvider>
         <ProjectContextProvider>
+          <HotkeysProvider initiallyActiveScopes={['settings']}>
           <div className='fixed-top h-100 d-flex flex-column flex-md-row'>
             <div className='h-md-100 flex-shrink-1'>
               <Navbar/>
@@ -28,6 +30,7 @@ function App() {
               </Container>
             </div>
           </div>
+          </HotkeysProvider>
         </ProjectContextProvider>
       </AuthContextProvider>
     )

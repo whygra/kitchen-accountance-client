@@ -73,7 +73,8 @@ function ProjectContextProvider({children}:ProjectContextProviderProps) {
     } finally {
       // записать|очистить данные
       setProject(res)
-      setIdCookie(id)
+      if(id)
+        setIdCookie(id)
       setProjectDataCookie(res)
     }
     

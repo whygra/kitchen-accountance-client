@@ -67,10 +67,8 @@ function DishDetails()
                 <h3 className='col col-12 col-sm-8 order-sm-1 mt-3'>{dish.name}</h3>
                 </Row>
                 
-                <Col md={12}>
+                <Col md={12} lg={6}>
                     <UpdatedAt entity={dish}/>
-                </Col>
-
                 <ul className='list-group ps-2'>
                     <li className='list-group-item'>Вес блюда: {calcDishWeight(dish).toFixed(2)} г.</li>
                     <li className='list-group-item'>
@@ -82,7 +80,8 @@ function DishDetails()
                             ? <Link to={`/dish-groups/details/${dish.group.id}`}>{dish.group.name}</Link> 
                             : '-без группы-'}"</li>
                 </ul>
-            <Col md={12} lg={12}>
+                </Col>
+            <Col md={12} lg={6}>
                 
                 <Card 
                     className="p-3"
@@ -99,7 +98,7 @@ function DishDetails()
                     style={{maxHeight:'20em'}} 
                         className='bg-light text-secondary d-flex justify-content-center align-items-center text-center'
                         >
-                        <Image  style={{maxHeight:'100%', maxWidth:'100%'}} src={`${dish.image?.url}`}/>
+                        <Image  style={{maxHeight:'20em', maxWidth:'100%'}} src={`${dish.image?.url}`}/>
                     </div>
                 }
                 </Card>

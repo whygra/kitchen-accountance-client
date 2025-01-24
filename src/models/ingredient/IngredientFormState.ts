@@ -31,7 +31,7 @@ export function constructIngredientForm(dto?: IngredientDTO): IngredientFormStat
         groupDataAction: DataAction.None,
         groupId: dto?.group?.id ?? 0,
         groupName: dto?.group?.name ?? '',
-        typeId: dto?.type?.id ?? 1,
+        typeId: dto?.type?.id ?? 0,
         itemWeight: dto?.item_weight ?? 1,
         isItemMeasured: dto?.is_item_measured ?? false,
         ingredientProductForms: dto?.products?.map(p=>constructIngredientProductForm(p)) ?? [],

@@ -20,6 +20,8 @@ import useIngredientsTableHeader from '../../../hooks/useIngredientsTableHeader'
 import { IngredientProductFormState } from '../../../models/ingredient/IngredientFormState';
 import useIngredientSelect from '../../../hooks/tableSelect/useIngredientSelect';
 import FormListButtons from '../../shared/FormListButtons';
+import { useHotkeys } from 'react-hotkeys-hook';
+import useFormHotkeys from '../../../hooks/useFormHotkeys';
 
 function DishIngredientFormList() {
 
@@ -27,16 +29,14 @@ function DishIngredientFormList() {
     addDishIngredientForm, 
     removeAllDishIngredientForms,
     setDishIngredientFormState,
+    removeDishIngredientForm,
     formState,
-    ingredients,
-    ingredientTypes
+    ingredients
   } = useContext(dishFormContext);
 
-  const {showModal, hideModal} = useContext(appContext)
 
   function deleteAll(){
     removeAllDishIngredientForms()
-    hideModal()
   }
 
   // выбор ингредиентов
@@ -57,7 +57,14 @@ function DishIngredientFormList() {
   function openSelect(form:DishIngredientFormState){
     setActiveForm(form)
     showSelect()
-  }  
+  }    
+  
+  useFormHotkeys(
+    ()=>addDishIngredientForm(),
+    ()=>removeDishIngredientForm(
+      formState.dishIngredientForms[formState.dishIngredientForms.length-1].key
+    )
+  )
 
   return (
     <>
@@ -67,7 +74,7 @@ function DishIngredientFormList() {
         formState.dishIngredientForms
           .map(fs =>
             <div key={`${fs.key}`}>
-              <DishIngredientForm openSelect={openSelect}  formState={fs}/>
+              <DishIngredientForm openSelect={openSelect} formState={fs}/>
             </div>
           )
       }

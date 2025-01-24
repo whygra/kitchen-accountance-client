@@ -1,13 +1,11 @@
-import {Button, Container, Form, Modal, OverlayTrigger, Tooltip} from 'react-bootstrap'
+import { Form } from 'react-bootstrap'
 import { constructDishCategoryDishForm, DishCategoryDishFormState } from '../../../models/dish/DishCategoryFormState'
 import { useContext, useState } from 'react'
-import { appContext } from '../../../context/AppContextProvider';
-import BtnAskConfirmation from '../../shared/BtnAskConfirmation';
-import TooltipButton from '../../shared/TooltipButton'
 import useDisheselect from '../../../hooks/tableSelect/useDishSelect';
 import { dishCategoryFormContext } from '../../../context/forms/dish/DishCategoryFormContext';
 import DishCategoryDishForm from './DishCategoryDishForm';
 import FormListButtons from '../../shared/FormListButtons';
+import useFormHotkeys from '../../../hooks/useFormHotkeys';
 
 function DishCategoryDishFormList() {
 
@@ -15,15 +13,14 @@ function DishCategoryDishFormList() {
     addDishCategoryDishForm, 
     removeAllDishCategoryDishForms,
     setDishCategoryDishFormState,
+    removeDishCategoryDishForm,
     formState,
     dishes,
   } = useContext(dishCategoryFormContext);
 
-  const {showModal, hideModal} = useContext(appContext)
 
   function deleteAll(){
     removeAllDishCategoryDishForms()
-    hideModal()
   }
 
   // выбор ингредиентов
@@ -48,6 +45,13 @@ function DishCategoryDishFormList() {
     setActiveForm(form)
     showSelect()
   }
+
+  useFormHotkeys(
+    ()=>openSelect(constructDishCategoryDishForm()),
+    ()=>removeDishCategoryDishForm(
+      formState.dishCategoryDishForms[formState.dishCategoryDishForms.length-1].key
+    )
+  )
 
   return (
     <>

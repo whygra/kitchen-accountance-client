@@ -236,13 +236,13 @@ function DishFormContextProvider({action, children}:DishFormContextProviderProps
 
   async function create() {
     let dto = dishFormToDTO(formState)
-    const dish = await putDishWithIngredients(dto)
+    const dish = await postDishWithIngredients(dto)
     if(dish?.id && imageFile){
       const imageData = await uploadDishImage(dish.id, imageFile)
       if (imageData)
-        dto.image = imageData
+        dish.image = imageData
     }
-    return await postDishWithIngredients(dto)
+    return dish
   }
   
   return isLoading ? (<Loading/>) : (

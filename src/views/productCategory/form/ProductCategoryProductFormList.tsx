@@ -9,6 +9,7 @@ import { productCategoryFormContext } from '../../../context/forms/product/Produ
 import ProductCategoryProductForm from './ProductCategoryProductForm';
 import { ProductField } from '../../../hooks/sort/useSortProducts';
 import FormListButtons from '../../shared/FormListButtons';
+import useFormHotkeys from '../../../hooks/useFormHotkeys';
 
 function ProductCategoryProductFormList() {
 
@@ -16,6 +17,7 @@ function ProductCategoryProductFormList() {
     addProductCategoryProductForm, 
     removeAllProductCategoryProductForms,
     setProductCategoryProductFormState,
+    removeProductCategoryProductForm,
     formState,
     products,
   } = useContext(productCategoryFormContext);
@@ -49,6 +51,13 @@ function ProductCategoryProductFormList() {
     setActiveForm(form)
     showSelect()
   }
+
+  useFormHotkeys(
+    ()=>openSelect(constructProductCategoryProductForm()),
+    ()=>removeProductCategoryProductForm(
+      formState.productCategoryProductForms[formState.productCategoryProductForms.length-1].key
+    )
+  )
 
   return (
     <>

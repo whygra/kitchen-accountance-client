@@ -13,6 +13,7 @@ import usePagination from '../../../hooks/usePagination';
 import { constructProductForm, ProductFormState } from '../../../models/PurchaseOptionFormState';
 import useProductSelect from '../../../hooks/tableSelect/useProductSelect';
 import FormListButtons from '../../shared/FormListButtons';
+import useFormHotkeys from '../../../hooks/useFormHotkeys';
 
 function ProductFormList() {
 
@@ -20,6 +21,7 @@ function ProductFormList() {
     addProductForm,
     removeAllForms,
     setProductFormState,
+    removeProductForm,
     products,
     formState
   } = useContext(purchaseOptionFormContext);
@@ -53,6 +55,13 @@ function ProductFormList() {
     setActiveForm(form)
     showSelect()
   }
+
+  useFormHotkeys(
+    ()=>addForm(),
+    ()=>removeProductForm(
+      formState.productForms[formState.productForms.length-1].key
+    )
+  )
 
   return (
     <div> 

@@ -34,9 +34,9 @@ class Comparers {
 
     // Ед. изм
     static readonly UnitAsc = (o1:PurchaseOptionDTO, o2:PurchaseOptionDTO)=>
-        o1.unit.short.localeCompare(o2.unit.short)
+        (o1.unit?.short ?? '').localeCompare(o2.unit?.short ?? '')
     static readonly UnitDesc = (o1:PurchaseOptionDTO, o2:PurchaseOptionDTO)=>
-        o2.unit.short.localeCompare(o1.unit.short)
+        (o2.unit?.short ?? '').localeCompare(o1.unit?.short ?? '')
 
     // Масса нетто
     static readonly NetWeightAsc = (o1:PurchaseOptionDTO, o2:PurchaseOptionDTO)=>
