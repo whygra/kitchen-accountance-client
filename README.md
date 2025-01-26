@@ -1,30 +1,10 @@
-# React + TypeScript + Vite
+## Описание
+[KitchenAccountance](https://kitchen-accountance.ru) - это web-приложение для учета технологии производства на предприятии общепита:
+- создание раскладок на блюда и полуфабрикаты
+- хранение данных позиций закупки с возможностью импорта прайс-листа поставщика из *.xlsx
+- расчет себестоимости блюд
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## Технологии
+- Серверная часть написана на фреймворке Laravel с использование библиотек Laravel Sanctum и Laravel Excel
+- Клиентская часть написана React TS с использованием библиотек React Bootstrap, React Markdown и React Hotkeys
+- СУБД - MySQL
