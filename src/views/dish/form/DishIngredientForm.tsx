@@ -19,6 +19,14 @@ function DishIngredientForm({formState, openSelect}: DishesIngredientFormProps) 
 
   const {setDishIngredientFormState, removeDishIngredientForm, ingredientTypes, ingredients} = useContext(dishFormContext)
 
+  const [netWeight, setNetWeight] = useState(formState.itemWeight*formState.ingredientAmount*(100 - formState.wastePercentage)/100)
+  const [grossWeight, setGrossWeight] = useState(formState.itemWeight*formState.ingredientAmount)
+
+  function handleNetWeightChange(value: number){
+    setNetWeight(value)
+    setDishIngredientFormState({...formState, wastePercentage: 100 - value/(formState.itemWeight*formState.ingredientAmount)*100})
+  }
+
   useEffect(()=>{
     setTypeId(ingredientTypes[0].id)
   },[])
@@ -35,8 +43,9 @@ function DishIngredientForm({formState, openSelect}: DishesIngredientFormProps) 
     setDishIngredientFormState({...formState, typeId: id})
   }
 
-  function setContentPercentage(contentPercentage:number) {
-    setDishIngredientFormState({...formState, ingredientAmount: contentPercentage})
+  function setIngredientAmount(ingredientAmount:number) {
+    setGrossWeight(formState.itemWeight*ingredientAmount)
+    setDishIngredientFormState({...formState, ingredientAmount, wastePercentage: 100 - netWeight/(formState.itemWeight*ingredientAmount)*100})
   }
 
   function setWastePercentage(wastePercentage:number) {
@@ -53,7 +62,7 @@ function DishIngredientForm({formState, openSelect}: DishesIngredientFormProps) 
     <Card className='w-100 p-3'>
       <Row>
         <Col md={11}
-        style={formState.ingredientDataAction==DataAction.Delete ? {pointerEvents: "none", opacity: "0.4"} : {}}
+          style={formState.ingredientDataAction==DataAction.Delete ? {pointerEvents: "none", opacity: "0.4"} : {}}
         >
           <Row>
             <Col className='mb-2' md={6}>
@@ -107,33 +116,63 @@ function DishIngredientForm({formState, openSelect}: DishesIngredientFormProps) 
 
             </Col>
             <Col className='mb-2' as={Form.Group} md={3}>
-            <Form.Label>{formState.isItemMeasured?'Количество':'Вес (грамм)'}</Form.Label>
+
+              <Form.Group>
+
+              <Form.Label>{formState.isItemMeasured?'Количество':'Масса брутто'}</Form.Label>
               <Form.Control
                 required
                 type="number"
                 min={minAmt}
                 step={minAmt}
                 value={formState.ingredientAmount}
-                onChange={e=>setContentPercentage(parseFloat(e.target.value))}
-              />
+                onChange={e=>setIngredientAmount(parseFloat(e.target.value))}
+                />
               <Form.Control.Feedback type="invalid">
                 введите допустимое значение ( .. ≥ {minAmt} )
               </Form.Control.Feedback>
+              </Form.Group>
+
             </Col>
+            {
+                formState.isItemMeasured
+                ? <Col className='mb-2' as={Form.Group} md={3}>
+
+                <Form.Group>
+  
+                <Form.Label>Масса брутто</Form.Label>
+                  <p className='ps-1 pt-1 text-success'>
+                    {(grossWeight).toFixed(2)}
+                  </p>
+                </Form.Group>
+  
+                </Col>
+                : <></>
+            }
+            
+            
             <Col className='mb-2' as={Form.Group} md={3}>
-            <Form.Label>Потери в весе (%)</Form.Label>
-            <Form.Control
-                required
-                type="number"
-                min={0}
-                max={100}
-                step={0.1}
-                defaultValue={formState.wastePercentage}
-                onChange={e=>setWastePercentage(parseFloat(e.target.value))}
+              
+            <Form.Label>Масса нетто</Form.Label>
+                <Form.Control
+                  type="number"
+                  required
+                  min={0}
+                  max={formState.ingredientAmount*formState.itemWeight}
+                  step={0.01}
+                  value={netWeight}
+                  onChange={e=>handleNetWeightChange(parseFloat(e.target.value))}
                 />
               <Form.Control.Feedback type="invalid">
-                введите допустимое значение (от 0 до 100)
+                введите допустимое значение ( {grossWeight.toFixed(2)} ≥ .. ≥ 0 )
               </Form.Control.Feedback>
+            </Col>
+            <Col className='mb-2' as={Form.Group} md={3}>
+              
+              <Form.Label>Отход</Form.Label>                
+              <p className='ps-1 pt-1 text-success'>
+                {formState.wastePercentage.toFixed(2)}%
+              </p>
             </Col>
           </Row>
         </Col>

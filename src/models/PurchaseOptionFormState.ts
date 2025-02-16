@@ -8,7 +8,7 @@ import { DistributorDTO } from "../api/distributors";
 export interface PurchaseOptionFormState {
     id: number;
     name: string 
-    code?: number
+    code?: string
     price: number
     distributorId: number
     unitAction: DataAction

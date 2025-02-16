@@ -46,6 +46,7 @@ interface DistributorFormContextProviderProps{
 
 function DistributorFormContextProvider({action, children}:DistributorFormContextProviderProps) 
 {  
+  const [initDTO, setInitDTO] = useState<DistributorDTO>()
   const [formState, setFormState] = useState<DistributorFormState>(constructDistributorForm())
   const historyLength = 10
   const [formStateHistory, setFormStateHistory] = useState<DistributorFormState[]>([])
@@ -66,7 +67,7 @@ function DistributorFormContextProvider({action, children}:DistributorFormContex
   async function initialize() {
     setIsLoading(true)
     if(id!==undefined || action==DataAction.Update) 
-      loadDistributor()
+      await loadDistributor()
     else
       setFormState(constructDistributorForm())
 
@@ -87,6 +88,7 @@ function DistributorFormContextProvider({action, children}:DistributorFormContex
     if (distributor === null)
       throw Error("Не удалось получить данные поставщика")
 
+    setInitDTO(distributor)
     setFormState(
       constructDistributorForm(distributor)
     )
@@ -145,14 +147,14 @@ function setPurchaseOptionFormState(state:PurchaseOptionFormState) {
   }
 
   async function update() {
-    return await putDistributorWithPurchaseOptions(distributorFormToDTO(formState))
+    return await putDistributorWithPurchaseOptions(distributorFormToDTO(formState, initDTO))
   }
 
   async function create() {
     return await postDistributorWithPurchaseOptions(distributorFormToDTO(formState))
   }
   
-  return isLoading ? (<Loading/>) : (
+  return (
     <distributorFormContext.Provider value={{
       history: {canUndo: formStateHistory.length>0, undo: undo},
       reloadState: initialize,
@@ -167,7 +169,7 @@ function setPurchaseOptionFormState(state:PurchaseOptionFormState) {
       requestFn: action==DataAction.Update ? update : create
     }}>
 
-    {children}
+    {isLoading ? <Loading/> : children}
     </distributorFormContext.Provider>
   )
 }

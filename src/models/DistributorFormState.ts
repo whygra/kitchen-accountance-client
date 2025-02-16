@@ -18,12 +18,40 @@ export function constructDistributorForm(distributor?: DistributorDTO): Distribu
     }
 }
 
-export function distributorFormToDTO (state: DistributorFormState) : DistributorDTO {
-    return {
+export function distributorFormToDTO (state: DistributorFormState, initDTO?: DistributorDTO) : DistributorDTO {
+    const dto = {
         id: state.id,
         name: state.name,
         purchase_options: state.purchaseOptionForms
           .map(o=>purchaseOptionFormToDTO(o)),
+    }
+
+    if(initDTO == undefined)
+        return dto
+
+    return getDistributorDiffDTO(initDTO, dto)
+}
+
+function getDistributorDiffDTO(initDTO: DistributorDTO, dto: DistributorDTO) : DistributorDTO {
+    // отобрать измененные и новые позиции закупки
+    const purchase_options = dto.purchase_options?.filter(
+        po=>initDTO.purchase_options?.find(i=>
+            i.code==po.code
+            &&i.name==po.name
+            &&i.unit?.id==po.unit?.id
+            &&i.net_weight==po.net_weight
+            &&i.price==po.price
+            &&(i.products??[]).find(n=>true)?.id == (po.products??[]).find(n=>true)?.id
+        ) == undefined
+    ) ?? []
+    const purchase_options_to_delete = initDTO.purchase_options?.filter(
+        po=>dto.purchase_options?.find(i=>i.id==po.id)==undefined
+    )
+
+    return {
+        ...dto,
+        purchase_options,
+        purchase_options_to_delete,
     }
 }
 
@@ -39,7 +67,7 @@ export interface PurchaseOptionFormState {
     unitLongName: string;
     unitDataAction: DataAction;
     name: string;
-    code?: number;
+    code?: string;
     netWeight: number;
     price: number;
 

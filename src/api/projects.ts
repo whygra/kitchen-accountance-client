@@ -15,6 +15,11 @@ export interface RoleDTO {
   permissions: PermissionDTO[]
 }
 
+interface NumEntities {
+  max: number
+  current: number
+}
+
 export interface ProjectDTO {
   id: number
   name: string
@@ -25,9 +30,21 @@ export interface ProjectDTO {
   updated_by_user?: UserDTO
   updated_at?: string
   creator?: UserDTO
+
+  num_distributors?: NumEntities
+  num_units?: NumEntities
+  num_products?: NumEntities
+  num_product_categories?: NumEntities
+  num_product_groups?: NumEntities
+  num_ingredients?: NumEntities
+  num_ingredient_categories?: NumEntities
+  num_ingredient_groups?: NumEntities
+  num_dishes?: NumEntities
+  num_dish_categories?: NumEntities
+  num_dish_groups?: NumEntities
 }
 
-export const uploadTables = async (file: File, id: number): Promise<ProjectDTO | null> => {
+export const uploadSheets = async (file: File, id: number): Promise<ProjectDTO | null> => {
   let formData = new FormData(); 
   formData.append('file', file)
   const response = await fetch(`${BASE_URL}/${ENTITY_PATH}/${id}/upload`, {
@@ -150,7 +167,7 @@ export const unpublishProject = async (id:number) : Promise<ProjectDTO | null> =
   return data
 }
 
-export const downloadTables = async (id:number) : Promise<string> => {
+export const downloadSheets = async (id:number) : Promise<string> => {
   const response = await fetch(`${BASE_URL}/${ENTITY_PATH}/${id}/download`,{
     method:'GET',
     headers: {

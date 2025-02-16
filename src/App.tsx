@@ -8,7 +8,7 @@ import { ErrorBoundary, useErrorBoundary } from 'react-error-boundary';
 import { ErrorFallbackScreen } from './views/ErrorFallbackScreen';
 import AppRoutes from './routes';
 import AuthContextProvider from './context/AuthContextProvider';
-import Navbar from './views/Navbar';
+import Navbar from './views/navbar/Navbar';
 import ProjectContextProvider from './context/ProjectContextProvider';
 import { HotkeysProvider } from 'react-hotkeys-hook';
 

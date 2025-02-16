@@ -22,9 +22,9 @@ class Comparers {
     
     // Код
     static readonly CodeAsc = (o1:PurchaseOptionDTO, o2:PurchaseOptionDTO)=>
-        (o1.code ?? 0) - (o2.code ?? 0)
+        (o1.code ?? '').localeCompare(o2.code ?? '')
     static readonly CodeDesc = (o1:PurchaseOptionDTO, o2:PurchaseOptionDTO)=>
-        (o2.code ?? 0) - (o1.code ?? 0)
+        (o2.code ?? '').localeCompare(o1.code ?? '')
     
     // Наименование
     static readonly NameAsc = (o1:PurchaseOptionDTO, o2:PurchaseOptionDTO)=>

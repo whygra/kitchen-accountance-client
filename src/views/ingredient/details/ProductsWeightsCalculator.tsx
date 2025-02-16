@@ -58,7 +58,7 @@ function ProductsWeightsCalculator({ingredient}:ProductsWeightsCalculatorProps) 
                         <th style={{width:'20%'}}>Продукт</th>
                         <th style={{width:'50%'}}>Позиция закупки</th>
                         <th className="d-none d-md-table-cell">Стоимость 1г.</th>
-                        <th className="d-none d-sm-table-cell">Требуемый вес</th>
+                        <th className="d-none d-sm-table-cell">Масса брутто</th>
                         <th>Себестоимость</th>
                     </tr>
                     </thead>

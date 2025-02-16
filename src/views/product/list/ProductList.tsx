@@ -23,7 +23,6 @@ function ProductList()
         try{
           const res = await getProductsWithPurchaseOptions()
           setProducts(res ?? [])
-          console.group(res)
         }
         catch (error: Error | any) {
           showBoundary(error)
@@ -59,7 +58,7 @@ function ProductList()
         }
         </div>
         <hr/>
-                {header}
+            {header}
         <Accordion className='accordion-button-ps-1pt'>
             {filtered
                 .slice(sliceLimits.start, sliceLimits.end)

@@ -15,8 +15,8 @@ function DishIngredientsTable({dish}:DishIngredientsTableProps) {
 
                 <tr className='text-center'>
                     <th>Ингредиент</th>
-                    <th>Вес до обработки</th>
-                    <th>Потеря веса</th>
+                    <th>Масса брутто</th>
+                    <th>Процент отхода</th>
                 </tr>
             </thead>
             <tbody>

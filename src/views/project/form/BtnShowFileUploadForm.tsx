@@ -7,7 +7,7 @@ import { Button, Form } from "react-bootstrap"
 import { authContext } from "../../../context/AuthContextProvider"
 import { UserPermissions } from "../../../models"
 import { projectContext } from "../../../context/ProjectContextProvider"
-import { uploadTables } from "../../../api/projects"
+import { uploadSheets } from "../../../api/projects"
 import TooltipButton from "../../shared/TooltipButton"
 
 interface BtnShowFileUploadFormProps {
@@ -24,7 +24,7 @@ function BtnShowFileUploadForm({onSuccess, projectId}:BtnShowFileUploadFormProps
     const {showModal, hideModal} = useContext(appContext)
     async function uploadFile(file:File){
         
-        await uploadTables(file, projectId).catch(e=>showModal(<>{e.message}</>, <h3>Ошибка</h3>))
+        await uploadSheets(file, projectId).catch(e=>showModal(<>{e.message}</>, <h3>Ошибка</h3>))
         hideModal()
         onSuccess()
     }

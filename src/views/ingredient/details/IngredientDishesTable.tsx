@@ -21,7 +21,7 @@ function IngredientDishesTable({ingredient}:IngredientDishesTableProps) {
                 <tr className='text-center'>
                     <th>Название</th>
                     <th>{ingredient.is_item_measured?'Количество':'Вес'} ингредиента</th>
-                    <th>Потери в весе</th>
+                    <th>Процент отхода</th>
                 </tr>
             </thead>
             <tbody>

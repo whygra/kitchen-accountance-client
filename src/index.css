@@ -34,7 +34,7 @@ button:focus-visible {
 @font-face {
   font-family: "Sardonyx";
   src: local("Sardonyx"),
-    url(/fonts/Sardonyx.otf), format("otf");
+    url(../public/fonts/Sardonyx.otf), format("otf");
   font-weight: normal;
   /* font-stretch:ultra-condensed; */
 }

@@ -22,7 +22,7 @@ interface PurchaseOptionFormContext {
   distributors: DistributorDTO[]
   units: UnitDTO[]
   history: {canUndo: boolean, undo: ()=>void},
-  setCode: (code:number)=>void 
+  setCode: (code:string)=>void 
   setPrice: (price:number)=>void
   setUnitAction: (action:DataAction)=>void
   setUnitId: (id:number)=>void
@@ -46,7 +46,7 @@ export const purchaseOptionFormContext = createContext<PurchaseOptionFormContext
   distributors: [],
   units: [],
   history: {canUndo: false, undo: ()=>{}},
-  setCode: (code:number)=>{},
+  setCode: (code:string)=>{},
   setPrice: (price:number)=>{},
   setUnitAction: (action:DataAction)=>{},
   setUnitId: (id:number)=>{},
@@ -136,7 +136,7 @@ function PurchaseOptionFormContextProvider({action, children}:PurchaseOptionForm
     })
   }
 
-  function setCode(code:number) {
+  function setCode(code:string) {
     saveToHistory()
     setFormState({
       ...formState,

@@ -122,10 +122,10 @@ function PurchaseOptionForm()
         <Form.Group className='mb-3'>
         <Form.Label><b>Код</b></Form.Label>
         <Form.Control
-          type="number"
+          type="text"
           placeholder="Код"
           value={formState.code}
-          onChange={e=>setCode(parseInt(e.target.value))}
+          onChange={e=>setCode(e.target.value)}
         />   
         </Form.Group>     
         <Form.Group className='mb-3'>

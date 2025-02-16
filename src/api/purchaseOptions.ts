@@ -12,7 +12,7 @@ export interface PurchaseOptionDTO {
   id: number
   distributor?: DistributorDTO
   unit?: UnitDTO
-  code?: number
+  code?: string
   name: string
   net_weight: number
   price: number
@@ -24,7 +24,7 @@ export interface PurchaseOptionDTO {
 export interface DistributorPurchaseOptionDTO {
   id: number
   unit?: UnitDTO
-  code?: number
+  code?: string
   name: string
   net_weight: number
   price: number
@@ -35,7 +35,7 @@ export interface ProductPurchaseOptionDTO {
   id: number
   distributor?: DistributorDTO
   unit?: UnitDTO
-  code?: number
+  code?: string
   name?: string
   net_weight?: number
   price?: number

@@ -1,9 +1,6 @@
 import { C_ACCESS_TOKEN, C_SELECTED_PROJECT_ID, getCookie } from "../cookies"
-import { DataAction } from "../models"
 import { BASE_URL, getProjectPath } from "./constants"
-import { ProductDTO } from "./products"
 import { DistributorPurchaseOptionColumnIndexes, DistributorPurchaseOptionDTO, PurchaseOptionDTO } from "./purchaseOptions"
-import { UnitDTO } from "./units"
 import { UserDTO } from "./users"
 
 const ENTITY_PATH = "distributors"
@@ -15,11 +12,12 @@ export interface DistributorDTO {
   purchase_options?: DistributorPurchaseOptionDTO[]
   updated_by_user?: UserDTO
   updated_at?: string
+  purchase_options_to_delete?: DistributorPurchaseOptionDTO[]
 }
  
 export interface InsertDistributorPurchaseOptionsFromXLSX {
   id: number
-  column_indexes: DistributorPurchaseOptionColumnIndexes  
+  column_indexes: DistributorPurchaseOptionColumnIndexes
   file: File
 } 
 

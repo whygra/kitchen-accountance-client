@@ -48,7 +48,7 @@ function IngredientsWeightsCalculator({dish}:IngredientsWeightsCalculatorProps) 
                     <thead>
                     <tr>
                         <th>Ингредиент</th>
-                        <th className='text-end'>Требуемый вес/количество</th>
+                        <th className='text-end'>Масса брутто/количество</th>
                     </tr>
                     </thead>
                     <tbody>

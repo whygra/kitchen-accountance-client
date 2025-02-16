@@ -55,7 +55,7 @@ function PurchaseOptionForm({formState, openSelect}: PurchaseOptionFormProps) {
       setPurchaseOptionFormState({...formState, name: name})
     }
   
-    function setCode(code:number) {
+    function setCode(code:string) {
       setPurchaseOptionFormState({...formState, code: code})
     }
   
@@ -70,9 +70,8 @@ function PurchaseOptionForm({formState, openSelect}: PurchaseOptionFormProps) {
             <Form.Group as={Col} lg={4} md={12} className='mb-2'>
               <Form.Label>Код</Form.Label>
               <Form.Control
-                type="number"
                 value={formState.code}
-                onChange={e=>setCode(parseInt(e.target.value))}
+                onChange={e=>setCode(e.target.value)}
               />
             </Form.Group>
             <Form.Group as={Col} lg={4} md={12} className='mb-2'>
