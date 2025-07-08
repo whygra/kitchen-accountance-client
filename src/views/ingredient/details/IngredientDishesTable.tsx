@@ -1,5 +1,5 @@
 import { Table } from "react-bootstrap";
-import { IngredientDTO } from "../../../api/ingredients";
+import { IngredientDTO } from "../../../api/nomenclature/ingredients";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import usePagination from "../../../hooks/usePagination";
@@ -9,7 +9,7 @@ interface IngredientDishesTableProps {
 }
 
 function IngredientDishesTable({ingredient}:IngredientDishesTableProps) {
-        
+        console.log(ingredient)
     const {nav, sliceLimits} = usePagination(ingredient.dishes?.length??0)
     
     return(
@@ -20,7 +20,8 @@ function IngredientDishesTable({ingredient}:IngredientDishesTableProps) {
 
                 <tr className='text-center'>
                     <th>Название</th>
-                    <th>{ingredient.is_item_measured?'Количество':'Вес'} ингредиента</th>
+                    <th>Брутто</th>
+                    <th>Нетто</th>
                     <th>Процент отхода</th>
                 </tr>
             </thead>
@@ -31,8 +32,9 @@ function IngredientDishesTable({ingredient}:IngredientDishesTableProps) {
                     .map(d => 
                     <tr className='text-center'>
                         <td><Link to={`/dishes/details/${d.id}`}>{d.name}</Link></td>
-                        <td>{d.ingredient_amount}</td>
-                        <td>{d.waste_percentage}%</td>
+                        <td>{d.ingredient_amount}{ingredient.is_item_measured?`шт*${ingredient.item_weight}г.`:'г.'}</td>
+                        <td>{d.net_weight}г.</td>
+                        <td>{((d.net_weight??1)/((ingredient.item_weight??0)*(d.ingredient_amount??0))*100).toFixed(0)}%</td>
                     </tr>
                 )}
             </tbody>

@@ -2,7 +2,7 @@ import {Button, Container, Form, OverlayTrigger, Tooltip} from 'react-bootstrap'
 import IngredientProductForm from './IngredientProductForm'
 import { IngredientProductFormState } from '../../../models/ingredient/IngredientFormState'
 import { useContext, useState } from 'react'
-import { ingredientContext } from '../../../context/forms/ingredient/IngredientFormContext'
+import { ingredientContext } from '../../../context/forms/nomenclature/ingredient/IngredientFormContext'
 import useProductSelect from '../../../hooks/tableSelect/useProductSelect';
 import FormListButtons from '../../shared/FormListButtons';
 import useFormHotkeys from '../../../hooks/useFormHotkeys'

@@ -1,7 +1,7 @@
 import { C_ACCESS_TOKEN, C_SELECTED_PROJECT_ID, getCookie, setCookie } from "../cookies";
 import { UserPermissions } from "../models";
 import { BASE_URL, getProjectPath } from "./constants";
-import { ProjectDTO, RoleDTO } from "./projects";
+import { ProjectDTO, RoleDTO } from "./nomenclature/projects";
 
 const ENTITY_PATH = "roles"
 

@@ -3,7 +3,7 @@ import PurchaseOptionsTableItem from "../../views/purchase_option/table/Purchase
 import ModalWrapper from "../../views/shared/ModalWrapper"
 import TableSelect from "../../views/shared/selectCreateGroup/TableSelect"
 import usePurchaseOptionsTableHeader from "../usePurchaseOptionsTableHeader"
-import { PurchaseOptionDTO } from "../../api/purchaseOptions"
+import { PurchaseOptionDTO } from "../../api/nomenclature/purchaseOptions"
 import { PurchaseOptionField } from "../sort/useSortPurchaseOptions"
 
 

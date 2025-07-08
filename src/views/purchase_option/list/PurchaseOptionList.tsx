@@ -6,7 +6,7 @@ import { appContext } from '../../../context/AppContextProvider';
 import { useErrorBoundary } from 'react-error-boundary';
 import { authContext } from '../../../context/AuthContextProvider';
 import { UserPermissions } from '../../../models';
-import { getPurchaseOptions, getPurchaseOptionsWithProducts, PurchaseOptionDTO } from '../../../api/purchaseOptions';
+import { getPurchaseOptions, getPurchaseOptionsWithProducts, PurchaseOptionDTO } from '../../../api/nomenclature/purchaseOptions';
 import TooltipButton from '../../shared/TooltipButton';
 import HeaderSortButton from '../../shared/HeaderSortButton';
 import useFilterPurchaseOptions from '../../../hooks/filter/useFilterPurchaseOptions';

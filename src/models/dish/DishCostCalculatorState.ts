@@ -1,11 +1,11 @@
-import { DishCategoryDTO } from "../../api/dishCategories";
-import { DishDTO } from "../../api/dishes";
-import { IngredientCategoryDTO } from "../../api/ingredientCategories";
-import { IngredientGroupDTO } from "../../api/ingredientGroups";
-import { IngredientTypeDTO, IngredientDTO } from "../../api/ingredients";
-import { ProductCategoryDTO } from "../../api/productCategories";
-import { ProductDTO } from "../../api/products";
-import { PurchaseOptionDTO } from "../../api/purchaseOptions";
+import { DishCategoryDTO } from "../../api/nomenclature/dishCategories";
+import { DishDTO } from "../../api/nomenclature/dishes";
+import { IngredientCategoryDTO } from "../../api/nomenclature/ingredientCategories";
+import { IngredientGroupDTO } from "../../api/nomenclature/ingredientGroups";
+import { IngredientTypeDTO, IngredientDTO } from "../../api/nomenclature/ingredients";
+import { ProductCategoryDTO } from "../../api/nomenclature/productCategories";
+import { ProductDTO } from "../../api/nomenclature/products";
+import { PurchaseOptionDTO } from "../../api/nomenclature/purchaseOptions";
 
 export interface DishCostCalculatorState {
     
@@ -59,7 +59,7 @@ export function setAmount(ingredient: IngredientCostCalculatorModel, amount: num
     return {
         ...ingredient, ingredient_amount: amount, 
         products: ingredient.products?.map(p=>{return{
-            ...p, weight: srcW*p.raw_content_percentage/100
+            ...p, weight: srcW*p.share
         }}) ?? []
     }
 }
@@ -80,8 +80,9 @@ export interface ProductCostCalculatorModel {
     name: string
     category?: ProductCategoryDTO
     purchase_options: PurchaseOptionDTO[]
+    share: number
     waste_percentage: number
-    raw_content_percentage: number
+    gross_weight: number
     // стоимость 1г по выбраной позиции закупки
     gramCost: number
     weight:number
@@ -92,13 +93,15 @@ export function constructProductCostCalculator(
     product: ProductDTO,
     ingredient : IngredientDTO
 ) : ProductCostCalculatorModel{
+    const share = (product.gross_weight??0)/(ingredient.total_gross_weight??1)
     return {
         ...product,
         waste_percentage: product.waste_percentage??0,
-        raw_content_percentage: product.raw_content_percentage??0,
+        gross_weight: product.gross_weight??0,
         purchase_options: product.purchase_options??[],
-        gramCost:calcGramCost(product), 
-        weight:calcIngredientSourceWeight(ingredient)*(product.raw_content_percentage??0)/100
+        gramCost:calcGramCost(product),
+        share: share,
+        weight: share*calcIngredientSourceWeight(ingredient)
     }
 }
 
@@ -107,7 +110,7 @@ export function selectPurchaseOptionId(product: ProductCostCalculatorModel, id:n
     return {...product, gramCost: calcGramCost(product, id)}
 }
 
-export function calcGramCost(product: ProductDTO, optionId?: number){
+export function calcGramCost(product: ProductDTO, optionId?: number) {
     if(product.purchase_options?.length == 0) return 0
     let option = product.purchase_options?.find((o)=>o.id == optionId)
     if(option == undefined && product.purchase_options&&product.purchase_options.length > 0) option = product.purchase_options[0]
@@ -115,5 +118,7 @@ export function calcGramCost(product: ProductDTO, optionId?: number){
 }
 
 export function calcIngredientSourceWeight(ingredient: IngredientDTO){
-    return (ingredient.item_weight??1)*(ingredient.ingredient_amount??1) / (100 - (ingredient.avg_waste_percentage??0)) * 100
+    console.log(ingredient.avg_waste_percentage)
+    return (ingredient.item_weight??0)*(ingredient.ingredient_amount??0) 
+        / (1-(ingredient.avg_waste_percentage??0)/100)
 }

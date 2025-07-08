@@ -1,7 +1,7 @@
 import { Accordion, Badge, Button, Card, Col, Form, Image, OverlayTrigger, Row, Table, Tooltip } from 'react-bootstrap';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
-import { deleteProject, downloadSheets, getProject, getPublicProject, ProjectDTO, publishProject, unpublishProject } from '../../../api/projects';
+import { deleteProject, downloadSheets, getProject, getPublicProject, ProjectDTO, publishProject, unpublishProject } from '../../../api/nomenclature/projects';
 import { UserPermissions } from '../../../models';
 import { authContext } from '../../../context/AuthContextProvider';
 import CUDButtons from '../../shared/CUDButtons';

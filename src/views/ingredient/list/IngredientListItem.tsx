@@ -1,10 +1,10 @@
 import { Accordion, Button, Col, Row, Table } from 'react-bootstrap';
-import { IngredientDTO } from '../../../api/ingredients';
+import { IngredientDTO } from '../../../api/nomenclature/ingredients';
 import { Link } from 'react-router-dom';
 import IngredientProductsTable from '../details/IngredientProductsTable';
 import { useContext } from 'react';
 import { appContext } from '../../../context/AppContextProvider';
-import { deleteIngredient as requestDeleteIngredient } from '../../../api/ingredients';
+import { deleteIngredient as requestDeleteIngredient } from '../../../api/nomenclature/ingredients';
 import ConfirmationDialog from '../../shared/ConfirmationDialog';
 import { UserPermissions } from '../../../models';
 import BtnAskConfirmation from '../../shared/BtnAskConfirmation';

@@ -1,6 +1,6 @@
 import { Table } from "react-bootstrap";
-import { IngredientDTO } from "../../../api/ingredients";
-import { ProductDTO } from "../../../api/products";
+import { IngredientDTO } from "../../../api/nomenclature/ingredients";
+import { ProductDTO } from "../../../api/nomenclature/products";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { calcGramCost } from "../../../models/dish/DishCostCalculatorState";

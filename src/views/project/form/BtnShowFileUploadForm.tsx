@@ -1,13 +1,13 @@
 import { useContext } from "react"
 import { appContext } from "../../../context/AppContextProvider"
-import { DistributorPurchaseOptionColumnIndexes } from "../../../api/purchaseOptions"
-import { uploadDistributorPurchaseOptionsSpreadsheet } from "../../../api/distributors"
+import { DistributorPurchaseOptionColumnIndexes } from "../../../api/nomenclature/purchaseOptions"
+import { uploadDistributorPurchaseOptionsSpreadsheet } from "../../../api/nomenclature/distributors"
 import SpreadsheetUploadForm, { ColumnIndex } from "./SpreasheetUploadForm"
 import { Button, Form } from "react-bootstrap"
 import { authContext } from "../../../context/AuthContextProvider"
 import { UserPermissions } from "../../../models"
 import { projectContext } from "../../../context/ProjectContextProvider"
-import { uploadSheets } from "../../../api/projects"
+import { uploadSheets } from "../../../api/nomenclature/projects"
 import TooltipButton from "../../shared/TooltipButton"
 
 interface BtnShowFileUploadFormProps {

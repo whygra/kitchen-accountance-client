@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import { Accordion, Card, Col, Image, Row, Table } from 'react-bootstrap';
-import { IngredientDTO, IngredientTypeDTO, getIngredientsWithProducts } from '../../../api/ingredients';
+import { IngredientDTO, IngredientTypeDTO, getIngredientsWithProducts } from '../../../api/nomenclature/ingredients';
 import IngredientListItem from './IngredientListItem';
 import { Link } from 'react-router-dom';
 import { appContext } from '../../../context/AppContextProvider';
@@ -9,7 +9,7 @@ import { authContext } from '../../../context/AuthContextProvider';
 import { UserPermissions } from '../../../models';
 import useIngredientsTableHeader from '../../../hooks/useIngredientsTableHeader';
 import usePagination from '../../../hooks/usePagination';
-import { getIngredientTypes } from '../../../api/ingredientTypes';
+import { getIngredientTypes } from '../../../api/nomenclature/ingredientTypes';
 import TooltipButton from '../../shared/TooltipButton';
 import Loading from '../../shared/Loading';
 import { projectContext } from '../../../context/ProjectContextProvider';

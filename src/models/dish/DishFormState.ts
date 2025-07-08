@@ -1,7 +1,7 @@
 import { v4 as uuid } from "uuid";
 import { DataAction } from ".."
-import { DishDTO } from "../../api/dishes"
-import { IngredientDTO } from "../../api/ingredients";
+import { DishDTO } from "../../api/nomenclature/dishes"
+import { IngredientDTO } from "../../api/nomenclature/ingredients";
 import { ServerImageData } from "../../api/constants";
 
 export interface DishFormState {
@@ -65,6 +65,7 @@ export interface DishIngredientFormState {
     typeId: number
     ingredientAmount: number
     wastePercentage: number
+    netWeight: number
 }
 
 export function constructDishIngredientForm(dto?: IngredientDTO) : DishIngredientFormState{
@@ -78,6 +79,7 @@ export function constructDishIngredientForm(dto?: IngredientDTO) : DishIngredien
         typeId: dto?.type?.id ?? 0,
         ingredientAmount: dto?.ingredient_amount ?? 1,
         wastePercentage: dto?.waste_percentage ?? 0,
+        netWeight: dto?.net_weight ?? 0,
     }
 }
 
@@ -92,6 +94,6 @@ export function dishIngredientToDTO(formState: DishIngredientFormState): Ingredi
             name: '',
         },
         ingredient_amount: formState.ingredientAmount,
-        waste_percentage: formState.wastePercentage,
+        net_weight: formState.netWeight,
     }
 }

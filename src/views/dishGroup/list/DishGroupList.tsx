@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { Accordion, Button, Col, Collapse, Form, Image, Row } from 'react-bootstrap';
 import DishGroupListItem from './DishGroupListItem';
-import { getDishGroupsWithDishes, DishGroupDTO } from '../../../api/dishGroups';
+import { getDishGroupsWithDishes, DishGroupDTO } from '../../../api/nomenclature/dishGroups';
 import { Link } from 'react-router-dom';
 import { useErrorBoundary } from 'react-error-boundary';
 import { authContext } from '../../../context/AuthContextProvider';

@@ -1,6 +1,6 @@
 import { Route } from "react-router-dom";
 import { DataAction } from "../models";
-import DistributorFormContextProvider from "../context/forms/distributor/DistributorFormContext";
+import DistributorFormContextProvider from "../context/forms/nomenclature/distributor/DistributorFormContext";
 import DistributorForm from "../views/distributor/form/DistributorForm";
 import DistributorDetails from "../views/distributor/details/DistributorDetails";
 import DistributorList from "../views/distributor/list/DistributorList";

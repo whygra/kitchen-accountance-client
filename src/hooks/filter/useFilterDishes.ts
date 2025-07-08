@@ -1,6 +1,6 @@
 import { useState } from "react"
-import { calcDishWeight, DishDTO } from "../../api/dishes"
-import { getDishProducts } from "../../api/dishes"
+import { DishDTO } from "../../api/nomenclature/dishes"
+import { getDishProducts } from "../../api/nomenclature/dishes"
 
 
 export interface SearchParams {
@@ -34,7 +34,7 @@ export default function useFilterDishes() {
 
             const products = getDishProducts(i)
             
-            const dishWeight = calcDishWeight(i)
+            const dishWeight = i.total_net_weight ?? 0
             return (
                 (searchData.name.length==0 || searchData.name.split(' ').every(s=>i.name.toLocaleLowerCase().includes(s)))
             && (searchData.category.length==0 || searchData.category.split(' ').every(s=>i.category?.name.toLocaleLowerCase().includes(s)))

@@ -1,4 +1,4 @@
-import { PurchaseOptionDTO } from "../../../api/purchaseOptions";
+import { PurchaseOptionDTO } from "../../../api/nomenclature/purchaseOptions";
 
 interface PurchaseOptionGramCostProps{
     purchaseOption: PurchaseOptionDTO

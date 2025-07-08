@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { Accordion, Button, Col, Collapse, Form, Image, Row } from 'react-bootstrap';
 import ProductCategoryListItem from './ProductCategoryListItem';
-import { getProductCategoriesWithProducts, ProductCategoryDTO } from '../../../api/productCategories';
+import { getProductCategoriesWithProducts, ProductCategoryDTO } from '../../../api/nomenclature/productCategories';
 import { Link } from 'react-router-dom';
 import { useErrorBoundary } from 'react-error-boundary';
 import { authContext } from '../../../context/AuthContextProvider';

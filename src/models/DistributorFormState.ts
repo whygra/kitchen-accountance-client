@@ -1,7 +1,7 @@
 import { DataAction } from "."
-import { DistributorDTO } from "../api/distributors"
+import { DistributorDTO } from "../api/nomenclature/distributors"
 import { v4 as uuid } from "uuid";
-import { DistributorPurchaseOptionDTO } from "../api/purchaseOptions";
+import { DistributorPurchaseOptionDTO } from "../api/nomenclature/purchaseOptions";
 
 export interface DistributorFormState {
     id: number
@@ -83,7 +83,7 @@ export function constructDistributorPurchaseOptionForm(o?: DistributorPurchaseOp
         productDataAction: DataAction.None,
         productId: product?.id ?? 0,
         productName: product?.name ?? '',
-        unitId: o?.unit?.id ?? 1,
+        unitId: o?.unit?.id ?? 0,
         unitLongName: o?.unit?.long ?? '',
         unitShortName: o?.unit?.short ?? '',
         unitDataAction: DataAction.None,

@@ -1,8 +1,8 @@
 import { DataAction } from ".."
-import { ProductDTO } from "../../api/products"
+import { ProductDTO } from "../../api/nomenclature/products"
 import { v4 as uuid } from "uuid";
-import { ProductPurchaseOptionDTO, PurchaseOptionDTO } from "../../api/purchaseOptions";
-import { UnitDTO } from "../../api/units";
+import { ProductPurchaseOptionDTO, PurchaseOptionDTO } from "../../api/nomenclature/purchaseOptions";
+import { UnitDTO } from "../../api/nomenclature/units";
 
 export interface ProductFormState {
     id: number

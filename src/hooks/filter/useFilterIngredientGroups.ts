@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { IngredientGroupDTO } from "../../api/ingredientGroups"
+import { IngredientGroupDTO } from "../../api/nomenclature/ingredientGroups"
 
 
 export interface SearchParams {

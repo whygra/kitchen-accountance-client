@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { Accordion, Button, Card, Col, Collapse, Form, Image, Row, Table } from 'react-bootstrap';
 import UnitListItem from './UnitListItem';
-import { getUnits, UnitDTO } from '../../../api/units';
+import { getUnits, UnitDTO } from '../../../api/nomenclature/units';
 import { Link } from 'react-router-dom';
 import { useErrorBoundary } from 'react-error-boundary';
 import { authContext } from '../../../context/AuthContextProvider';

@@ -1,6 +1,6 @@
 import { ReactElement, useEffect, useState } from 'react'
 import {Button, Form, Modal} from 'react-bootstrap'
-import { IngredientDTO, IngredientTypeDTO, getIngredientsWithProducts } from '../../../api/ingredients';
+import { IngredientDTO, IngredientTypeDTO, getIngredientsWithProducts } from '../../../api/nomenclature/ingredients';
 import TableSelect from '../../shared/selectCreateGroup/TableSelect';
 import ModalWrapper from '../../shared/ModalWrapper';
 import IngredientsTableItem from '../list/IngredientsTableItem';

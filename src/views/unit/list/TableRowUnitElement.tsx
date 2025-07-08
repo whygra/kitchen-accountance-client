@@ -1,5 +1,5 @@
 import {Form} from 'react-bootstrap'
-import { UnitDTO } from '../../../api/units';
+import { UnitDTO } from '../../../api/nomenclature/units';
 import UnitsTableItem from './UnitsTableItem';
 
 interface TableRowUnitElementProps {

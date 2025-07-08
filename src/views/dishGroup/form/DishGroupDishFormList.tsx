@@ -1,12 +1,12 @@
 import {Button, Container, Form, Modal, OverlayTrigger, Tooltip} from 'react-bootstrap'
 import { constructDishGroupDishForm, DishGroupDishFormState } from '../../../models/dish/DishGroupFormState'
 import { useContext, useState } from 'react'
-import { dishFormContext } from '../../../context/forms/dish/DishFormContext'
+import { dishFormContext } from '../../../context/forms/nomenclature/dish/DishFormContext'
 import { appContext } from '../../../context/AppContextProvider';
 import BtnAskConfirmation from '../../shared/BtnAskConfirmation';
 import TooltipButton from '../../shared/TooltipButton'
 import useDishSelect from '../../../hooks/tableSelect/useDishSelect';
-import { dishGroupFormContext } from '../../../context/forms/dish/DishGroupFormContext'
+import { dishGroupFormContext } from '../../../context/forms/nomenclature/dish/DishGroupFormContext'
 import DishGroupDishForm from './DishGroupDishForm';
 import FormListButtons from '../../shared/FormListButtons';
 import { useHotkeys } from 'react-hotkeys-hook';

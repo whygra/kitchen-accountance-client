@@ -1,7 +1,7 @@
 import { Col, Form, Row, Table } from "react-bootstrap";
 import { useEffect, useState } from "react";
-import { ProductDTO } from "../../../api/products";
-import { IngredientDTO } from "../../../api/ingredients";
+import { ProductDTO } from "../../../api/nomenclature/products";
+import { IngredientDTO } from "../../../api/nomenclature/ingredients";
 import ProductDetails from "./ProductDetails";
 
 

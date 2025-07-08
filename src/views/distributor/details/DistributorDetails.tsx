@@ -1,10 +1,10 @@
 import { Accordion, Button, Card, Col, Form, Image, Row, Table } from 'react-bootstrap';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
-import { deleteDistributor, DistributorDTO as DistributorDTO, getDistributorWithPurchaseOptions } from '../../../api/distributors';
+import { deleteDistributor, DistributorDTO as DistributorDTO, getDistributorWithPurchaseOptions } from '../../../api/nomenclature/distributors';
 import DistributorPurchaseOptionsTable from '../../purchase_option/table/PurchaseOptionsTable';
 import PurchaseOptionsTable from '../../purchase_option/table/PurchaseOptionsTable';
-import { getIngredientWithProducts } from '../../../api/ingredients';
+import { getIngredientWithProducts } from '../../../api/nomenclature/ingredients';
 import { appContext } from '../../../context/AppContextProvider';
 import BtnShowFileUploadForm from '../form/BtnShowFileUploadForm';
 import { authContext } from '../../../context/AuthContextProvider';

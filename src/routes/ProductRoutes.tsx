@@ -2,7 +2,7 @@ import { Route } from "react-router-dom";
 import ProductDetails from "../views/product/details/ProductDetails";
 import { DataAction } from "../models";
 import ProductList from "../views/product/list/ProductList";
-import ProductFormContextProvider from "../context/forms/product/ProductFormContext";
+import ProductFormContextProvider from "../context/forms/nomenclature/product/ProductFormContext";
 import ProductForm from "../views/product/form/ProductForm";
 
 function useProductRoutes() {

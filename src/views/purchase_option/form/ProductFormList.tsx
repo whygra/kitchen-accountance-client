@@ -1,12 +1,12 @@
 import {Button, Container, Form, OverlayTrigger, Tooltip} from 'react-bootstrap'
 import PurchaseOptionForm from './ProductForm'
 import { useContext, useEffect, useRef, useState } from 'react'
-import { distributorFormContext } from '../../../context/forms/distributor/DistributorFormContext'
+import { distributorFormContext } from '../../../context/forms/nomenclature/distributor/DistributorFormContext'
 import { appContext } from '../../../context/AppContextProvider';
 import ConfirmationDialog from '../../shared/ConfirmationDialog';
-import { productFormContext } from '../../../context/forms/product/ProductFormContext';
+import { productFormContext } from '../../../context/forms/nomenclature/product/ProductFormContext';
 import ProductForm from './ProductForm';
-import { purchaseOptionFormContext } from '../../../context/forms/distributor/PurchaseOptionFormContext';
+import { purchaseOptionFormContext } from '../../../context/forms/nomenclature/distributor/PurchaseOptionFormContext';
 import TooltipButton from '../../shared/TooltipButton';
 import BtnAskConfirmation from '../../shared/BtnAskConfirmation';
 import usePagination from '../../../hooks/usePagination';

@@ -1,6 +1,6 @@
 import { Form, FormSelect, Table } from "react-bootstrap";
 import { useEffect, useState } from "react";
-import { IngredientDTO } from "../../../api/ingredients";
+import { IngredientDTO } from "../../../api/nomenclature/ingredients";
 import { calcIngredientCost, constructIngredientCostCalculator, constructProductCostCalculator, ProductCostCalculatorModel, setAmount } from "../../../models/dish/DishCostCalculatorState";
 import ProductCostCalculator from "./ProductCostCalculator";
 import { Link } from "react-router-dom";
@@ -10,7 +10,7 @@ interface ProductsWeightsCalculatorProps{
 }
 
 function ProductsWeightsCalculator({ingredient}:ProductsWeightsCalculatorProps) {
-    const [costCalculator, setCostCalculator] = useState(constructIngredientCostCalculator(ingredient))
+    const [costCalculator, setCostCalculator] = useState(constructIngredientCostCalculator({...ingredient}))
 
     useEffect(()=>{
         calcProductWeights(ingredient.is_item_measured?1:1000)
@@ -58,7 +58,7 @@ function ProductsWeightsCalculator({ingredient}:ProductsWeightsCalculatorProps) 
                         <th style={{width:'20%'}}>Продукт</th>
                         <th style={{width:'50%'}}>Позиция закупки</th>
                         <th className="d-none d-md-table-cell">Стоимость 1г.</th>
-                        <th className="d-none d-sm-table-cell">Масса брутто</th>
+                        <th className="d-none d-sm-table-cell">Брутто</th>
                         <th>Себестоимость</th>
                     </tr>
                     </thead>

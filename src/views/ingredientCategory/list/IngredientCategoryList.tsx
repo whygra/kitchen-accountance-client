@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { Accordion, Button, Col, Collapse, Form, Image, Row } from 'react-bootstrap';
 import IngredientCategoryListItem from './IngredientCategoryListItem';
-import { getIngredientCategoriesWithIngredients, IngredientCategoryDTO } from '../../../api/ingredientCategories';
+import { getIngredientCategoriesWithIngredients, IngredientCategoryDTO } from '../../../api/nomenclature/ingredientCategories';
 import { Link } from 'react-router-dom';
 import { useErrorBoundary } from 'react-error-boundary';
 import { authContext } from '../../../context/AuthContextProvider';

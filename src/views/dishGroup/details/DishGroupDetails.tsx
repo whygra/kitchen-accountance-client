@@ -1,7 +1,7 @@
 import { Accordion, Button, Card, Col, Form, Image, Row, Table } from 'react-bootstrap';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
-import { deleteDishGroup, DishGroupDTO, getDishGroupWithDishes } from '../../../api/dishGroups';
+import { deleteDishGroup, DishGroupDTO, getDishGroupWithDishes } from '../../../api/nomenclature/dishGroups';
 import { UserPermissions } from '../../../models';
 import { authContext } from '../../../context/AuthContextProvider';
 import CUDButtons from '../../shared/CUDButtons';

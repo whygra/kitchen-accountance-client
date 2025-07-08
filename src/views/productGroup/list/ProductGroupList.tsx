@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { Accordion, Button, Col, Collapse, Form, Image, Row } from 'react-bootstrap';
 import ProductGroupListItem from './ProductGroupListItem';
-import { getProductGroupsWithProducts, ProductGroupDTO } from '../../../api/productGroups';
+import { getProductGroupsWithProducts, ProductGroupDTO } from '../../../api/nomenclature/productGroups';
 import { Link } from 'react-router-dom';
 import { useErrorBoundary } from 'react-error-boundary';
 import { authContext } from '../../../context/AuthContextProvider';

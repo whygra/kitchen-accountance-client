@@ -1,5 +1,5 @@
 import { Button, Table } from "react-bootstrap";
-import { DishGroupDTO } from "../../../api/dishGroups";
+import { DishGroupDTO } from "../../../api/nomenclature/dishGroups";
 import { Link } from "react-router-dom";
 
 interface DishGroupDishesTableProps {

@@ -1,6 +1,6 @@
 import { Accordion, Button, Col, Row, Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { UnitDTO, postUnit, putUnit, deleteUnit as requestDeleteUnit } from '../../../api/units';
+import { UnitDTO, postUnit, putUnit, deleteUnit as requestDeleteUnit } from '../../../api/nomenclature/units';
 import { useContext, useState } from 'react';
 import { appContext } from '../../../context/AppContextProvider';
 import { DataAction, UserPermissions } from '../../../models';

@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom"
-import { PurchaseOptionDTO } from "../../../api/purchaseOptions"
+import { PurchaseOptionDTO } from "../../../api/nomenclature/purchaseOptions"
 import ExpansionBtn, { ExpansionBtnProps } from "../../shared/ExpansionBtn"
-import { ProductGroupDTO } from "../../../api/productGroups"
+import { ProductGroupDTO } from "../../../api/nomenclature/productGroups"
 import { ProductGroupField } from "../../../hooks/sort/useSortProductGroups"
 import GridTableRow from "../../shared/GridTableRow"
 

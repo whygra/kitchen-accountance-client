@@ -5,7 +5,7 @@ import DishIngredientForm from './DishIngredientForm'
 import { v4 as uuid } from "uuid";
 import { DishIngredientFormState } from '../../../models/dish/DishFormState'
 import { useContext, useState } from 'react'
-import { dishFormContext } from '../../../context/forms/dish/DishFormContext'
+import { dishFormContext } from '../../../context/forms/nomenclature/dish/DishFormContext'
 import { appContext } from '../../../context/AppContextProvider';
 import ConfirmationDialog from '../../shared/ConfirmationDialog';
 import BtnAskConfirmation from '../../shared/BtnAskConfirmation';
@@ -48,7 +48,8 @@ function DishIngredientFormList() {
     setDishIngredientFormState({
       ...activeForm, 
       id: id, 
-      isItemMeasured:ingredient?.is_item_measured??false
+      isItemMeasured:ingredient?.is_item_measured??false,
+      itemWeight: ingredient?.item_weight ?? 1
     })
   }
   

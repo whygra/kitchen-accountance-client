@@ -1,6 +1,6 @@
 import { Accordion, Button, Col, Row, Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { ProductCategoryDTO, deleteProductCategory as requestDeleteProductCategory } from '../../../api/productCategories';
+import { ProductCategoryDTO, deleteProductCategory as requestDeleteProductCategory } from '../../../api/nomenclature/productCategories';
 import { useContext } from 'react';
 import { appContext } from '../../../context/AppContextProvider';
 import { UserPermissions } from '../../../models';

@@ -1,7 +1,7 @@
 import { Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import usePagination from "../../../hooks/usePagination";
-import { ProductDTO } from "../../../api/products";
+import { ProductDTO } from "../../../api/nomenclature/products";
 
 interface IngredientProductsTableProps {
     product: ProductDTO
@@ -29,11 +29,8 @@ function ProductIngredientsTable({product}:IngredientProductsTableProps) {
                     .map(i => 
                     <tr className='text-center'>
                         <td><Link to={`/ingredients/details/${i.id}`}>{i.name} {i.type?.name}</Link></td>
-                        <td>{(i.raw_product_weight&&i.source_weight)
-                            ?(i.raw_product_weight/i.source_weight*100).toFixed(2)
-                            :'NaN'
-                        }%</td>
-                        <td>{i.waste_percentage}%</td>
+                        <td>{((i.gross_share??0)*100).toFixed(0)}%</td>
+                        <td>{i.waste_percentage?.toFixed(0)}%</td>
                     </tr>
                 )}
             </tbody>

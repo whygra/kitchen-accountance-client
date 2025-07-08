@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import PurchaseOptionFormList from './PurchaseOptionFormList';
 import { appContext } from '../../../context/AppContextProvider';
 import { UserPermissions } from '../../../models';
-import { productFormContext } from '../../../context/forms/product/ProductFormContext';
+import { productFormContext } from '../../../context/forms/nomenclature/product/ProductFormContext';
 import SelectCreateGroup from '../../shared/selectCreateGroup/SelectCreateGroup';
 import HistoryNav from '../../shared/HistoryNav';
 import { projectContext } from '../../../context/ProjectContextProvider';

@@ -7,7 +7,7 @@ import SelectCreateGroup from '../../shared/selectCreateGroup/SelectCreateGroup'
 import { UserPermissions } from '../../../models';
 import ItemWeightInput from './ItemWeightInput';
 import { appContext } from '../../../context/AppContextProvider';
-import { ingredientContext } from '../../../context/forms/ingredient/IngredientFormContext';
+import { ingredientContext } from '../../../context/forms/nomenclature/ingredient/IngredientFormContext';
 import HistoryNav from '../../shared/HistoryNav';
 import { projectContext } from '../../../context/ProjectContextProvider';
 

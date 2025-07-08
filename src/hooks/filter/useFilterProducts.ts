@@ -1,7 +1,6 @@
 import { useState } from "react"
-import { PurchaseOptionDTO } from "../../api/purchaseOptions"
-import { calcDishWeight, DishDTO } from "../../api/dishes"
-import { ProductDTO } from "../../api/products"
+import { PurchaseOptionDTO } from "../../api/nomenclature/purchaseOptions"
+import { ProductDTO } from "../../api/nomenclature/products"
 
 
 export interface SearchParams {

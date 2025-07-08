@@ -1,6 +1,6 @@
-import { Accordion, Button, Col, Image, Row } from 'react-bootstrap';
+import { Accordion, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { calcDishWeight, DishDTO, deleteDish as requestDeleteDish } from '../../../api/dishes';
+import { DishDTO, deleteDish as requestDeleteDish } from '../../../api/nomenclature/dishes';
 import DishIngredientsTable from '../details/DishIngredientsTable';
 import { useContext } from 'react';
 import { appContext } from '../../../context/AppContextProvider';

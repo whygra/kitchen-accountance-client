@@ -1,5 +1,5 @@
 import { Route } from "react-router-dom";
-import ProductGroupFormContextProvider from "../context/forms/product/ProductGroupFormContext";
+import ProductGroupFormContextProvider from "../context/forms/nomenclature/product/ProductGroupFormContext";
 import ProductGroupForm from "../views/productGroup/form/ProductGroupForm";
 import ProductGroupDetails from "../views/productGroup/details/ProductGroupDetails";
 import ProductGroupList from "../views/productGroup/list/ProductGroupList";

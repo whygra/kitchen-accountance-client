@@ -1,6 +1,6 @@
 import { Accordion, Button, Col, Row, Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { DishCategoryDTO, deleteDishCategory as requestDeleteDishCategory } from '../../../api/dishCategories';
+import { DishCategoryDTO, deleteDishCategory as requestDeleteDishCategory } from '../../../api/nomenclature/dishCategories';
 import { useContext } from 'react';
 import { appContext } from '../../../context/AppContextProvider';
 import { UserPermissions } from '../../../models';

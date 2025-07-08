@@ -1,6 +1,5 @@
 import { useState } from "react"
-import { PurchaseOptionDTO } from "../../api/purchaseOptions"
-import { calcDishWeight, DishDTO } from "../../api/dishes"
+import { DishDTO } from "../../api/nomenclature/dishes"
 
 
 export enum DistributorField {

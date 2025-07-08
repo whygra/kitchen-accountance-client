@@ -1,7 +1,7 @@
 import { v4 as uuid } from "uuid";
 import { DataAction } from ".."
-import { IngredientGroupDTO } from "../../api/ingredientGroups"
-import { IngredientDTO } from "../../api/ingredients";
+import { IngredientGroupDTO } from "../../api/nomenclature/ingredientGroups"
+import { IngredientDTO } from "../../api/nomenclature/ingredients";
 
 export interface IngredientGroupFormState {
     id: number

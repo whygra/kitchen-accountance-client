@@ -3,7 +3,7 @@ import { Accordion, Button, Row } from 'react-bootstrap';
 import ProductListItem from './ProductListItem';
 import { Link } from 'react-router-dom';
 import { useErrorBoundary } from 'react-error-boundary';
-import { getProductsWithPurchaseOptions, ProductDTO } from '../../../api/products';
+import { getProductsWithPurchaseOptions, ProductDTO } from '../../../api/nomenclature/products';
 import { UserPermissions } from '../../../models';
 import usePagination from '../../../hooks/usePagination';
 import useProductsTableHeader from '../../../hooks/useProductsTableHeader';

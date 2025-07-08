@@ -3,7 +3,7 @@ import { useContext, useState } from 'react';
 import { appContext } from '../../../context/AppContextProvider';
 import ConfirmationDialog from '../../shared/ConfirmationDialog';
 import { assignRole, removeFromProject, UserDTO } from '../../../api/users';
-import { RoleDTO } from '../../../api/projects';
+import { RoleDTO } from '../../../api/nomenclature/projects';
 import TooltipButton from '../../shared/TooltipButton';
 import BtnAskConfirmation from '../../shared/BtnAskConfirmation';
 import { projectContext } from '../../../context/ProjectContextProvider';

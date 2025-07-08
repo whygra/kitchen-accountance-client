@@ -2,7 +2,7 @@ import IngredientGroupIngredientFormList from './IngredientGroupIngredientFormLi
 import { Button, Col, Form, Image, Row } from 'react-bootstrap';
 import { FormEvent, useContext, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ingredientGroupFormContext } from '../../../context/forms/ingredient/IngredientGroupFormContext';
+import { ingredientGroupFormContext } from '../../../context/forms/nomenclature/ingredient/IngredientGroupFormContext';
 import { appContext } from '../../../context/AppContextProvider';
 import { UserPermissions } from '../../../models';
 import HistoryNav from '../../shared/HistoryNav';

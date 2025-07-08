@@ -1,7 +1,7 @@
 import { DataAction } from ".."
-import { IngredientDTO } from "../../api/ingredients"
+import { IngredientDTO } from "../../api/nomenclature/ingredients"
 import { v4 as uuid } from "uuid"
-import { ProductDTO } from "../../api/products"
+import { ProductDTO } from "../../api/nomenclature/products"
 
 export interface IngredientFormState {
     id: number
@@ -34,7 +34,7 @@ export function constructIngredientForm(dto?: IngredientDTO): IngredientFormStat
         typeId: dto?.type?.id ?? 0,
         itemWeight: dto?.item_weight ?? 1,
         isItemMeasured: dto?.is_item_measured ?? false,
-        ingredientProductForms: dto?.products?.map(p=>constructIngredientProductForm(p)) ?? [],
+        ingredientProductForms: dto?.products?.map(p=>constructIngredientProductForm(p, dto.total_gross_weight)) ?? [],
     }
 }
 
@@ -68,19 +68,21 @@ export interface IngredientProductFormState {
     id: number
     name: string
     productDataAction: DataAction
-    weight: number
+    grossWeight: number
     weightPercentage: number
+    netWeight: number
     wastePercentage: number
 }
 
-export function constructIngredientProductForm(dto?: ProductDTO): IngredientProductFormState{
+export function constructIngredientProductForm(dto?: ProductDTO, totalGrossWeight?: number): IngredientProductFormState{
     return {    
         key: uuid(),
         id: dto?.id ?? 0,
         name: dto?.name ?? '',
         productDataAction: DataAction.None,
-        weight: dto?.raw_product_weight ?? 1,
-        weightPercentage: dto?.raw_product_weight ?? 1,
+        grossWeight: dto?.gross_weight ?? 1,
+        weightPercentage: (dto?.gross_weight && totalGrossWeight) ? dto?.gross_weight / totalGrossWeight : 1,
+        netWeight: dto?.net_weight ?? 1,
         wastePercentage: dto?.waste_percentage ?? 0,
     }
 }
@@ -89,7 +91,7 @@ export function ingredientProductToDTO(formState: IngredientProductFormState): P
     return {
         id: formState.productDataAction == DataAction.Create ? 0 : formState.id,
         name: formState.name,
-        raw_product_weight: formState.weight,
-        waste_percentage: formState.wastePercentage,
+        gross_weight: formState.grossWeight,
+        net_weight: formState.netWeight,
     }
 }

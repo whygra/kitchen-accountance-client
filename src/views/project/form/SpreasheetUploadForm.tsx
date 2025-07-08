@@ -1,10 +1,10 @@
 import { Button, Container, Form, Row } from 'react-bootstrap';
 import { FormEvent, useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { DishDTO } from '../../../api/dishes';
+import { DishDTO } from '../../../api/nomenclature/dishes';
 import { distributorFormContext } from '../../../context/forms/distributor/DistributorFormContext';
 import { appContext } from '../../../context/AppContextProvider';
-import { DistributorPurchaseOptionColumnIndexes } from '../../../api/purchaseOptions';
+import { DistributorPurchaseOptionColumnIndexes } from '../../../api/nomenclature/purchaseOptions';
 
 export interface ColumnIndex {
     name: string

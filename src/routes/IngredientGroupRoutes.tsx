@@ -1,5 +1,5 @@
 import { Route } from "react-router-dom";
-import IngredientGroupFormContextProvider from "../context/forms/ingredient/IngredientGroupFormContext";
+import IngredientGroupFormContextProvider from "../context/forms/nomenclature/ingredient/IngredientGroupFormContext";
 import IngredientGroupForm from "../views/ingredientGroup/form/IngredientGroupForm";
 import IngredientGroupDetails from "../views/ingredientGroup/details/IngredientGroupDetails";
 import IngredientGroupList from "../views/ingredientGroup/list/IngredientGroupList";

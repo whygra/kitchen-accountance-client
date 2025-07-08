@@ -2,7 +2,7 @@ import {Button, Card, Col, Container, Form, Row, Table} from 'react-bootstrap'
 import { DishCategoryDishFormState } from '../../../models/dish/DishCategoryFormState'
 import 'bootstrap'
 import { useContext } from 'react'
-import { dishCategoryFormContext } from '../../../context/forms/dish/DishCategoryFormContext'
+import { dishCategoryFormContext } from '../../../context/forms/nomenclature/dish/DishCategoryFormContext'
 import TooltipButton from '../../shared/TooltipButton'
 
 interface DishCategoryDishFormProps {

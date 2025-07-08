@@ -1,10 +1,10 @@
-import { getIngredientsWithProducts, IngredientDTO } from '../api/ingredients';
+import { getIngredientsWithProducts, IngredientDTO } from '../api/nomenclature/ingredients';
 import { DataAction } from '../models';
 import { useParams } from 'react-router-dom';
 import { v4 as uuid } from "uuid";
 import { createContext, ReactElement, useContext, useEffect, useState } from 'react';
 import { setCalcDishCost, calcIngredientCost, constructIngredientCostCalculator, DishCostCalculatorState, IngredientCostCalculatorModel, ProductCostCalculatorModel } from '../models/dish/DishCostCalculatorState';
-import { getDishWithIngredients, getDishWithPurchaseOptions, postDishWithIngredients, putDishWithIngredients } from '../api/dishes';
+import { getDishWithIngredients, getDishWithPurchaseOptions, postDishWithIngredients, putDishWithIngredients } from '../api/nomenclature/dishes';
 import { constructDishCostCalculator } from '../models/dish/DishCostCalculatorState';
 import DishCostCalculator from '../views/dish/details/DishCostCalculator';
 import { appContext } from './AppContextProvider';

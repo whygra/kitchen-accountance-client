@@ -1,7 +1,7 @@
 import { v4 as uuid } from "uuid";
 import { DataAction } from ".."
-import { DishCategoryDTO } from "../../api/dishCategories"
-import { DishDTO } from "../../api/dishes";
+import { DishCategoryDTO } from "../../api/nomenclature/dishCategories"
+import { DishDTO } from "../../api/nomenclature/dishes";
 import { ServerImageData } from "../../api/constants";
 
 export interface DishCategoryFormState {

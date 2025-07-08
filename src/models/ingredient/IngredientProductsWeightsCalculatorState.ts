@@ -1,19 +1,18 @@
-import { calcIngredientSourceWeight, IngredientDTO } from "../../api/ingredients";
-import { ProductDTO } from "../../api/products";
+import { calcIngredientSourceWeight, IngredientDTO } from "../../api/nomenclature/ingredients";
+import { ProductDTO } from "../../api/nomenclature/products";
 
 export function getProductsWeights(
     ingredient: IngredientDTO, ingredientAmount: number
 ) : {product: ProductDTO, weight: number}[] {
     
-    const sourceWeight = calcIngredientSourceWeight({...ingredient, ingredient_amount:ingredientAmount})
+    const productsGrossWeight = calcIngredientSourceWeight({...ingredient, ingredient_amount:ingredientAmount})
     return ingredient.products?.map(
         (p) => {
             // вес продукта до обработки
             return {
                 product: p,
-                weight: Math.round(
-                    sourceWeight * p.raw_content_percentage! 
-                ) / 100
+                weight:
+                    p.gross_weight!/ingredient.total_gross_weight! * productsGrossWeight
             }
         }
     ) ?? []

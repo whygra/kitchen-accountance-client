@@ -1,7 +1,7 @@
 import { Accordion, Button, Card, Col, Form, Image, Row, Table } from 'react-bootstrap';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
-import { deleteIngredientCategory, IngredientCategoryDTO, getIngredientCategoryWithIngredients } from '../../../api/ingredientCategories';
+import { deleteIngredientCategory, IngredientCategoryDTO, getIngredientCategoryWithIngredients } from '../../../api/nomenclature/ingredientCategories';
 import { UserPermissions } from '../../../models';
 import { authContext } from '../../../context/AuthContextProvider';
 import CUDButtons from '../../shared/CUDButtons';

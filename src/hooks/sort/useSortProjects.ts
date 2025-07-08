@@ -1,7 +1,5 @@
 import { useState } from "react"
-import { PurchaseOptionDTO } from "../../api/purchaseOptions"
-import { calcDishWeight, DishDTO } from "../../api/dishes"
-import { ProjectDTO } from "../../api/projects"
+import { ProjectDTO } from "../../api/nomenclature/projects"
 
 export enum ProjectField {
     None = 'ProjectNone',

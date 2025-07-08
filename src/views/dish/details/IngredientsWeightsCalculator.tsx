@@ -1,7 +1,7 @@
 import { Form, Table } from "react-bootstrap";
 import { useEffect, useState } from "react";
-import { DishDTO } from "../../../api/dishes";
-import { IngredientDTO } from "../../../api/ingredients";
+import { DishDTO } from "../../../api/nomenclature/dishes";
+import { IngredientDTO } from "../../../api/nomenclature/ingredients";
 
 
 interface DishIngredientWithRequiredAmount{

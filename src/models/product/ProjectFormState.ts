@@ -1,8 +1,8 @@
 import { v4 as uuid } from "uuid";
 import { DataAction } from ".."
-import { IngredientDTO } from "../../api/ingredients";
+import { IngredientDTO } from "../../api/nomenclature/ingredients";
 import { ServerImageData } from "../../api/constants";
-import { ProjectDTO } from "../../api/projects";
+import { ProjectDTO } from "../../api/nomenclature/projects";
 
 export interface ProjectFormState {
     id: number

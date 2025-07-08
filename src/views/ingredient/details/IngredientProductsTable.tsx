@@ -1,5 +1,5 @@
 import { Table } from "react-bootstrap";
-import { IngredientDTO } from "../../../api/ingredients";
+import { IngredientDTO } from "../../../api/nomenclature/ingredients";
 import { Link } from "react-router-dom";
 import usePagination from "../../../hooks/usePagination";
 
@@ -18,7 +18,8 @@ function IngredientProductsTable({ingredient}:IngredientProductsTableProps) {
 
                 <tr className='text-center'>
                     <th>Продукт</th>
-                    <th>Доля содержания</th>
+                    <th>Брутто</th>
+                    <th>Нетто</th>
                     <th>Процент отхода</th>
                 </tr>
             </thead>
@@ -29,8 +30,9 @@ function IngredientProductsTable({ingredient}:IngredientProductsTableProps) {
                     .map(p => 
                     <tr className='text-center'>
                         <td><Link to={`/products/details/${p.id}`}>{p.name}</Link></td>
-                        <td>{p.raw_content_percentage?.toFixed(2)}%</td>
-                        <td>{p.waste_percentage?.toFixed(2)}%</td>
+                        <td>{p.gross_weight?.toFixed(0)}г.</td>
+                        <td>{p.net_weight?.toFixed(0)}г.</td>
+                        <td>{p.waste_percentage?.toFixed(0)}%</td>
                     </tr>
                 )}
             </tbody>

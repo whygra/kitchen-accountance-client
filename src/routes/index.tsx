@@ -26,6 +26,10 @@ import useUnitRoutes from './UnitRoutes';
 import ForgotPassword from '../views/auth/ForgotPassword';
 import ResetPassword from '../views/auth/ResetPassword';
 import useUserRoutes from './UserRoutes';
+import useInventoryActRoutes from './InventoryActRoutes';
+import useWriteOffActRoutes from './WriteOffActRoutes';
+import usePurchaseActRoutes from './PurchaseActRoutes';
+import useSaleActRoutes from './SaleActRoutes';
 
 function AppRoutes() {
     const ingredientRoutes = useIngredientRoutes()
@@ -42,6 +46,10 @@ function AppRoutes() {
     const unitRoutes = useUnitRoutes()
     const projectRoutes = useProjectRoutes()
     const userRoutes = useUserRoutes()
+    const inventoryActRoutes = useInventoryActRoutes()
+    const writeOffActRoutes = useWriteOffActRoutes()
+    const purchaseActRoutes = usePurchaseActRoutes()
+    const saleActRoutes = useSaleActRoutes()
 
     return (
         
@@ -62,6 +70,11 @@ function AppRoutes() {
         {unitRoutes}
         {projectRoutes}
         {userRoutes}
+        {inventoryActRoutes}
+        {writeOffActRoutes}
+        {purchaseActRoutes}
+        {saleActRoutes}
+
 
         <Route
             path='/home'

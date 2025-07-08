@@ -1,6 +1,6 @@
 import { useState } from "react"
-import { PurchaseOptionDTO } from "../../api/purchaseOptions"
-import { calcDishWeight, DishDTO } from "../../api/dishes"
+import { PurchaseOptionDTO } from "../../api/nomenclature/purchaseOptions"
+import { DishDTO } from "../../api/nomenclature/dishes"
 
 
 export enum DishField {
@@ -23,9 +23,9 @@ class Comparers {
     
         // вес
         static readonly WeightAsc = (i1:DishDTO, i2:DishDTO)=>
-            calcDishWeight(i1) - calcDishWeight(i2)
+            i1.total_net_weight??0 - (i2.total_net_weight??0)
         static readonly WeightDesc = (i1:DishDTO, i2:DishDTO)=>
-            calcDishWeight(i2) - calcDishWeight(i1)
+            i2.total_net_weight??0 - (i1.total_net_weight??0)
     
         // Наименование
         static readonly NameAsc = (i1:DishDTO, i2:DishDTO)=>

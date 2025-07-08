@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { DishGroupDTO } from "../../api/dishGroups"
+import { DishGroupDTO } from "../../api/nomenclature/dishGroups"
 
 
 export interface SearchParams {

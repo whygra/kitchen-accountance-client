@@ -1,16 +1,14 @@
 import { Card, Col, Form, Image, Row, Table } from 'react-bootstrap';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
-import { calcDishWeight, deleteDish, DishDTO, getDishWithIngredients, getDishWithPurchaseOptions } from '../../../api/dishes';
+import { deleteDish, DishDTO, getDishWithIngredients } from '../../../api/nomenclature/dishes';
 import DishIngredientsTable from './DishIngredientsTable';
 import IngredientsWeightsCalculator from './IngredientsWeightsCalculator';
 import DishCostCalculator from './DishCostCalculator';
 import DishCostCalculatorContextProvider from '../../../context/DishCostCalculatorContext';
 import { UserPermissions } from '../../../models';
-import { authContext } from '../../../context/AuthContextProvider';
 import CUDButtons from '../../shared/CUDButtons';
 import Loading from '../../shared/Loading';
-import { BASE_URL } from '../../../api/constants';
 import UpdatedAt from '../../shared/UpdatedAt';
 import Markdown from 'react-markdown';
 
@@ -70,7 +68,7 @@ function DishDetails()
                 <Col md={12} lg={6}>
                     <UpdatedAt entity={dish}/>
                 <ul className='list-group ps-2'>
-                    <li className='list-group-item'>Вес блюда: {calcDishWeight(dish).toFixed(2)} г.</li>
+                    <li className='list-group-item'>Вес блюда: {dish.total_net_weight?.toFixed(2)} г.</li>
                     <li className='list-group-item'>
                         Категория: "{dish.category?.name 
                             ? <Link to={`/dish-categories/details/${dish.category.id}`}>{dish.category.name}</Link> 

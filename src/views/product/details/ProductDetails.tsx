@@ -4,7 +4,7 @@ import { useContext, useEffect, useState } from 'react';
 import ProductGramCost from './ProductGramCost';
 import ProductPurchaseOptionsTable from './ProductPurchaseOptionsTable';
 import { appContext } from '../../../context/AppContextProvider';
-import { deleteProduct, getProductWithPurchaseOptions, ProductDTO } from '../../../api/products';
+import { deleteProduct, getProductWithPurchaseOptions, ProductDTO } from '../../../api/nomenclature/products';
 import { UserPermissions } from '../../../models';
 import CUDButtons from '../../shared/CUDButtons';
 import ProductIngredientsTable from './ProductIngredientsTable';
@@ -84,17 +84,17 @@ function ProductDetails()
                             : '-без группы-'}"</li>
                 </ul>
                 
-            <Col md={12}>
-                <Card className="p-3">
-                <ProductPurchaseOptionsTable product={product}/>
-                <ProductGramCost product={product}/>
-                </Card>
-            </Col>
-            <Col md={12}>
-                <Card className="p-3">
-                <ProductIngredientsTable product={product}/>
-                </Card>
-            </Col>
+                <Col md={12}>
+                    <Card className="p-3">
+                    <ProductPurchaseOptionsTable product={product}/>
+                    <ProductGramCost product={product}/>
+                    </Card>
+                </Col>
+                <Col md={12}>
+                    <Card className="p-3">
+                    <ProductIngredientsTable product={product}/>
+                    </Card>
+                </Col>
             </Row>
         </>
     )

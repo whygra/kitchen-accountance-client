@@ -2,7 +2,7 @@ import {Button, Card, Col, Container, Form, Row, Table} from 'react-bootstrap'
 import { IngredientGroupIngredientFormState } from '../../../models/ingredient/IngredientGroupFormState'
 import 'bootstrap'
 import { useContext } from 'react'
-import { ingredientGroupFormContext } from '../../../context/forms/ingredient/IngredientGroupFormContext'
+import { ingredientGroupFormContext } from '../../../context/forms/nomenclature/ingredient/IngredientGroupFormContext'
 import TooltipButton from '../../shared/TooltipButton'
 
 interface IngredientGroupIngredientFormProps {

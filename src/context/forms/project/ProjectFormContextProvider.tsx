@@ -2,7 +2,7 @@ import {  useParams } from 'react-router-dom'
 import 'bootstrap';
 import 'react-bootstrap';
 import { createContext, ReactElement, useContext, useEffect, useState } from 'react';
-import { postProject, ProjectDTO, putProject, uploadProjectBackdrop, uploadProjectLogo } from '../../../api/projects';
+import { postProject, ProjectDTO, putProject, uploadProjectBackdrop, uploadProjectLogo } from '../../../api/nomenclature/projects';
 import { constructProjectForm, ProjectFormState, projectFormToDTO } from '../../../models/product/ProjectFormState';
 import { constructProductForm } from '../../../models/product/ProductFormState';
 import { projectContext } from '../../ProjectContextProvider';

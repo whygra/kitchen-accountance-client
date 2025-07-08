@@ -1,9 +1,8 @@
 import { useContext } from "react"
 import { DataAction } from "../../../models"
 import { Button, Card, Col, Form, Row } from "react-bootstrap"
-import { purchaseOptionFormContext } from "../../../context/forms/distributor/PurchaseOptionFormContext"
+import { purchaseOptionFormContext } from "../../../context/forms/nomenclature/distributor/PurchaseOptionFormContext"
 import { ProductFormState } from "../../../models/PurchaseOptionFormState"
-import SelectCreateGroup from "../../shared/selectCreateGroup/SelectCreateGroup"
 import TooltipButton from "../../shared/TooltipButton"
 import IsCreateSwitch from "../../shared/selectCreateGroup/IsCreateSwitch"
 

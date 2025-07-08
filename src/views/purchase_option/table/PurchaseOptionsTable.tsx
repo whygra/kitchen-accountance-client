@@ -3,7 +3,7 @@ import { Collapse, Form, Table } from "react-bootstrap";
 import useSortPurchaseOptions, { PurchaseOptionField } from "../../../hooks/sort/useSortPurchaseOptions";
 import usePagination from "../../../hooks/usePagination";
 import usePurchaseOptionsTableHeader from "../../../hooks/usePurchaseOptionsTableHeader";
-import { PurchaseOptionDTO } from "../../../api/purchaseOptions";
+import { PurchaseOptionDTO } from "../../../api/nomenclature/purchaseOptions";
 import PurchaseOptionsTableItem from "./PurchaseOptionsTableItem";
 import { useMediaQuery } from "react-responsive";
 import { WindowSize } from "../../shared/GridTableRow";

@@ -2,11 +2,11 @@ import NameInput from './DistributorNameInput';
 import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { DishDTO } from '../../../api/dishes';
+import { DishDTO } from '../../../api/nomenclature/dishes';
 import PurchaseOptionFormList from './PurchaseOptionFormList';
 import { distributorFormContext } from '../../../context/forms/distributor/DistributorFormContext';
 import { appContext } from '../../../context/AppContextProvider';
-import { DistributorPurchaseOptionColumnIndexes } from '../../../api/purchaseOptions';
+import { DistributorPurchaseOptionColumnIndexes } from '../../../api/nomenclature/purchaseOptions';
 import { ColumnIndex } from './SpreasheetUploadForm';
 
 interface FileColumnIdInputProps {

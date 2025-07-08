@@ -1,5 +1,5 @@
 import { Route } from "react-router-dom";
-import IngredientCategoryFormContextProvider from "../context/forms/ingredient/IngredientCategoryFormContext";
+import IngredientCategoryFormContextProvider from "../context/forms/nomenclature/ingredient/IngredientCategoryFormContext";
 import IngredientCategoryForm from "../views/ingredientCategory/form/IngredientCategoryForm";
 import IngredientCategoryDetails from "../views/ingredientCategory/details/IngredientCategoryDetails";
 import IngredientCategoryList from "../views/ingredientCategory/list/IngredientCategoryList";

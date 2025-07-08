@@ -3,7 +3,7 @@ import ProductsTableItem from "../../views/product/list/ProductsTableItem"
 import ModalWrapper from "../../views/shared/ModalWrapper"
 import TableSelect from "../../views/shared/selectCreateGroup/TableSelect"
 import useProductsTableHeader from "../useProductsTableHeader"
-import { ProductDTO } from "../../api/products"
+import { ProductDTO } from "../../api/nomenclature/products"
 import { ProductField } from "../sort/useSortProducts"
 
 

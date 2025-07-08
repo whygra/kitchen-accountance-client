@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { IngredientDTO } from '../../../api/ingredients';
+import { IngredientDTO } from '../../../api/nomenclature/ingredients';
 import { IngredientField } from '../../../hooks/sort/useSortIngredients';
 import GridTableRow, { WindowSize } from '../../shared/GridTableRow';
 

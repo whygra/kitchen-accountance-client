@@ -14,6 +14,7 @@ import { DishField } from "../../hooks/sort/useSortDishes"
 import { DishCategoryField } from "../../hooks/sort/useSortDishCategories"
 import { DishGroupField } from "../../hooks/sort/useSortDishGroups"
 import { useMediaQuery } from "react-responsive"
+import { InventoryActField } from "../../hooks/sort/useSortInventoryAct"
 
 
 enum WindowSize {
@@ -26,19 +27,7 @@ enum WindowSize {
 }
 
 interface GridTableRowProps<
-    T extends 
-    ProjectField|
-    DistributorField|
-    PurchaseOptionField|
-    ProductField|
-    ProductCategoryField|
-    ProductGroupField|
-    IngredientField|
-    IngredientCategoryField|
-    IngredientGroupField|
-    DishField|
-    DishCategoryField|
-    DishGroupField
+    T 
 > {
     cells: 
         {
@@ -51,19 +40,7 @@ interface GridTableRowProps<
 }
 
 function GridTableRow<
-    T extends 
-    ProjectField|
-    DistributorField|
-    PurchaseOptionField|
-    ProductField|
-    ProductCategoryField|
-    ProductGroupField|
-    IngredientField|
-    IngredientCategoryField|
-    IngredientGroupField|
-    DishField|
-    DishCategoryField|
-    DishGroupField
+    T 
 >({cells, fieldsToExclude}:GridTableRowProps<T>) {
 
     const isXs = useMediaQuery({maxWidth: 575})

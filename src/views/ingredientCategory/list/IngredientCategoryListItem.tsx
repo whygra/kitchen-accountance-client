@@ -1,6 +1,6 @@
 import { Accordion, Button, Col, Row, Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { IngredientCategoryDTO, deleteIngredientCategory as requestDeleteIngredientCategory } from '../../../api/ingredientCategories';
+import { IngredientCategoryDTO, deleteIngredientCategory as requestDeleteIngredientCategory } from '../../../api/nomenclature/ingredientCategories';
 import { useContext } from 'react';
 import { appContext } from '../../../context/AppContextProvider';
 import { UserPermissions } from '../../../models';

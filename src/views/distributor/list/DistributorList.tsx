@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { Accordion, Button, Col, Image, Row, Tooltip } from 'react-bootstrap';
 import DistributorListItem from './DistributorListItem';
-import { DistributorDTO, getDistributorsWithPurchaseOptions } from '../../../api/distributors';
+import { DistributorDTO, getDistributorsWithPurchaseOptions } from '../../../api/nomenclature/distributors';
 import { Link } from 'react-router-dom';
 import { appContext } from '../../../context/AppContextProvider';
 import { useErrorBoundary } from 'react-error-boundary';

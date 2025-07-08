@@ -1,7 +1,7 @@
 import { Accordion, Button, Col, Row, Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { UserPermissions } from '../../../models';
-import { deletePurchaseOption as requestDelete, PurchaseOptionDTO } from '../../../api/purchaseOptions';
+import { deletePurchaseOption as requestDelete, PurchaseOptionDTO } from '../../../api/nomenclature/purchaseOptions';
 import CUDButtons from '../../shared/CUDButtons';
 import { useContext } from 'react';
 import { appContext } from '../../../context/AppContextProvider';

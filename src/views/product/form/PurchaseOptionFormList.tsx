@@ -3,7 +3,7 @@ import PurchaseOptionForm from './PurchaseOptionForm'
 import { useContext, useState } from 'react'
 import { appContext } from '../../../context/AppContextProvider';
 import ConfirmationDialog from '../../shared/ConfirmationDialog';
-import { productFormContext } from '../../../context/forms/product/ProductFormContext';
+import { productFormContext } from '../../../context/forms/nomenclature/product/ProductFormContext';
 import TooltipButton from '../../shared/TooltipButton';
 import { constructProductPurchaseOptionForm, PurchaseOptionFormState } from '../../../models/product/ProductFormState';
 import usePurchaseOptionSelect from '../../../hooks/tableSelect/usePurchaseOptionSelect';

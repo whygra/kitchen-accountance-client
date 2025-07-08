@@ -3,7 +3,7 @@ import DishesTableItem from "../../views/dish/list/DishesTableItem"
 import ModalWrapper from "../../views/shared/ModalWrapper"
 import TableSelect from "../../views/shared/selectCreateGroup/TableSelect"
 import useDishesTableHeader from "../useDishesTableHeader"
-import { DishDTO } from "../../api/dishes"
+import { DishDTO } from "../../api/nomenclature/dishes"
 import { DishField } from "../sort/useSortDishes"
 
 

@@ -5,7 +5,7 @@ import { Form } from "react-bootstrap"
 import { PurchaseOptionField } from "../../../hooks/sort/useSortPurchaseOptions"
 import { EMPTY_SEARCH_PARAMS, SearchParams } from "../../../hooks/filter/useFilterIngredients"
 import { IngredientField } from "../../../hooks/sort/useSortIngredients"
-import { IngredientTypeDTO } from "../../../api/ingredients"
+import { IngredientTypeDTO } from "../../../api/nomenclature/ingredients"
 import GridTableRow, { WindowSize } from "../../shared/GridTableRow"
 
 interface IngredientsTableHeaderProps {

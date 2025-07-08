@@ -1,6 +1,6 @@
 import { Accordion, Button, Col, Row, Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { ProductGroupDTO, deleteProductGroup as requestDeleteProductGroup } from '../../../api/productGroups';
+import { ProductGroupDTO, deleteProductGroup as requestDeleteProductGroup } from '../../../api/nomenclature/productGroups';
 import { useContext } from 'react';
 import { appContext } from '../../../context/AppContextProvider';
 import { UserPermissions } from '../../../models';

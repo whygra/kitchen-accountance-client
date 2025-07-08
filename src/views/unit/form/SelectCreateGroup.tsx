@@ -2,7 +2,7 @@ import {Col, Form, Row} from 'react-bootstrap'
 import UnitSelect from './UnitSelect';
 import NameInput from './NameInput';
 import { DataAction } from '../../../models/index';
-import { UnitDTO } from '../../../api/units';
+import { UnitDTO } from '../../../api/nomenclature/units';
 import { useEffect } from 'react';
 import IsCreateSwitch from '../../shared/selectCreateGroup/IsCreateSwitch';
 
@@ -31,10 +31,6 @@ function SelectCreateGroup({
 }: SelectCreateGroupProps) 
 {
   const isCreateUnit = dataAction === DataAction.Create
-
-  useEffect(()=>{
-    setUnitId(unitId==0?units[0]?.id:unitId)
-  },[])
 
   return (
     <div className='mb-3'>

@@ -1,7 +1,7 @@
 import { v4 as uuid } from "uuid";
 import { DataAction } from ".."
-import { ProductGroupDTO } from "../../api/productGroups"
-import { ProductDTO } from "../../api/products";
+import { ProductGroupDTO } from "../../api/nomenclature/productGroups"
+import { ProductDTO } from "../../api/nomenclature/products";
 
 export interface ProductGroupFormState {
     id: number

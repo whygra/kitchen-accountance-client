@@ -5,11 +5,12 @@ import PurchaseOptionGramCost from './PurchaseOptionGramCost';
 import { appContext } from '../../../context/AppContextProvider';
 import { UserPermissions } from '../../../models';
 import { authContext } from '../../../context/AuthContextProvider';
-import { deletePurchaseOption, getPurchaseOptions, getPurchaseOptionsWithProducts, getPurchaseOptionWithProducts, PurchaseOptionDTO } from '../../../api/purchaseOptions';
+import { deletePurchaseOption, getPurchaseOptions, getPurchaseOptionsWithProducts, getPurchaseOptionWithProducts, PurchaseOptionDTO } from '../../../api/nomenclature/purchaseOptions';
 import CUDButtons from '../../shared/CUDButtons';
 import Loading from '../../shared/Loading';
 import ProductsTable from '../../product/list/ProductsTable';
 import UpdatedAt from '../../shared/UpdatedAt';
+import { ErrorView } from '../../ErrorView';
 
 
 function PurchaseOptionDetails() 
@@ -47,8 +48,13 @@ function PurchaseOptionDetails()
     }
 
     async function deleteFn(id: number) {
-        await deletePurchaseOption(id)
-        navigate('/purchase-options/all')
+        try{
+
+            await deletePurchaseOption(id, purchaseOption?.distributor)
+            navigate('/purchase-options/all')
+        } catch (e:any) {
+            showModal(<>{e.message}</>, <>{e.status}</>)
+        }
     }
 
     return isLoading ? (<Loading/>) : 

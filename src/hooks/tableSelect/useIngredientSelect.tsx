@@ -3,9 +3,9 @@ import IngredientsTableItem from "../../views/ingredient/list/IngredientsTableIt
 import ModalWrapper from "../../views/shared/ModalWrapper"
 import TableSelect from "../../views/shared/selectCreateGroup/TableSelect"
 import useIngredientsTableHeader from "../useIngredientsTableHeader"
-import { IngredientDTO, IngredientTypeDTO } from "../../api/ingredients"
+import { IngredientDTO, IngredientTypeDTO } from "../../api/nomenclature/ingredients"
 import { IngredientField } from "../sort/useSortIngredients"
-import { getIngredientTypes } from "../../api/ingredientTypes"
+import { getIngredientTypes } from "../../api/nomenclature/ingredientTypes"
 
 
 export default function useIngredientSelect(

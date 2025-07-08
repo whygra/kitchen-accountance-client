@@ -1,7 +1,5 @@
 import { useState } from "react"
-import { PurchaseOptionDTO } from "../../api/purchaseOptions"
-import { calcDishWeight, DishDTO } from "../../api/dishes"
-import { IngredientCategoryDTO } from "../../api/ingredientCategories"
+import { IngredientCategoryDTO } from "../../api/nomenclature/ingredientCategories"
 
 export enum IngredientCategoryField {
     None = 'IngredientCategoryNone',

@@ -1,6 +1,6 @@
 import { Accordion, Button, Col, Image, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { ProjectDTO, deleteProject as requestDeleteProject } from '../../../api/projects';
+import { ProjectDTO, deleteProject as requestDeleteProject } from '../../../api/nomenclature/projects';
 import { useContext } from 'react';
 import { appContext } from '../../../context/AppContextProvider';
 import { UserPermissions } from '../../../models';

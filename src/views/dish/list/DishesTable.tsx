@@ -1,4 +1,4 @@
-import { DishDTO, getDishesWithIngredients } from '../../../api/dishes';
+import { DishDTO, getDishesWithIngredients } from '../../../api/nomenclature/dishes';
 import useDishesTableHeader from '../../../hooks/useDishesTableHeader';
 import usePagination from '../../../hooks/usePagination';
 import DishesTableItem from './DishesTableItem';

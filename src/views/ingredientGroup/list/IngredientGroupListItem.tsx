@@ -1,6 +1,6 @@
 import { Accordion, Button, Col, Row, Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { IngredientGroupDTO, deleteIngredientGroup as requestDeleteIngredientGroup } from '../../../api/ingredientGroups';
+import { IngredientGroupDTO, deleteIngredientGroup as requestDeleteIngredientGroup } from '../../../api/nomenclature/ingredientGroups';
 import { useContext } from 'react';
 import { appContext } from '../../../context/AppContextProvider';
 import { UserPermissions } from '../../../models';

@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { DishCategoryDTO } from "../../api/dishCategories"
+import { DishCategoryDTO } from "../../api/nomenclature/dishCategories"
 
 export enum DishCategoryField {
     None = 'DishCategoryNone',

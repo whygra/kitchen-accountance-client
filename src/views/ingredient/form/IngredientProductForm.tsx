@@ -4,7 +4,7 @@ import { DataAction } from '../../../models'
 import { IngredientProductFormState } from '../../../models/ingredient/IngredientFormState'
 import 'bootstrap'
 import { useContext, useState } from 'react'
-import { ingredientContext } from '../../../context/forms/ingredient/IngredientFormContext'
+import { ingredientContext } from '../../../context/forms/nomenclature/ingredient/IngredientFormContext'
 import TooltipButton from '../../shared/TooltipButton'
 import IsCreateSwitch from '../../shared/selectCreateGroup/IsCreateSwitch'
 
@@ -21,12 +21,9 @@ function IngredientProductForm({formState, openSelect}: IngredientsProductFormPr
     products
   } = useContext(ingredientContext)
 
-  const [netWeight, setNetWeight] = useState(formState.weight*(100 - formState.wastePercentage)/100)
-  
   
   function handleNetWeightChange(value: number) {
-    setNetWeight(value)
-    setIngredientProductFormState({...formState, wastePercentage: 100 - value/formState.weight*100})
+    setIngredientProductFormState({...formState, netWeight: value, wastePercentage: 100 - value/formState.grossWeight*100})
   }
   
   function setProductName(name:string) {
@@ -37,9 +34,8 @@ function IngredientProductForm({formState, openSelect}: IngredientsProductFormPr
     setIngredientProductFormState({...formState, productDataAction: action})
   }
 
-  function setWeight(weight:number) {
-    setIngredientProductFormState({...formState, weight, wastePercentage:100 - netWeight/weight*100})
-
+  function setGrossWeight(value:number) {
+    setIngredientProductFormState({...formState, grossWeight: value, wastePercentage:100 - formState.netWeight/value*100})
   }
 
   function setWastePercentage(wastePercentage:number) {
@@ -100,8 +96,8 @@ function IngredientProductForm({formState, openSelect}: IngredientsProductFormPr
                   required
                   min={0.01}
                   step={0.01}
-                  value={formState.weight}
-                  onChange={e=>setWeight(parseFloat(e.target.value))}
+                  value={formState.grossWeight}
+                  onChange={e=>setGrossWeight(parseFloat(e.target.value))}
                 />
                 <Form.Control.Feedback type="invalid">
                   введите допустимое значение ( .. ≥ 0.01 )
@@ -117,13 +113,13 @@ function IngredientProductForm({formState, openSelect}: IngredientsProductFormPr
                   type="number"
                   required
                   min={0}
-                  max={formState.weight}
+                  max={formState.grossWeight}
                   step={0.01}
-                  value={netWeight}
+                  value={formState.netWeight}
                   onChange={e=>handleNetWeightChange(parseFloat(e.target.value))}
                 />
                 <Form.Control.Feedback type="invalid">
-                  введите допустимое значение ( {formState.weight.toFixed(2)} ≥ .. ≥ 0 )
+                  введите допустимое значение ( {formState.grossWeight.toFixed(2)} ≥ .. ≥ 0 )
                 </Form.Control.Feedback>
               </Form.Group>
             </div>

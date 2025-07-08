@@ -2,7 +2,7 @@ import { Form } from 'react-bootstrap'
 import { constructDishCategoryDishForm, DishCategoryDishFormState } from '../../../models/dish/DishCategoryFormState'
 import { useContext, useState } from 'react'
 import useDisheselect from '../../../hooks/tableSelect/useDishSelect';
-import { dishCategoryFormContext } from '../../../context/forms/dish/DishCategoryFormContext';
+import { dishCategoryFormContext } from '../../../context/forms/nomenclature/dish/DishCategoryFormContext';
 import DishCategoryDishForm from './DishCategoryDishForm';
 import FormListButtons from '../../shared/FormListButtons';
 import useFormHotkeys from '../../../hooks/useFormHotkeys';

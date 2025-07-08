@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { IngredientDTO } from "../../api/ingredients"
+import { IngredientDTO } from "../../api/nomenclature/ingredients"
 
 export enum IngredientField {
     None = 'IngredientNone',

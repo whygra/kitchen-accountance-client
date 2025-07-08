@@ -1,5 +1,5 @@
 import { Table } from 'react-bootstrap';
-import { ProductDTO } from '../../../api/products';
+import { ProductDTO } from '../../../api/nomenclature/products';
 import useProductsTableHeader from '../../../hooks/useProductsTableHeader';
 import usePagination from '../../../hooks/usePagination';
 import ProductsTableItem from './ProductsTableItem';

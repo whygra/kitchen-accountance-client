@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react'
-import { Container, Navbar as BSNavbar, Nav, NavbarBrand, Row, Col, Image, Button, NavbarCollapse, NavbarToggle, OverlayTrigger, Tooltip } from 'react-bootstrap'
+import { Container, Navbar as BSNavbar, Nav, NavbarBrand, Row, Col, Image, Button, NavbarCollapse, NavbarToggle, OverlayTrigger, Tooltip, TabContainer, Tab } from 'react-bootstrap'
 import { appContext } from '../../context/AppContextProvider'
 import ConfirmationDialog from '../shared/ConfirmationDialog'
 import { getCookie } from '../../cookies'
@@ -12,6 +12,8 @@ import { projectContext } from '../../context/ProjectContextProvider'
 import { useMediaQuery } from 'react-responsive'
 import { ErrorView } from '../ErrorView'
 import NavbarLinkBtn from './NavbarLinkBtn'
+import NomenclatureLinks from './NomenclatureLinks'
+import StorageLinks from './StorageLinks'
 
 
 function Navbar() {
@@ -98,68 +100,49 @@ function Navbar() {
       </div>
 
       {project ? 
+          <Tab.Container defaultActiveKey="nomenclature">
       <div
-
-       className="mb-auto h-100 bg-light text-center d-flex flex-wrap flex-row flex-md-column justify-content-center align-items-center p-0">
+       className="mb-auto h-100 bg-light text-center d-flex flex-wrap flex-row flex-md-column justify-content-start align-items-start p-0">
         <NavbarCollapse 
           className='collapse navbar-collapse' 
           id="collapsableNav"
         >
-      <div className="mb-auto h-100 bg-light text-center d-flex flex-wrap flex-row flex-md-column justify-content-center justify-content-md-start align-items-center pb-0">
-
-          <NavbarLinkBtn 
-            to='/dishes/all'
-            hasAnyPermissions={[UserPermissions.CRUD_DISHES, UserPermissions.READ_DISHES]}
-            dropdownMenuContent={<>
-              <li><Link className="nav-link" to='/dish-categories'>Категории</Link></li>
-              <li><Link className="nav-link" to='/dish-groups'>Группы</Link></li>
-              </>}
-          >Блюда</NavbarLinkBtn>
-
-          <NavbarLinkBtn 
-            to='/ingredients/all'
-            hasAnyPermissions={[UserPermissions.CRUD_INGREDIENTS, UserPermissions.READ_INGREDIENTS]}
-            dropdownMenuContent={<>
-              <li><Link className="nav-link" to='/ingredient-categories'>Категории</Link></li>
-              <li><Link className="nav-link" to='/ingredient-groups'>Группы</Link></li>
-              </>}
-          >Ингредиенты</NavbarLinkBtn>
-
-          <NavbarLinkBtn 
-            to='/products/all'
-            hasAnyPermissions={[UserPermissions.CRUD_PRODUCTS, UserPermissions.READ_PRODUCTS]}
-            dropdownMenuContent={<>
-              <li><Link className="nav-link" to='/product-categories'>Категории</Link></li>
-              <li><Link className="nav-link" to='/product-groups'>Группы</Link></li>
-              </>}
-          >Продукты</NavbarLinkBtn>
-
-          <NavbarLinkBtn 
-            to='/distributors/all'
-            hasAnyPermissions={[UserPermissions.CRUD_DISTRIBUTORS, UserPermissions.READ_DISTRIBUTORS]}
-            dropdownMenuContent={<>
-              <li><Link className="text-wrap nav-link" to="/purchase-options/all">Позиции закупки</Link></li>
-              <li><Link className="text-wrap nav-link" to='/units/all'>Единицы измерения</Link></li>
-              </>}
-          >Поставщики</NavbarLinkBtn>
-
-          <NavbarLinkBtn 
-            to='/users'
-            hasAnyPermissions={[UserPermissions.CRUD_USERS, UserPermissions.READ_USERS]}
-          >Пользователи</NavbarLinkBtn>
-          
-          </div>
+            <div className='flex-column'>
+                <Nav variant="tabs" className="flex-row justify-content-center">
+                  <Nav.Item>
+                    <Nav.Link eventKey="nomenclature"><small>номенклатура</small></Nav.Link>
+                  </Nav.Item>
+                  {hasPermission(UserPermissions.CRUD_STORAGE) || hasPermission(UserPermissions.READ_STORAGE)
+                    ? <Nav.Item>
+                        <Nav.Link eventKey="storage"><small>склад</small></Nav.Link>
+                      </Nav.Item>
+                    : <></>
+                  }
+                </Nav>
+                <Tab.Content>
+                  <Tab.Pane eventKey="nomenclature">
+                    <NomenclatureLinks />
+                  </Tab.Pane>
+                  {hasPermission(UserPermissions.CRUD_STORAGE) || hasPermission(UserPermissions.READ_STORAGE)
+                    ? <Tab.Pane eventKey="storage">
+                        <StorageLinks/>
+                      </Tab.Pane>
+                    : <></>
+                  }
+                </Tab.Content>
+            </div>
         </NavbarCollapse>
         <div className='d-flex justify-content-center w-100'>
           <NavbarToggle className='my-2' aria-controls="collapsableNav" />
         </div>
 
           </div>
+          </Tab.Container>
           :
             <div className="h-100">
-              {/* <NavbarLinkBtn 
+              <NavbarLinkBtn 
                 to='/projects/all'
-              >Проекты</NavbarLinkBtn> */}
+              >Проекты</NavbarLinkBtn>
             </div>      
       }
     

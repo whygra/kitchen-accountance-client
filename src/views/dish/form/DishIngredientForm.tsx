@@ -3,9 +3,9 @@ import { DataAction } from '../../../models'
 import { DishIngredientFormState, dishIngredientToDTO } from '../../../models/dish/DishFormState'
 import 'bootstrap'
 import { ReactElement, useContext, useEffect, useState } from 'react'
-import { dishFormContext } from '../../../context/forms/dish/DishFormContext'
+import { dishFormContext } from '../../../context/forms/nomenclature/dish/DishFormContext'
 import TooltipButton from '../../shared/TooltipButton'
-import { IngredientDTO } from '../../../api/ingredients'
+import { IngredientDTO } from '../../../api/nomenclature/ingredients'
 import TableSelect from '../../shared/selectCreateGroup/TableSelect'
 import IngredientTypeSelect from '../../ingredient/form/IngredientTypeSelect'
 import IsCreateSwitch from '../../shared/selectCreateGroup/IsCreateSwitch'
@@ -19,17 +19,19 @@ function DishIngredientForm({formState, openSelect}: DishesIngredientFormProps) 
 
   const {setDishIngredientFormState, removeDishIngredientForm, ingredientTypes, ingredients} = useContext(dishFormContext)
 
-  const [netWeight, setNetWeight] = useState(formState.itemWeight*formState.ingredientAmount*(100 - formState.wastePercentage)/100)
   const [grossWeight, setGrossWeight] = useState(formState.itemWeight*formState.ingredientAmount)
 
   function handleNetWeightChange(value: number){
-    setNetWeight(value)
-    setDishIngredientFormState({...formState, wastePercentage: 100 - value/(formState.itemWeight*formState.ingredientAmount)*100})
+    setDishIngredientFormState({...formState, netWeight:value, wastePercentage: 100 - value/(formState.itemWeight*formState.ingredientAmount)*100})
   }
 
   useEffect(()=>{
     setTypeId(ingredientTypes[0].id)
   },[])
+
+  useEffect(()=>{
+    setGrossWeight(formState.itemWeight*formState.ingredientAmount)
+  },[formState])
 
   function setNewIngredientName(name:string) {
     setDishIngredientFormState({...formState, name: name})
@@ -45,7 +47,7 @@ function DishIngredientForm({formState, openSelect}: DishesIngredientFormProps) 
 
   function setIngredientAmount(ingredientAmount:number) {
     setGrossWeight(formState.itemWeight*ingredientAmount)
-    setDishIngredientFormState({...formState, ingredientAmount, wastePercentage: 100 - netWeight/(formState.itemWeight*ingredientAmount)*100})
+    setDishIngredientFormState({...formState, ingredientAmount, wastePercentage: 100 - formState.netWeight/(formState.ingredientDataAction==DataAction.Create?ingredientAmount:formState.itemWeight*ingredientAmount)*100})
   }
 
   function setWastePercentage(wastePercentage:number) {
@@ -56,7 +58,7 @@ function DishIngredientForm({formState, openSelect}: DishesIngredientFormProps) 
 
   // минимальное допустимое значение ingredient_amount
   // зависит от признака is_item_measured
-  const minAmt = selected?.is_item_measured ? 1 : 0.1
+  const minAmt = 0.01
 
   return ( 
     <Card className='w-100 p-3'>
@@ -119,7 +121,10 @@ function DishIngredientForm({formState, openSelect}: DishesIngredientFormProps) 
 
               <Form.Group>
 
-              <Form.Label>{formState.isItemMeasured?'Количество':'Масса брутто'}</Form.Label>
+              <Form.Label>{
+                formState.isItemMeasured&&formState.ingredientDataAction!=DataAction.Create 
+                ?'Количество':'Масса брутто'
+              }</Form.Label>
               <Form.Control
                 required
                 type="number"
@@ -135,7 +140,7 @@ function DishIngredientForm({formState, openSelect}: DishesIngredientFormProps) 
 
             </Col>
             {
-                formState.isItemMeasured
+                formState.isItemMeasured&&formState.ingredientDataAction!=DataAction.Create 
                 ? <Col className='mb-2' as={Form.Group} md={3}>
 
                 <Form.Group>
@@ -158,13 +163,15 @@ function DishIngredientForm({formState, openSelect}: DishesIngredientFormProps) 
                   type="number"
                   required
                   min={0}
-                  max={formState.ingredientAmount*formState.itemWeight}
+                  max={formState.ingredientDataAction==DataAction.Create 
+                    ? formState.ingredientAmount 
+                    : formState.ingredientAmount*formState.itemWeight}
                   step={0.01}
-                  value={netWeight}
+                  value={formState.netWeight}
                   onChange={e=>handleNetWeightChange(parseFloat(e.target.value))}
                 />
               <Form.Control.Feedback type="invalid">
-                введите допустимое значение ( {grossWeight.toFixed(2)} ≥ .. ≥ 0 )
+                введите допустимое значение ( от 0 {grossWeight.toFixed(2)} )
               </Form.Control.Feedback>
             </Col>
             <Col className='mb-2' as={Form.Group} md={3}>

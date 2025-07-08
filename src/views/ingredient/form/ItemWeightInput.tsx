@@ -1,6 +1,6 @@
 import {Col, Form, Row} from 'react-bootstrap'
 import { DataAction } from '../../../models/index';
-import { ProductDTO } from '../../../api/products';
+import { ProductDTO } from '../../../api/nomenclature/products';
 
 interface ItemWeightInputProps {
   weight: number

@@ -2,7 +2,7 @@ import {Button, Card, Col, Container, Form, Row, Table} from 'react-bootstrap'
 import { ProductCategoryProductFormState } from '../../../models/product/ProductCategoryFormState'
 import 'bootstrap'
 import { useContext } from 'react'
-import { productCategoryFormContext } from '../../../context/forms/product/ProductCategoryFormContext'
+import { productCategoryFormContext } from '../../../context/forms/nomenclature/product/ProductCategoryFormContext'
 import TooltipButton from '../../shared/TooltipButton'
 
 interface ProductCategoryProductFormProps {

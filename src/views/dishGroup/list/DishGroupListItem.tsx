@@ -1,6 +1,6 @@
 import { Accordion, Button, Col, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { DishGroupDTO, deleteDishGroup as requestDeleteDishGroup } from '../../../api/dishGroups';
+import { DishGroupDTO, deleteDishGroup as requestDeleteDishGroup } from '../../../api/nomenclature/dishGroups';
 import DishGroupDishesTable from '../details/DishGroupDishesTable';
 import { useContext } from 'react';
 import { appContext } from '../../../context/AppContextProvider';

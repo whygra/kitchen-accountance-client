@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { ProductCategoryDTO } from "../../api/productCategories"
+import { ProductCategoryDTO } from "../../api/nomenclature/productCategories"
 
 
 export interface SearchParams {

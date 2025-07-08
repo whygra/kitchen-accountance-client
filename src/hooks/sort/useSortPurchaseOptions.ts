@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { PurchaseOptionDTO } from "../../api/purchaseOptions"
+import { PurchaseOptionDTO } from "../../api/nomenclature/purchaseOptions"
 
 
 export enum PurchaseOptionField {

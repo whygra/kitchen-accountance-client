@@ -7,7 +7,7 @@ import { authContext } from '../../../context/AuthContextProvider';
 import { UserPermissions } from '../../../models';
 import usePagination from '../../../hooks/usePagination';
 import Loading from '../../shared/Loading';
-import { getProjects, getPublicProjects, ProjectDTO } from '../../../api/projects';
+import { getProjects, getPublicProjects, ProjectDTO } from '../../../api/nomenclature/projects';
 import useProjectsTableHeader from '../../../hooks/useProjectsTableHeader';
 import { projectContext } from '../../../context/ProjectContextProvider';
 import { getCookie } from '../../../cookies';

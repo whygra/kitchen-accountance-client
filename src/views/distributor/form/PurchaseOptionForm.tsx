@@ -1,5 +1,5 @@
 import { useContext, useEffect } from "react"
-import { distributorFormContext } from "../../../context/forms/distributor/DistributorFormContext"
+import { distributorFormContext } from "../../../context/forms/nomenclature/distributor/DistributorFormContext"
 import { PurchaseOptionFormState } from "../../../models/DistributorFormState"
 import { DataAction } from "../../../models"
 import { Button, Card, Col, Form, FormControl, Row } from "react-bootstrap"
@@ -28,6 +28,7 @@ function PurchaseOptionForm({formState, openSelect}: PurchaseOptionFormProps) {
     }
   
     function setUnitId(id:number) {
+      console.log(id)
       setPurchaseOptionFormState({...formState, unitId: id})
     }
   

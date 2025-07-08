@@ -1,5 +1,5 @@
 import { Route } from "react-router-dom";
-import ProductCategoryFormContextProvider from "../context/forms/product/ProductCategoryFormContext";
+import ProductCategoryFormContextProvider from "../context/forms/nomenclature/product/ProductCategoryFormContext";
 import ProductCategoryForm from "../views/productCategory/form/ProductCategoryForm";
 import ProductCategoryDetails from "../views/productCategory/details/ProductCategoryDetails";
 import ProductCategoryList from "../views/productCategory/list/ProductCategoryList";

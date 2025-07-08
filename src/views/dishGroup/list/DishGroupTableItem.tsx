@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom"
-import { PurchaseOptionDTO } from "../../../api/purchaseOptions"
+import { PurchaseOptionDTO } from "../../../api/nomenclature/purchaseOptions"
 import ExpansionBtn, { ExpansionBtnProps } from "../../shared/ExpansionBtn"
-import { DishGroupDTO } from "../../../api/dishGroups"
+import { DishGroupDTO } from "../../../api/nomenclature/dishGroups"
 import { DishGroupField } from "../../../hooks/sort/useSortDishGroups"
 import GridTableRow from "../../shared/GridTableRow"
 

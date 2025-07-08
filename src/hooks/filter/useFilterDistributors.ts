@@ -1,6 +1,6 @@
 import { useState } from "react"
-import { PurchaseOptionDTO } from "../../api/purchaseOptions"
-import { DistributorDTO } from "../../api/distributors"
+import { PurchaseOptionDTO } from "../../api/nomenclature/purchaseOptions"
+import { DistributorDTO } from "../../api/nomenclature/distributors"
 
 export interface SearchParams {
     id: number

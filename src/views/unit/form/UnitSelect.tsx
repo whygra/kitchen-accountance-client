@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import {Form} from 'react-bootstrap'
-import { getProducts, ProductDTO } from '../../../api/products';
-import { UnitDTO } from '../../../api/units';
+import { UnitDTO } from '../../../api/nomenclature/units';
 
 interface UnitSelectProps {
   unitId : number
@@ -11,6 +10,10 @@ interface UnitSelectProps {
 
 function UnitSelect({unitId, units, setUnitId} : UnitSelectProps) {
 
+  
+  useEffect(()=>{
+    setUnitId(units.find(u=>u.id==unitId)?unitId:units[0].id)
+  },[])
 
   return (
     <Form.Select

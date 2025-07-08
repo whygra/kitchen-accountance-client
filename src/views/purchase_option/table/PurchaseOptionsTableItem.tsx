@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom"
-import { PurchaseOptionDTO } from "../../../api/purchaseOptions"
+import { PurchaseOptionDTO } from "../../../api/nomenclature/purchaseOptions"
 import { PurchaseOptionField } from "../../../hooks/sort/useSortPurchaseOptions"
 import ExpansionBtn, { ExpansionBtnProps } from "../../shared/ExpansionBtn"
 import GridTableRow, { WindowSize } from "../../shared/GridTableRow"

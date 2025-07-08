@@ -1,5 +1,5 @@
 import { Route } from "react-router-dom";
-import DishCategoryFormContextProvider from "../context/forms/dish/DishCategoryFormContext";
+import DishCategoryFormContextProvider from "../context/forms/nomenclature/dish/DishCategoryFormContext";
 import DishCategoryForm from "../views/dishCategory/form/DishCategoryForm";
 import DishCategoryDetails from "../views/dishCategory/details/DishCategoryDetails";
 import DishCategoryList from "../views/dishCategory/list/DishCategoryList";

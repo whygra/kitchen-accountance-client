@@ -5,7 +5,7 @@ import { appContext } from '../../../context/AppContextProvider';
 import BtnAskConfirmation from '../../shared/BtnAskConfirmation';
 import TooltipButton from '../../shared/TooltipButton'
 import useProductSelect from '../../../hooks/tableSelect/useProductSelect';
-import { productCategoryFormContext } from '../../../context/forms/product/ProductCategoryFormContext';
+import { productCategoryFormContext } from '../../../context/forms/nomenclature/product/ProductCategoryFormContext';
 import ProductCategoryProductForm from './ProductCategoryProductForm';
 import { ProductField } from '../../../hooks/sort/useSortProducts';
 import FormListButtons from '../../shared/FormListButtons';

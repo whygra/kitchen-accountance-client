@@ -1,6 +1,6 @@
 import { ReactNode, useContext, useEffect, useState } from 'react'
 import { Form } from 'react-bootstrap'
-import { getIngredientTypes, IngredientTypeDTO } from '../../../api/ingredientTypes';
+import { getIngredientTypes, IngredientTypeDTO } from '../../../api/nomenclature/ingredientTypes';
 
 interface IngredientTypeSelectProps {
   typeId: number,

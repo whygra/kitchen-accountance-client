@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { Accordion, Button, Col, Collapse, Form, Image, Row } from 'react-bootstrap';
 import DishCategoryListItem from './DishCategoryListItem';
-import { getDishCategoriesWithDishes, DishCategoryDTO } from '../../../api/dishCategories';
+import { getDishCategoriesWithDishes, DishCategoryDTO } from '../../../api/nomenclature/dishCategories';
 import { Link } from 'react-router-dom';
 import { useErrorBoundary } from 'react-error-boundary';
 import { authContext } from '../../../context/AuthContextProvider';

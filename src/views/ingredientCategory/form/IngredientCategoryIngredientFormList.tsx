@@ -3,7 +3,7 @@ import { constructIngredientCategoryIngredientForm, IngredientCategoryIngredient
 import { useContext, useState } from 'react'
 import { appContext } from '../../../context/AppContextProvider';
 import useIngredientSelect from '../../../hooks/tableSelect/useIngredientSelect';
-import { ingredientCategoryFormContext } from '../../../context/forms/ingredient/IngredientCategoryFormContext';
+import { ingredientCategoryFormContext } from '../../../context/forms/nomenclature/ingredient/IngredientCategoryFormContext';
 import IngredientCategoryIngredientForm from './IngredientCategoryIngredientForm';
 import FormListButtons from '../../shared/FormListButtons';
 import { useHotkeys } from 'react-hotkeys-hook';

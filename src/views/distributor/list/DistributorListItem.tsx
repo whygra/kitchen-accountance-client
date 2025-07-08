@@ -4,8 +4,8 @@ import PurchaseOptionsTable from '../../purchase_option/table/PurchaseOptionsTab
 import { useContext } from 'react';
 import { appContext } from '../../../context/AppContextProvider';
 import ConfirmationDialog from '../../shared/ConfirmationDialog';
-import { DistributorDTO } from '../../../api/distributors';
-import { deleteDistributor as requestDeleteDistributor } from '../../../api/distributors';
+import { DistributorDTO } from '../../../api/nomenclature/distributors';
+import { deleteDistributor as requestDeleteDistributor } from '../../../api/nomenclature/distributors';
 import { authContext } from '../../../context/AuthContextProvider';
 import { UserPermissions } from '../../../models';
 import CUDButtons from '../../shared/CUDButtons';

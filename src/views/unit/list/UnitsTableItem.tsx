@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom"
-import { UnitDTO } from "../../../api/units"
+import { UnitDTO } from "../../../api/nomenclature/units"
 import ExpansionBtn, { ExpansionBtnProps } from "../../shared/ExpansionBtn"
 import GridTableRow, { WindowSize } from "../../shared/GridTableRow"
 

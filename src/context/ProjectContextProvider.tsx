@@ -3,7 +3,7 @@ import 'react-bootstrap';
 import { createContext, ReactElement, ReactNode, useContext, useEffect, useState } from 'react';
 import { C_PROJECT_DATA, getCookie, setCookie } from '../cookies';
 import { C_SELECTED_PROJECT_ID } from '../cookies';
-import { getProject, getPublicProject, ProjectDTO } from '../api/projects';
+import { getProject, getPublicProject, ProjectDTO } from '../api/nomenclature/projects';
 import { UserPermissions } from '../models';
 import { authContext } from './AuthContextProvider';
 import { parseJsonOrNull } from '../api/constants';

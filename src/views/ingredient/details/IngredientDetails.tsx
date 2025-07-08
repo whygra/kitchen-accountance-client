@@ -1,5 +1,5 @@
 import { Accordion, Button, Card, Col, Form, ListGroup, ListGroupItem, Row, Table } from 'react-bootstrap';
-import { IngredientDTO, deleteIngredient, getIngredientWithProducts, getIngredientWithPurchaseOptions } from '../../../api/ingredients';
+import { IngredientDTO, deleteIngredient, getIngredientWithProducts, getIngredientWithPurchaseOptions } from '../../../api/nomenclature/ingredients';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
 import ProductsWeightsCalculator from './ProductsWeightsCalculator';

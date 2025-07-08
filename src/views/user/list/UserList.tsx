@@ -1,13 +1,13 @@
 import { useContext, useEffect, useState } from 'react';
 import { Accordion, Button, Col, Row, Table } from 'react-bootstrap';
-import { IngredientDTO, getIngredientsWithProducts } from '../../../api/ingredients';
+import { IngredientDTO, getIngredientsWithProducts } from '../../../api/nomenclature/ingredients';
 import UserListItem from './UserListItem';
 import { Link } from 'react-router-dom';
 import { appContext } from '../../../context/AppContextProvider';
 import { useErrorBoundary } from 'react-error-boundary';
 import { getProjectUsers, UserDTO } from '../../../api/users';
 import Loading from '../../shared/Loading';
-import { RoleDTO } from '../../../api/projects';
+import { RoleDTO } from '../../../api/nomenclature/projects';
 import { getRoles } from '../../../api/roles';
 import { projectContext } from '../../../context/ProjectContextProvider';
 import { UserPermissions } from '../../../models';

@@ -2,7 +2,7 @@ import IngredientCategoryIngredientFormList from '../form/IngredientCategoryIngr
 import { Button, Col, Form, Image, Row } from 'react-bootstrap';
 import { FormEvent, useContext, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ingredientCategoryFormContext } from '../../../context/forms/ingredient/IngredientCategoryFormContext';
+import { ingredientCategoryFormContext } from '../../../context/forms/nomenclature/ingredient/IngredientCategoryFormContext';
 import { appContext } from '../../../context/AppContextProvider';
 import { UserPermissions } from '../../../models';
 import HistoryNav from '../../shared/HistoryNav';

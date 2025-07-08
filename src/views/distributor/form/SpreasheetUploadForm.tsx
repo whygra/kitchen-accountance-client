@@ -2,11 +2,11 @@ import NameInput from './DistributorNameInput';
 import { Button, Container, Form, Row } from 'react-bootstrap';
 import { FormEvent, useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { DishDTO } from '../../../api/dishes';
+import { DishDTO } from '../../../api/nomenclature/dishes';
 import PurchaseOptionFormList from './PurchaseOptionFormList';
-import { distributorFormContext } from '../../../context/forms/distributor/DistributorFormContext';
+import { distributorFormContext } from '../../../context/forms/nomenclature/distributor/DistributorFormContext';
 import { appContext } from '../../../context/AppContextProvider';
-import { DistributorPurchaseOptionColumnIndexes } from '../../../api/purchaseOptions';
+import { DistributorPurchaseOptionColumnIndexes } from '../../../api/nomenclature/purchaseOptions';
 import SpreadsheetColumnIdInput from './SpreadsheetColumnIdInput';
 
 export interface ColumnIndex {
@@ -65,7 +65,6 @@ function SpreadsheetUploadForm({columnIndexes: initIndexes, onCommit, onCancel}:
   
       commit()
     };
-
     
     const indexesAreUnique = columnIndexes.filter(
         (value, index, self)=>
@@ -82,7 +81,7 @@ function SpreadsheetUploadForm({columnIndexes: initIndexes, onCommit, onCancel}:
 
         <Form.Group className='mb-4'>
             <Form.Label>Файл</Form.Label>
-            <Form.Control type='file' accept='.xlsx'
+            <Form.Control type='file' accept='.xlsx, .xls'
                 onChange={(e)=>setFile((e.target as HTMLInputElement).files?.[0] ?? undefined)}
             />
         </Form.Group>

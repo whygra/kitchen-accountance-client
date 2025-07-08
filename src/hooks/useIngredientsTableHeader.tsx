@@ -4,7 +4,7 @@ import DishesTableHeader from '../views/dish/list/DishesTableHeader';
 import IngredientsTableHeader from '../views/ingredient/list/IngredientsTableHeader';
 import useFilterIngredients from './filter/useFilterIngredients';
 import useSortIngredients, { IngredientField } from './sort/useSortIngredients';
-import { IngredientTypeDTO } from '../api/ingredients';
+import { IngredientTypeDTO } from '../api/nomenclature/ingredients';
 
 function useIngredientsTableHeader(ingredientTypes: IngredientTypeDTO[] = [{id: 0, name: 'ГП'},{id: 0, name: 'ПФ'}], filtersOpen?: boolean, fieldsToExclude?:IngredientField[]) 
 {

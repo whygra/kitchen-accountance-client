@@ -1,7 +1,5 @@
 import { Link } from "react-router-dom"
-import { PurchaseOptionDTO } from "../../../api/purchaseOptions"
-import ExpansionBtn, { ExpansionBtnProps } from "../../shared/ExpansionBtn"
-import { calcDishWeight, DishDTO } from "../../../api/dishes"
+import { DishDTO } from "../../../api/nomenclature/dishes"
 import { DishField } from "../../../hooks/sort/useSortDishes"
 import { Image } from "react-bootstrap"
 import GridTableRow, { WindowSize } from "../../shared/GridTableRow"
@@ -51,7 +49,7 @@ function DishesTableItem({dish, fieldsToExclude}:DishesTableItemProps) {
             displayAt: WindowSize.Lg,
             field: DishField.Weight,
             element:
-                <>{calcDishWeight(dish).toFixed(2)} г.</>,
+                <>{dish.total_net_weight?.toFixed(0)} г.</>,
             span: 2
         },
     ]
