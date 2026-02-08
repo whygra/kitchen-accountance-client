@@ -32,21 +32,6 @@ function DishesTableItem({dish, fieldsToExclude}:DishesTableItemProps) {
             span: 3
         },
         {   
-            displayAt: WindowSize.Md,
-            field: DishField.Category,
-            element:
-                <>{dish.category?.name?<Link to={`/dish-categories/details/${dish.category.id}`}>{dish.category.name}</Link>:'без категории'}</>,
-            span: 2
-        },
-        {   
-            displayAt: WindowSize.Md,
-            field: DishField.Group,
-            element:
-                <>{dish.group?.name?<Link to={`/dish-groups/details/${dish.group.id}`}>{dish.group.name}</Link>:'без группы'}</>,
-            span: 2
-        },
-        {   
-            displayAt: WindowSize.Lg,
             field: DishField.Weight,
             element:
                 <>{dish.total_net_weight?.toFixed(0)} г.</>,

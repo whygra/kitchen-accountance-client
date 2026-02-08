@@ -7,6 +7,7 @@ import { PurchaseOptionDTO } from "../../../api/nomenclature/purchaseOptions"
 import { PurchaseOptionField } from "../../../hooks/sort/useSortPurchaseOptions"
 import PurchaseOptionsTableItem from "../../purchase_option/table/PurchaseOptionsTableItem"
 import TableSelect from "../../shared/selectCreateGroup/TableSelect"
+import TooltipIcon from "../../shared/TooltipIcon"
 
 interface PurchaseOptionFormProps {
     formState: PurchaseOptionFormState
@@ -18,7 +19,7 @@ function PurchaseOptionForm({formState, openSelect}: PurchaseOptionFormProps) {
     const {purchaseOptions, setPurchaseOptionFormState, removePurchaseOptionForm} = useContext(productFormContext)
   
     function setProductShare(productShare:number) {
-      setPurchaseOptionFormState({...formState, productShare: productShare})
+      setPurchaseOptionFormState({...formState})
     }
 
     const selectedPO = purchaseOptions.find(item => item.id==formState.id)
@@ -29,11 +30,17 @@ function PurchaseOptionForm({formState, openSelect}: PurchaseOptionFormProps) {
         <Row>
           <Col md={11}>
             <Row>
-              <Col sm={6} className='mb-2'>
+              <Col sm={12} className='mb-2'>
 
-                <Form.Label>Позиция закупки</Form.Label>
+                <Form.Label>Позиция закупки 
+                    {selectedPO?.is_relevant
+                    ?<></>
+                    :<TooltipIcon tooltip="Не актуальные позиции закупки" textColor="warning" icon="exclamation-triangle-fill"/>
+                  }
+                </Form.Label>
 
                 <Form.Group>
+
                 <Form.Control 
                   style={{caretColor:'transparent'}}
                   type='text'
@@ -41,7 +48,7 @@ function PurchaseOptionForm({formState, openSelect}: PurchaseOptionFormProps) {
                   placeholder='--не выбран--'
                   onClick={()=>openSelect(formState)} 
                   required
-                  value={selectedPO ? selectedPO.name : ''} 
+                  value={selectedPO ? `${selectedPO.is_relevant?'':'! '}${selectedPO.name}` : ''} 
                 />
         
                 <Form.Control.Feedback type="invalid">
@@ -50,23 +57,7 @@ function PurchaseOptionForm({formState, openSelect}: PurchaseOptionFormProps) {
                 </Form.Group>
                 
               </Col>
-  
-              <Col as={Form.Group} sm={6} className='mb-2'>
-                <Form.Label>Доля разборки</Form.Label>
-                <Form.Control
-                  required
-                  type='number'
-                  min={1}
-                  max={100}
-                  step={0.1}
-                  value={formState.productShare}
-                  onChange={e=>setProductShare(parseInt(e.target.value))}
-                />
-        
-                <Form.Control.Feedback type="invalid">
-                  введите значение (от 1 до 100)
-                </Form.Control.Feedback>
-              </Col>
+
 
             </Row>
           </Col>

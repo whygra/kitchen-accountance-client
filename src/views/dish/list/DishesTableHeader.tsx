@@ -1,12 +1,13 @@
 import { useState } from "react"
 import HeaderSortButton from "../../shared/HeaderSortButton"
 import TooltipButton from "../../shared/TooltipButton"
-import { Form } from "react-bootstrap"
+import { Col, Form, Row } from "react-bootstrap"
 import { PurchaseOptionField } from "../../../hooks/sort/useSortPurchaseOptions"
 import { EMPTY_SEARCH_PARAMS, SearchParams } from "../../../hooks/filter/useFilterDishes"
 import { DishField } from "../../../hooks/sort/useSortDishes"
 import TagSearch from "../../shared/TagSearch"
 import GridTableRow, { WindowSize } from "../../shared/GridTableRow"
+import TagInput from "../../shared/tags/TagInput"
 
 interface DishesTableHeaderProps {
     filtersOpen? : boolean
@@ -16,6 +17,7 @@ interface DishesTableHeaderProps {
     setSearchData: (data:SearchParams)=>void
     searchData: SearchParams
     fieldsToExclude?: DishField[]
+    tags: string[]
 }
 
 function DishesTableHeader({
@@ -25,8 +27,10 @@ function DishesTableHeader({
     searchData,
     setSearchData,
     fieldsToExclude,
-    filtersOpen
+    filtersOpen,
+    tags
 }:DishesTableHeaderProps){
+
     const [searchOpen, setSearchOpen] = useState(filtersOpen??false)
     const sortCells = [
         {   
@@ -67,33 +71,6 @@ function DishesTableHeader({
             span: 3
         },
         {   
-            displayAt: WindowSize.Md,
-            field: DishField.Category,
-            element:
-                <HeaderSortButton
-                        header='Категория'
-                        field={DishField.Category}
-                        onClick={toggleSort}
-                        activeField={activeField}
-                        sortIsDesc={sortIsDesc}
-                        />,
-            span: 2
-        },
-        {   
-            displayAt: WindowSize.Md,
-            field: DishField.Group,
-            element:
-                <HeaderSortButton
-                        header='Группа'
-                        field={DishField.Group}
-                        onClick={toggleSort}
-                        activeField={activeField}
-                        sortIsDesc={sortIsDesc}
-                        />,
-            span: 2
-        },
-        {   
-            displayAt: WindowSize.Lg,
             field: DishField.Weight,
             element:
                 <HeaderSortButton
@@ -138,29 +115,6 @@ function DishesTableHeader({
             span: 3
         },
         {
-            displayAt: WindowSize.Md,
-            field: DishField.Category,
-            element:
-                <Form.Control
-                        value={searchData.category}
-                        placeholder='категория'
-                        onChange={(e)=>setSearchData({...searchData, category: e.target.value.toLocaleLowerCase()})}
-                    />,
-            span: 2
-        },
-        {
-            displayAt: WindowSize.Md,
-            field: DishField.Group,
-            element:
-                <Form.Control
-                        value={searchData.group}
-                        placeholder='группа'
-                        onChange={(e)=>setSearchData({...searchData, group: e.target.value.toLocaleLowerCase()})}
-                    />,
-            span: 2
-        },
-        {
-            displayAt: WindowSize.Lg,
             field: DishField.Weight,
             element:
                 <>
@@ -184,12 +138,29 @@ function DishesTableHeader({
             span: 2
         },
     ]
+    const tagsFilterCells = [
+        {   
+            field: DishField.Tags,
+            element:
+                <>
+                    <Form.Label className="w-100 text-center"><b>Теги</b></Form.Label>
+                    
+                    <TagInput 
+                        selectTag={t=>setSearchData({...searchData, tags: [...searchData.tags, t]})}
+                        unselectTag={t=>setSearchData({...searchData, tags: searchData.tags.filter(e=>e.localeCompare(t)!=0)})}
+                        tags={tags}
+                        selectedTags={searchData.tags}
+                    />
+                </>,
+            span: 1
+        }
+    ]
     const productsFilterCells = [
         {   
             field: DishField.Products,
             element:
                 <>
-                    <Form.Label className="w-100 text-center"><b>Фильтрация по продуктам</b></Form.Label>
+                    <Form.Label className="w-100 text-center"><b>Продукты</b></Form.Label>
                     <TagSearch
                         variant='primary'
                         label='выбрать'
@@ -224,7 +195,14 @@ function DishesTableHeader({
             ?
             <div className='fw-bold w-100 position-relative bg-light rounded-2 ps-2 pe-5'>
                 <GridTableRow cells={filterCells} fieldsToExclude={fieldsToExclude}/>
-                <GridTableRow cells={productsFilterCells} fieldsToExclude={fieldsToExclude}/>
+                <Row>
+                    <Col sm={12} md={6} lg={4}>
+                        <GridTableRow cells={tagsFilterCells}/>
+                    </Col>
+                    <Col sm={12} md={6} lg={8}>
+                        <GridTableRow cells={productsFilterCells}/>
+                    </Col>
+                </Row>
                 <div className="position-absolute end-0 top-0 me-1 mt-2">
                     <TooltipButton
                         tooltip='сбросить фильтры'

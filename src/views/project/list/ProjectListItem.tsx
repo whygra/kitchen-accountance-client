@@ -27,7 +27,7 @@ function ProjectListItem({project, onDeleted}: ProjectListItemProps)
     const deleteProject = () => {
         requestDeleteProject(project.id)
         // оповестить об ответе
-            .catch()
+            .catch(e=>console.log(e))
             .then(()=>{
                 if(selectedProject?.id==project.id)
                     loadProject(null)

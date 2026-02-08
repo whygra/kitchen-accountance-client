@@ -1,20 +1,16 @@
 import { Button, Form } from 'react-bootstrap';
 import { FormEvent, useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { DishDTO } from '../../../api/nomenclature/dishes';
-import ProductFormList from './ProductFormList';
-import { distributorFormContext } from '../../../context/forms/nomenclature/distributor/DistributorFormContext';
-import { appContext } from '../../../context/AppContextProvider';
-import { uploadDistributorPurchaseOptionsSpreadsheet as uploadDistributorPurchaseOptionsFile } from '../../../api/nomenclature/distributors';
-import { DistributorPurchaseOptionColumnIndexes } from '../../../api/nomenclature/purchaseOptions';
-import { authContext } from '../../../context/AuthContextProvider';
-import { DataAction, UserPermissions } from '../../../models';
-import { productFormContext } from '../../../context/forms/nomenclature/product/ProductFormContext';
 import { purchaseOptionFormContext } from '../../../context/forms/nomenclature/distributor/PurchaseOptionFormContext';
-import SelectCreateGroup from '../../unit/form/SelectCreateGroup';
-import Select from '../../shared/selectCreateGroup/Select';
-import HistoryNav from '../../shared/HistoryNav';
+import * as SelectCreateUnitGroup from '../../unit/form/SelectCreateGroup';
 import { projectContext } from '../../../context/ProjectContextProvider';
+import { DataAction, UserPermissions } from '../../../models';
+import { appContext } from '../../../context/AppContextProvider';
+import HistoryNav from '../../shared/HistoryNav';
+import SelectCreateGroup from '../../shared/selectCreateGroup/SelectCreateGroup';
+import IsCreateSwitch from '../../shared/selectCreateGroup/IsCreateSwitch';
+import useProductSelect from '../../../hooks/tableSelect/useProductSelect';
+import { ProductDTO } from '../../../api/nomenclature/products';
 
 
 function PurchaseOptionForm() 
@@ -40,6 +36,7 @@ function PurchaseOptionForm()
     setDistributorId,
     setName, 
     setCode,
+    setIsRelevant,
     setNetWeight,
     setPrice,
     setUnitAction, 
@@ -47,9 +44,24 @@ function PurchaseOptionForm()
     setUnitLong,
     setUnitShort,
     reloadState,
+    setProductAction, 
+    setProductId,
+    setProductName,
+    products,
+
     history,
     action,
   } = useContext(purchaseOptionFormContext);
+
+  const [selectedProduct, setSelectedProduct] = useState<ProductDTO|undefined>(products.find(p=>p.id==formState.productId))
+  
+  function selectProduct(id: number) {
+    setSelectedProduct(products.find(p=>p.id==id))
+    setProductId(id)
+  }
+
+  const {modalSelect, showSelect} = useProductSelect(products, selectProduct, formState.productId)
+  
 
   async function commit() {
     setDisabled(true)
@@ -76,7 +88,7 @@ function PurchaseOptionForm()
   if (!distributors.find(d=>d.id==formState.distributorId))
     setDistributorId(distributors[0]?.id)
 
-   
+  
   const [validated, setValidated] = useState(false);
 
   const handleSubmit = (event:FormEvent) => {
@@ -91,7 +103,8 @@ function PurchaseOptionForm()
 
     commit()
   };
-  
+
+
   return (<>
         <HistoryNav
           history={history}
@@ -119,6 +132,15 @@ function PurchaseOptionForm()
             </Form.Control.Feedback>
           </Form.Group>
         }
+                
+        <Form.Group className='mb-3'>
+        <Form.Label><b>Актуальность</b></Form.Label>
+        <Form.Check
+          type="checkbox"
+          checked={formState.isRelevant}
+          onChange={e=>setIsRelevant(e.target.checked)}
+        />   
+        </Form.Group>
         <Form.Group className='mb-3'>
         <Form.Label><b>Код</b></Form.Label>
         <Form.Control
@@ -171,7 +193,7 @@ function PurchaseOptionForm()
           введите значение ( .. ≥ 1 )
         </Form.Control.Feedback>
         </Form.Group>
-        <SelectCreateGroup
+        <SelectCreateUnitGroup.default
           unitId={formState.unitId}
           newUnitLongName={formState.unitLong}
           newUnitShortName={formState.unitShort}
@@ -182,12 +204,47 @@ function PurchaseOptionForm()
           setUnitId={setUnitId}
           units={units}
         />
-        <ProductFormList/>
+        <Form.Group className='mb-2'>
+              <div className="mb-2 d-flex flex-row justify-content-between">
+              <b>Продукт</b>
+                <IsCreateSwitch
+                  dataAction={formState.productAction}
+                  setDataAction={setProductAction}
+                />
+              </div>
+            {formState.productAction == DataAction.Create 
+              ? <Form.Group>
+                <Form.Control
+                  required
+                  value={formState.productName}
+                  onChange={(e)=>setProductName(e.target.value)}
+                  />  
+                <Form.Control.Feedback type="invalid">
+                  введите название
+                </Form.Control.Feedback>
+                </Form.Group>
+              : <Form.Group>
+                <Form.Control
+                  style={{caretColor:'transparent'}}
+                  type='text'
+                  role="button"
+                  placeholder='--не выбран--'
+                  onClick={showSelect} 
+                  required 
+                  value={selectedProduct ? selectedProduct.name : ''} 
+                  />
+                <Form.Control.Feedback type="invalid">
+                  выберите элемент
+                </Form.Control.Feedback>
+                </Form.Group>
+            }
+          </Form.Group>
         <div className='d-flex'>
           <Button disabled={disabled} className='me-2' type='submit'>Подтвердить</Button>
           <Button disabled={disabled} className='me-2' variant='secondary' onClick={cancel}>Отмена</Button>
         </div>
         </Form>
+        {modalSelect}
       </>)
 }
 

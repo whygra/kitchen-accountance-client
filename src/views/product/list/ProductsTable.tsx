@@ -12,10 +12,10 @@ interface ProductTableProps {
 
 function ProductsTable({products, fieldsToExclude}:ProductTableProps) 
 {
-    const {header, getComparer, getPredicate} = useProductsTableHeader(
-        false,
+    const {header, getComparer, getPredicate} = useProductsTableHeader({
+        filtersOpen:false,
         fieldsToExclude
-    )
+    })
     
     const filtered = products
         ?.filter(getPredicate())

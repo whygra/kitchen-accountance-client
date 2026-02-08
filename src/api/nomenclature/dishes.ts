@@ -1,9 +1,8 @@
 import { BASE_URL, ServerImageData, getProjectPath } from "../constants"
 import { C_ACCESS_TOKEN, C_SELECTED_PROJECT_ID, getCookie } from "../../cookies"
-import { DishCategoryDTO } from "./dishCategories"
 import { IngredientDTO } from "./ingredients"
 import { InsertDistributorPurchaseOptionsFromXLSX } from "./distributors"
-import { DishGroupDTO } from "./dishGroups"
+import { DishTagDTO } from "./dishTags"
 import { UserDTO } from "../users"
 
 const ENTITY_PATH = "dishes"
@@ -25,22 +24,21 @@ export function getDishProducts(dish:DishDTO){
 export interface DishDTO {
   id: number
   name: string
+  is_relevant?: boolean
   description?: string
-  category?: DishCategoryDTO
-  group?: DishGroupDTO
+  tags?: DishTagDTO[]
   ingredients?: IngredientDTO[]
   avg_waste_percentage?: number
   total_gross_weight?: number
   total_net_weight?: number
 
   net_weight?: number
-  ingredient_amount?: number
+  amount?: number
   image? : ServerImageData
   updated_by_user?: UserDTO
   updated_at?: string
 
   price?: number
-  amount?: number
 }
 
 export const putDishWithIngredients = async (updateData: DishDTO): Promise<DishDTO | null> => {

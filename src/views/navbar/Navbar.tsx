@@ -44,7 +44,7 @@ function Navbar() {
       <div 
         className='p-0 m-0 d-flex justify-content-start'>
           <div 
-          className={`logo dropdown p-0 mt-0 btn-group d-flex flex-row justify-content-between`}>
+          className={`logo dropdown p-0 mt-0 btn-tag d-flex flex-row justify-content-between`}>
         <Link 
           to="/home" className="logo d-block p-3 link-dark text-decoration-none" title="Главная" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Icon-only">
           <Image 
@@ -67,7 +67,7 @@ function Navbar() {
         {project 
         ?
         <div 
-          className={`logo dropdown p-0 mt-0 position-absolute btn-group d-flex flex-row justify-content-between`}>
+          className={`logo dropdown p-0 mt-0 position-absolute btn-tag d-flex flex-row justify-content-between`}>
           <Link 
             className='flex-grow-1 link-dark text-decoration-none'
             title={project.name} data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Icon-only"

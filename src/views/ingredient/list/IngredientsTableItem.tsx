@@ -31,20 +31,6 @@ function IngredientsTableItem({ingredient, fieldsToExclude}: IngredientsTableIte
                 <>{ingredient.type?.name}</>,
             span: 1
         },
-        {   
-            displayAt: WindowSize.Sm,
-            field: IngredientField.Category,
-            element: 
-                ingredient.category?<Link to={`/ingredient-categories/details/${ingredient.category.id}`}>{ingredient.name}</Link>:<>-без группы-</>,
-            span: 3
-        },
-        {   
-            displayAt: WindowSize.Sm,
-            field: IngredientField.Group,
-            element: 
-                ingredient.group?<Link to={`/ingredient-groups/details/${ingredient.group.id}`}>{ingredient.name}</Link>:<>-без группы-</>,
-            span: 3
-        },
     ]
     return(
         <GridTableRow cells={cells} fieldsToExclude={fieldsToExclude}/>

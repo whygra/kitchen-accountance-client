@@ -10,39 +10,18 @@ const WITH_PRODUCTS = "with-products"
 
 export interface PurchaseOptionDTO {
   id: number
+  is_relevant?: boolean
   distributor?: DistributorDTO
   unit?: UnitDTO
   code?: string
   name: string
   net_weight: number
   price: number
-  products?: ProductDTO[]
-  product_share?: number
+  product?: ProductDTO
   updated_at?: string
 
   amount?: number
   update?: boolean
-}
-
-export interface DistributorPurchaseOptionDTO {
-  id: number
-  unit?: UnitDTO
-  code?: string
-  name: string
-  net_weight: number
-  price: number
-  products: ProductDTO[]
-}
-
-export interface ProductPurchaseOptionDTO {
-  id: number
-  distributor?: DistributorDTO
-  unit?: UnitDTO
-  code?: string
-  name?: string
-  net_weight?: number
-  price?: number
-  product_share?: number
 }
 
 export interface DistributorPurchaseOptionColumnIndexes {
@@ -100,6 +79,7 @@ export const getPurchaseOptionWithProducts = async (id:number) : Promise<Purchas
       message: `Не удалось получить данные позиции закупки ${data?.message}`,
       name: `${response.status} ${response.statusText}`
     }
+    console.log(data)
   return data
 }
 
@@ -124,6 +104,7 @@ export const postPurchaseOption = async (createData: PurchaseOptionDTO): Promise
 }
 
 export const postPurchaseOptionWithProducts = async (createData: PurchaseOptionDTO): Promise<PurchaseOptionDTO | null> => {
+  console.log(createData)
   const response = await fetch(`${BASE_URL}/${getProjectPath()}/${getCookie(C_SELECTED_PROJECT_ID)}/${ENTITY_PATH}/${WITH_PRODUCTS}/create`, {
     method: 'POST',
     headers: {
@@ -165,7 +146,9 @@ export const putPurchaseOption = async (purchaseoptionData: PurchaseOptionDTO): 
 }
 
 export const putPurchaseOptionWithProducts = async (purchaseoptionData: PurchaseOptionDTO): Promise<PurchaseOptionDTO | null> => {
-  console.log(purchaseoptionData)
+  console.log(JSON.stringify({
+      ...purchaseoptionData,
+    }))
   const response = await fetch(`${BASE_URL}/${getProjectPath()}/${getCookie(C_SELECTED_PROJECT_ID)}/${ENTITY_PATH}/${WITH_PRODUCTS}/update/${purchaseoptionData.id}`, {
     method: 'PUT',
     headers: {

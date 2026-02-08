@@ -1,8 +1,7 @@
 import { BASE_URL, ServerImageData, getProjectPath } from "../constants"
 import { C_ACCESS_TOKEN, C_SELECTED_PROJECT_ID, getCookie } from "../../cookies"
 import { DishDTO } from "./dishes";
-import { IngredientCategoryDTO } from "./ingredientCategories";
-import { IngredientGroupDTO } from "./ingredientGroups";
+import { IngredientTagDTO } from "./ingredientTags";
 import { ProductDTO } from "./products";
 import { UserDTO } from "../users";
 
@@ -17,9 +16,10 @@ export interface IngredientDTO {
   item_weight?: number
   type?: IngredientTypeDTO
   is_item_measured?: boolean
-  category?: IngredientCategoryDTO
-  group?: IngredientGroupDTO
+  tags?: IngredientTagDTO[]
   products?: ProductDTO[]
+  ingredients?: IngredientDTO[]
+  superior_ingredients?: IngredientDTO[]
   dishes?: DishDTO[]
   updated_by_user?: UserDTO
   updated_at?: string
@@ -31,7 +31,6 @@ export interface IngredientDTO {
   net_weight?: number
   gross_weight?: number
   gross_share?: number
-  ingredient_amount?: number
   amount?: number
 }
 
@@ -41,7 +40,7 @@ export interface IngredientTypeDTO {
 }
 
 export function calcIngredientSourceWeight(ingredient: IngredientDTO){
-  return (ingredient?.item_weight??1)*(ingredient.ingredient_amount??1) / (100 - (ingredient.avg_waste_percentage??0)) * 100
+  return (ingredient?.item_weight??1)*(ingredient.amount??1) / (100 - (ingredient.avg_waste_percentage??0)) * 100
 }
 
 export const getIngredients = async () : Promise<IngredientDTO[] | null> => {
@@ -50,7 +49,6 @@ export const getIngredients = async () : Promise<IngredientDTO[] | null> => {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer '+getCookie(C_ACCESS_TOKEN)
     },
-
   })
   const data = await response.json().catch(e=>null)
   if (!response.ok) 
@@ -103,6 +101,7 @@ export const putIngredient = async (ingredientData: IngredientDTO): Promise<Ingr
 
 
 export const putIngredientWithProducts = async (updateData: IngredientDTO): Promise<IngredientDTO | null> => {
+  console.log(updateData)
   const response = await fetch(`${BASE_URL}/${getProjectPath()}/${getCookie(C_SELECTED_PROJECT_ID)}/${ENTITY_PATH}/${WITH_PRODUCTS}/update/${updateData.id}`, {
     method: 'PUT',
     headers: {

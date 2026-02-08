@@ -24,7 +24,7 @@ function DishIngredientsTable({dish}:DishIngredientsTableProps) {
 
                 {dish.ingredients?.map(c => <tr className='text-center'>
                     <td><Link to={`/ingredients/details/${c.id}`}>{c.name} {c.type?.name}</Link></td>
-                    <td>{c.item_weight!=1 ?`${c.ingredient_amount}шт. * ${c.item_weight}г.` : `${c.ingredient_amount}г.`}</td>
+                    <td>{c.item_weight!=1 ?`${c.amount}шт. * ${c.item_weight}г.` : `${c.amount}г.`}</td>
                     <td>{c.net_weight}г.</td>
                     <td>{c.waste_percentage?.toFixed(0)}%</td>
                 </tr>

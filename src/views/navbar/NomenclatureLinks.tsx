@@ -11,7 +11,7 @@ function NomenclatureLinks() {
             hasAnyPermissions={[UserPermissions.CRUD_DISHES, UserPermissions.READ_DISHES]}
             dropdownMenuContent={<>
               <li><Link className="nav-link" to='/dish-categories'>Категории</Link></li>
-              <li><Link className="nav-link" to='/dish-groups'>Группы</Link></li>
+              <li><Link className="nav-link" to='/dish-tags'>Группы</Link></li>
               </>}
           >Блюда</NavbarLinkBtn>
 
@@ -20,7 +20,7 @@ function NomenclatureLinks() {
             hasAnyPermissions={[UserPermissions.CRUD_INGREDIENTS, UserPermissions.READ_INGREDIENTS]}
             dropdownMenuContent={<>
               <li><Link className="nav-link" to='/ingredient-categories'>Категории</Link></li>
-              <li><Link className="nav-link" to='/ingredient-groups'>Группы</Link></li>
+              <li><Link className="nav-link" to='/ingredient-tags'>Группы</Link></li>
               </>}
           >Ингредиенты</NavbarLinkBtn>
 
@@ -29,7 +29,7 @@ function NomenclatureLinks() {
             hasAnyPermissions={[UserPermissions.CRUD_PRODUCTS, UserPermissions.READ_PRODUCTS]}
             dropdownMenuContent={<>
               <li><Link className="nav-link" to='/product-categories'>Категории</Link></li>
-              <li><Link className="nav-link" to='/product-groups'>Группы</Link></li>
+              <li><Link className="nav-link" to='/product-tags'>Группы</Link></li>
               </>}
           >Продукты</NavbarLinkBtn>
 

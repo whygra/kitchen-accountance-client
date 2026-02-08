@@ -1,22 +1,22 @@
 import { useContext, useEffect, useRef, useState } from 'react';
 import { Accordion, Button, Col, Collapse, Form, Image, Row, Table } from 'react-bootstrap';
 import DishListItem from './DishListItem';
-import { DishDTO, getDishesWithPurchaseOptions, getDishWithPurchaseOptions } from '../../../api/nomenclature/dishes';
+import { DishDTO, getDishesWithIngredients, getDishesWithPurchaseOptions } from '../../../api/nomenclature/dishes';
 import { Link } from 'react-router-dom';
 import { useErrorBoundary } from 'react-error-boundary';
-import { authContext } from '../../../context/AuthContextProvider';
 import { UserPermissions } from '../../../models';
 import useDishesTableHeader from '../../../hooks/useDishesTableHeader';
 import usePagination from '../../../hooks/usePagination';
 import Loading from '../../shared/Loading';
 import { projectContext } from '../../../context/ProjectContextProvider';
-import { IngredientField } from '../../../hooks/sort/useSortIngredients';
 import { DishField } from '../../../hooks/sort/useSortDishes';
+import { getDishTags } from '../../../api/nomenclature/dishTags';
 
 function DishList() 
 {
   
     const [dishes, setDishes] = useState(new Array<DishDTO>)
+    const [tags, setTags] = useState<string[]>([])
     const [isLoading, setIsLoading] = useState(false)
 
     const {showBoundary} = useErrorBoundary()
@@ -30,7 +30,7 @@ function DishList()
     async function loadDishes() {
         setIsLoading(true)    
         try{
-          const res = await getDishesWithPurchaseOptions()
+          const res = await getDishesWithIngredients()
           setDishes(res ?? [])
         }
         catch (error: Error | any) {
@@ -40,11 +40,24 @@ function DishList()
             setIsLoading(false)
         }
     }
+  
+    async function loadTags() {
+        try{
+          const res = await getDishTags()
+          setTags((res ?? []).map(t=>t.name))
+        }
+        catch (error: Error | any) {
+          console.log(error)
+        }
+    }
 
-    useEffect(()=>{loadDishes()},[])
+    useEffect(()=>{
+        loadDishes()
+        loadTags()
+    },[])
 
     // заголовок и фильтры
-    const {getComparer, getPredicate, header} = useDishesTableHeader(false, [DishField.Id])
+    const {getComparer, getPredicate, header} = useDishesTableHeader({tags, filtersOpen:false, fieldsToExclude:[DishField.Id]})
 
     const filtered = dishes
         .filter(getPredicate())

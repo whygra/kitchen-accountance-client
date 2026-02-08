@@ -1,7 +1,7 @@
 import { DataAction } from "."
 import { DistributorDTO } from "../api/nomenclature/distributors"
 import { v4 as uuid } from "uuid";
-import { DistributorPurchaseOptionDTO } from "../api/nomenclature/purchaseOptions";
+import { PurchaseOptionDTO } from "../api/nomenclature/purchaseOptions";
 
 export interface DistributorFormState {
     id: number
@@ -41,7 +41,7 @@ function getDistributorDiffDTO(initDTO: DistributorDTO, dto: DistributorDTO) : D
             &&i.unit?.id==po.unit?.id
             &&i.net_weight==po.net_weight
             &&i.price==po.price
-            &&(i.products??[]).find(n=>true)?.id == (po.products??[]).find(n=>true)?.id
+            &&i.product.id == po.product.id
         ) == undefined
     ) ?? []
     const purchase_options_to_delete = initDTO.purchase_options?.filter(
@@ -73,13 +73,13 @@ export interface PurchaseOptionFormState {
 
 }
 
-export function constructDistributorPurchaseOptionForm(o?: DistributorPurchaseOptionDTO): PurchaseOptionFormState{
-    const product = o?.products[0]
+export function constructDistributorPurchaseOptionForm(o?: PurchaseOptionDTO): PurchaseOptionFormState{
+    const product = o?.product
 
     return {
         key: uuid(),
         id: o?.id ?? 0,
-        productIsEditable: (o?.products.length??0) <= 1,
+        productIsEditable: true,
         productDataAction: DataAction.None,
         productId: product?.id ?? 0,
         productName: product?.name ?? '',
@@ -95,14 +95,14 @@ export function constructDistributorPurchaseOptionForm(o?: DistributorPurchaseOp
 }
 
 
-export function purchaseOptionFormToDTO (state: PurchaseOptionFormState) : DistributorPurchaseOptionDTO { 
+export function purchaseOptionFormToDTO (state: PurchaseOptionFormState) : PurchaseOptionDTO { 
     return {
         id: state.id,
-        products: (state.productDataAction!=DataAction.Create && state.productId==0) ? [] : [{
+        product: (state.productDataAction!=DataAction.Create && state.productId==0) ? undefined : {
             id: state.productDataAction==DataAction.Create ? 0 : state.productId,
             name: state.productName,
             product_share: 100,
-        }],
+        },
         unit: {
             id: state.unitDataAction==DataAction.Create ? 0 : state.unitId,
             long: state.unitLongName,

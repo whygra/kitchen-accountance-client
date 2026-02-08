@@ -4,6 +4,7 @@ import { PurchaseOptionDTO } from "../../api/nomenclature/purchaseOptions"
 
 export enum PurchaseOptionField {
     None = 'PurchaseOptionNone',
+    IsRelevant = 'PurchaseOptionIsRelevant',
     Distributor = 'PurchaseOptionDistributor',
     Code = 'PurchaseOptionCode',
     Name = 'PurchaseOptionName',
@@ -19,6 +20,12 @@ class Comparers {
         o1.distributor&&o2.distributor ?o1.distributor.name.localeCompare(o2.distributor.name) :0
     static readonly DistributorDesc = (o1:PurchaseOptionDTO, o2:PurchaseOptionDTO)=>
         o1.distributor&&o2.distributor ?o2.distributor.name.localeCompare(o1.distributor.name) :0
+
+    // Актуальность
+    static readonly IsRelevantAsc = (o1:PurchaseOptionDTO, o2:PurchaseOptionDTO)=>
+        ((o1.is_relevant??true) ? 1 : 0) - ((o2.is_relevant??true) ? 1 : 0)
+    static readonly IsRelevantDesc = (o1:PurchaseOptionDTO, o2:PurchaseOptionDTO)=>
+        ((o2.is_relevant??true) ? 1 : 0) - ((o1.is_relevant??true) ? 1 : 0)
     
     // Код
     static readonly CodeAsc = (o1:PurchaseOptionDTO, o2:PurchaseOptionDTO)=>
@@ -52,26 +59,19 @@ class Comparers {
 
     // Продукт
     static readonly ProductAsc = (o1:PurchaseOptionDTO, o2:PurchaseOptionDTO)=>
-        (o1.products&&o1.products.length>0&&o2.products&&o2.products.length>0)
-            ? o1.products[0].name.localeCompare(o2.products[0].name)
-            // элементы без продуктов - в конец
-            :!(o1.products&&o1.products.length>0)
-                ?!(o2.products&&o2.products.length>0) 
-                    ? 0 : 1
-                : -1
+        o1.product==null ? 1 : o2.product==null ? -1
+            : (o1.product?.name??'').localeCompare((o2.product?.name??''))
     static readonly ProductDesc = (o1:PurchaseOptionDTO, o2:PurchaseOptionDTO)=>
-        (o2.products&&o2.products.length>0&&o1.products&&o1.products.length>0)
-            ? o2.products[0].name.localeCompare(o1.products[0].name)
-            // элементы без продуктов - в конец
-            :!(o2.products&&o2.products.length>0)
-                ?!(o1.products&&o1.products.length>0) 
-                    ? 0 : 1
-                : -1
+        o1.product==null ? 1 : o2.product==null ? -1
+            : (o2.product?.name??'').localeCompare((o1.product?.name??''))
+
     // функция получения компаратора
     static readonly getComparer = (field: PurchaseOptionField, isDesc: boolean) => {
         switch (field) {
             case PurchaseOptionField.Distributor:
                 return isDesc ?Comparers.DistributorDesc :Comparers.DistributorAsc
+            case PurchaseOptionField.IsRelevant:
+                return isDesc ?Comparers.IsRelevantDesc :Comparers.IsRelevantAsc
             case PurchaseOptionField.Code:
                 return isDesc ?Comparers.CodeDesc :Comparers.CodeAsc
             case PurchaseOptionField.Name:

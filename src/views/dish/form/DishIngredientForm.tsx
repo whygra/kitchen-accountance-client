@@ -1,4 +1,4 @@
-import {Button, Card, Col, Container, Form, FormControl, FormGroup, FormSelect, Row, Table} from 'react-bootstrap'
+import {Button, Card, Col, Container, Form, FormControl, FormSelect, Row, Table} from 'react-bootstrap'
 import { DataAction } from '../../../models'
 import { DishIngredientFormState, dishIngredientToDTO } from '../../../models/dish/DishFormState'
 import 'bootstrap'
@@ -56,7 +56,7 @@ function DishIngredientForm({formState, openSelect}: DishesIngredientFormProps) 
 
   const selected = ingredients.find(i=>i.id==formState.id)
 
-  // минимальное допустимое значение ingredient_amount
+  // минимальное допустимое значение amount
   // зависит от признака is_item_measured
   const minAmt = 0.01
 

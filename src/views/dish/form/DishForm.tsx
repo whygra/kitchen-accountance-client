@@ -3,17 +3,13 @@ import NameInput from './DishNameInput';
 import { Button, Col, Form, Image, Row } from 'react-bootstrap';
 import { FormEvent, useContext, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { DishDTO } from '../../../api/nomenclature/dishes';
-import SelectCreateGroup from '../../shared/selectCreateGroup/SelectCreateGroup';
-import { dishCostCalculatorContext } from '../../../context/DishCostCalculatorContext';
 import { dishFormContext } from '../../../context/forms/nomenclature/dish/DishFormContext';
 import { appContext } from '../../../context/AppContextProvider';
-import { authContext } from '../../../context/AuthContextProvider';
 import { UserPermissions } from '../../../models';
 import HistoryNav from '../../shared/HistoryNav';
 import SmallTooltipButton from '../../shared/SmallTooltipButton';
 import { projectContext } from '../../../context/ProjectContextProvider';
-import { useHotkeys } from 'react-hotkeys-hook';
+import TagInput from '../../shared/tags/TagInput';
 
 
 function DishForm() 
@@ -37,13 +33,9 @@ function DishForm()
   const {
     setImage, resetImage,
     formState, requestFn, setName, setDescription,
-    categories, setCategoryDataAction, 
-    setCategoryId, setCategoryName,
-    groups, setGroupId,
-    setGroupDataAction, setGroupName,
+    tags, addTag, removeTag,
     history, reloadState
   } = useContext(dishFormContext);
-
 
   function hasIngredients() : boolean {
     // есть хотя бы один ингредиент
@@ -117,104 +109,85 @@ function DishForm()
   }
 
   return (<>
-        <HistoryNav
-          history={history}
-          reloadFn={reloadState}
-        />
-        <Form className='pb-5' aria-disabled={disabled} noValidate validated={validated} onSubmit={handleSubmit}>
+    <HistoryNav
+      history={history}
+      reloadFn={reloadState}
+    />
+    <Form className='pb-5' aria-disabled={disabled} noValidate validated={validated} onSubmit={handleSubmit}>
 
-        <Row>
-        <Col sm={12} md={6} lg={7}>
-        <Form.Group className='mb-3'>
-          <Form.Label><b>Название блюда</b></Form.Label>
-          <Form.Control
-            required
-            value={formState.name}
-            onChange={(e)=>setName(e.target.value)}
-          />
-          
-          <Form.Control.Feedback type="invalid">
-            введите название
-          </Form.Control.Feedback>
-        </Form.Group>
-        <Form.Group className='mb-3'>
-          <SelectCreateGroup 
-            label='Категория'
-            dataAction={formState.categoryDataAction}
-            items={categories} 
-            name={formState.categoryName}
-            selectedId={formState.categoryId} 
-            setId={setCategoryId} 
-            setDataAction={setCategoryDataAction}
-            setName={setCategoryName}
-          />
-        </Form.Group>
-        <Form.Group className='mb-3'>
-          <SelectCreateGroup 
-            label='Группа'
-            dataAction={formState.groupDataAction}
-            items={groups} 
-            name={formState.groupName}
-            selectedId={formState.groupId} 
-            setId={setGroupId} 
-            setDataAction={setGroupDataAction}
-            setName={setGroupName}
-            />
-        </Form.Group>
-        </Col>
-        <Col className='text-center pb-3' sm={12} md={6} lg={5}>
-          <p className='text-start'><b>Фото</b></p>
-          <p className='w-100 bg-light position-relative'>
-            {(formState.image?.url??'') != ''
-              ? <Image style={{maxHeight:'100%', maxWidth:'100%'}} src={formState.image?.url}/>
-              : <div 
+    <Row>
+    <Col sm={12} md={6} lg={6}>
+    <Form.Group className='mb-3'>
+      <Form.Label><b>Название блюда</b></Form.Label>
+      <Form.Control
+        required
+        value={formState.name}
+        onChange={(e)=>setName(e.target.value)}
+      />
+      
+      <Form.Control.Feedback type="invalid">
+        введите название
+      </Form.Control.Feedback>
+    </Form.Group>
+    
+    <Form.Group className='mb-3'>
+      <Form.Label><b>Теги</b></Form.Label>
+      <TagInput tags={tags.map(t=>t.name)} selectedTags={formState.tags.map(t=>t.name)} selectTag={addTag} unselectTag={removeTag}/>
+    </Form.Group>
+    </Col>
+    <Col className='text-center pb-3' sm={12} md={6} lg={6}>
+      <p className='text-start'><b>Фото</b></p>
+      <p className='w-100 bg-light position-relative'>
+        {(formState.image?.url??'') != ''
+          ? <Image style={{maxHeight:'100%', maxWidth:'100%'}} src={formState.image?.url}/>
+          : <div 
               style={{minHeight: '200px', minWidth: '100px'}} 
-                  className='bg-light text-secondary d-flex justify-content-center align-items-center text-center'
-                  >
-                  <h3>Нет изображения</h3>
-              </div>
-            }
-            <div className='position-absolute top-0 end-0 '>
-              <SmallTooltipButton
-                onClick={removeImage}
-                tooltip='удалить изображение'
-                >
-                <i className='bi bi-x '/>
-              </SmallTooltipButton>
-              <SmallTooltipButton
-                onClick={resetImageFile}
-                tooltip='сбросить к исходному'
-                >
-                <i className='bi bi-arrow-clockwise'/>
-              </SmallTooltipButton>
-            </div>
-          </p>
-          <Form.Control type='file' accept='.png, .jpg, .jpeg'
-            ref={imageInputRef}
-            onChange={handleImageChange}
-          />
-        </Col>
-        <Col md={12}>
-        <Form.Group className='mb-3'>
-          <Form.Label><b>Описание</b></Form.Label>
-          <textarea
-            maxLength={1000}
-            className='form-control border-1'
-            onKeyDown={e=>handleKeyDown(e)}
-            value={formState.description}
-            onChange={(e)=>setDescription(e.target.value)}
-          />
-        </Form.Group>
-        </Col>
-        </Row>
-        <DishIngredientFormList/>
-        <div className='d-flex pt-2'>
-          <Button disabled={disabled} className='me-2' type='submit'>Подтвердить</Button>
-          <Button disabled={disabled} className='me-2' variant='secondary' onClick={cancel}>Отмена</Button>
+              className='bg-light text-secondary d-flex justify-content-center align-items-center text-center'
+            >
+              <h3>Нет изображения</h3>
+          </div>
+        }
+        <div className='position-absolute top-0 end-0 '>
+          <SmallTooltipButton
+            onClick={removeImage}
+            tooltip='удалить изображение'
+            >
+            <i className='bi bi-x '/>
+          </SmallTooltipButton>
+          <SmallTooltipButton
+            onClick={resetImageFile}
+            tooltip='сбросить к исходному'
+            >
+            <i className='bi bi-arrow-clockwise'/>
+          </SmallTooltipButton>
         </div>
-        </Form>
+      </p>
+      <Form.Control type='file' accept='.png, .jpg, .jpeg'
+        ref={imageInputRef}
+        onChange={handleImageChange}
+      />
+    </Col>
+    <Col md={12}>
+    <Form.Group className='mb-3'>
+      <Form.Label><b>Описание</b></Form.Label>
+      <textarea
+        maxLength={1000}
+        className='form-control border-1'
+        onKeyDown={e=>handleKeyDown(e)}
+        value={formState.description}
+        onChange={(e)=>setDescription(e.target.value)}
+      />
+    </Form.Group>
+    </Col>
+    </Row>
+    <DishIngredientFormList/>
+    <div className='d-flex pt-2'>
+      <Button disabled={disabled} className='me-2' type='submit'>Подтвердить</Button>
+      <Button disabled={disabled} className='me-2' variant='secondary' onClick={cancel}>Отмена</Button>
+    </div>
+    </Form>
 
-      </>)
+  </>)
 }
 
 export default DishForm

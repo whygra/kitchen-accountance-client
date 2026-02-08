@@ -19,7 +19,7 @@ interface SelectCreateGroupProps {
 }
 
 function SelectCreateGroup({
-  unitId: unitId,
+  unitId,
   newUnitShortName,
   newUnitLongName,
   dataAction,

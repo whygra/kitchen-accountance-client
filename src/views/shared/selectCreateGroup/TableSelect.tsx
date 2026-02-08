@@ -1,6 +1,5 @@
 import { ReactElement, useContext, useEffect, useState } from 'react'
 import {Button, Form, Modal, Table} from 'react-bootstrap'
-import { IngredientCategoryDTO } from '../../../api/nomenclature/ingredientCategories'
 import { appContext } from '../../../context/AppContextProvider'
 import { NamedEntity } from '../../../api/constants'
 import GenericTable, { GenericTableProps } from '../GenericTable'

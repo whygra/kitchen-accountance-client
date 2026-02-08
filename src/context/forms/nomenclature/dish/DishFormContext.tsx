@@ -1,4 +1,4 @@
-import { getIngredientsWithProducts, IngredientDTO } from '../../../../api/nomenclature/ingredients';
+import { getIngredients, getIngredientsWithProducts, IngredientDTO } from '../../../../api/nomenclature/ingredients';
 import { DataAction } from '../../../../models';
 import { useParams } from 'react-router-dom';
 import { v4 as uuid } from "uuid";
@@ -7,11 +7,10 @@ import { DishIngredientFormState, DishFormState, constructDishForm, constructDis
 import { DishDTO, getDishWithIngredients, postDishWithIngredients, putDishWithIngredients, uploadDishImage } from '../../../../api/nomenclature/dishes';
 import { IngredientTypeDTO, getIngredientTypes } from '../../../../api/nomenclature/ingredientTypes';
 import DishForm from '../../../../views/dish/form/DishForm';
-import { DishCategoryDTO, getDishCategories } from '../../../../api/nomenclature/dishCategories';
 import { Image } from 'react-bootstrap';
 import Loading from '../../../../views/shared/Loading';
 import { ServerImageData } from '../../../../api/constants';
-import { DishGroupDTO, getDishGroups } from '../../../../api/nomenclature/dishGroups';
+import { DishTagDTO, getDishTags } from '../../../../api/nomenclature/dishTags';
 
 
 // контекст формы блюда
@@ -24,18 +23,14 @@ interface DishFormContext {
   setDishIngredientFormState: (state:DishIngredientFormState)=>void
   removeDishIngredientForm: (key:string)=>void
   removeAllDishIngredientForms: ()=>void
+  addTag: (tag: string)=>void
+  removeTag: (tag: string)=>void
+  removeAllTags: ()=>void
   requestFn: ()=>Promise<DishDTO|null>
   setName: (name:string)=>void
   setDescription: (description:string)=>void
-  setCategoryName: (name:string)=>void
-  setCategoryId: (id:number)=>void
-  setCategoryDataAction: (action:DataAction)=>void
-  setGroupName: (name:string)=>void
-  setGroupId: (id:number)=>void
-  setGroupDataAction: (action:DataAction)=>void
   setImage: (file?: File) => void,
-  categories:DishCategoryDTO[]
-  groups:DishGroupDTO[]
+  tags:DishTagDTO[]
   formState: DishFormState
   ingredientTypes:IngredientTypeDTO[]
   ingredients:IngredientDTO[]
@@ -49,18 +44,14 @@ export const dishFormContext = createContext<DishFormContext>({
   setDishIngredientFormState:(state:DishIngredientFormState)=>{},
   removeDishIngredientForm:(key:string)=>{},
   removeAllDishIngredientForms: ()=>{},
+  addTag:(tag: string)=>{},
+  removeTag: (tag: string)=>{},
+  removeAllTags: ()=>{},
   requestFn:async()=>null,
   setName:(name:string)=>{},
   setDescription:(description:string)=>{},
-  setCategoryName: (name:string)=>{},
-  setCategoryId: (id:number)=>{},
-  setCategoryDataAction: (action:DataAction)=>{},
-  setGroupName: (name:string)=>{},
-  setGroupId: (id:number)=>{},
-  setGroupDataAction: (action:DataAction)=>{},
   setImage: (file?: File) => {},
-  categories:[],
-  groups:[],
+  tags:[],
   formState: constructDishForm(),
   ingredientTypes:[],
   ingredients:[]
@@ -79,8 +70,7 @@ function DishFormContextProvider({action, children}:DishFormContextProviderProps
   const [isLoading, setIsLoading] = useState(false) 
   const [ingredientTypes, setIngredientTypes] = useState<IngredientTypeDTO[]>([])
   const [ingredients, setIngredients]= useState<IngredientDTO[]>([])
-  const [categories, setCategories]= useState<DishCategoryDTO[]>([])
-  const [groups, setGroups]= useState<DishGroupDTO[]>([])
+  const [tags, setTags]= useState<DishTagDTO[]>([])
   const [imageFile, setImageFile] = useState<File>()
   const [initImageData, setInitImageData] = useState<ServerImageData>()
 
@@ -104,9 +94,8 @@ function DishFormContextProvider({action, children}:DishFormContextProviderProps
     setFormStateHistory([])
     
     setIngredientTypes(await getIngredientTypes()??[])
-    setIngredients(await getIngredientsWithProducts()??[])
-    setCategories([{id:0, name:'без категории'}, ...(await getDishCategories()??[])])
-    setGroups([{id:0, name:'без группы'}, ...(await getDishGroups()??[])])
+    setIngredients(await getIngredients()??[])
+    setTags(await getDishTags()??[])
     
     setIsLoading(false)
   }
@@ -142,36 +131,6 @@ function DishFormContextProvider({action, children}:DishFormContextProviderProps
     setFormState({...formState, description:description})
   }
 
-  function setCategoryId(categoryId: number) {
-    saveToHistory()
-    setFormState({...formState, categoryId:categoryId})
-  }
-
-  function setCategoryName(categoryName: string) {
-    saveToHistory()
-    setFormState({...formState, categoryName:categoryName})
-  }
-
-  function setCategoryDataAction(dataAction: DataAction) {
-    saveToHistory()
-    setFormState({...formState, categoryDataAction:dataAction})
-  }
-
-  function setGroupId(groupId: number) {
-    saveToHistory()
-    setFormState({...formState, groupId:groupId})
-  }
-
-  function setGroupName(groupName: string) {
-    saveToHistory()
-    setFormState({...formState, groupName:groupName})
-  }
-
-  function setGroupDataAction(dataAction: DataAction) {
-    saveToHistory()
-    setFormState({...formState, groupDataAction:dataAction})
-  }
-
   function addDishIngredientForm(ingredient?: IngredientDTO) {
     saveToHistory()
     setFormState({
@@ -179,7 +138,7 @@ function DishFormContextProvider({action, children}:DishFormContextProviderProps
       dishIngredientForms:
         [
           ...formState.dishIngredientForms,
-          constructDishIngredientForm(ingredient?{...ingredient, waste_percentage:0, ingredient_amount:1}:undefined)
+          constructDishIngredientForm(ingredient?{...ingredient, waste_percentage:0, amount:1}:undefined)
         ]})
   }
 
@@ -207,6 +166,35 @@ function DishFormContextProvider({action, children}:DishFormContextProviderProps
     setFormState({
       ...formState,
       dishIngredientForms: []
+    })
+  }
+
+  function addTag(tag: string) {
+    saveToHistory()
+    setFormState({
+      ...formState, 
+      tags:
+        [
+          ...formState.tags,
+          tags.find(t=>t.name==tag) ?? {id:0, name:tag}
+        ]})
+  }
+
+  function removeTag(tag:string){
+    saveToHistory()
+    setFormState({
+      ...formState,
+      tags: 
+        formState.tags
+        .filter((s)=>s.name!=tag)
+    })
+  }
+
+  function removeAllTags(){
+    saveToHistory()
+    setFormState({
+      ...formState,
+      tags: []
     })
   }
 
@@ -250,8 +238,7 @@ function DishFormContextProvider({action, children}:DishFormContextProviderProps
       history: {canUndo: formStateHistory.length>0, undo: undo},
       ingredients: ingredients,
       ingredientTypes: ingredientTypes,
-      categories: categories,
-      groups: groups,
+      tags: tags,
       formState: formState,
       image: imageFile,
       resetImage: resetImage,
@@ -263,12 +250,9 @@ function DishFormContextProvider({action, children}:DishFormContextProviderProps
       removeAllDishIngredientForms: removeAllDishIngredientForms,
       setName: setName,
       setDescription: setDescription,
-      setCategoryDataAction: setCategoryDataAction,
-      setCategoryId: setCategoryId,
-      setCategoryName: setCategoryName,
-      setGroupDataAction: setGroupDataAction,
-      setGroupId: setGroupId,
-      setGroupName: setGroupName,
+      addTag: addTag,
+      removeTag: removeTag,
+      removeAllTags: removeAllTags,
       requestFn: action==DataAction.Update ? update : create
     }}>
 

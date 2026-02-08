@@ -32,9 +32,9 @@ function IngredientDishesTable({ingredient}:IngredientDishesTableProps) {
                     .map(d => 
                     <tr className='text-center'>
                         <td><Link to={`/dishes/details/${d.id}`}>{d.name}</Link></td>
-                        <td>{d.ingredient_amount}{ingredient.is_item_measured?`шт*${ingredient.item_weight}г.`:'г.'}</td>
+                        <td>{d.amount}{ingredient.is_item_measured?`шт*${ingredient.item_weight}г.`:'г.'}</td>
                         <td>{d.net_weight}г.</td>
-                        <td>{((d.net_weight??1)/((ingredient.item_weight??0)*(d.ingredient_amount??0))*100).toFixed(0)}%</td>
+                        <td>{((d.net_weight??1)/((ingredient.item_weight??0)*(d.amount??0))*100).toFixed(0)}%</td>
                     </tr>
                 )}
             </tbody>

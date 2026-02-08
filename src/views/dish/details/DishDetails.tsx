@@ -11,6 +11,7 @@ import CUDButtons from '../../shared/CUDButtons';
 import Loading from '../../shared/Loading';
 import UpdatedAt from '../../shared/UpdatedAt';
 import Markdown from 'react-markdown';
+import Tags from '../../shared/tags/Tags';
 
 
 function DishDetails() 
@@ -65,21 +66,11 @@ function DishDetails()
                 <h3 className='col col-12 col-sm-8 order-sm-1 mt-3'>{dish.name}</h3>
                 </Row>
                 
-                <Col md={12} lg={6}>
+                <Col md={12} className='d-flex flex-column'>
                     <UpdatedAt entity={dish}/>
-                <ul className='list-group ps-2'>
-                    <li className='list-group-item'>Вес блюда: {dish.total_net_weight?.toFixed(2)} г.</li>
-                    <li className='list-group-item'>
-                        Категория: "{dish.category?.name 
-                            ? <Link to={`/dish-categories/details/${dish.category.id}`}>{dish.category.name}</Link> 
-                            : '-без категории-'}"</li>
-                    <li className='list-group-item'>
-                        Группа: "{dish.group?.name 
-                            ? <Link to={`/dish-groups/details/${dish.group.id}`}>{dish.group.name}</Link> 
-                            : '-без группы-'}"</li>
-                </ul>
+                    <i>Вес блюда: {dish.total_net_weight?.toFixed(2)} г.</i>
                 </Col>
-            <Col md={12} lg={6}>
+            <Col md={12}>
                 
                 <Card 
                     className="p-3"
@@ -101,6 +92,17 @@ function DishDetails()
                 }
                 </Card>
             </Col>
+            {
+                dish.tags && dish.tags.length > 0
+                ?
+                <Col md={12}>
+                    <Card>
+                        <h5>Теги</h5>
+                        <Tags tags={dish?.tags?.map(t=>{return{name:t.name, link:`/dish-tags/${t.id}`}})??[]}/>
+                    </Card>
+                </Col>
+                :<></>
+            }
             <Col md={12} lg={6}>
                 
                 <Card className="p-3">

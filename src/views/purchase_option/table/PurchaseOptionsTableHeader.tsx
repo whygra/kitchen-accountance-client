@@ -53,7 +53,7 @@ function PurchaseOptionsTableHeader({
             span: 5
         },
         {   
-            displayAt: WindowSize.Sm,
+            displayAt: WindowSize.Md,
             field: PurchaseOptionField.Distributor,
             element: 
                 <HeaderSortButton
@@ -143,10 +143,26 @@ function PurchaseOptionsTableHeader({
                         placeholder='наименование'
                         onChange={(e)=>setSearchData({...searchData, name: e.target.value.toLocaleLowerCase()})}
                     />,
-            span: 5
+            span: 4
         },
         {
-            displayAt: WindowSize.Sm,
+            field: PurchaseOptionField.IsRelevant,
+            element: 
+                <Form.Select
+                    value={searchData.isRelevant == undefined ? '-1' : searchData.isRelevant ? '1': '0'}
+                    onChange={(e)=>setSearchData({
+                        ...searchData, 
+                        isRelevant: e.target.value=='-1' ? undefined : e.target.value=='1'
+                    })}
+                >
+                    <option value='-1'>Все</option>
+                    <option value='1'>Актуальные</option>
+                    <option value='0'>Не актуальные</option>
+                </Form.Select>,
+            span: 1
+        },
+        {
+            displayAt: WindowSize.Md,
             field: PurchaseOptionField.Distributor,
             element: 
                 <Form.Control

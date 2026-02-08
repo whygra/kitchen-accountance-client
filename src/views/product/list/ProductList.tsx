@@ -9,14 +9,26 @@ import usePagination from '../../../hooks/usePagination';
 import useProductsTableHeader from '../../../hooks/useProductsTableHeader';
 import Loading from '../../shared/Loading';
 import { projectContext } from '../../../context/ProjectContextProvider';
+import { getProductTags } from '../../../api/nomenclature/productTags';
 
 function ProductList() 
 {
   
     const [products, setProducts] = useState(new Array<ProductDTO>)
     const [isLoading, setIsLoading] = useState(false)
+    const [tags, setTags] = useState<string[]>([])
     const {hasPermission} = useContext(projectContext)
     const {showBoundary} = useErrorBoundary()
+
+    async function loadTags() {
+        try{
+          const res = await getProductTags()
+          setTags((res ?? []).map(t=>t.name))
+        }
+        catch (error: Error | any) {
+          console.log(error)
+        }
+    }
   
     async function loadProducts() {
         setIsLoading(true)    
@@ -32,13 +44,16 @@ function ProductList()
         }
     }
 
-    useEffect(()=>{loadProducts()},[])
+    useEffect(()=>{
+        loadProducts()
+        loadTags()
+    },[])
 
     useEffect(()=>{
         document.title = "Продукты"}
     , [products])
         
-    const {getPredicate, getComparer, header} = useProductsTableHeader()
+    const {getPredicate, getComparer, header} = useProductsTableHeader({tags})
     const filtered = products
         .filter(getPredicate())
         .sort(getComparer())

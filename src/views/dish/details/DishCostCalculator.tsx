@@ -1,4 +1,4 @@
-import { Accordion, Form, Table } from "react-bootstrap";
+import { Accordion, Form, OverlayTrigger, Table, Tooltip } from "react-bootstrap";
 import { useContext, useEffect, useState } from "react";
 import IngredientCostCalculator from "./IngredientCostCalculator";
 import { dishCostCalculatorContext } from "../../../context/DishCostCalculatorContext";
@@ -6,7 +6,7 @@ import { dishCostCalculatorContext } from "../../../context/DishCostCalculatorCo
 
 function DishCostCalculator() {
     
-    const {model} = useContext(dishCostCalculatorContext)
+    const {model, setIngredientCalculatorState} = useContext(dishCostCalculatorContext)
 
     const ingredients = model.ingredients
 
@@ -16,7 +16,7 @@ function DishCostCalculator() {
                 <Accordion>
                     {ingredients.map(i=>
                         <div key={`${i.id}`}>
-                            <IngredientCostCalculator ingredient={i}/>
+                            <IngredientCostCalculator setState={setIngredientCalculatorState} ingredient={i}/>
                         </div>
                     )}
                 </Accordion>

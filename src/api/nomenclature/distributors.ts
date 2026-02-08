@@ -64,6 +64,7 @@ export const uploadDistributorPurchaseOptionsSpreadsheet = async (insertData: In
       name: `${response.status} ${response.statusText}`
     }
   
+    console.log(data)
   return data
 }
 

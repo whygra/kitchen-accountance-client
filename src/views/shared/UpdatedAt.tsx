@@ -12,7 +12,7 @@ interface UpdatedAtProps{
 function UpdatedAt({entity}:UpdatedAtProps) {
     const date = new Date(entity.updated_at??'')
     return(
-        <i className='text-center text-secondary'><small>изменено <u>{date.toLocaleDateString()}</u> в <u>{date.toLocaleTimeString()}</u> пользователем "<u>{entity.updated_by_user?.name}</u>"</small></i>
+        <i className='text-secondary'><small>изменено <u>{date.toLocaleDateString()}</u> в <u>{date.toLocaleTimeString()}</u> пользователем "<u>{entity.updated_by_user?.name}</u>"</small></i>
     )
 }
 

@@ -1,16 +1,13 @@
-import { Accordion, Button, Card, Col, Form, Image, ListGroup, ListGroupItem, Row, Table } from 'react-bootstrap';
+import { Card, Col, OverlayTrigger, Row, Table, Tooltip } from 'react-bootstrap';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
 import PurchaseOptionGramCost from './PurchaseOptionGramCost';
 import { appContext } from '../../../context/AppContextProvider';
 import { UserPermissions } from '../../../models';
-import { authContext } from '../../../context/AuthContextProvider';
-import { deletePurchaseOption, getPurchaseOptions, getPurchaseOptionsWithProducts, getPurchaseOptionWithProducts, PurchaseOptionDTO } from '../../../api/nomenclature/purchaseOptions';
+import { deletePurchaseOption, getPurchaseOptionWithProducts, PurchaseOptionDTO } from '../../../api/nomenclature/purchaseOptions';
 import CUDButtons from '../../shared/CUDButtons';
 import Loading from '../../shared/Loading';
-import ProductsTable from '../../product/list/ProductsTable';
 import UpdatedAt from '../../shared/UpdatedAt';
-import { ErrorView } from '../../ErrorView';
 
 
 function PurchaseOptionDetails() 
@@ -70,8 +67,24 @@ function PurchaseOptionDetails()
                         requiredPermission={UserPermissions.CRUD_DISTRIBUTORS}
                     />
                 </div>
+                <div className='col col-12 col-sm-8 mt-3'>
+ 
 
-                <h3 className='col col-12 col-sm-8 order-sm-1 mt-3'>{purchaseOption.name}</h3>
+                <h3>
+                    {
+                    purchaseOption.is_relevant != undefined
+                    ? <OverlayTrigger overlay={
+                    <Tooltip>{purchaseOption.is_relevant?'Актуально':'Не актуально'}</Tooltip>
+                    }>
+                    <span className={`bi rounded-2 px-1 me-2 ${purchaseOption.is_relevant?'bi-check-lg text-success':'bi-x-lg text-danger'}`}></span>
+                    </OverlayTrigger>
+                    :<></>
+                }
+                {purchaseOption.name}
+                </h3>
+                                
+                </div>
+                
                 </Row>
                 
                 <Col md={12}>
@@ -87,14 +100,13 @@ function PurchaseOptionDetails()
                         <tr><th className='text-start'>Цена</th><td className='text-end'>{purchaseOption.price} ₽</td></tr>
                         <tr><th className='text-start'>Единица измерения</th><td className='text-end'>{purchaseOption.unit?.long??''}</td></tr>
                         <tr><th className='text-start'>Стоимость 1 грамма</th><td className='text-end'><PurchaseOptionGramCost purchaseOption={purchaseOption}/> ₽</td></tr>
+                        <tr><th className='text-start'>Продукт</th><td className='text-end'>
+                            {purchaseOption.product
+                                ?<Link to={`/products/details/${purchaseOption.product.id}`}>{purchaseOption.product.name}</Link>
+                                :'-нет-'
+                            }</td></tr>
                         </tbody>
                     </Table>
-                </Card>
-            </Col>
-            <Col lg={6} md={12}>
-                <Card className="p-3">
-                <h3 className='text-center'>Продукты</h3>
-                <ProductsTable products={purchaseOption.products??[]} fieldsToExclude={[]}/>
                 </Card>
             </Col>
             </Row>

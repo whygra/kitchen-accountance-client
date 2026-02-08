@@ -11,6 +11,8 @@ import BtnAskConfirmation from '../../shared/BtnAskConfirmation';
 import { authContext } from '../../../context/AuthContextProvider';
 import CUDButtons from '../../shared/CUDButtons';
 import IngredientsTableItem from './IngredientsTableItem';
+import IngredientIngredientsTable from '../details/IngredientIngredientsTable';
+import Tags from '../../shared/tags/Tags';
 
 
 interface IngredientListItemProps {
@@ -41,7 +43,9 @@ function IngredientListItem({onDelete, ingredient}: IngredientListItemProps)
             </div>
         </Accordion.Header>
         <Accordion.Body>
+            <Tags tags={ingredient?.tags?.map(t=>{return{name:t.name, link:`/ingredient-tags/${t.id}`}})??[]}/>
             <small><IngredientProductsTable ingredient={ingredient}/></small>
+            <small><IngredientIngredientsTable ingredient={ingredient}/></small>
             <div className='d-flex justify-content-between'>
                 <Link to={`/ingredients/details/${ingredient.id}`}><Button variant='info'>Подробнее</Button></Link>
                 <CUDButtons

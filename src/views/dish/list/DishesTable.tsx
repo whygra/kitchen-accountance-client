@@ -11,9 +11,16 @@ interface DishTableProps {
 
 function DishesTable({dishes, fieldsToExclude}:DishTableProps) 
 {
+    const tags : string[] = []
+    for (let d of dishes){
+        for (let t of d.tags ?? [])
+            if(tags.indexOf(t.name) == -1)
+                tags.push(t.name)
+    }
     const {header, getComparer, getPredicate} = useDishesTableHeader(
-        false, 
-        fieldsToExclude
+        {tags,
+        filtersOpen: false, 
+        fieldsToExclude}
     )
     
     const filtered = dishes

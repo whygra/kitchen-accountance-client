@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { calcGramCost } from "../../../models/dish/DishCostCalculatorState";
 import usePagination from "../../../hooks/usePagination";
 import GridTableRow, { WindowSize } from "../../shared/GridTableRow";
+import TooltipIcon from "../../shared/TooltipIcon";
 
 interface ProductPurchaseOptionsTableProps {
     product: ProductDTO
@@ -57,42 +58,48 @@ function ProductPurchaseOptionsTable({product}:ProductPurchaseOptionsTableProps)
                     
                 {product.purchase_options
                     ?.slice(sliceLimits.start, sliceLimits.end)
-                    .map(p => 
+                    .map(o => 
                         <div className='border-bottom'>
 
                         <GridTableRow cells={[
                             {
                                 displayAt: WindowSize.Md,
                                 span: 3,
-                                element: <>{p.distributor?.name}</>
+                                element: <><Link to={`/distributors/details/${o.distributor?.id}`}>{o.distributor?.name}</Link></>
                             },
                             {
                                 displayAt: WindowSize.Md,
                                 span: 2,
-                                element: <>{p.code}</>
+                                element: <>{o.code}</>
                             },
                             {
                                 span: 4,
-                                element: <><Link to={`/purchase-options/details/${p.id}`}>{p.name}</Link></>
+                                element: <>
+                                    <Link to={`/purchase-options/details/${o.id}`}>{o.name}</Link>
+                                    {(o.is_relevant??true)
+                                        ?<></>
+                                        :<TooltipIcon tooltip="Не актуально" textColor="warning" icon="exclamation-triangle-fill"/>
+                                    }
+                                </>
                             },
                             {
                                 displayAt: WindowSize.Sm,
                                 span: 2,
-                                element: <>{p.price}₽</>
+                                element: <>{o.price}₽</>
                             },
                             {
                                 displayAt: WindowSize.Lg,
                                 span: 2,
-                                element: <>{p.net_weight}г.</>
+                                element: <>{o.net_weight}г.</>
                             },
                             {
                                 displayAt: WindowSize.Lg,
                                 span: 2,
-                                element: <>{p.unit?.short}</>
+                                element: <>{o.unit?.short}</>
                             },
                             {
                                 span: 2,
-                                element: <>{(p.price && p.net_weight) ? (p.price / p.net_weight).toFixed(2) : '?'} ₽/г.</>
+                                element: <>{(o.price && o.net_weight) ? (o.price / o.net_weight).toFixed(2) : '?'} ₽/г.</>
                             },
                         ]}/>
                         </div>

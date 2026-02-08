@@ -12,10 +12,10 @@ import { IngredientField } from './sort/useSortIngredients';
 import { DistributorField } from './sort/useSortDistributors';
 import { ProjectField } from './sort/useSortProjects';
 import { ProductCategoryField } from './sort/useSortProductCategories';
-import { ProductGroupField } from './sort/useSortProductGroups';
+import { ProductTagField } from './sort/useSortProductTags';
 import { IngredientCategoryField } from './sort/useSortIngredientCategories';
-import { IngredientGroupField } from './sort/useSortIngredientGroups';
-import { DishGroupField } from './sort/useSortDishGroups';
+import { IngredientTagField } from './sort/useSortIngredientTags';
+import { DishTagField } from './sort/useSortDishTags';
 
 const COLUMN_SPANS = new Map();
 COLUMN_SPANS.set(ProjectField.Id, 1);
@@ -37,38 +37,38 @@ COLUMN_SPANS.set(PurchaseOptionField.Unit, 3);
 COLUMN_SPANS.set(ProductField.Id, 1);
 COLUMN_SPANS.set(ProductField.Name, 5);
 COLUMN_SPANS.set(ProductField.Category, 3);
-COLUMN_SPANS.set(ProductField.Group, 3);
+COLUMN_SPANS.set(ProductField.Tag, 3);
 
 COLUMN_SPANS.set(ProductCategoryField.Id, 1);
 COLUMN_SPANS.set(ProductCategoryField.Name, 1);
 
-COLUMN_SPANS.set(ProductGroupField.Id, 1);
-COLUMN_SPANS.set(ProductGroupField.Name, 1);
+COLUMN_SPANS.set(ProductTagField.Id, 1);
+COLUMN_SPANS.set(ProductTagField.Name, 1);
 
 COLUMN_SPANS.set(IngredientField.Id, 1);
 COLUMN_SPANS.set(IngredientField.Name, 5);
 COLUMN_SPANS.set(IngredientField.Type, 5);
 COLUMN_SPANS.set(IngredientField.Category, 3);
-COLUMN_SPANS.set(IngredientField.Group, 3);
+COLUMN_SPANS.set(IngredientField.Tag, 3);
 
 COLUMN_SPANS.set(IngredientCategoryField.Id, 1);
 COLUMN_SPANS.set(IngredientCategoryField.Name, 1);
 
-COLUMN_SPANS.set(IngredientGroupField.Id, 1);
-COLUMN_SPANS.set(IngredientGroupField.Name, 1);
+COLUMN_SPANS.set(IngredientTagField.Id, 1);
+COLUMN_SPANS.set(IngredientTagField.Name, 1);
 
 COLUMN_SPANS.set(DishField.Id, 2);
 COLUMN_SPANS.set(DishField.Image, 1);
 COLUMN_SPANS.set(DishField.Name, 3);
 COLUMN_SPANS.set(DishField.Weight, 2);
 COLUMN_SPANS.set(DishField.Category, 2);
-COLUMN_SPANS.set(DishField.Group, 2);
+COLUMN_SPANS.set(DishField.Tag, 2);
 
 COLUMN_SPANS.set(DishCategoryField.Id, 1);
 COLUMN_SPANS.set(DishCategoryField.Name, 1);
 
-COLUMN_SPANS.set(DishGroupField.Id, 1);
-COLUMN_SPANS.set(DishGroupField.Name, 1);
+COLUMN_SPANS.set(DishTagField.Id, 1);
+COLUMN_SPANS.set(DishTagField.Name, 1);
 
 function useGridFrames(
     fields?: 
@@ -77,13 +77,13 @@ function useGridFrames(
         PurchaseOptionField[]|
         ProductField[]|
         ProductCategoryField[]|
-        ProductGroupField[]|
+        ProductTagField[]|
         IngredientField[]|
         IngredientCategoryField[]|
-        IngredientGroupField[]|
+        IngredientTagField[]|
         DishField[]|
         DishCategoryField[]|
-        DishGroupField[]
+        DishTagField[]
 ) 
 {
    

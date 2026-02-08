@@ -6,10 +6,9 @@ import { getDishProducts } from "../../api/nomenclature/dishes"
 export interface SearchParams {
     id: number
     name: string
-    category: string
-    group: string
     minWeight: number
     maxWeight: number
+    tags: string[]
     hasAnyProducts: string[]
     excludesProducts: string[]
 }
@@ -17,10 +16,9 @@ export interface SearchParams {
 export const EMPTY_SEARCH_PARAMS: SearchParams = {
     id: NaN,
     name: '', 
-    category: '', 
-    group: '', 
     minWeight: NaN, 
     maxWeight: NaN, 
+    tags: [],
     hasAnyProducts: [],
     excludesProducts: [],
 }
@@ -30,23 +28,23 @@ export default function useFilterDishes() {
 
     function getPredicate () {
 
-        return (i:DishDTO) => {
+        return (d:DishDTO) => {
 
-            const products = getDishProducts(i)
+            const products = getDishProducts(d)
             
-            const dishWeight = i.total_net_weight ?? 0
+            const dishWeight = d.total_net_weight ?? 0
             return (
-                (searchData.name.length==0 || searchData.name.split(' ').every(s=>i.name.toLocaleLowerCase().includes(s)))
-            && (searchData.category.length==0 || searchData.category.split(' ').every(s=>i.category?.name.toLocaleLowerCase().includes(s)))
-            && (searchData.group.length==0 || searchData.group.split(' ').every(s=>i.group?.name.toLocaleLowerCase().includes(s)))
-            //id
-            && (Number.isNaN(searchData.id) || searchData.id == i.id)
-            //weight
-            && (Number.isNaN(searchData.minWeight) || dishWeight >= searchData.minWeight)
-            && (Number.isNaN(searchData.maxWeight) || dishWeight <= searchData.maxWeight)
-            // products
-            && (searchData.hasAnyProducts.length==0 || searchData.hasAnyProducts.some(s=>products.some(p=>p.name.toLocaleLowerCase().includes(s))))
-            && (searchData.excludesProducts.length==0 || !searchData.excludesProducts.some(s=>products.some(p=>(p.name.toLocaleLowerCase().includes(s)))))
+                (searchData.name.length==0 || searchData.name.split(' ').every(s=>d.name.toLocaleLowerCase().includes(s)))
+                //id
+                && (Number.isNaN(searchData.id) || searchData.id == d.id)
+                //weight
+                && (Number.isNaN(searchData.minWeight) || dishWeight >= searchData.minWeight)
+                && (Number.isNaN(searchData.maxWeight) || dishWeight <= searchData.maxWeight)
+                // products
+                && (searchData.hasAnyProducts.length==0 || searchData.hasAnyProducts.some(s=>products.some(p=>p.name.toLocaleLowerCase().includes(s))))
+                && (searchData.excludesProducts.length==0 || !searchData.excludesProducts.some(s=>products.some(p=>(p.name.toLocaleLowerCase().includes(s)))))
+                // tags
+                && (searchData.tags.length==0 || searchData.tags.some(t=>d.tags?.some(p=>p.name.toLocaleLowerCase() == t.toLocaleLowerCase())))
             )
         }
     }

@@ -1,4 +1,4 @@
-import { Accordion, Button, Card, Col, Form, ListGroup, ListGroupItem, Row, Table } from 'react-bootstrap';
+import { Accordion, Button, Card, Col, Form, Row, Table } from 'react-bootstrap';
 import { IngredientDTO, deleteIngredient, getIngredientWithProducts, getIngredientWithPurchaseOptions } from '../../../api/nomenclature/ingredients';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
@@ -11,6 +11,8 @@ import IngredientDishesTable from './IngredientDishesTable';
 import Loading from '../../shared/Loading';
 import UpdatedAt from '../../shared/UpdatedAt';
 import Markdown from 'react-markdown';
+import IngredientIngredientsTable from './IngredientIngredientsTable';
+import Tags from '../../shared/tags/Tags';
 
 
 function IngredientDetails() 
@@ -34,7 +36,7 @@ function IngredientDetails()
                 throw Error("Ошибка загрузки данных: отсутствует id ингредиента")
             
             setIsLoading(true)
-            const ingredient = await getIngredientWithProducts(parseInt(id??'0'))
+            const ingredient = await getIngredientWithPurchaseOptions(parseInt(id??'0'))
             
             if (ingredient === null)
                 throw Error("Не удалось получить данные ингредиента")
@@ -74,27 +76,19 @@ function IngredientDetails()
                 <Col md={12}>
                     <UpdatedAt entity={ingredient}/>
                 </Col>
-                <ul className='list-group ps-2'>
-                    <li className='list-group-item'>Тип: "{ingredient.type?.name}"</li>                    
-                    <li className='list-group-item'>
-                        Категория: "{ingredient.category?.name 
-                            ? <Link to={`/ingredient-categories/details/${ingredient.category.id}`}>{ingredient.category.name}</Link> 
-                            : '-без категории-'}"</li>
-                    <li className='list-group-item'>
-                        Группа: "{ingredient.group?.name 
-                            ? <Link to={`/ingredient-groups/details/${ingredient.group.id}`}>{ingredient.group.name}</Link> 
-                            : '-без группы-'}"</li>
-                    <li className='list-group-item'>Средний процент отхода: {ingredient?.avg_waste_percentage?.toFixed(2)}</li>
+                <ul className='list-tag ps-2'>
+                    <li className='list-tag-item'>Тип: "{ingredient.type?.name}"</li>
+                    <li className='list-tag-item'>Средний процент отхода: {ingredient?.avg_waste_percentage?.toFixed(2)}</li>
                     {ingredient.is_item_measured
-                        ?<li className='list-group-item'>Вес 1шт: {ingredient.item_weight} г.</li>
+                        ?<li className='list-tag-item'>Вес 1шт: {ingredient.item_weight} г.</li>
                         :<></>
                     }
                 </ul>
                 
-                    
             <Col xl={6} lg={12} sm={12}>
                 <Card className="p-3">
                 <IngredientProductsTable ingredient={ingredient}/>
+                <IngredientIngredientsTable ingredient={ingredient}/>
                 {ingredient.description
                     ?
                     <p className='border-y bg-light p-3'>
@@ -107,6 +101,18 @@ function IngredientDetails()
                 }
                 </Card>
             </Col>
+            
+            {
+                ingredient.tags && ingredient.tags.length > 0
+                ?
+                <Col md={12} lg={6}>
+                    <Card>
+                        <h5>Теги</h5>
+                        <Tags tags={ingredient?.tags?.map(t=>{return{name:t.name, link:`/ingredient-tags/${t.id}`}})??[]}/>
+                    </Card>
+                </Col>
+                :<></>
+            }
 
             <Col xl={6} lg={12} sm={12}>
                 <Card className="p-3">
@@ -116,8 +122,8 @@ function IngredientDetails()
             </Col>
             <Col sm={12}>
                 <Card className="p-3">
-
-                <ProductsWeightsCalculator ingredient={ingredient}/>
+                    <h4 className='text-center'>Калькулятор веса и себестоимости</h4>
+                    <ProductsWeightsCalculator ingredient={ingredient}/>
                 </Card>
             </Col>
             </Row>

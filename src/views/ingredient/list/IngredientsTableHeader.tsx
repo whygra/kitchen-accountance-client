@@ -1,12 +1,13 @@
 import { useState } from "react"
 import HeaderSortButton from "../../shared/HeaderSortButton"
 import TooltipButton from "../../shared/TooltipButton"
-import { Form } from "react-bootstrap"
+import { Col, Form, Row } from "react-bootstrap"
 import { PurchaseOptionField } from "../../../hooks/sort/useSortPurchaseOptions"
 import { EMPTY_SEARCH_PARAMS, SearchParams } from "../../../hooks/filter/useFilterIngredients"
 import { IngredientField } from "../../../hooks/sort/useSortIngredients"
 import { IngredientTypeDTO } from "../../../api/nomenclature/ingredients"
 import GridTableRow, { WindowSize } from "../../shared/GridTableRow"
+import TagInput from "../../shared/tags/TagInput"
 
 interface IngredientsTableHeaderProps {
     filtersOpen?: boolean
@@ -17,6 +18,7 @@ interface IngredientsTableHeaderProps {
     setSearchData: (data:SearchParams)=>void
     searchData: SearchParams
     fieldsToExclude?: IngredientField[]
+    tags?: string[]
 }
 
 function IngredientsTableHeader({
@@ -27,12 +29,12 @@ function IngredientsTableHeader({
     sortIsDesc,
     searchData,
     setSearchData,
-    fieldsToExclude
+    fieldsToExclude,
+    tags = []
 }:IngredientsTableHeaderProps){
     const [searchOpen, setSearchOpen] = useState(filtersOpen??false)
     const sortCells = [
         {   
-            displayAt: WindowSize.Lg,
             field: IngredientField.Id,
             element: 
                 <HeaderSortButton
@@ -67,33 +69,7 @@ function IngredientsTableHeader({
                     sortIsDesc={sortIsDesc}
                     />,
             span: 1
-        },
-        {   
-            displayAt: WindowSize.Sm,
-            field: IngredientField.Category,
-            element: 
-                <HeaderSortButton
-                    header='Категория'
-                    field={IngredientField.Category}
-                    onClick={toggleSort}
-                    activeField={activeField}
-                    sortIsDesc={sortIsDesc}
-                    />,
-            span: 3
-        },
-        {   
-            displayAt: WindowSize.Sm,
-            field: IngredientField.Group,
-            element: 
-                <HeaderSortButton
-                    header='Группа'
-                    field={IngredientField.Group}
-                    onClick={toggleSort}
-                    activeField={activeField}
-                    sortIsDesc={sortIsDesc}
-                    />,
-            span: 3
-        },
+        }
         
     ]
     const filterCells = [
@@ -115,11 +91,11 @@ function IngredientsTableHeader({
             field: IngredientField.Name,
             element: 
                 <Form.Control
-                        autoFocus
-                        value={searchData.name}
-                        placeholder='наименование'
-                        onChange={(e)=>setSearchData({...searchData, name: e.target.value.toLocaleLowerCase()})}
-                    />,
+                    autoFocus
+                    value={searchData.name}
+                    placeholder='наименование'
+                    onChange={(e)=>setSearchData({...searchData, name: e.target.value.toLocaleLowerCase()})}
+                />,
             span: 3
         },
         {
@@ -133,32 +109,20 @@ function IngredientsTableHeader({
                     <option value=''>-/-</option>
                 </Form.Select>,
             span: 1
-        },
-        {
-            displayAt: WindowSize.Sm,
-            field: IngredientField.Category,
-            element: 
-                <Form.Control
-                        
-                        value={searchData.category}
-                        placeholder='категория'
-                        onChange={(e)=>setSearchData({...searchData, category: e.target.value.toLocaleLowerCase()})}
-                    />,
-            span: 3
-        },
-        {
-            displayAt: WindowSize.Sm,
-            field: IngredientField.Group,
-            element: 
-                <Form.Control
-                        
-                        value={searchData.group}
-                        placeholder='группа'
-                        onChange={(e)=>setSearchData({...searchData, group: e.target.value.toLocaleLowerCase()})}
-                    />,
-            span: 3
-        },
+        }
         
+    ]
+    const tagsFilter = [
+        {
+            field: IngredientField.Tags,
+            element: <TagInput
+                            selectTag={t=>setSearchData({...searchData, tags: [...searchData.tags, t]})}
+                            unselectTag={t=>setSearchData({...searchData, tags: searchData.tags.filter(e=>e.localeCompare(t)!=0)})}
+                            tags={tags}
+                            selectedTags={searchData.tags}
+                        />,
+            span: 1
+        }
     ]
     return (
         <>
@@ -178,7 +142,8 @@ function IngredientsTableHeader({
             ?
             <div className='fw-bold w-100 position-relative bg-light rounded-2 ps-2 pe-5'>
                 <GridTableRow cells={filterCells} fieldsToExclude={fieldsToExclude}/>
-                <div className="position-absolute translate-middle-y end-0 top-50 me-1">
+                <GridTableRow cells={tagsFilter}/>
+                <div className="position-absolute end-0 top-0 me-1 mt-2">
                     <TooltipButton
                         tooltip='сбросить фильтры'
                         onClick={()=>setSearchData(EMPTY_SEARCH_PARAMS)}

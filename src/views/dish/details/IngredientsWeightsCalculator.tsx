@@ -27,7 +27,7 @@ function IngredientsWeightsCalculator({dish}:IngredientsWeightsCalculatorProps) 
             (p) => {
                 return {
                     ...p,
-                    amount: requiredAmount * p.ingredient.ingredient_amount!
+                    amount: requiredAmount * p.ingredient.amount!
                 }
             }
         )??[])

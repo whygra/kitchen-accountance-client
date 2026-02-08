@@ -1,20 +1,5 @@
-import { Link } from "react-router-dom"
-import { Image } from "react-bootstrap"
 import { ReactElement, useEffect, useState } from "react"
-import { ProjectField } from "../../hooks/sort/useSortProjects"
-import { DistributorField } from "../../hooks/sort/useSortDistributors"
-import { PurchaseOptionField } from "../../hooks/sort/useSortPurchaseOptions"
-import { ProductField } from "../../hooks/sort/useSortProducts"
-import { ProductCategoryField } from "../../hooks/sort/useSortProductCategories"
-import { ProductGroupField } from "../../hooks/sort/useSortProductGroups"
-import { IngredientField } from "../../hooks/sort/useSortIngredients"
-import { IngredientCategoryField } from "../../hooks/sort/useSortIngredientCategories"
-import { IngredientGroupField } from "../../hooks/sort/useSortIngredientGroups"
-import { DishField } from "../../hooks/sort/useSortDishes"
-import { DishCategoryField } from "../../hooks/sort/useSortDishCategories"
-import { DishGroupField } from "../../hooks/sort/useSortDishGroups"
 import { useMediaQuery } from "react-responsive"
-import { InventoryActField } from "../../hooks/sort/useSortInventoryAct"
 
 
 enum WindowSize {

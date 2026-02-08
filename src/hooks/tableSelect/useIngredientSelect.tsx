@@ -32,7 +32,7 @@ export default function useIngredientSelect(
         setDisplaySelect(false)
     }
     
-    const selectFilter = useIngredientsTableHeader(types, true, fieldsToExclude)
+    const selectFilter = useIngredientsTableHeader({ingredientTypes: types, filtersOpen:true, fieldsToExclude})
     const filteredItems = items
     .filter(selectFilter.getPredicate())
     .sort(selectFilter.getComparer())

@@ -12,7 +12,7 @@ function SaleActItemsTable({saleAct}:SaleActProductsTableProps) {
     const {sliceLimits, nav} = usePagination(saleAct.items?.length??0)
 
     return(
-        <><h4 className="text-center">Полуфабрикаты</h4>
+        <><h4 className="text-center">Позиции</h4>
         <Table cellPadding={3} cellSpacing={3}>
             <thead>
                 <tr className='text-center'>

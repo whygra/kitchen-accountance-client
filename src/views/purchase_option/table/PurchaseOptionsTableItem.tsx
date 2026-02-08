@@ -3,6 +3,7 @@ import { PurchaseOptionDTO } from "../../../api/nomenclature/purchaseOptions"
 import { PurchaseOptionField } from "../../../hooks/sort/useSortPurchaseOptions"
 import ExpansionBtn, { ExpansionBtnProps } from "../../shared/ExpansionBtn"
 import GridTableRow, { WindowSize } from "../../shared/GridTableRow"
+import TooltipIcon from "../../shared/TooltipIcon"
 
 interface PurchaseOptionsTableItemProps {
     purchaseOption: PurchaseOptionDTO
@@ -21,7 +22,13 @@ function PurchaseOptionsTableItem({purchaseOption, fieldsToExclude}:PurchaseOpti
         {   
             field: PurchaseOptionField.Name,
             element: 
-                <Link to={`/purchase-options/details/${purchaseOption.id}`}>{purchaseOption.name}</Link>,
+                <><Link to={`/purchase-options/details/${purchaseOption.id}`}>{purchaseOption.name}</Link>
+                    {(purchaseOption.is_relevant??true)
+                        ?<></>
+                        :<TooltipIcon tooltip="Не актуально" textColor="warning" icon="exclamation-triangle-fill"/>
+                    }
+                
+                </>,
             span: 5
         },
         {   
@@ -35,7 +42,7 @@ function PurchaseOptionsTableItem({purchaseOption, fieldsToExclude}:PurchaseOpti
             displayAt: WindowSize.Lg,
             field: PurchaseOptionField.Product,
             element: 
-                purchaseOption.products&&(purchaseOption.products.length > 0)?<Link to={`/products/details/${purchaseOption.products[0].id}`}>{purchaseOption.products[0].name}</Link> : <>-нет-</>,
+                purchaseOption.product?<Link to={`/products/details/${purchaseOption.product.id}`}>{purchaseOption.product.name}</Link> : <>-нет-</>,
             span: 3
         },
         {   

@@ -31,7 +31,7 @@ function IngredientProductForm({formState, openSelect}: IngredientsProductFormPr
   }
 
   function setProductAction(action:DataAction) {
-    setIngredientProductFormState({...formState, productDataAction: action})
+    setIngredientProductFormState({...formState, dataAction: action})
   }
 
   function setGrossWeight(value:number) {
@@ -48,7 +48,7 @@ function IngredientProductForm({formState, openSelect}: IngredientsProductFormPr
     <Card className='w-100 p-3'>
       <Row>
         <Col md={11}
-        style={formState.productDataAction==DataAction.Delete ? {pointerEvents: "none", opacity: "0.4"} : {}}
+        style={formState.dataAction==DataAction.Delete ? {pointerEvents: "none", opacity: "0.4"} : {}}
         >
           <Row>
 
@@ -56,11 +56,11 @@ function IngredientProductForm({formState, openSelect}: IngredientsProductFormPr
               <div className="mb-2 d-flex flex-row justify-content-between">
               <b>Продукт</b>
                 <IsCreateSwitch
-                  dataAction={formState.productDataAction}
+                  dataAction={formState.dataAction}
                   setDataAction={setProductAction}
                 />
               </div>
-            {formState.productDataAction == DataAction.Create 
+            {formState.dataAction == DataAction.Create 
               ? <Form.Group>
                 <Form.Control
                   required
@@ -80,7 +80,7 @@ function IngredientProductForm({formState, openSelect}: IngredientsProductFormPr
                   onClick={()=>openSelect(formState)} 
                   required 
                   value={selectedProduct ? selectedProduct.name : ''} 
-                  />
+                />
                 <Form.Control.Feedback type="invalid">
                   выберите элемент
                 </Form.Control.Feedback>

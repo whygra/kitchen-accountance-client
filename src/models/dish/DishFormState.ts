@@ -3,33 +3,24 @@ import { DataAction } from ".."
 import { DishDTO } from "../../api/nomenclature/dishes"
 import { IngredientDTO } from "../../api/nomenclature/ingredients";
 import { ServerImageData } from "../../api/constants";
+import { DishTagDTO } from "../../api/nomenclature/dishTags";
 
 export interface DishFormState {
-    categoryDataAction: DataAction
-    groupDataAction: DataAction
     id: number
     name: string
     description: string
-    categoryId: number
-    categoryName: string
-    groupId: number
-    groupName: string
+    tags: DishTagDTO[]
     dishIngredientForms: DishIngredientFormState[]
     image?: ServerImageData
 }
 
 export function constructDishForm(dto?: DishDTO): DishFormState{
     return {
-        categoryDataAction: DataAction.None,
-        groupDataAction: DataAction.None,
         image: dto?.image,
         id: dto?.id ?? 0,
         name: dto?.name ?? '',
         description: dto?.description ?? '',
-        categoryId: dto?.category?.id ?? 0,
-        categoryName: dto?.category?.name ?? '',
-        groupId: dto?.group?.id ?? 0,
-        groupName: dto?.group?.name ?? '',
+        tags: dto?.tags ?? [],
         dishIngredientForms: dto?.ingredients?.map(i=>constructDishIngredientForm(i)) ?? [],
     }
 }
@@ -39,14 +30,7 @@ export function dishFormToDTO(formState: DishFormState): DishDTO{
         id: formState.id,
         name: formState.name,
         description: formState.description,
-        category: {
-            id: formState.categoryDataAction == DataAction.Create ? 0 : formState.categoryId,
-            name: formState.categoryDataAction == DataAction.Create ? formState.categoryName : '',
-        },
-        group: {
-            id: formState.groupDataAction == DataAction.Create ? 0 : formState.groupId,
-            name: formState.groupDataAction == DataAction.Create ? formState.groupName : '',
-        },
+        tags: formState.tags,
         ingredients: formState.dishIngredientForms
             .filter(f=>f.ingredientDataAction!=DataAction.Delete)
             .map(f=>dishIngredientToDTO(f)),
@@ -77,7 +61,7 @@ export function constructDishIngredientForm(dto?: IngredientDTO) : DishIngredien
         itemWeight: dto?.item_weight ?? 1,
         isItemMeasured: dto?.is_item_measured ?? false,
         typeId: dto?.type?.id ?? 0,
-        ingredientAmount: dto?.ingredient_amount ?? 1,
+        ingredientAmount: dto?.amount ?? 1,
         wastePercentage: dto?.waste_percentage ?? 0,
         netWeight: dto?.net_weight ?? 0,
     }
@@ -93,7 +77,30 @@ export function dishIngredientToDTO(formState: DishIngredientFormState): Ingredi
             id: formState.typeId,
             name: '',
         },
-        ingredient_amount: formState.ingredientAmount,
+        amount: formState.ingredientAmount,
         net_weight: formState.netWeight,
+    }
+}
+
+export interface DishTagFormState {
+    dataAction: DataAction
+    key: string
+    id: number
+    name: string
+}
+
+export function constructDishTagForm(dto?: DishTagDTO) : DishTagFormState{
+    return {
+        dataAction: DataAction.None,
+        key: uuid(),
+        id: dto?.id ?? 1,
+        name: dto?.name ?? '',
+    }
+}
+
+export function dishTagToDTO(formState: DishTagFormState): DishTagDTO {
+    return {
+        id: formState.dataAction==DataAction.Create ? 0 : formState.id,
+        name: formState.name,
     }
 }

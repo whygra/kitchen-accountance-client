@@ -16,12 +16,9 @@ import usePurchaseOptionRoutes from './PurchaseOptionRoutes';
 import { EmailVerificationRequired } from '../views/EmailVerificationRequired';
 import { VerifyEmail } from '../views/VerifyEmail';
 import useProjectRoutes from './ProjectRoutes';
-import useIngredientCategoryRoutes from './IngredientCategoryRoutes';
-import useIngredientGroupRoutes from './IngredientGroupRoutes';
-import useDishCategoryRoutes from './DishCategoryRoutes';
-import useDishGroupRoutes from './DishGroupRoutes';
-import useProductCategoryRoutes from './ProductCategoryRoutes';
-import useProductGroupRoutes from './ProductGroupRoutes';
+import useIngredientTagRoutes from './IngredientTagRoutes';
+import useDishTagRoutes from './DishTagRoutes';
+import useProductTagRoutes from './ProductTagRoutes';
 import useUnitRoutes from './UnitRoutes';
 import ForgotPassword from '../views/auth/ForgotPassword';
 import ResetPassword from '../views/auth/ResetPassword';
@@ -33,15 +30,12 @@ import useSaleActRoutes from './SaleActRoutes';
 
 function AppRoutes() {
     const ingredientRoutes = useIngredientRoutes()
-    const ingredientCategoryRoutes = useIngredientCategoryRoutes()
-    const ingredientGroupRoutes = useIngredientGroupRoutes()
+    const ingredientTagRoutes = useIngredientTagRoutes()
     const distributorRoutes = useDistributorRoutes()
     const dishRoutes = useDishRoutes()
-    const dishCategoryRoutes = useDishCategoryRoutes()
-    const dishGroupRoutes = useDishGroupRoutes()
+    const dishTagRoutes = useDishTagRoutes()
     const productRoutes = useProductRoutes()
-    const productCategoryRoutes = useProductCategoryRoutes()
-    const productGroupRoutes = useProductGroupRoutes()
+    const productTagRoutes = useProductTagRoutes()
     const purchaseOptionRoutes = usePurchaseOptionRoutes()
     const unitRoutes = useUnitRoutes()
     const projectRoutes = useProjectRoutes()
@@ -56,16 +50,13 @@ function AppRoutes() {
         <Routes>
             
         {ingredientRoutes}
-        {ingredientCategoryRoutes}
-        {ingredientGroupRoutes}
+        {ingredientTagRoutes}
         {distributorRoutes}
         {dishRoutes}
-        {dishCategoryRoutes}
-        {dishGroupRoutes}
+        {dishTagRoutes}
         {dishRoutes}
         {productRoutes}
-        {productCategoryRoutes}
-        {productGroupRoutes}
+        {productTagRoutes}
         {purchaseOptionRoutes}
         {unitRoutes}
         {projectRoutes}

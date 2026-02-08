@@ -14,13 +14,11 @@ import Loading from '../views/shared/Loading';
   interface DishCostCalculator {
     model : DishCostCalculatorState
     setIngredientCalculatorState : (state:IngredientCostCalculatorModel)=>void
-    setProductCalculatorState : (ingredientId:number,state:ProductCostCalculatorModel)=>void
   }
   
   export const dishCostCalculatorContext = createContext<DishCostCalculator>({
     model: constructDishCostCalculator(),
     setIngredientCalculatorState: (state:IngredientCostCalculatorModel)=>{},
-    setProductCalculatorState: (ingredientId:number,state:ProductCostCalculatorModel)=>{},
   });
 
 
@@ -41,25 +39,13 @@ function DishCostCalculatorContextProvider({id, children} : DishCostCalculatorCo
       if(result!=null)
         setModel(constructDishCostCalculator(result))
       setIsLoading(false)
+      console.log(result)
   }
 
   function setIngredientState(ingredient: IngredientCostCalculatorModel) {
     setModel(setCalcDishCost({
       ...model,
-      ingredients: model.ingredients.map(i=>i.id == ingredient.id ? ingredient : i)
-    }))
-  }
-
-  function setProductState(ingredientId: number, product: ProductCostCalculatorModel) {
-    // 
-    let ingredient = {...model.ingredients.find(i=>i.id==ingredientId)!}
-    ingredient = {...ingredient, products:ingredient.products?.map(p=>p.id==product.id ? product:p)}
-    const ingredients = model.ingredients.map(i=>
-      i.id == ingredientId ? calcIngredientCost(ingredient) : i
-    )
-    setModel(setCalcDishCost({
-      ...model,
-      ingredients: ingredients
+      ingredients: model.ingredients.map(i=>i.key == ingredient.key ? ingredient : i)
     }))
   }
 
@@ -67,7 +53,6 @@ function DishCostCalculatorContextProvider({id, children} : DishCostCalculatorCo
     <dishCostCalculatorContext.Provider value={{
       model: model,
       setIngredientCalculatorState: setIngredientState,
-      setProductCalculatorState: setProductState,
     }}>
       {children}
     </dishCostCalculatorContext.Provider>

@@ -36,7 +36,7 @@ function SaleActsTableItem({saleAct, fieldsToExclude}: SaleActsTableItemProps)
             displayAt: WindowSize.Sm,
             field: SaleActField.TotalCost,
             element: 
-                <>{saleAct.items?.reduce((total, item)=>total+(item.amount??0)*(item.price??0), 0)}</>,
+                <>{saleAct.items?.reduce((total, item)=>total+(item.amount??0)*(item.price??0), 0)} руб</>,
             span: 2
         },
     ]

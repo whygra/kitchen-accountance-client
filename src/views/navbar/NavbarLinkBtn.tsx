@@ -23,7 +23,7 @@ function NavbarLinkBtn({hasAnyPermissions, dropdownMenuContent, to, children, dr
 
   return (hasAnyPermissions && hasAnyPermissions.filter(p=>hasPermission(p)).length==0) ? <></> : (
     <div 
-      className={`p-0 border-bottom btn-group ${dropDirection??'dropdown'}`}>
+      className={`p-0 border-bottom btn-tag d-flex flex-row ${dropDirection??'dropdown'}`}>
       <Link className={`link-dark text-decoration-none ${dropdownMenuContent?'w-75':'w-100'}`} to={to}>
         <Button variant='light'
           className='w-100 py-3 ps-2 pe-2 text-start'

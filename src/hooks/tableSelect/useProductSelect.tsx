@@ -24,7 +24,7 @@ export default function useProductSelect(
         setDisplaySelect(false)
     }
 
-    const selectFilter = useProductsTableHeader(true, fieldsToExclude)
+    const selectFilter = useProductsTableHeader({filtersOpen:true, fieldsToExclude})
     const filteredItems = items
     .filter(selectFilter.getPredicate())
     .sort(selectFilter.getComparer())

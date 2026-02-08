@@ -28,20 +28,6 @@ function ProductsTableItem({product, fieldsToExclude}: ProductsTableItemProps)
                 <Link to={`/products/details/${product.id}`}>{product.name}</Link>,
             span: 3
         },
-        {   
-            displayAt: WindowSize.Sm,
-            field: ProductField.Category,
-            element: 
-                product.category?<Link to={`/product-categories/details/${product.category.id}`}>{product.name}</Link>:<>-без категории-</>,
-            span: 3
-        },
-        {   
-            displayAt: WindowSize.Sm,
-            field: ProductField.Group,
-            element: 
-                product.group?<Link to={`/product-groups/details/${product.group.id}`}>{product.name}</Link>:<>-без группы-</>,
-            span: 3
-        },
     ]
     return(
         <GridTableRow cells={cells} fieldsToExclude={fieldsToExclude}/>

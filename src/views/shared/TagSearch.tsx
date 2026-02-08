@@ -26,7 +26,7 @@ function TagSearch({onItemsChanged, items, label, variant}: TagSearchProps) {
     
     return (
         <Row>
-            <Col sm={4} className='ps-4 position-relative'>
+            <Col sm={4} className='position-relative'>
                 <div className='pt-2 text-start text-sm-end'>{label}</div>
             </Col>
             <Col sm={8}>
@@ -42,7 +42,7 @@ function TagSearch({onItemsChanged, items, label, variant}: TagSearchProps) {
             </Form.Group>
             </Col>
             <Col>
-                <div className='text-center ps-1'>{items.map(i=>
+                <div className='ps-1'>{items.map(i=>
                     <Badge 
                         className={`mt-2 ms-0 me-0 p-1 font-monospace ${variant? 'bg-'+variant : ''}`} 
                         style={{fontSize:'1rem', fontWeight:'normal'}}>{i.length>20 ? `${i.substring(0,17)}...` : i}

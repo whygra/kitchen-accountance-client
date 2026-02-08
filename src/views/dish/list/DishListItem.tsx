@@ -8,6 +8,7 @@ import { UserPermissions } from '../../../models';
 import CUDButtons from '../../shared/CUDButtons';
 import DishesTableItem from './DishesTableItem';
 import { DishField } from '../../../hooks/sort/useSortDishes';
+import Tags from '../../shared/tags/Tags';
 
 interface DishListItemProps {
     dish: DishDTO
@@ -36,6 +37,7 @@ function DishListItem({dish, onDelete}: DishListItemProps)
             <DishesTableItem fieldsToExclude={[DishField.Id]} dish={dish}/>
         </Accordion.Header>
         <Accordion.Body>
+            <Tags tags={dish?.tags?.map(t=>{return{name:t.name, link:`/dish-tags/${t.id}`}})??[]}/>
             <small><DishIngredientsTable dish={dish}/></small>
                 <div className='d-flex justify-content-between'>
                 <Link to={`/dishes/details/${dish.id}`}><Button variant='info'>Подробнее</Button></Link>

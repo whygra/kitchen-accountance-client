@@ -35,13 +35,13 @@ export interface ProjectDTO {
   num_units?: NumEntities
   num_products?: NumEntities
   num_product_categories?: NumEntities
-  num_product_groups?: NumEntities
+  num_product_tags?: NumEntities
   num_ingredients?: NumEntities
   num_ingredient_categories?: NumEntities
-  num_ingredient_groups?: NumEntities
+  num_ingredient_tags?: NumEntities
   num_dishes?: NumEntities
   num_dish_categories?: NumEntities
-  num_dish_groups?: NumEntities
+  num_dish_tags?: NumEntities
 }
 
 export const uploadSheets = async (file: File, id: number): Promise<ProjectDTO | null> => {
@@ -56,9 +56,10 @@ export const uploadSheets = async (file: File, id: number): Promise<ProjectDTO |
   })
 
   const data = await response.json().catch(e=>console.log(e))
+  console.log(data)
   if (!response.ok)
     throw {
-      message: `${response.status} Не удалось импортировать данные проекта ${data?.message}: ${data?.errors[0]}`,
+      message: `${response.status} Не удалось импортировать данные проекта ${data?.message}: ${data?.errors[0]}, ${data?.failures[0]}`,
       name: `${response.status} ${response.statusText}`
     }
   

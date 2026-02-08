@@ -1,9 +1,11 @@
-import { Form, FormSelect, Table } from "react-bootstrap";
+import { Accordion, Form, FormSelect, Table } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import { IngredientDTO } from "../../../api/nomenclature/ingredients";
-import { calcIngredientCost, constructIngredientCostCalculator, constructProductCostCalculator, ProductCostCalculatorModel, setAmount } from "../../../models/dish/DishCostCalculatorState";
+import { calcIngredientCost, constructIngredientCostCalculator, IngredientCostCalculatorModel, ProductCostCalculatorModel, setAmount } from "../../../models/dish/DishCostCalculatorState";
 import ProductCostCalculator from "./ProductCostCalculator";
 import { Link } from "react-router-dom";
+import IngredientCostCalculator from "../../dish/details/IngredientCostCalculator";
+import TooltipIcon from "../../shared/TooltipIcon";
 
 interface ProductsWeightsCalculatorProps{
     ingredient: IngredientDTO
@@ -13,20 +15,24 @@ function ProductsWeightsCalculator({ingredient}:ProductsWeightsCalculatorProps) 
     const [costCalculator, setCostCalculator] = useState(constructIngredientCostCalculator({...ingredient}))
 
     useEffect(()=>{
-        calcProductWeights(ingredient.is_item_measured?1:1000)
+        calcWeights(ingredient.is_item_measured?1:1000)
     }, [])
 
-    function calcProductWeights(ingredientAmount: number){
+    function calcWeights(ingredientAmount: number){
         setCostCalculator(calcIngredientCost(setAmount(costCalculator, ingredientAmount)))
     }
 
-    function setProductState(state: ProductCostCalculatorModel){
-        setCostCalculator({...costCalculator, products:costCalculator.products?.map(p=>p.id==state.id?state:p)})
+    function setProductCalculatorState(state: ProductCostCalculatorModel){
+        setCostCalculator(calcIngredientCost({...costCalculator, products:costCalculator.products?.map(p=>p.key==state.key?state:p)}))
+    }
+
+    function setIngredientCalculatorState(state: IngredientCostCalculatorModel){
+        console.log(calcIngredientCost({...costCalculator, ingredients:costCalculator.ingredients?.map(i=>i.key==state.key?state:i)}))
+        setCostCalculator(calcIngredientCost({...costCalculator, ingredients:costCalculator.ingredients?.map(i=>i.key==state.key?state:i)}))
     }
 
     return(
         <>
-        <h4 className='text-center'>Калькулятор веса и себестоимости</h4>
             <Table className="text-center">
                 <thead>
                     <tr>
@@ -42,8 +48,8 @@ function ProductsWeightsCalculator({ingredient}:ProductsWeightsCalculatorProps) 
                                 type='number'
                                 min={ingredient.is_item_measured ? 1 : 50}
                                 step={1}
-                                value={costCalculator.ingredient_amount}
-                                onChange={(e)=>calcProductWeights(parseFloat(e.target.value))}
+                                value={costCalculator.amount}
+                                onChange={(e)=>calcWeights(parseFloat(e.target.value))}
                             />
                         </td>
                         <td>
@@ -65,17 +71,30 @@ function ProductsWeightsCalculator({ingredient}:ProductsWeightsCalculatorProps) 
                     <tbody>
                     {costCalculator.products?.map(p=>
                         <tr>
-                            <td><Link to={`/products/details/${p.id}`}>{p.name}</Link></td>
+                            <td><Link to={`/products/details/${p.id}`}>{p.name}</Link>
+                                {
+                                    p.selected?.is_relevant ?? true
+                                    ? <></>
+                                    :<TooltipIcon tooltip="Не актуальная позиция закупки" textColor="warning" icon="exclamation-triangle-fill"/>
+                                }
+                            </td>
                             <td>
-                                <ProductCostCalculator product={p} setProductState={setProductState}/>
+                                <ProductCostCalculator product={p} setState={setProductCalculatorState}/>
                             </td>
                             <td className="d-none d-md-table-cell"><u>{`${p.gramCost.toFixed(2)} ₽/г.`}</u></td>
                             <td className="d-none d-sm-table-cell"><u>{`${p.weight.toFixed(2)} г.`}</u></td>
                             <td><u>{`${(p.weight*p.gramCost).toFixed(2)} ₽`}</u></td>
                         </tr>
                     )}
+                    
                     </tbody>
                 </Table>
+                <Accordion>
+
+                    {costCalculator.ingredients?.map(i=>
+                        <IngredientCostCalculator setState={setIngredientCalculatorState} ingredient={i}/>
+                    )}
+                    </Accordion>
         </>
     )
 }

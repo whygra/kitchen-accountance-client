@@ -1,15 +1,14 @@
-import { getIngredientWithProducts, IngredientDTO, postIngredientWithProducts, putIngredientWithProducts } from '../../../../api/nomenclature/ingredients';
-import { constructIngredientForm, constructIngredientProductForm, IngredientFormState, ingredientFormToDTO, IngredientProductFormState } from '../../../../models/ingredient/IngredientFormState';
+import { getIngredients, getIngredientWithProducts, IngredientDTO, postIngredientWithProducts, putIngredientWithProducts } from '../../../../api/nomenclature/ingredients';
+import { constructIngredientForm, constructIngredientIngredientForm, constructIngredientProductForm, constructIngredientTagForm, IngredientFormState, ingredientFormToDTO, IngredientIngredientFormState, IngredientProductFormState, IngredientTagFormState } from '../../../../models/ingredient/IngredientFormState';
 import { DataAction } from '../../../../models';
 import { useParams } from 'react-router-dom';
 import { createContext, ReactElement, useEffect, useState } from 'react';
 import { IngredientTypeDTO, getIngredientTypes } from '../../../../api/nomenclature/ingredientTypes';
 import { ProductDTO, getProducts } from '../../../../api/nomenclature/products';
-import { IngredientCategoryDTO, getIngredientCategories } from '../../../../api/nomenclature/ingredientCategories';
 import { useErrorBoundary } from 'react-error-boundary';
 import { Image } from 'react-bootstrap';
 import Loading from '../../../../views/shared/Loading';
-import { getIngredientGroups, IngredientGroupDTO } from '../../../../api/nomenclature/ingredientGroups';
+import { getIngredientTags, IngredientTagDTO } from '../../../../api/nomenclature/ingredientTags';
 
 // контекст формы ингредиента
 interface IngredientFormContext {
@@ -19,24 +18,25 @@ interface IngredientFormContext {
   addIngredientProductForm: ()=>void
   setIngredientProductFormState: (state:IngredientProductFormState)=>void
   removeIngredientProductForm: (key:string)=>void
-  removeAllIngredientProductForms:()=>void,
+  removeAllIngredientProductForms:()=>void
+  addIngredientIngredientForm: ()=>void
+  setIngredientIngredientFormState: (state:IngredientIngredientFormState)=>void
+  removeIngredientIngredientForm: (key:string)=>void
+  removeAllIngredientIngredientForms:()=>void
+  addTag: (tag:string)=>void
+  removeTag: (key:string)=>void
+  removeAllTags:()=>void,
   requestFn: ()=>Promise<IngredientDTO|null>
   setTypeId: (id:number)=>void
   setName: (name:string)=>void
   setDescription: (description:string)=>void
-  setCategoryName: (name:string)=>void
-  setCategoryId: (id:number)=>void
-  setCategoryDataAction: (action:DataAction)=>void
-  setGroupName: (name:string)=>void
-  setGroupId: (id:number)=>void
-  setGroupDataAction: (action:DataAction)=>void
   setItemWeight: (weight:number)=>void,
   setIsItemMeasured: (value:boolean)=>void,
-  categories:IngredientCategoryDTO[]
-  groups:IngredientCategoryDTO[]
+  tags:IngredientTagDTO[],
   formState: IngredientFormState
   ingredientTypes: IngredientTypeDTO[]
   products: ProductDTO[]
+  ingredients: IngredientDTO[]
 }
 
 export const ingredientContext = createContext<IngredientFormContext>({
@@ -47,23 +47,24 @@ export const ingredientContext = createContext<IngredientFormContext>({
   setIngredientProductFormState:(state:IngredientProductFormState)=>{},
   removeIngredientProductForm:(key:string)=>{},
   removeAllIngredientProductForms:()=>{},
+  addIngredientIngredientForm:()=>{},
+  setIngredientIngredientFormState:(state:IngredientIngredientFormState)=>{},
+  removeIngredientIngredientForm:(key:string)=>{},
+  removeAllIngredientIngredientForms:()=>{},
+  addTag:()=>{},
+  removeTag:(key:string)=>{},
+  removeAllTags:()=>{},
   requestFn:async()=>null,
   setTypeId:(id:number)=>{},
   setName:(name:string)=>{},
   setDescription:(description:string)=>{},
-  setCategoryName: (name:string)=>{},
-  setCategoryId: (id:number)=>{},
-  setCategoryDataAction: (action:DataAction)=>{},
-  setGroupName: (name:string)=>{},
-  setGroupId: (id:number)=>{},
-  setGroupDataAction: (action:DataAction)=>{},
   setItemWeight: (weight:number)=>{},
   setIsItemMeasured: (value:boolean)=>{},
-  categories:[],
-  groups:[],
+  tags:[],
   formState:constructIngredientForm(),
   ingredientTypes:[],
-  products: []
+  products: [],
+  ingredients: []
 });
 
 interface IngredientFormContextProviderProps{
@@ -78,9 +79,9 @@ function IngredientFormContextProvider({action, children}:IngredientFormContextP
   const [formStateHistory, setFormStateHistory] = useState<IngredientFormState[]>([])
   const [isLoading, setIsLoading] = useState(false) 
   const [ingredientTypes, setIngredientTypes] = useState<IngredientTypeDTO[]>([]) 
-  const [categories, setCategories]= useState<IngredientCategoryDTO[]>([])
-  const [groups, setGroups]= useState<IngredientGroupDTO[]>([])
+  const [tags, setTags]= useState<IngredientTagDTO[]>([])
   const [products, setProducts] = useState<ProductDTO[]>([]) 
+  const [ingredients, setIngredients] = useState<IngredientDTO[]>([]) 
 
   const {id} = useParams()
 
@@ -107,8 +108,8 @@ function IngredientFormContextProvider({action, children}:IngredientFormContextP
 
       setIngredientTypes(await getIngredientTypes()??[]);
       setProducts(await getProducts()??[]);
-      setCategories([{id:0, name:'без категории'}, ...await getIngredientCategories()??[]])
-      setGroups([{id:0, name:'без группы'}, ...await getIngredientGroups()??[]])
+      setIngredients(await getIngredients()??[]);
+      setTags(await getIngredientTags()??[])
 
     } catch (e: any){
       showBoundary(e)
@@ -149,36 +150,6 @@ function IngredientFormContextProvider({action, children}:IngredientFormContextP
   function setDescription(description: string) {
     saveToHistory()
     setFormState({...formState, description:description})
-  }
-
-  function setCategoryId(categoryId: number) {
-    saveToHistory()
-    setFormState({...formState, categoryId:categoryId})
-  }
-
-  function setCategoryName(categoryName: string) {
-    saveToHistory()
-    setFormState({...formState, categoryName:categoryName})
-  }
-
-  function setCategoryDataAction(dataAction: DataAction) {
-    saveToHistory()
-    setFormState({...formState, categoryDataAction:dataAction})
-  }
-
-  function setGroupId(groupId: number) {
-    saveToHistory()
-    setFormState({...formState, groupId:groupId})
-  }
-
-  function setGroupName(groupName: string) {
-    saveToHistory()
-    setFormState({...formState, groupName:groupName})
-  }
-
-  function setGroupDataAction(dataAction: DataAction) {
-    saveToHistory()
-    setFormState({...formState, groupDataAction:dataAction})
   }
 
   function setItemWeight(weight: number) {
@@ -230,9 +201,47 @@ function IngredientFormContextProvider({action, children}:IngredientFormContextP
     })
   }
 
+  function addIngredientIngredientForm() {
+    saveToHistory()
+    setFormState({
+      ...formState,
+      ingredientIngredientForms:
+        [
+          ...formState.ingredientIngredientForms,
+          constructIngredientIngredientForm()
+        ]})
+  }
+
+  function setIngredientIngredientFormState(state:IngredientIngredientFormState) {
+    saveToHistory()
+    setFormState({
+      ...formState,
+      ingredientIngredientForms: formState.ingredientIngredientForms
+      .map(s=>s.key == state.key ? state : s)
+    })
+  }
+
+  function removeIngredientIngredientForm(key:string){
+    saveToHistory()
+    setFormState({
+      ...formState,
+      ingredientIngredientForms: 
+        formState.ingredientIngredientForms
+        .filter((s)=>s.key!=key)
+    }) 
+  }
+
+  function removeAllIngredientIngredientForms(){
+    saveToHistory()
+    setFormState({
+      ...formState,
+      ingredientIngredientForms: []
+    })
+  }
+
   function getWeightToPercentageCoefficient() {
     const productTotalWeight = formState.ingredientProductForms
-      .filter(p=>p.productDataAction!=DataAction.Delete)
+      .filter(p=>p.dataAction!=DataAction.Delete)
       .reduce((total, current)=>total+current.grossWeight, 0)
     return productTotalWeight==0 ? 0 : 100 / productTotalWeight
   }
@@ -244,6 +253,36 @@ function IngredientFormContextProvider({action, children}:IngredientFormContextP
       ingredientProductForms:formState.ingredientProductForms
         .map(f=>{return{...f, weightPercentage:f.grossWeight*coef}})
     }
+  }
+  
+
+  function addTag(tag: string) {
+    saveToHistory()
+    setFormState({
+      ...formState, 
+      tags:
+        [
+          ...formState.tags,
+          tags.find(t=>t.name==tag) ?? {id:0, name:tag}
+        ]})
+  }
+
+  function removeTag(tag:string){
+    saveToHistory()
+    setFormState({
+      ...formState,
+      tags: 
+        formState.tags
+        .filter((s)=>s.name!=tag)
+    })
+  }
+
+  function removeAllTags(){
+    saveToHistory()
+    setFormState({
+      ...formState,
+      tags: []
+    })
   }
 
   async function update() {
@@ -263,19 +302,20 @@ function IngredientFormContextProvider({action, children}:IngredientFormContextP
       setIngredientProductFormState: setIngredientProductFormState,
       removeIngredientProductForm: removeIngredientProductForm,
       removeAllIngredientProductForms: removeAllIngredientProductForms,
-      setCategoryDataAction: setCategoryDataAction,
-      setCategoryId: setCategoryId,
-      setCategoryName: setCategoryName,
-      setGroupDataAction: setGroupDataAction,
-      setGroupId: setGroupId,
-      setGroupName: setGroupName,
+      addIngredientIngredientForm: addIngredientIngredientForm,
+      setIngredientIngredientFormState: setIngredientIngredientFormState,
+      removeIngredientIngredientForm: removeIngredientIngredientForm,
+      removeAllIngredientIngredientForms: removeAllIngredientIngredientForms,
+      addTag: addTag,
+      removeTag: removeTag,
+      removeAllTags: removeAllTags,
       setItemWeight: setItemWeight,
       setIsItemMeasured: setIsItemMeasured,
-      categories: categories,
-      groups: groups,
+      tags: tags,
       formState: getStateWithWeightPercentages(),
       ingredientTypes: ingredientTypes,
       products: products,
+      ingredients: ingredients,
       setTypeId: setTypeId,
       setName: setName,
       setDescription: setDescription,

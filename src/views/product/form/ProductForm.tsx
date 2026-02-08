@@ -28,16 +28,9 @@ function ProductForm()
 
   const {
     formState, 
-    categories,
-    groups,
+    tags,
     requestFn, 
     setName, 
-    setCategoryId, 
-    setCategoryAction,
-    setCategoryName,
-    setGroupId, 
-    setGroupAction,
-    setGroupName,
     history,
     reloadState
   } = useContext(productFormContext);
@@ -94,30 +87,6 @@ function ProductForm()
         <Form.Control.Feedback type="invalid">
           введите наименование
         </Form.Control.Feedback>
-        </Form.Group>
-        <Form.Group className='mb-3'>
-        <SelectCreateGroup
-          label='Категория'
-          selectedId={formState.categoryId}
-          name={formState.categoryName}
-          dataAction={formState.categoryDataAction}
-          setDataAction={setCategoryAction}
-          setName={setCategoryName}
-          setId={setCategoryId}
-          items={categories}
-        />
-        </Form.Group>
-        <Form.Group className='mb-3'>
-        <SelectCreateGroup
-          label='Группа'
-          selectedId={formState.groupId}
-          name={formState.groupName}
-          dataAction={formState.groupDataAction}
-          setDataAction={setGroupAction}
-          setName={setGroupName}
-          setId={setGroupId}
-          items={groups}
-        />
         </Form.Group>
         <PurchaseOptionFormList/>
         <div className='d-flex'>

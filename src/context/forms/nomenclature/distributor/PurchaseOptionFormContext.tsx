@@ -1,6 +1,5 @@
 import { ProductDTO, getProducts } from '../../../../api/nomenclature/products';
 import { 
-  constructProductForm, 
   constructPurchaseOptionForm, 
   ProductFormState, 
   PurchaseOptionFormState, 
@@ -12,7 +11,6 @@ import { act, createContext, ReactElement, useEffect, useState } from 'react';
 import { getPurchaseOptionWithProducts, postPurchaseOptionWithProducts, PurchaseOptionDTO, putPurchaseOptionWithProducts } from '../../../../api/nomenclature/purchaseOptions';
 import { DistributorDTO, getDistributors } from '../../../../api/nomenclature/distributors';
 import { getUnits, UnitDTO } from '../../../../api/nomenclature/units';
-import { Image } from 'react-bootstrap';
 import Loading from '../../../../views/shared/Loading';
 
   
@@ -23,18 +21,18 @@ interface PurchaseOptionFormContext {
   units: UnitDTO[]
   history: {canUndo: boolean, undo: ()=>void},
   setCode: (code:string)=>void 
+  setIsRelevant: (value:boolean)=>void 
   setPrice: (price:number)=>void
   setUnitAction: (action:DataAction)=>void
   setUnitId: (id:number)=>void
   setUnitShort: (name:string)=>void
   setUnitLong: (name:string)=>void
+  setProductId: (id:number)=>void
+  setProductName: (name:string)=>void
+  setProductAction: (action:DataAction)=>void
   setNetWeight: (netWeight:number)=>void
   setName: (name:string) => void
   setDistributorId: (id:number) => void
-  removeAllForms: ()=>void
-  addProductForm: (form?:ProductFormState)=>void
-  setProductFormState: (state:ProductFormState)=>void
-  removeProductForm: (key:string)=>void    
   requestFn:()=>Promise<PurchaseOptionDTO|null>
   reloadState: ()=>Promise<void>
   action: DataAction
@@ -47,18 +45,18 @@ export const purchaseOptionFormContext = createContext<PurchaseOptionFormContext
   units: [],
   history: {canUndo: false, undo: ()=>{}},
   setCode: (code:string)=>{},
+  setIsRelevant: (value:boolean)=>{},
   setPrice: (price:number)=>{},
   setUnitAction: (action:DataAction)=>{},
   setUnitId: (id:number)=>{},
   setUnitShort: (name:string)=>{},
   setUnitLong: (name:string)=>{},
+  setProductId: (id:number)=>{},
+  setProductName: (name:string)=>{},
+  setProductAction: (action: DataAction) => {},
   setNetWeight: (netWeight:number)=>{},
   setName: (name:string) => {},
   setDistributorId: (id:number) => {},
-  removeAllForms: ()=>{},
-  addProductForm: (form?:ProductFormState)=>{},
-  setProductFormState: (state:ProductFormState)=>{},
-  removeProductForm: (key:string)=>{},
   requestFn:async()=>null,
   reloadState:async()=>{},
   action: DataAction.None,
@@ -145,6 +143,14 @@ function PurchaseOptionFormContextProvider({action, children}:PurchaseOptionForm
     })
   }
 
+  function setIsRelevant(value:boolean) {
+    saveToHistory()
+    setFormState({
+      ...formState,
+      isRelevant:value
+    })
+  }
+
   function setPrice(price:number){
     saveToHistory()
     setFormState({
@@ -193,6 +199,30 @@ function PurchaseOptionFormContextProvider({action, children}:PurchaseOptionForm
     })
   }
 
+  
+  function setProductAction(action:DataAction){
+    saveToHistory()
+    setFormState({
+      ...formState,
+      productAction:action
+    })
+  }
+
+  function setProductId(id:number){
+    saveToHistory()
+    setFormState({
+      ...formState,
+      productId:id
+    })
+  }
+
+  function setProductName(name:string){
+    saveToHistory()
+    setFormState({
+      ...formState,
+      productName:name
+    })
+  }
 
   function setDistributorId(id:number){
     saveToHistory()
@@ -200,44 +230,6 @@ function PurchaseOptionFormContextProvider({action, children}:PurchaseOptionForm
       ...formState,
       distributorId:id
     })
-  }
-
-  function removeAllForms() {
-    saveToHistory()
-    setFormState({
-      ...formState,
-      productForms: []
-    })
-  }
-
-  function addProductForm(form?:ProductFormState) {
-    saveToHistory()
-    setFormState({
-      ...formState, 
-      productForms:
-        [
-          ...formState.productForms,
-          form??constructProductForm()
-        ]})
-  }
-
-  function setProductFormState(state:ProductFormState) {
-    saveToHistory()
-    setFormState({
-      ...formState,
-      productForms: formState.productForms
-      .map(s=>s.key == state.key ? state : s)
-    })
-  }
-
-  function removeProductForm(key:string){
-    saveToHistory()
-    setFormState({
-      ...formState,
-      productForms: 
-        formState.productForms
-        .filter((s)=>s.key!=key)
-    }) 
   }
 
   async function update() {
@@ -256,18 +248,18 @@ function PurchaseOptionFormContextProvider({action, children}:PurchaseOptionForm
       distributors: distributors,
       history: {canUndo: formStateHistory.length>0, undo: undo},
       setCode: setCode,
+      setIsRelevant: setIsRelevant,
       setPrice: setPrice,
       setUnitAction: setUnitAction,
       setUnitId: setUnitId,
       setUnitShort: setUnitShort,
       setUnitLong: setUnitLong,
+      setProductId: setProductId,
+      setProductName: setProductName,
+      setProductAction: setProductAction,
       setNetWeight: setNetWeight,
       setName: setName,
       setDistributorId: setDistributorId,
-      removeAllForms: removeAllForms,
-      addProductForm: addProductForm,
-      setProductFormState: setProductFormState,
-      removeProductForm: removeProductForm,
       requestFn: action==DataAction.Update ? update : create,
       reloadState: initialize,
       action: action,

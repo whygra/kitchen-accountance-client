@@ -2,7 +2,16 @@ import ProductsTableHeader from '../views/product/list/ProductsTableHeader';
 import useFilterProducts from './filter/useFilterProducts';
 import useSortProducts, { ProductField } from './sort/useSortProducts';
 
-function useProductsTableHeader(filtersOpen?:boolean,fieldsToExclude?:ProductField[]) 
+interface ProductsHeaderHookProps {
+    tags?: string[],
+    filtersOpen?:boolean,
+    fieldsToExclude?:ProductField[]
+}
+function useProductsTableHeader({
+    tags,
+    filtersOpen,
+    fieldsToExclude,
+} : ProductsHeaderHookProps) 
 {
     // поиск
     const {searchData, setSearchData, getPredicate} = useFilterProducts()
@@ -10,6 +19,7 @@ function useProductsTableHeader(filtersOpen?:boolean,fieldsToExclude?:ProductFie
 
     const header = 
         <ProductsTableHeader
+            tags={tags}
             filtersOpen={filtersOpen}
             fieldsToExclude={fieldsToExclude}
             toggleSort={toggleSort}

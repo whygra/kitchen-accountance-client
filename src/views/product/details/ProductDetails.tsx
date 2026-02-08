@@ -10,6 +10,7 @@ import CUDButtons from '../../shared/CUDButtons';
 import ProductIngredientsTable from './ProductIngredientsTable';
 import Loading from '../../shared/Loading';
 import UpdatedAt from '../../shared/UpdatedAt';
+import Tags from '../../shared/tags/Tags';
 
 
 function ProductDetails() 
@@ -71,19 +72,19 @@ function ProductDetails()
                 
                 <Col md={12}>
                     <UpdatedAt entity={product}/>
-                </Col>
-
-                <ul className='list-group ps-2'>
-                    <li className='list-group-item'>
-                        Категория: "{product.category?.name 
-                            ? <Link to={`/product-categories/details/${product.category.id}`}>{product.category.name}</Link> 
-                            : '-без категории-'}"</li>
-                    <li className='list-group-item'>
-                        Группа: "{product.group?.name 
-                            ? <Link to={`/product-groups/details/${product.group.id}`}>{product.group.name}</Link> 
-                            : '-без группы-'}"</li>
-                </ul>
+                </Col>                
                 
+                {
+                    product.tags && product.tags.length > 0
+                    ?
+                    <Col md={12} lg={6}>
+                        <Card>
+                            <h5>Теги</h5>
+                            <Tags tags={product?.tags?.map(t=>{return{name:t.name, link:`/product-tags/${t.id}`}})??[]}/>
+                        </Card>
+                    </Col>
+                    :<></>
+                }
                 <Col md={12}>
                     <Card className="p-3">
                     <ProductPurchaseOptionsTable product={product}/>

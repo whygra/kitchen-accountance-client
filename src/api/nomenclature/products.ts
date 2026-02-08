@@ -2,9 +2,8 @@ import { BASE_URL, ServerImageData, getProjectPath } from "../constants"
 import { C_ACCESS_TOKEN, C_SELECTED_PROJECT_ID, getCookie } from "../../cookies"
 import { DistributorDTO } from "./distributors";
 import { IngredientDTO } from "./ingredients";
-import { ProductCategoryDTO } from "./productCategories";
-import { ProductGroupDTO } from "./productGroups";
-import { PurchaseOptionDTO, ProductPurchaseOptionDTO } from "./purchaseOptions";
+import { ProductTagDTO } from "./productTags";
+import { PurchaseOptionDTO } from "./purchaseOptions";
 import { UnitDTO } from "./units";
 import { UserDTO } from "../users";
 
@@ -14,8 +13,7 @@ const WITH_PURCHASE_OPTIONS = "with-purchase-options"
 export interface ProductDTO {
   id: number
   name: string
-  category?: ProductCategoryDTO
-  group?: ProductGroupDTO
+  tags?: ProductTagDTO[]
   updated_by_user?: UserDTO
   updated_at?: string
   

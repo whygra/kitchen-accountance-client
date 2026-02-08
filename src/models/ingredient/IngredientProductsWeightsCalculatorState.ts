@@ -5,7 +5,7 @@ export function getProductsWeights(
     ingredient: IngredientDTO, ingredientAmount: number
 ) : {product: ProductDTO, weight: number}[] {
     
-    const productsGrossWeight = calcIngredientSourceWeight({...ingredient, ingredient_amount:ingredientAmount})
+    const productsGrossWeight = calcIngredientSourceWeight({...ingredient, amount:ingredientAmount})
     return ingredient.products?.map(
         (p) => {
             // вес продукта до обработки

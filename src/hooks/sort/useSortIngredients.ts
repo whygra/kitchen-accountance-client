@@ -3,10 +3,9 @@ import { IngredientDTO } from "../../api/nomenclature/ingredients"
 
 export enum IngredientField {
     None = 'IngredientNone',
+    Tags = 'IngredientTags',
     Id = 'IngredientId',
     Name = 'IngredientName',
-    Category = 'IngredientCategory',
-    Group = 'IngredientGroup',
     Type = 'IngredientType',
 }
 
@@ -23,18 +22,6 @@ class Comparers {
     static readonly NameDesc = (i1:IngredientDTO, i2:IngredientDTO)=>
         i2.name.localeCompare(i1.name)
 
-    // Категория
-    static readonly CategoryAsc = (i1:IngredientDTO, i2:IngredientDTO)=>
-        i1.category?.name.localeCompare(i2.category?.name??'')??-1
-    static readonly CategoryDesc = (i1:IngredientDTO, i2:IngredientDTO)=>
-        i2.category?.name.localeCompare(i1.category?.name??'')??-1
-
-    // Группа
-    static readonly GroupAsc = (i1:IngredientDTO, i2:IngredientDTO)=>
-        i1.group?.name.localeCompare(i2.group?.name??'')??-1
-    static readonly GroupDesc = (i1:IngredientDTO, i2:IngredientDTO)=>
-        i2.group?.name.localeCompare(i1.group?.name??'')??-1
-
     // Тип
     static readonly TypeAsc = (i1:IngredientDTO, i2:IngredientDTO)=>
         i1.type?.name.localeCompare(i2.type?.name??'')??-1
@@ -50,10 +37,6 @@ class Comparers {
                 return isDesc ?Comparers.NameDesc :Comparers.NameAsc
             case IngredientField.Type:
                 return isDesc ?Comparers.TypeDesc :Comparers.TypeAsc
-            case IngredientField.Category:
-                return isDesc ?Comparers.CategoryDesc :Comparers.CategoryAsc
-            case IngredientField.Group:
-                return isDesc ?Comparers.GroupDesc :Comparers.GroupAsc
             default:
                 return (i1:IngredientDTO, i2:IngredientDTO)=>0
         }

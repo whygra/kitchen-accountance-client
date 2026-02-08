@@ -6,7 +6,20 @@ import useFilterIngredients from './filter/useFilterIngredients';
 import useSortIngredients, { IngredientField } from './sort/useSortIngredients';
 import { IngredientTypeDTO } from '../api/nomenclature/ingredients';
 
-function useIngredientsTableHeader(ingredientTypes: IngredientTypeDTO[] = [{id: 0, name: 'ГП'},{id: 0, name: 'ПФ'}], filtersOpen?: boolean, fieldsToExclude?:IngredientField[]) 
+
+interface IngredientsHeaderHookProps {
+    tags?: string[],
+    filtersOpen?:boolean,
+    ingredientTypes?: IngredientTypeDTO[]
+    fieldsToExclude?:IngredientField[]
+}
+
+function useIngredientsTableHeader(
+    {tags, 
+    ingredientTypes = [{id: 0, name: 'ГП'},{id: 0, name: 'ПФ'}], 
+    filtersOpen,
+    fieldsToExclude} :IngredientsHeaderHookProps
+) 
 {
     // поиск
     const {searchData, setSearchData, getPredicate} = useFilterIngredients()
@@ -14,6 +27,7 @@ function useIngredientsTableHeader(ingredientTypes: IngredientTypeDTO[] = [{id: 
 
     const header = 
         <IngredientsTableHeader
+            tags={tags}
             filtersOpen={filtersOpen}
             ingredientTypes={ingredientTypes}
             fieldsToExclude={fieldsToExclude}

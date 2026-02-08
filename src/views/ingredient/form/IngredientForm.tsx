@@ -1,6 +1,6 @@
 import IngredientProductFormList from './IngredientProductFormList';
 import IngredientTypeSelect from './IngredientTypeSelect';
-import { Button, Container, Form } from 'react-bootstrap';
+import { Button, Container, Form, FormGroup } from 'react-bootstrap';
 import { FormEvent, useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import SelectCreateGroup from '../../shared/selectCreateGroup/SelectCreateGroup';
@@ -10,6 +10,8 @@ import { appContext } from '../../../context/AppContextProvider';
 import { ingredientContext } from '../../../context/forms/nomenclature/ingredient/IngredientFormContext';
 import HistoryNav from '../../shared/HistoryNav';
 import { projectContext } from '../../../context/ProjectContextProvider';
+import IngredientIngredientFormList from './IngredientIngredientFormList';
+import TagInput from '../../shared/tags/TagInput';
 
 
 function IngredientForm() 
@@ -28,12 +30,12 @@ function IngredientForm()
   const {
     formState, history, reloadState,
     requestFn, setName, setDescription, setTypeId, 
-    setCategoryId, setCategoryDataAction, setCategoryName, 
-    setGroupId, setGroupDataAction, setGroupName, 
-    setItemWeight, 
-    setIsItemMeasured, ingredientTypes, categories, groups
+    setItemWeight,
+    setIsItemMeasured, ingredientTypes, tags, addTag, removeTag
   } = useContext(ingredientContext);
 
+  console.log(formState)
+  
   function hasProducts() : boolean {
     // есть хотя бы один продукт
     return formState.ingredientProductForms.length > 0
@@ -118,30 +120,14 @@ function IngredientForm()
             setWeight={setItemWeight}
             setIsItemMeasured={setIsItemMeasured}
           />
-        </Form.Group>
-        <Form.Group className='mb-4'>
-          <SelectCreateGroup 
-            label='Категория'
-            dataAction={formState.categoryDataAction}
-            items={categories} 
-            name={formState.categoryName}
-            selectedId={formState.categoryId} 
-            setId={setCategoryId} 
-            setDataAction={setCategoryDataAction}
-            setName={setCategoryName}
-            />
-        </Form.Group>
-        <Form.Group className='mb-4'>
-          <SelectCreateGroup 
-            label='Группа'
-            dataAction={formState.groupDataAction}
-            items={groups} 
-            name={formState.groupName}
-            selectedId={formState.groupId} 
-            setId={setGroupId} 
-            setDataAction={setGroupDataAction}
-            setName={setGroupName}
-            />
+        <FormGroup>
+          <TagInput 
+            tags={tags.map(t=>t.name)} 
+            selectedTags={formState.tags.map(t=>t.name)} 
+            selectTag={addTag}
+            unselectTag={removeTag}
+          />
+        </FormGroup>
         </Form.Group>
         <Form.Group className='mb-3'>
           <Form.Label><b>Описание</b></Form.Label>
@@ -154,6 +140,7 @@ function IngredientForm()
           />
         </Form.Group>
         <IngredientProductFormList/>
+        <IngredientIngredientFormList/>
         <div className='d-flex'>
           <Button disabled={disabled} className='me-2' type='submit'>Подтвердить</Button>
           <Button disabled={disabled} className='me-2' variant='secondary' onClick={cancel}>Отмена</Button>

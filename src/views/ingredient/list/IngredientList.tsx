@@ -3,9 +3,7 @@ import { Accordion, Card, Col, Image, Row, Table } from 'react-bootstrap';
 import { IngredientDTO, IngredientTypeDTO, getIngredientsWithProducts } from '../../../api/nomenclature/ingredients';
 import IngredientListItem from './IngredientListItem';
 import { Link } from 'react-router-dom';
-import { appContext } from '../../../context/AppContextProvider';
 import { useErrorBoundary } from 'react-error-boundary';
-import { authContext } from '../../../context/AuthContextProvider';
 import { UserPermissions } from '../../../models';
 import useIngredientsTableHeader from '../../../hooks/useIngredientsTableHeader';
 import usePagination from '../../../hooks/usePagination';
@@ -18,6 +16,7 @@ function IngredientList()
 {
     const [ingredientTypes, setIngredientTypes] = useState<IngredientTypeDTO[]>([])
     const [ingredients, setIngredients] = useState(new Array<IngredientDTO>)
+    const [tags, setTags] = useState<string[]>([])
     const [isLoading, setIsLoading] = useState(false)
     const {hasPermission} = useContext(projectContext)
     const {showBoundary} = useErrorBoundary()
@@ -27,9 +26,6 @@ function IngredientList()
         try{
           const res = await getIngredientsWithProducts()
           setIngredients(res ?? [])
-
-          const types = await getIngredientTypes()
-          setIngredientTypes(types ?? [])
         }
         catch (error: Error | any) {
           showBoundary(error)
@@ -39,13 +35,37 @@ function IngredientList()
         }
     }
 
-    useEffect(()=>{loadIngredients()},[])
+    async function loadIngredientTypes() {
+        try{
+          const res = await getIngredientTypes()
+          setIngredientTypes(res ?? [])
+        }
+        catch (error: Error | any) {
+          console.log(error)
+        }
+    }
+
+    async function loadTags() {
+        try{
+          const res = await getIngredientTypes()
+          setTags((res ?? []).map(t=>t.name))
+        }
+        catch (error: Error | any) {
+          console.log(error)
+        }
+    }
+
+    useEffect(()=>{
+        loadIngredients()
+        loadIngredientTypes()
+        loadTags()
+    },[])
 
     useEffect(()=>{
         document.title = "Ингредиенты"}
     , [ingredients])
 
-    const {getComparer, getPredicate, header} = useIngredientsTableHeader(ingredientTypes)
+    const {getComparer, getPredicate, header} = useIngredientsTableHeader({tags, ingredientTypes})
     
     const filtered = ingredients
         .filter(getPredicate())

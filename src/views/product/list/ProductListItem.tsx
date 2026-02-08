@@ -3,12 +3,13 @@ import { Link } from 'react-router-dom';
 import ProductPurchaseOptionsTable from '../details/ProductPurchaseOptionsTable';
 import { useContext } from 'react';
 import { appContext } from '../../../context/AppContextProvider';
-import { deleteIngredient as requestDeleteIngredient } from '../../../api/nomenclature/ingredients';
+import { deleteProduct as requestDeleteProduct } from '../../../api/nomenclature/products';
 import { ProductDTO } from '../../../api/nomenclature/products';
 import { UserPermissions } from '../../../models';
 import CUDButtons from '../../shared/CUDButtons';
 import { projectContext } from '../../../context/ProjectContextProvider';
 import ProductsTableItem from './ProductsTableItem';
+import Tags from '../../shared/tags/Tags';
 
 
 interface ProductListItemProps {
@@ -22,7 +23,7 @@ function ProductListItem({onDelete, product}: ProductListItemProps)
     const {hasPermission} = useContext(projectContext)
 
     const deleteProduct = (id: number) => {
-        requestDeleteIngredient(id)
+        requestDeleteProduct(id)
         // оповестить об ответе
             .catch()
             .then(()=>{
@@ -38,6 +39,8 @@ function ProductListItem({onDelete, product}: ProductListItemProps)
             <ProductsTableItem product={product}/>
         </Accordion.Header>
         <Accordion.Body>
+            <Tags tags={product?.tags?.map(t=>{return{name:t.name, link:`/product-tags/${t.id}`}})??[]}/>
+
             <small><ProductPurchaseOptionsTable product={product}/></small>
                 <div className='d-flex justify-content-between'>
                     <Link to={`/products/details/${product.id}`}><Button variant='info'>Подробнее</Button></Link>

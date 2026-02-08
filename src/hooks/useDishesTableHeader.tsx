@@ -2,7 +2,13 @@ import useFilterDishes from './filter/useFilterDishes';
 import useSortDishes, { DishField } from './sort/useSortDishes';
 import DishesTableHeader from '../views/dish/list/DishesTableHeader';
 
-function useDishesTableHeader(filtersOpen?: boolean, fieldsToExclude?:DishField[]) 
+interface DishesTableHookProps {
+    tags?: string[], 
+    filtersOpen?: boolean, 
+    fieldsToExclude?:DishField[]
+}
+
+function useDishesTableHeader({tags, filtersOpen, fieldsToExclude}:DishesTableHookProps) 
 {
     // поиск
     const {searchData, setSearchData, getPredicate} = useFilterDishes()
@@ -16,6 +22,7 @@ function useDishesTableHeader(filtersOpen?: boolean, fieldsToExclude?:DishField[
             sortIsDesc={sortIsDesc}
             searchData={searchData}
             setSearchData={setSearchData}
+            tags={tags}
         />
         
     return {

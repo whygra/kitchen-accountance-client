@@ -3,6 +3,7 @@ import { PurchaseOptionDTO } from "../../api/nomenclature/purchaseOptions"
 
 export interface SearchParams {
     distributor: string
+    isRelevant?: boolean
     code: string
     name: string
     unit: string
@@ -15,6 +16,7 @@ export interface SearchParams {
 
 export const EMPTY_SEARCH_PARAMS: SearchParams = {
     distributor: '', 
+    isRelevant: undefined, 
     code: '', 
     name: '', 
     unit: '', 
@@ -31,12 +33,10 @@ export default function useFilterPurchaseOptions() {
     function getPredicate(): (p:PurchaseOptionDTO)=>boolean {
         return (p:PurchaseOptionDTO) =>
             (searchData.distributor.length==0 || searchData.distributor.split(' ').every(s=>p.distributor?.name.toLocaleLowerCase().includes(s)))
+            && (searchData.isRelevant == undefined || (p.is_relevant == searchData.isRelevant))
             && (searchData.code.length==0 || (p.code??'').includes(searchData.code))
             && (searchData.name.length==0 || searchData.name.split(' ').every(s=>p.name.toLocaleLowerCase().includes(s)))
-            && (searchData.product.length==0 
-                || (p.products != undefined && searchData.product.split(' ').every(s=>p.products?.findIndex(p=>p.name.toLocaleLowerCase().includes(s))!=-1)
-                )
-            )
+            && (searchData.product.length==0 || searchData.product.split(' ').every(s=>p.product?.name.toLocaleLowerCase().includes(s)))
             && (searchData.unit.length==0 
                 || (p.unit?.short.toLocaleLowerCase().includes(searchData.unit)??false)
                 || (p.unit?.long.toLocaleLowerCase().includes(searchData.unit)??false)
