@@ -12,72 +12,72 @@ import { ProductField } from '../../../hooks/sort/useSortProducts';
 import UpdatedAt from '../../shared/UpdatedAt';
 
 
-function ProductTagDetails() 
-{   
-    const [isLoading, setIsLoading] = useState(false)
-    const [productTag, setProductTag] = useState<ProductTagDTO|null>(null)
-    
-    const {id} = useParams()
+function ProductTagDetails() {
+  const [isLoading, setIsLoading] = useState(false)
+  const [productTag, setProductTag] = useState<ProductTagDTO | null>(null)
 
-    const navigate = useNavigate()
+  const { id } = useParams()
 
-    useEffect(()=>{
-        document.title = `Группа ингредиентов "${productTag?.name}"`}
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    document.title = `Группа ингредиентов "${productTag?.name}"`
+  }
     , [productTag])
 
-    useEffect(()=>{loadProductTag()}, [])
+  useEffect(() => { loadProductTag() }, [])
 
-    async function loadProductTag() {
-        if (id === undefined)
-            throw Error("Ошибка загрузки данных: отсутствует id группы")
-        
-        setIsLoading(true)
-        const productTag = await getProductTagWithProducts(parseInt(id??'0'))
-                
-        if (productTag === null)
-            throw Error("Не удалось получить данные группы ингредиентов")
-        
-        setProductTag(productTag)
-        setIsLoading(false)
-    }
+  async function loadProductTag() {
+    if (id === undefined)
+      throw Error("Ошибка загрузки данных: отсутствует id группы")
 
-    async function deleteFn(id: number) {
-        await deleteProductTag(id)
-        navigate('/product-tags/all')
-    }
+    setIsLoading(true)
+    const productTag = await getProductTagWithProducts(parseInt(id ?? '0'))
 
-    return isLoading ? (<Loading/>) : 
-           productTag===null ? (<>Не удалось получить данные группы</>) : (
-        <>
+    if (productTag === null)
+      throw Error("Не удалось получить данные группы ингредиентов")
 
-            <Row className='mt-5'>
+    setProductTag(productTag)
+    setIsLoading(false)
+  }
 
-            <Row className='w-100 mx-0'>
-                <div className='mx-0 px-0 col col-12 col-sm-4 order-sm-2 justify-content-end'>
-                    <CUDButtons
-                        deleteFn={deleteFn}
-                        entity={productTag}
-                        path='product-tags'
-                        requiredPermission={UserPermissions.CRUD_PRODUCTS}
-                    />
-                </div>
+  async function deleteFn(id: number) {
+    await deleteProductTag(id)
+    navigate('/product-tags/all')
+  }
 
-                <h3 className='col col-12 col-sm-8 order-sm-1 mt-3'>{productTag.name}</h3>
-                </Row>
-                
-                <Col md={12}>
-                    <UpdatedAt entity={productTag}/>
-                </Col>
-            <Col md={12}>
-                
-                <Card className="p-3">
+  return isLoading ? (<Loading />) :
+    productTag === null ? (<>Не удалось получить данные группы</>) : (
+      <>
 
-                <h5 className='w-100 text-center'>Продукты</h5>
-                <ProductsTable products={productTag.products??[]} fieldsToExclude={[ProductField.Tag]}/>
-                </Card>
-            </Col>
-            </Row>
-        </>
+        <Row className='mt-5'>
+
+          <Row className='w-100 mx-0'>
+            <div className='mx-0 px-0 col col-12 col-sm-4 order-sm-2 justify-content-end'>
+              <CUDButtons
+                deleteFn={deleteFn}
+                entity={productTag}
+                path='product-tags'
+                requiredPermission={UserPermissions.CRUD_PRODUCTS}
+              />
+            </div>
+
+            <h3 className='col col-12 col-sm-8 order-sm-1 mt-3'>{productTag.name}</h3>
+          </Row>
+
+          <Col md={12}>
+            <UpdatedAt entity={productTag} />
+          </Col>
+          <Col md={12}>
+
+            <Card className="p-3">
+
+              <h5 className='w-100 text-center'>Продукты</h5>
+              <ProductsTable products={productTag.products ?? []} fieldsToExclude={[ProductField.Amount]} />
+            </Card>
+          </Col>
+        </Row>
+      </>
     )
 }
 

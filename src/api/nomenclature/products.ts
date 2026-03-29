@@ -1,10 +1,8 @@
 import { BASE_URL, ServerImageData, getProjectPath } from "../constants"
 import { C_ACCESS_TOKEN, C_SELECTED_PROJECT_ID, getCookie } from "../../cookies"
-import { DistributorDTO } from "./distributors";
 import { IngredientDTO } from "./ingredients";
 import { ProductTagDTO } from "./productTags";
 import { PurchaseOptionDTO } from "./purchaseOptions";
-import { UnitDTO } from "./units";
 import { UserDTO } from "../users";
 
 const ENTITY_PATH = "products"
@@ -16,7 +14,7 @@ export interface ProductDTO {
   tags?: ProductTagDTO[]
   updated_by_user?: UserDTO
   updated_at?: string
-  
+
   ingredients?: IngredientDTO[]
   purchase_options?: PurchaseOptionDTO[]
 
@@ -31,17 +29,17 @@ export interface ProductDTO {
 }
 
 
-export const getProducts = async () : Promise<ProductDTO[] | null> => {
-  const response = await fetch(`${BASE_URL}/${getProjectPath()}/${getCookie(C_SELECTED_PROJECT_ID)}/${ENTITY_PATH}/all`,{
-    method:'GET',
+export const getProducts = async (): Promise<ProductDTO[] | null> => {
+  const response = await fetch(`${BASE_URL}/${getProjectPath()}/${getCookie(C_SELECTED_PROJECT_ID)}/${ENTITY_PATH}/all`, {
+    method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer '+getCookie(C_ACCESS_TOKEN)
+      'Authorization': 'Bearer ' + getCookie(C_ACCESS_TOKEN)
     },
 
   })
-  const data = await response.json().catch(e=>null)
-  if (!response.ok) 
+  const data = await response.json().catch(e => null)
+  if (!response.ok)
     throw {
       message: `Не удалось получить данные продуктов ${data?.message}`,
       name: `${response.status} ${response.statusText}`
@@ -49,17 +47,17 @@ export const getProducts = async () : Promise<ProductDTO[] | null> => {
   return data
 }
 
-export const getProductWithPurchaseOptions = async (id:number) : Promise<ProductDTO | null> => {
-  const response = await fetch(`${BASE_URL}/${getProjectPath()}/${getCookie(C_SELECTED_PROJECT_ID)}/${ENTITY_PATH}/${WITH_PURCHASE_OPTIONS}/${id}`,{
-    method:'GET',
+export const getProductWithPurchaseOptions = async (id: number): Promise<ProductDTO | null> => {
+  const response = await fetch(`${BASE_URL}/${getProjectPath()}/${getCookie(C_SELECTED_PROJECT_ID)}/${ENTITY_PATH}/${WITH_PURCHASE_OPTIONS}/${id}`, {
+    method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer '+getCookie(C_ACCESS_TOKEN)
+      'Authorization': 'Bearer ' + getCookie(C_ACCESS_TOKEN)
     },
 
   })
-  const data = await response.json().catch(e=>null)
-  if (!response.ok) 
+  const data = await response.json().catch(e => null)
+  if (!response.ok)
     throw {
       message: `Не удалось получить данные продукта ${data?.message}`,
       name: `${response.status} ${response.statusText}`
@@ -67,16 +65,16 @@ export const getProductWithPurchaseOptions = async (id:number) : Promise<Product
   return data
 }
 
-export const getProductsWithPurchaseOptions = async () : Promise<ProductDTO[] | null> => {
-  const response = await fetch(`${BASE_URL}/${getProjectPath()}/${getCookie(C_SELECTED_PROJECT_ID)}/${ENTITY_PATH}/${WITH_PURCHASE_OPTIONS}/all`,{
+export const getProductsWithPurchaseOptions = async (): Promise<ProductDTO[] | null> => {
+  const response = await fetch(`${BASE_URL}/${getProjectPath()}/${getCookie(C_SELECTED_PROJECT_ID)}/${ENTITY_PATH}/${WITH_PURCHASE_OPTIONS}/all`, {
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer '+getCookie(C_ACCESS_TOKEN)
+      'Authorization': 'Bearer ' + getCookie(C_ACCESS_TOKEN)
     },
 
   })
-  const data = await response.json().catch(e=>null).catch(e=>null)
-  if (!response.ok) 
+  const data = await response.json().catch(e => null).catch(e => null)
+  if (!response.ok)
     throw {
       message: `Не удалось получить данные продуктов ${data?.message}`,
       name: `${response.status} ${response.statusText}`
@@ -89,14 +87,14 @@ export const postProduct = async (createData: ProductDTO): Promise<ProductDTO | 
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer '+getCookie(C_ACCESS_TOKEN)
+      'Authorization': 'Bearer ' + getCookie(C_ACCESS_TOKEN)
     },
     body: JSON.stringify({
       ...createData,
     })
   })
-  const data = await response.json().catch(e=>null)
-  if (!response.ok) 
+  const data = await response.json().catch(e => null)
+  if (!response.ok)
     throw {
       message: `Не удалось добавить данные продукта ${data?.message}`,
       name: `${response.status} ${response.statusText}`
@@ -109,14 +107,14 @@ export const postProductWithPurchaseOptions = async (createData: ProductDTO): Pr
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer '+getCookie(C_ACCESS_TOKEN)
+      'Authorization': 'Bearer ' + getCookie(C_ACCESS_TOKEN)
     },
     body: JSON.stringify({
       ...createData,
     })
   })
-  const data = await response.json().catch(e=>null)
-  if (!response.ok) 
+  const data = await response.json().catch(e => null)
+  if (!response.ok)
     throw {
       message: `Не удалось добавить данные продукта ${data?.message}`,
       name: `${response.status} ${response.statusText}`
@@ -129,14 +127,14 @@ export const putProduct = async (productData: ProductDTO): Promise<ProductDTO | 
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer '+getCookie(C_ACCESS_TOKEN)
+      'Authorization': 'Bearer ' + getCookie(C_ACCESS_TOKEN)
     },
     body: JSON.stringify({
       ...productData,
     })
   })
-  const data = await response.json().catch(e=>null)
-  if (!response.ok) 
+  const data = await response.json().catch(e => null)
+  if (!response.ok)
     throw {
       message: `Не удалось обновить данные продукта ${data?.message}`,
       name: `${response.status} ${response.statusText}`
@@ -149,14 +147,14 @@ export const putProductWithPurchaseOptions = async (productData: ProductDTO): Pr
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer '+getCookie(C_ACCESS_TOKEN)
+      'Authorization': 'Bearer ' + getCookie(C_ACCESS_TOKEN)
     },
     body: JSON.stringify({
       ...productData,
     })
   })
-  const data = await response.json().catch(e=>null)
-  if (!response.ok) 
+  const data = await response.json().catch(e => null)
+  if (!response.ok)
     throw {
       message: `Не удалось обновить данные продукта ${data?.message}`,
       name: `${response.status} ${response.statusText}`
@@ -171,12 +169,12 @@ export const deleteProduct = async (id: number): Promise<Object | null> => {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer '+getCookie(C_ACCESS_TOKEN)
+      'Authorization': 'Bearer ' + getCookie(C_ACCESS_TOKEN)
     },
 
   })
-  const data = await response.json().catch(e=>null)
-  if (!response.ok) 
+  const data = await response.json().catch(e => null)
+  if (!response.ok)
     throw {
       message: `Не удалось удалить данные продукта ${data?.message}`,
       name: `${response.status} ${response.statusText}`

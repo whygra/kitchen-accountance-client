@@ -8,30 +8,35 @@ import GridTableRow, { WindowSize } from '../../shared/GridTableRow';
 
 
 interface ProductsTableItemProps {
-    product: ProductDTO
-    fieldsToExclude?: ProductField[]
-  }
+  product: ProductDTO
+  fieldsToExclude?: ProductField[]
+}
 
-function ProductsTableItem({product, fieldsToExclude}: ProductsTableItemProps) 
-{      
-    const cells = [
-        {   
-            displayAt: WindowSize.Xl,
-            field: ProductField.Id,
-            element: 
-                <>{product.id}</>,
-            span: 1
-        },
-        {   
-            field: ProductField.Name,
-            element: 
-                <Link to={`/products/details/${product.id}`}>{product.name}</Link>,
-            span: 3
-        },
-    ]
-    return(
-        <GridTableRow cells={cells} fieldsToExclude={fieldsToExclude}/>
-    )
+function ProductsTableItem({ product, fieldsToExclude }: ProductsTableItemProps) {
+  const cells = [
+    {
+      displayAt: WindowSize.Xl,
+      field: ProductField.Id,
+      element:
+        <>{product.id}</>,
+      span: 1
+    },
+    {
+      field: ProductField.Name,
+      element:
+        <Link to={`/products/details/${product.id}`}>{product.name}</Link>,
+      span: 3
+    },
+    {
+      field: ProductField.Amount,
+      element:
+        <span className={(product.amount ?? 0) < 0 ? 'text-danger' : ''} > {product.amount?.toFixed(2)} г.</span >,
+      span: 1
+    },
+  ]
+  return (
+    <GridTableRow cells={cells} fieldsToExclude={fieldsToExclude} />
+  )
 }
 
 export default ProductsTableItem;

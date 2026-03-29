@@ -15,48 +15,46 @@ import SaleActItemsTable from '../details/SaleActDishesTable';
 
 
 interface SaleActListItemProps {
-    onDelete: ()=>void
-    saleAct: SaleActDTO
+  onDelete: () => void
+  saleAct: SaleActDTO
+}
+
+function SaleActListItem({ onDelete, saleAct }: SaleActListItemProps) {
+  const { showModal, hideModal } = useContext(appContext)
+
+  const deleteSaleAct = (id: number) => {
+    requestDeleteSaleAct(id)
+      // оповестить об ответе
+      .catch()
+      .then(() => {
+        onDelete()
+        hideModal()
+      })
   }
 
-function SaleActListItem({onDelete, saleAct}: SaleActListItemProps) 
-{      
-    const {showModal, hideModal} = useContext(appContext)
-
-    const deleteSaleAct = (id: number) => {
-        requestDeleteSaleAct(id)
-        // оповестить об ответе
-            .catch()
-            .then(()=>{
-                onDelete()
-                hideModal()
-            })
-    }
-
-    return (
-        <>
-        <Accordion.Item eventKey={`${saleAct.id}`}>
-        <Accordion.Header style={{userSelect: 'text'}}>
-            <div className='w-100 pe-none'>
-                <SaleActTableItem saleAct={saleAct}/>
-            </div>
+  return (
+    <>
+      <Accordion.Item eventKey={`${saleAct.id}`}>
+        <Accordion.Header style={{ userSelect: 'text' }}>
+          <div className='w-100 pe-none'>
+            <SaleActTableItem saleAct={saleAct} />
+          </div>
         </Accordion.Header>
         <Accordion.Body>
-            <small><SaleActDishesTable saleAct={saleAct}/></small>
-            <small><SaleActItemsTable saleAct={saleAct}/></small>
-            <div className='d-flex justify-content-between'>
-                <Link to={`/sale-acts/details/${saleAct.id}`}><Button variant='info'>Подробнее</Button></Link>
-                <CUDButtons
-                    deleteFn={deleteSaleAct}
-                    entity={{...saleAct, name:saleAct.date}}
-                    path='sale-acts'
-                    requiredPermission={UserPermissions.CRUD_STORAGE}
-                />   
-            </div>
+          <small><SaleActItemsTable saleAct={saleAct} /></small>
+          <div className='d-flex justify-content-between'>
+            <Link to={`/sale-acts/details/${saleAct.id}`}><Button variant='info'>Подробнее</Button></Link>
+            <CUDButtons
+              deleteFn={deleteSaleAct}
+              entity={{ ...saleAct, name: saleAct.date }}
+              path='sale-acts'
+              requiredPermission={UserPermissions.CRUD_STORAGE}
+            />
+          </div>
         </Accordion.Body>
-        </Accordion.Item>
-        </>
-    )
+      </Accordion.Item>
+    </>
+  )
 }
 
 export default SaleActListItem;

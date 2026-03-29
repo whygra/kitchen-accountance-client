@@ -9,79 +9,86 @@ import Loading from '../../../shared/Loading';
 import UpdatedAt from '../../../shared/UpdatedAt';
 import InventoryActProductsTable from './InventoryActProductsTable';
 import InventoryActIngredientsTable from './InventoryActIngredientsTable';
+import ProductsTable from '../../../product/list/ProductsTable';
 
 
-function InventoryActDetails() 
-{   
-    const [isLoading, setIsLoading] = useState(false)
-    const [inventoryAct, setInventoryAct] = useState<InventoryActDTO|null>(null)
-    const {showModal} = useContext(appContext)
-    const {id} = useParams()
+function InventoryActDetails() {
+  const [isLoading, setIsLoading] = useState(false)
+  const [inventoryAct, setInventoryAct] = useState<InventoryActDTO | null>(null)
+  const { showModal } = useContext(appContext)
+  const { id } = useParams()
 
-    const navigate = useNavigate()
-    
-    useEffect(()=>{
-        document.title = `Акт инвентаризации "${inventoryAct?.date}"`}
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    document.title = `Акт инвентаризации "${inventoryAct?.date}"`
+  }
     , [inventoryAct])
 
-    useEffect(()=>{loadInventoryAct()}, [])
+  useEffect(() => { loadInventoryAct() }, [])
 
-    async function loadInventoryAct() {
-        try{
-            if (id === undefined)
-                throw Error("Ошибка загрузки данных: отсутствует id акта инвентаризации")
-            
-            setIsLoading(true)
-            const inventoryAct = await getInventoryActWithItems(parseInt(id??'0'))
-            
-            if (inventoryAct === null)
-                throw Error("Не удалось получить данные акта инвентаризации")
-            
+  async function loadInventoryAct() {
+    try {
+      if (id === undefined)
+        throw Error("Ошибка загрузки данных: отсутствует id акта инвентаризации")
 
-            setInventoryAct(inventoryAct)
-        } catch(error: Error | any){
-            showModal(<>{error?.message}</>)
-        } finally {
-            setIsLoading(false)
-        }
+      setIsLoading(true)
+      const inventoryAct = await getInventoryActWithItems(parseInt(id ?? '0'))
+
+      if (inventoryAct === null)
+        throw Error("Не удалось получить данные акта инвентаризации")
+
+
+      setInventoryAct(inventoryAct)
+    } catch (error: Error | any) {
+      showModal(<>{error?.message}</>)
+    } finally {
+      setIsLoading(false)
     }
+  }
 
-    async function deleteFn(id: number) {
-        await deleteInventoryAct(id)
-        navigate('/inventory-acts/all')
-    }
+  async function deleteFn(id: number) {
+    await deleteInventoryAct(id)
+    navigate('/inventory-acts/all')
+  }
 
-    return isLoading ? (<Loading/>) : 
-           inventoryAct===null ? (<>Не удалось получить данные акта инвентаризации</>) : (
-        <>
-            <Row className='mt-5'>
-                
-                <Row className='w-100 mx-0'>
-                <div className='mx-0 px-0 col col-12 col-sm-4 order-sm-2 justify-content-end'>
-                    <CUDButtons
-                        deleteFn={deleteFn}
-                        entity={{...inventoryAct, name:inventoryAct.date}}
-                        path='inventory-acts'
-                        requiredPermission={UserPermissions.CRUD_STORAGE}
-                    />
-                </div>
+  return isLoading ? (<Loading />) :
+    inventoryAct === null ? (<>Не удалось получить данные акта инвентаризации</>) : (
+      <>
+        <Row className='mt-5'>
 
-                <h3 className='col col-12 col-sm-8 order-sm-1 mt-3'>{inventoryAct.date}</h3>
-                </Row>
-                
-                <Col md={12}>
-                    <UpdatedAt entity={inventoryAct}/>
-                </Col>
-                
-                <Col md={12}>
-                    <InventoryActProductsTable inventoryAct={inventoryAct}/>
-                </Col>
-                
-                <Col md={12}>
-                    <InventoryActIngredientsTable inventoryAct={inventoryAct}/>
-                </Col>
-            </Row>
-        </>
+          <Row className='w-100 mx-0'>
+            <div className='mx-0 px-0 col col-12 col-sm-4 order-sm-2 justify-content-end'>
+              <CUDButtons
+                deleteFn={deleteFn}
+                entity={{ ...inventoryAct, name: inventoryAct.date }}
+                path='inventory-acts'
+                requiredPermission={UserPermissions.CRUD_STORAGE}
+              />
+            </div>
+
+            <h3 className='col col-12 col-sm-8 order-sm-1 mt-3'>{inventoryAct.date}</h3>
+          </Row>
+
+          <Col md={12}>
+            <UpdatedAt entity={inventoryAct} />
+          </Col>
+
+          <Col md={12}>
+            <InventoryActProductsTable inventoryAct={inventoryAct} />
+          </Col>
+
+          <Col md={12}>
+            <InventoryActIngredientsTable inventoryAct={inventoryAct} />
+          </Col>
+
+          <Col md={12}>
+            <h3 className='text-center'>В сырье</h3>
+            <ProductsTable products={inventoryAct.raw_products ?? []} fieldsToExclude={[]} />
+          </Col>
+
+        </Row>
+      </>
     )
 }
 

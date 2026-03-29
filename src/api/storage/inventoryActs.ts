@@ -10,22 +10,23 @@ const WITH_ITEMS = "with-items"
 export interface InventoryActDTO {
   id: number
   date: string
+  raw_products?: ProductDTO[]
   products?: ProductDTO[]
   ingredients?: IngredientDTO[]
   updated_by_user?: UserDTO
   updated_at?: string
 }
 
-export const getInventoryActs = async () : Promise<InventoryActDTO[] | null> => {
-  const response = await fetch(`${BASE_URL}/${getProjectPath()}/${getCookie(C_SELECTED_PROJECT_ID)}/${ENTITY_PATH}/all`,{
+export const getInventoryActs = async (): Promise<InventoryActDTO[] | null> => {
+  const response = await fetch(`${BASE_URL}/${getProjectPath()}/${getCookie(C_SELECTED_PROJECT_ID)}/${ENTITY_PATH}/all`, {
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer '+getCookie(C_ACCESS_TOKEN)
+      'Authorization': 'Bearer ' + getCookie(C_ACCESS_TOKEN)
     },
 
   })
-  const data = await response.json().catch(e=>null)
-  if (!response.ok) 
+  const data = await response.json().catch(e => null)
+  if (!response.ok)
     throw {
       message: `Не удалось получить акт инвентаризации ${data?.message}`,
       name: `${response.status} ${response.statusText}`
@@ -38,14 +39,14 @@ export const postInventoryAct = async (createData: InventoryActDTO): Promise<Inv
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer '+getCookie(C_ACCESS_TOKEN)
+      'Authorization': 'Bearer ' + getCookie(C_ACCESS_TOKEN)
     },
     body: JSON.stringify({
       ...createData,
     })
   })
-  const data = await response.json().catch(e=>null)
-  if (!response.ok) 
+  const data = await response.json().catch(e => null)
+  if (!response.ok)
     throw {
       message: `Не удалось добавить акт инвентаризации ${data?.message}`,
       name: `${response.status} ${response.statusText}`
@@ -58,14 +59,14 @@ export const putInventoryAct = async (InventoryActData: InventoryActDTO): Promis
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer '+getCookie(C_ACCESS_TOKEN)
+      'Authorization': 'Bearer ' + getCookie(C_ACCESS_TOKEN)
     },
     body: JSON.stringify({
       ...InventoryActData,
     })
   })
-  const data = await response.json().catch(e=>null)
-  if (!response.ok) 
+  const data = await response.json().catch(e => null)
+  if (!response.ok)
     throw {
       message: `Не удалось обновить акт инвентаризации ${data?.message}`,
       name: `${response.status} ${response.statusText}`
@@ -79,14 +80,14 @@ export const putInventoryActWithItems = async (updateData: InventoryActDTO): Pro
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer '+getCookie(C_ACCESS_TOKEN)
+      'Authorization': 'Bearer ' + getCookie(C_ACCESS_TOKEN)
     },
     body: JSON.stringify({
       ...updateData,
     })
   })
-  const data = await response.json().catch(e=>null)
-  if (!response.ok) 
+  const data = await response.json().catch(e => null)
+  if (!response.ok)
     throw {
       message: `Не удалось обновить акт инвентаризации ${data?.message}`,
       name: `${response.status} ${response.statusText}`
@@ -100,14 +101,14 @@ export const postInventoryActWithItems = async (createData: InventoryActDTO): Pr
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer '+getCookie(C_ACCESS_TOKEN)
+      'Authorization': 'Bearer ' + getCookie(C_ACCESS_TOKEN)
     },
     body: JSON.stringify({
       ...createData,
     })
   })
-  const data = await response.json().catch(e=>null)
-  if (!response.ok) 
+  const data = await response.json().catch(e => null)
+  if (!response.ok)
     throw {
       message: `Не удалось добавить акт инвентаризации ${data?.message}`,
       name: `${response.status} ${response.statusText}`
@@ -115,15 +116,15 @@ export const postInventoryActWithItems = async (createData: InventoryActDTO): Pr
   return data
 }
 
-export const getInventoryActsWithItems = async () : Promise<InventoryActDTO[] | null> => {
-  const response = await fetch(`${BASE_URL}/${getProjectPath()}/${getCookie(C_SELECTED_PROJECT_ID)}/${ENTITY_PATH}/${WITH_ITEMS}/all`,{
+export const getInventoryActsWithItems = async (): Promise<InventoryActDTO[] | null> => {
+  const response = await fetch(`${BASE_URL}/${getProjectPath()}/${getCookie(C_SELECTED_PROJECT_ID)}/${ENTITY_PATH}/${WITH_ITEMS}/all`, {
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer '+getCookie(C_ACCESS_TOKEN)
+      'Authorization': 'Bearer ' + getCookie(C_ACCESS_TOKEN)
     },
 
   })
-  const data = await response.json().catch(e=>null)
+  const data = await response.json().catch(e => null)
   if (!response.ok)
     throw {
       message: `Не удалось получить акт инвентаризации ${data?.message}`,
@@ -132,16 +133,16 @@ export const getInventoryActsWithItems = async () : Promise<InventoryActDTO[] | 
   return data
 }
 
-export const getInventoryActWithItems = async (id: number) : Promise<InventoryActDTO | null> => {
-  const response = await fetch(`${BASE_URL}/${getProjectPath()}/${getCookie(C_SELECTED_PROJECT_ID)}/${ENTITY_PATH}/${WITH_ITEMS}/${id}`,{
+export const getInventoryActWithItems = async (id: number): Promise<InventoryActDTO | null> => {
+  const response = await fetch(`${BASE_URL}/${getProjectPath()}/${getCookie(C_SELECTED_PROJECT_ID)}/${ENTITY_PATH}/${WITH_ITEMS}/${id}`, {
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer '+getCookie(C_ACCESS_TOKEN)
+      'Authorization': 'Bearer ' + getCookie(C_ACCESS_TOKEN)
     },
 
   })
-  const data = await response.json().catch(e=>null)
-  if (!response.ok) 
+  const data = await response.json().catch(e => null)
+  if (!response.ok)
     throw {
       message: `Не удалось получить акт инвентаризацииа ${data?.message}`,
       name: `${response.status} ${response.statusText}`
@@ -154,12 +155,12 @@ export const deleteInventoryAct = async (id: number): Promise<InventoryActDTO | 
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer '+getCookie(C_ACCESS_TOKEN)
+      'Authorization': 'Bearer ' + getCookie(C_ACCESS_TOKEN)
     },
 
   })
-  const data = await response.json().catch(e=>null)
-  if (!response.ok) 
+  const data = await response.json().catch(e => null)
+  if (!response.ok)
     throw {
       message: `Не удалось удалить акт инвентаризации ${data?.message}`,
       name: `${response.status} ${response.statusText}`

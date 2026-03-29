@@ -27,108 +27,113 @@ import useInventoryActRoutes from './InventoryActRoutes';
 import useWriteOffActRoutes from './WriteOffActRoutes';
 import usePurchaseActRoutes from './PurchaseActRoutes';
 import useSaleActRoutes from './SaleActRoutes';
+import Reports from '../views/storage/reports/Reports';
 
 function AppRoutes() {
-    const ingredientRoutes = useIngredientRoutes()
-    const ingredientTagRoutes = useIngredientTagRoutes()
-    const distributorRoutes = useDistributorRoutes()
-    const dishRoutes = useDishRoutes()
-    const dishTagRoutes = useDishTagRoutes()
-    const productRoutes = useProductRoutes()
-    const productTagRoutes = useProductTagRoutes()
-    const purchaseOptionRoutes = usePurchaseOptionRoutes()
-    const unitRoutes = useUnitRoutes()
-    const projectRoutes = useProjectRoutes()
-    const userRoutes = useUserRoutes()
-    const inventoryActRoutes = useInventoryActRoutes()
-    const writeOffActRoutes = useWriteOffActRoutes()
-    const purchaseActRoutes = usePurchaseActRoutes()
-    const saleActRoutes = useSaleActRoutes()
+  const ingredientRoutes = useIngredientRoutes()
+  const ingredientTagRoutes = useIngredientTagRoutes()
+  const distributorRoutes = useDistributorRoutes()
+  const dishRoutes = useDishRoutes()
+  const dishTagRoutes = useDishTagRoutes()
+  const productRoutes = useProductRoutes()
+  const productTagRoutes = useProductTagRoutes()
+  const purchaseOptionRoutes = usePurchaseOptionRoutes()
+  const unitRoutes = useUnitRoutes()
+  const projectRoutes = useProjectRoutes()
+  const userRoutes = useUserRoutes()
+  const inventoryActRoutes = useInventoryActRoutes()
+  const writeOffActRoutes = useWriteOffActRoutes()
+  const purchaseActRoutes = usePurchaseActRoutes()
+  const saleActRoutes = useSaleActRoutes()
 
-    return (
-        
-        <Routes>
-            
-        {ingredientRoutes}
-        {ingredientTagRoutes}
-        {distributorRoutes}
-        {dishRoutes}
-        {dishTagRoutes}
-        {dishRoutes}
-        {productRoutes}
-        {productTagRoutes}
-        {purchaseOptionRoutes}
-        {unitRoutes}
-        {projectRoutes}
-        {userRoutes}
-        {inventoryActRoutes}
-        {writeOffActRoutes}
-        {purchaseActRoutes}
-        {saleActRoutes}
+  return (
 
+    <Routes>
 
-        <Route
-            path='/home'
-            element={<Home/>}
-            />
+      {ingredientRoutes}
+      {ingredientTagRoutes}
+      {distributorRoutes}
+      {dishRoutes}
+      {dishTagRoutes}
+      {dishRoutes}
+      {productRoutes}
+      {productTagRoutes}
+      {purchaseOptionRoutes}
+      {unitRoutes}
+      {projectRoutes}
+      {userRoutes}
+      {inventoryActRoutes}
+      {writeOffActRoutes}
+      {purchaseActRoutes}
+      {saleActRoutes}
 
-        <Route
-            path={'/signin'}
-            element={ 
-                <SignIn/>
-            }
-            />
-        <Route
-            path={'/signup'}
-            element={ 
-                <SignUp/>
-            }
-            />
-        <Route
-            path={'/forgot-password'}
-            element={ 
-                <ForgotPassword/>
-            }
-            />
-        <Route
-            path={'/password-reset/:resetToken'}
-            element={ 
-                <ResetPassword/>
-            }
-            />
-        <Route
-            path={'/profile'}
-            element={ 
-                <UserDetails/>
-            }
-            />
-        <Route
-            path={'/email-verification-required'}
-            element={ 
-                <EmailVerificationRequired/>
-            }
-            />
-        <Route
-            path={'/verify-email'}
-            element={ 
-                <VerifyEmail/>
-            }
-            />
-        <Route
-            path={'/'}
-            element={ 
-                <Home/>
-            }
-            />
-        <Route
-            path={'*'}
-            element={ 
-                <NotFound/>
-            }
-            />
-        
-        </Routes>
-    )
+      <Route
+        path='/reports'
+        element={<Reports />}
+      />
+
+      <Route
+        path='/home'
+        element={<Home />}
+      />
+
+      <Route
+        path={'/signin'}
+        element={
+          <SignIn />
+        }
+      />
+      <Route
+        path={'/signup'}
+        element={
+          <SignUp />
+        }
+      />
+      <Route
+        path={'/forgot-password'}
+        element={
+          <ForgotPassword />
+        }
+      />
+      <Route
+        path={'/password-reset/:resetToken'}
+        element={
+          <ResetPassword />
+        }
+      />
+      <Route
+        path={'/profile'}
+        element={
+          <UserDetails />
+        }
+      />
+      <Route
+        path={'/email-verification-required'}
+        element={
+          <EmailVerificationRequired />
+        }
+      />
+      <Route
+        path={'/verify-email'}
+        element={
+          <VerifyEmail />
+        }
+      />
+      <Route
+        path={'/'}
+        element={
+          <Home />
+        }
+      />
+      <Route
+        path={'*'}
+        element={
+          <NotFound />
+        }
+      />
+
+    </Routes>
+  )
 }
 
 export default AppRoutes
